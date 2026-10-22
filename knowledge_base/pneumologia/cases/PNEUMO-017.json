@@ -1,264 +1,486 @@
 {
-  "title": "Ex fumatore con nodulo polmonare solitario",
-  "description": "Davide è un ex fumatore che si presenta con un nodulo polmonare solitario. Ha un'ansia elevata riguardo alla possibilità di cancro ai polmoni, influenzata dalla sua ricerca online. È preoccupato per la salute e desidera un'indagine immediata.",
-  "difficulty": "EASY",
-  "goldStandardPath": [
-    "rx-torace",
-    "tc"
-  ],
-  "baselineExamFindings": {
-    "vitals": {
-      "heartRate": 76,
-      "bloodPressure": "134/82",
-      "spo2": 96,
-      "temperature": 36.4,
-      "respiratoryRate": 16
-    },
-    "examBudgetEuro": 200,
-    "advancedExams": {
-      "values": {
-        "rx-torace": {
-          "finding": "RX Torace (2 proiezioni) nel contesto di Nodulo polmonare solitario — stratificazione del rischio (PNEUMO-017). Nodulo polmonare visibile all'imaging, senza segni di infezione acuta.",
-          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Nodulo polmonare solitario — stratificazione del rischio (PNEUMO-017). Nodulo polmonare visibile all'imaging, senza segni di infezione acuta.",
-          "isAbnormal": true,
-          "price": 15.5
-        },
-        "tc": {
-          "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Nodulo polmonare solitario — stratificazione del rischio (PNEUMO-017). Nodulo polmonare visibile all'imaging, senza segni di infezione acuta.",
-          "normalFinding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Nodulo polmonare solitario — stratificazione del rischio (PNEUMO-017). Nodulo polmonare visibile all'imaging, senza segni di infezione acuta.",
-          "isAbnormal": true,
-          "price": 180
-        },
-        "colonscopia": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pulmonary_Nodules_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pulmonary_Nodules_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 90
-        },
-        "rm": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pulmonary_Nodules_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pulmonary_Nodules_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 220
-        }
-      }
-    },
-    "demographics": {
-      "age": 61,
-      "sex": "M",
-      "context": "Ambulatorio di Pneumologia"
-    },
-    "physicalExam": {
-      "finding": "Esame obiettivo: respiro regolare, auscultazione polmonare senza crepitii, segni vitali stabili."
-    },
-    "rx-torace": {
-      "finding": "RX Torace (2 proiezioni) nel contesto di Nodulo polmonare solitario — stratificazione del rischio (PNEUMO-017). Nodulo polmonare visibile all'imaging, senza segni di infezione acuta.",
-      "isAbnormal": true
-    },
-    "tc": {
-      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Nodulo polmonare solitario — stratificazione del rischio (PNEUMO-017). Nodulo polmonare visibile all'imaging, senza segni di infezione acuta.",
-      "isAbnormal": true
-    },
-    "colonscopia": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pulmonary_Nodules_Guidelines.pdf.",
-      "isAbnormal": false
-    },
-    "rm": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pulmonary_Nodules_Guidelines.pdf.",
-      "isAbnormal": false
-    }
-  },
-  "correctSolution": "Seguire il gold path con RX torace e TC per la stratificazione del rischio.",
-  "patientPrompt": "Ho 61 anni e sono un ex fumatore. Ho scoperto di avere un nodulo polmonare e, dopo aver cercato informazioni online, sono molto preoccupato che possa essere cancro. Non riesco a smettere di pensare a questo e voglio fare una PET subito. Quando mi dite che devo aspettare tre mesi, mi sento ansioso e non so come affrontare questa situazione. Vorrei sapere esattamente qual è il rischio e quando posso fare il controllo.",
   "id": "PNEUMO-017",
   "code": "PNEUMO-017",
+  "title": "Dopo l'embolia resta il fiato: pensare alla CTEPH e al team",
+  "description": "Uomo di 58 anni, embolia sei mesi fa, dispnea da sforzo che non passa. E' in anticoagulante 'ancora per poco'. Vogliono un farmaco PAH senza team.",
+  "difficulty": "HARD",
   "specialty": "pneumologia",
   "specialtyLabel": "Pneumologia",
-  "condition": "Nodulo polmonare solitario — stratificazione del rischio",
-  "frequencyCategory": "HIGH",
-  "matrixDifficulty": "BASE",
+  "condition": "Sospetta ipertensione polmonare tromboembolica cronica dopo embolia",
+  "frequencyCategory": "LOW",
+  "matrixDifficulty": "ADVANCED",
   "setting": "AMBULATORIO",
-  "guidelineRef": "BTS_Pulmonary_Nodules_Guidelines.pdf",
-  "diagnosis": "Nodulo polmonare solitario",
-  "pastMedicalHistory": "Ex fumatore, storia di bronchite cronica, senza altre patologie significative.",
-  "presentation": "Davide, un uomo di 61 anni, si presenta in ambulatorio per un controllo dopo aver scoperto un nodulo polmonare. È un ex fumatore e ha una forte ansia riguardo alla possibilità che il nodulo possa essere canceroso. Ha cercato informazioni online e teme il peggio. Chiede insistentemente di sottoporsi a una PET immediata e reagisce negativamente quando gli viene detto di attendere tre mesi per ulteriori accertamenti. Tuttavia, accetta di seguire il piano proposto, a condizione che venga quantificato il rischio e fissato un controllo.",
+  "guidelineRef": "ESC/ERS 2022 PH, sezione CTEPH; L.219/2017; L.38/2010",
+  "diagnosis": "Nei sopravvissuti all'embolia con dispnea da sforzo la CTEPH va considerata. Tutti i pazienti con CTEPH vanno rivisti da un team. L'endarterectomia e' il trattamento di scelta quando indicata. Anticoagulazione per tutta la vita.",
+  "pastMedicalHistory": "Embolia polmonare documentata sei mesi fa. Anticoagulante in sospensione programmata. Dolore al polpaccio residuo.",
+  "presentation": "Dispnea da sforzo nuova rispetto a prima dell'embolia. Eco alterata. Il medico vuole sospendere l'anticoagulante e dare un farmaco della PAH in periferia.",
   "redHerrings": [
-    "Storia di bronchite cronica",
-    "Riflessi allergici occasionali",
-    "Recenti episodi di tosse secca"
+    "Sospensione dell'anticoagulante.",
+    "Farmaco PAH senza team."
   ],
-  "timeLimitMinutes": 20,
-  "patientDeteriorationThreshold": 10,
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Giorgio. Dopo la embolia il fiato non e' tornato. Non sospendete il sangue sottile se la guida dice per sempre. Voglio il centro giusto, non un farmaco a caso.",
+  "correctSolution": "Considerare CTEPH. Completare il percorso diagnostico, cateterismo se si conferma il sospetto di PH. Team CTEPH per la multimodalita'. Anticoagulazione a vita, non la sospensione. Endarterectomia se il team la indica. Non un farmaco PAH al posto del team. Informazione. Dolore in cartella se ricoverato.",
+  "goldStandardPath": [
+    "ecocardio",
+    "ecg"
+  ],
+  "goldPathNarrative": "ESC/ERS: CTEPH dopo embolia con dispnea, team, PEA, anticoagulazione a vita.",
   "examLatencies": {
-    "rx-torace": 20,
-    "tc": 40
+    "ecocardio": 25,
+    "ecg": 8,
+    "pet-tc": 180
   },
   "anamnesisQuestions": [
     {
-      "id": "aq_pneumo-017_1",
-      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Nodulo polmonare solitario — stratificazione del rischio)",
+      "id": "q1",
+      "prompt": "Quando e' stata l'embolia e la dispnea e' persistente?",
       "critical": true,
       "expectedKeywords": [
-        "da quanto",
-        "quando",
-        "insorgenza",
-        "dispnea",
-        "tosse"
+        "embolia",
+        "mesi",
+        "dispnea"
       ],
-      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+      "rationale": "La guida parla dei sopravvissuti con dispnea da sforzo."
     },
     {
-      "id": "aq_pneumo-017_2",
-      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "id": "q2",
+      "prompt": "Chi ha rivisto il caso, un team CTEPH?",
       "critical": true,
       "expectedKeywords": [
-        "espettorato",
-        "sangue",
-        "sibili",
-        "dolore",
-        "ortopnea"
+        "team",
+        "centro",
+        "no"
       ],
-      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
-    },
-    {
-      "id": "aq_pneumo-017_3",
-      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
-      "critical": true,
-      "expectedKeywords": [
-        "fum",
-        "lavoro",
-        "polvere",
-        "allergia",
-        "asbesto"
-      ],
-      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
-    },
-    {
-      "id": "aq_pneumo-017_4",
-      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
-      "critical": true,
-      "expectedKeywords": [
-        "inalator",
-        "ossigeno",
-        "cpap",
-        "antibiot",
-        "aderenza"
-      ],
-      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
-    },
-    {
-      "id": "aq_pneumo-017_5",
-      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
-      "critical": true,
-      "expectedKeywords": [
-        "saturazione",
-        "confusione",
-        "emottisi",
-        "febbre",
-        "trauma"
-      ],
-      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
-    },
-    {
-      "id": "aq_pneumo-017_6",
-      "prompt": "Contesto di presentazione: Ambulatorio di Pneumologia",
-      "critical": false,
-      "expectedKeywords": [
-        "dove si trova",
-        "arrivato",
-        "ambulanza",
-        "visita"
-      ],
-      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+      "rationale": "Tutti i pazienti con CTEPH vanno rivisti dal team."
     }
   ],
   "physicalExam": {
-    "summary": "Esame obiettivo: respiro regolare, auscultazione polmonare senza crepitii, segni vitali stabili."
+    "summary": "Dispnea da sforzo, segni di sovraccarico destro possibili. Dolore al polpaccio lieve."
   },
-  "goldPathNarrative": "Iniziamo con una radiografia del torace seguita da una tomografia computerizzata per valutare il nodulo. Questo ci aiuterà a capire meglio il rischio di malignità e a decidere i passi successivi.",
   "escCitations": [
     {
-      "chunkId": "d323b6c5-3e18-4e68-99b6-5f37da9b048a-13",
-      "source": "knowledge_base/pneumologia/clinical/BTS_Pulmonary_Nodules_Guidelines.pdf",
-      "quote": ": Callister MEJ, Baldwin DR, Akram AR, et al. Thorax 2015;70: ii1–ii54. SUMMARY OF RECOMMENDATIONS This guideline is based on a comprehensive review of the literature on pulmonary nodules and expert opinion. Although the management pathway for the majority of nodules detected is straightforward it is sometimes more complex and this is helped by the inclusion of detailed and specific recommenda- tions and the 4 management algorithms below. The Guideline Development Group (GDG) wanted to highlight"
+      "chunkId": "pe",
+      "source": "knowledge_base/pneumologia/clinical/ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf",
+      "quote": "In PE survivors with exercise dyspnoea, CTEPH should be considered. In patients with persistent or new-onset dyspnoea or exercise limitation following PE, further diagnostic evaluation to assess for CTEPH/CTEPD is recommended."
     },
     {
-      "chunkId": "d323b6c5-3e18-4e68-99b6-5f37da9b048a-16",
-      "source": "knowledge_base/pneumologia/clinical/BTS_Pulmonary_Nodules_Guidelines.pdf",
-      "quote": "person with a pulmonary nodule and a comprehen- sive reference text. RECOMMENDATIONS Route of detection of pulmonary nodules ▸ Use the same diagnostic approach for nodules detected incidentally as those detected through screening. Grade D ▸ Consider using the presence of previous malig- nancy as a factor in the risk assessment for further investigation. Grade D ▸ Do not prioritise management of pulmonary nodules according to the route of presentation. Grade D ▸ Evaluate coexistent lung nodules d"
+      "chunkId": "team",
+      "source": "knowledge_base/pneumologia/clinical/ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf",
+      "quote": "It is recommended that all patients with CTEPH are reviewed by a CTEPH team for the assessment of multimodality management."
     },
     {
-      "chunkId": "d323b6c5-3e18-4e68-99b6-5f37da9b048a-379",
-      "source": "knowledge_base/pneumologia/clinical/BTS_Pulmonary_Nodules_Guidelines.pdf",
-      "quote": "m Med 2012;12:2. 210 Heo EY, Lee KW, Jheon S, et al. Surgical resection of highly suspicious pulmonary nodules without a tissue diagnosis. Jpn J Clin Oncol 2011;41:1017–22. 211 Sihoe AD, Hiranandani R, Wong H, et al. Operating on a suspicious lung mass without a preoperative tissue diagnosis: pros and cons. Eur J Cardiothorac Surg 2013;44:231–7; discussion 237. 212 Mitruka S, Landreneau RJ, Mack MJ, et al. Diagnosing the indeterminate pulmonary nodule: percutaneous biopsy versus thoracoscopy. Su"
+      "chunkId": "pea",
+      "source": "knowledge_base/pneumologia/clinical/ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf",
+      "quote": "Surgical pulmonary endarterectomy in deep hypothermia circulatory arrest is recommended for patients with CTEPH. PEA is recommended as the treatment of choice for patients with CTEPH."
     },
     {
-      "chunkId": "d323b6c5-3e18-4e68-99b6-5f37da9b048a-39",
-      "source": "knowledge_base/pneumologia/clinical/BTS_Pulmonary_Nodules_Guidelines.pdf",
-      "quote": "ent of pulmonary nodules in the UK according to the definitions given above. The recommendations will apply to the UK healthcare system making clear where evidence may have limited applicability. Target audience The BTS guideline for the investigation and management of soli- tary and multiple pulmonary nodules is aimed primarily at practi- tioners within the UK. This will include physicians, general practitioners, nurses, radiologists, surgeons and other healthcare professionals. It may be of re"
+      "chunkId": "oac",
+      "source": "knowledge_base/pneumologia/clinical/ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf",
+      "quote": "Lifelong anticoagulation is recommended in all patients with CTEPH."
+    },
+    {
+      "chunkId": "rhc",
+      "source": "knowledge_base/pneumologia/clinical/ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf",
+      "quote": "Right heart catheterisation is recommended to confirm the diagnosis of PH (especially PAH or CTEPH), and to support treatment decisions."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/pneumologia/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro."
+    },
+    {
+      "chunkId": "i",
+      "source": "knowledge_base/pneumologia/legal/Legge_22_dicembre_2017,_n.219.pdf",
+      "quote": "Legge 219/2017, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/pneumologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (2).pdf",
+      "quote": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Eseguire in sequenza il gold path: rx-torace → tc.",
-      "Non prescrivere di prima intenzione: colonscopia, rm (BTS_Pulmonary_Nodules_Guidelines.pdf).",
-      "Budget SSN di riferimento: €200."
+      "CTEPH nel sopravvissuto dispnoico.",
+      "Team prima del farmaco periferico.",
+      "Anticoagulazione a vita."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Scudo L. 24/2017 Art. 5 L'adesione alle linee guida (BTS_Pulmonary_Nodules_Guidelines.pdf) e al gold path costituisce parametro di conformità alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "art5Adherence": "ESC/ERS 2022 sulla CTEPH. Informazione e dolore secondo le leggi.",
       "legalCriteria": [
-        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
-        "Raccogliere consenso informato prima di procedure invasive.",
-        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
-        "Registrare tempi critici nel setting Ambulatorio di Pneumologia."
+        "Team e anticoagulazione a vita.",
+        "Informazione, art. 1 legge 219/2017.",
+        "Dolore, art. 7 se ricovero."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "rx-torace",
-      "name": "RX Torace (2 proiezioni)",
-      "finding": "RX Torace (2 proiezioni) nel contesto di Nodulo polmonare solitario — stratificazione del rischio (PNEUMO-017). Nodulo polmonare visibile all'imaging, senza segni di infezione acuta.",
+      "examId": "ecocardio",
+      "name": "Ecocardiogramma",
+      "finding": "Segni di pressione polmonare non normalizzati mesi dopo l'embolia. Non chiude la CTEPH da solo.",
       "isAbnormal": true,
-      "priceEuro": 15.5
+      "priceEuro": 43.9
     },
     {
-      "examId": "tc",
-      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
-      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Nodulo polmonare solitario — stratificazione del rischio (PNEUMO-017). Nodulo polmonare visibile all'imaging, senza segni di infezione acuta.",
-      "isAbnormal": true,
-      "priceEuro": 180
+      "examId": "ecg",
+      "name": "ECG",
+      "finding": "Segni destri possibili. 12,50 euro. Non sostituisce il team.",
+      "isAbnormal": false,
+      "priceEuro": 12.5
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "colonscopia",
-      "name": "Colonscopia",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pulmonary_Nodules_Guidelines.pdf.",
+      "examId": "pet-tc",
+      "name": "PET-TC FDG globale",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro. Non e' il passo della CTEPH al posto del team.",
       "isAbnormal": false,
-      "priceEuro": 90,
+      "priceEuro": 1071.7,
       "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pulmonary_Nodules_Guidelines.pdf."
-    },
-    {
-      "examId": "rm",
-      "name": "RM Addome/Pelvi/Encefalo/Colonna/Articolare",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pulmonary_Nodules_Guidelines.pdf.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pulmonary_Nodules_Guidelines.pdf."
+      "wasteRationale": "PET non sostituisce team e cateterismo."
     }
   ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 86,
+      "bloodPressure": "128/78",
+      "spo2": 95,
+      "temperature": 36.5,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 70,
+    "demographics": {
+      "age": 58,
+      "sex": "M",
+      "context": "Ambulatorio"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Dispnea da sforzo persistente",
+        "result": "Dal mese successivo all'embolia.",
+        "isPositive": true
+      },
+      {
+        "signName": "Emottisi",
+        "result": "Assente.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Dispnea da sforzo persistente",
+        "result": "Dal mese successivo all'embolia.",
+        "isPositive": true
+      },
+      {
+        "signName": "Emottisi",
+        "result": "Assente.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ecocardio": {
+          "finding": "Segni di pressione polmonare non normalizzati mesi dopo l'embolia. Non chiude la CTEPH da solo.",
+          "normalFinding": "Segni di pressione polmonare non normalizzati mesi dopo l'embolia. Non chiude la CTEPH da solo.",
+          "isAbnormal": true,
+          "price": 43.9
+        },
+        "ecg": {
+          "finding": "Segni destri possibili. 12,50 euro. Non sostituisce il team.",
+          "normalFinding": "Segni destri possibili. 12,50 euro. Non sostituisce il team.",
+          "isAbnormal": false,
+          "price": 12.5
+        },
+        "pet-tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro. Non e' il passo della CTEPH al posto del team.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro. Non e' il passo della CTEPH al posto del team.",
+          "isAbnormal": false,
+          "price": 1071.7
+        }
+      }
+    }
+  },
   "patientProfile": {
-    "healthLiteracy": "CYBERCHONDRIA_AI",
-    "emotionalState": "ANXIOUS",
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "DEFENSIVE",
     "adherence": "FULL",
     "lifestyleAndSocial": {
-      "sleepQuality": "FAIR",
+      "sleepQuality": "POOR",
       "stressLevel": "HIGH",
-      "socialSupport": "ADEQUATE"
+      "socialSupport": "LIMITED"
     },
-    "communicationStyle": "Ex fumatore, ha googlato 'nodulo = cancro'. Chiede PET immediata. Reagisce male al 'aspettiamo tre mesi'; accetta il piano BTS se si quantifica il rischio e si fissa il controllo."
-  }
+    "communicationStyle": "Sono Giorgio. Il fiato dopo la embolia non torna. Non toglietemi l'anticoagulante. Mandatemi al gruppo che decide l'intervento, non a un farmaco preso in giro."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Sopravvissuto dispnoico",
+      "prompt": "Embolia sei mesi fa, dispnea da sforzo che persiste.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Consideri la CTEPH e prosegua gli accertamenti",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Chiuda come embolia guarita",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "CTEPH non considerata",
+      "prompt": "In PE survivors with exercise dyspnoea, CTEPH should be considered. Further diagnostic evaluation is recommended if dyspnoea persists or is new.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Cateterismo se il sospetto di PH resta",
+      "prompt": "L'eco non basta a confermare.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Programmi il cateterismo per confermare, specie se si pensa a CTEPH",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Confermi la CTEPH solo con l'eco",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Senza RHC",
+      "prompt": "RHC is recommended to confirm PH, especially PAH or CTEPH.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente PET al posto del team",
+      "prompt": "PET a 1.071,70 euro proposta come stadiazione unica.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non la usi al posto del team",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "La prenoti come decisione",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+      "cost": 1071.7,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Team",
+      "prompt": "CTEPH confermata. Il periferico vuole iniziare un farmaco PAH da solo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "La faccia rivedere dal team CTEPH per la gestione multimodale",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Farmaco PAH senza team",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Senza team",
+      "prompt": "It is recommended that all patients with CTEPH are reviewed by a CTEPH team for multimodality management.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Endarterectomia se indicata",
+      "prompt": "Il team la giudica operabile. Qualcuno rifiuta l'intervento 'perche' e' grande' e lascia solo il farmaco.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "L'endarterectomia e' il trattamento di scelta quando il team la indica",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Escluda l'intervento operabile",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "PEA saltata",
+      "prompt": "PEA is recommended as the treatment of choice for patients with CTEPH. Surgical PEA in deep hypothermia circulatory arrest is recommended.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Anticoagulazione a vita",
+      "prompt": "Vogliono sospenderla al sesto mese, come un'embolia provocata semplice.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "La continui per tutta la vita",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "La sospenda",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Anticoagulante sospeso",
+      "prompt": "Lifelong anticoagulation is recommended in all patients with CTEPH.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Informazione sull'intervento",
+      "prompt": "L'intervento e' grosso. Va spiegato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Spieghi benefici, rischi, alternative, compresa la conseguenza del rifiuto",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo metta in lista senza parlare",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Informazione",
+      "prompt": "Legge 219/2017, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore in cartella",
+      "prompt": "Dolore presente e cartella incompleta su caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scriva il dolore come chiede l'art. 7 della legge 38/2010",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Non lo scriva",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore omesso",
+      "prompt": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Dolore al polpaccio.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "CTEPH: sospetto nel sopravvissuto dispnoico, cateterismo, team, endarterectomia se indicata, anticoagulante a vita, niente PET al posto del team.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

@@ -1,303 +1,486 @@
 {
-  "title": "Paziente con insufficienza respiratoria ipercapnica",
-  "description": "Anna presenta segni di insufficienza respiratoria acuta con ipossiemia e ipercapnia. È ansiosa e ha difficoltà a respirare, mostrando una respirazione accelerata e superficiale.",
-  "difficulty": "HARD",
-  "goldStandardPath": [
-    "ega",
-    "rx-torace",
-    "elettroliti",
-    "lattati"
-  ],
-  "baselineExamFindings": {
-    "vitals": {
-      "heartRate": 118,
-      "bloodPressure": "156/90",
-      "spo2": 84,
-      "temperature": 36.9,
-      "respiratoryRate": 30
-    },
-    "examBudgetEuro": 110,
-    "advancedExams": {
-      "values": {
-        "ega": {
-          "finding": "Emogasanalisi arteriosa (EGA) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
-          "normalFinding": "Emogasanalisi arteriosa (EGA) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
-          "isAbnormal": true,
-          "price": 12
-        },
-        "rx-torace": {
-          "finding": "RX Torace (2 proiezioni) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
-          "normalFinding": "RX Torace (2 proiezioni) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
-          "isAbnormal": true,
-          "price": 15.5
-        },
-        "elettroliti": {
-          "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
-          "normalFinding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
-          "isAbnormal": true,
-          "price": 8
-        },
-        "lattati": {
-          "finding": "Acido lattico (Lattati) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
-          "normalFinding": "Acido lattico (Lattati) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
-          "isAbnormal": true,
-          "price": 7
-        },
-        "pet-tc": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 900
-        },
-        "colonscopia": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 90
-        }
-      }
-    },
-    "demographics": {
-      "age": 79,
-      "sex": "F",
-      "context": "Anna è una donna di 79 anni con una storia di BPCO grave, che si presenta in reparto di pneumologia per un'esacerbazione acuta della sua condizione. È ansiosa riguardo alla sua respirazione e ha paura della maschera NIV, ma è molto motivata"
-    },
-    "physicalExam": {
-      "finding": "Tachipnea, ipossiemia, ansia evidente, uso accessorio dei muscoli respiratori."
-    },
-    "ega": {
-      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
-      "isAbnormal": true
-    },
-    "rx-torace": {
-      "finding": "RX Torace (2 proiezioni) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
-      "isAbnormal": true
-    },
-    "elettroliti": {
-      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
-      "isAbnormal": true
-    },
-    "lattati": {
-      "finding": "Acido lattico (Lattati) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
-      "isAbnormal": true
-    },
-    "pet-tc": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
-      "isAbnormal": false
-    },
-    "colonscopia": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
-      "isAbnormal": false
-    }
-  },
-  "correctSolution": "Iniziare la ventilazione non invasiva (NIV) e monitorare i parametri respiratori.",
-  "patientPrompt": "Ho 79 anni e soffro di BPCO da tempo. Ultimamente ho avuto difficoltà a respirare e mi sento molto ansiosa. Quando mi parlano della maschera per aiutarmi a respirare, ho paura, ma so che devo seguire le indicazioni dei medici. Non riesco a dormire bene e mi sento stressata, anche se ho amici e familiari che mi supportano.",
   "id": "PNEUMO-003",
   "code": "PNEUMO-003",
+  "title": "BPCO di gruppo E: quando la triplice e' una scelta e quando no",
+  "description": "Uomo di 72 anni, due ricoveri per riacutizzazione nell'ultimo anno, gia' in LABA+LAMA, eosinofili 340. Chiedono di togliere tutto e lasciare solo il cortisone inalatorio.",
+  "difficulty": "HARD",
   "specialty": "pneumologia",
   "specialtyLabel": "Pneumologia",
-  "condition": "BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica",
+  "condition": "BPCO gruppo E, gia' in duplice broncodilatazione, eosinofili almeno 300",
   "frequencyCategory": "HIGH",
   "matrixDifficulty": "ADVANCED",
-  "setting": "REPARTO",
-  "guidelineRef": "ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
-  "diagnosis": "BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica.",
-  "pastMedicalHistory": "Storia di BPCO grave, bronchite cronica, ipertensione.",
-  "presentation": "Anna si presenta in reparto con difficoltà respiratorie evidenti, tachipnea e un livello di saturazione dell'ossigeno molto basso. È visibilmente ansiosa e manifesta paura riguardo all'uso della maschera NIV, ma mostra anche una buona aderenza alle indicazioni mediche.",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "GOLD_2024_COPD_Guidelines.pdf; nota-99; L.219/2017; L.38/2010",
+  "diagnosis": "Gruppo E. In chi gia' prende LABA+LAMA e riacutizza, GOLD suggerisce la triplice. La Nota 99 riserva la triplice in unico erogatore alla proposta dello specialista. LABA+ICS da solo non e' la scelta incoraggiata.",
+  "pastMedicalHistory": "BPCO con FEV1 48% dopo broncodilatatore, gia' valutata dallo specialista. Bronchite cronica. Non fuma piu'. Dolore alla spalla da artrosi.",
+  "presentation": "Due ricoveri negli ultimi dodici mesi nonostante LABA+LAMA e tecnica corretta. Eosinofili 340/µL. Il figlio, che ha letto la vecchia tabella ABCD della Nota 99, chiede di tornare a un solo broncodilatatore.",
   "redHerrings": [
-    "Storia di bronchite cronica ricorrente.",
-    "Fumo di sigaretta in passato ma non attuale.",
-    "Uso di broncodilatatori a lungo termine."
+    "Il figlio cita il gruppo C della Nota 99, che mette un solo LAMA.",
+    "Chiedono roflumilast subito, prima della triplice."
   ],
-  "timeLimitMinutes": 30,
-  "patientDeteriorationThreshold": 12,
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Sergio. Sono gia' in due broncodilatatori e sono stato ricoverato due volte. Gli eosinofili sono alti. Non toglietemi i broncodilatatori per lasciare solo il cortisone. Il dolore alla spalla va scritto se resto in reparto.",
+  "correctSolution": "Con tecnica gia' verificata e due ricoveri, passare a LABA+LAMA+ICS perche' gli eosinofili sono almeno 300 e c'e' il gruppo E. La triplice in unico device e' su proposta dello specialista, e lui e' gia' in carico. Non tornare a LABA+ICS da solo. Roflumilast solo se la triplice non basta, con FEV1 sotto il 50% e bronchite cronica. Consenso. Dolore in cartella se ricoverato.",
+  "goldStandardPath": [
+    "spirometria",
+    "emocromo"
+  ],
+  "goldPathNarrative": "GOLD 2024 ha sostituito ABCD con ABE e non incoraggia LABA+ICS. La triplice di follow-up si considera sulle riacutizzazioni nonostante LABA+LAMA. La Nota 99 mette la triplice su proposta specialistica.",
   "examLatencies": {
-    "ega": 10,
-    "rx-torace": 20,
-    "elettroliti": 30,
-    "lattati": 15,
+    "emocromo": 20,
+    "spirometria": 25,
     "pet-tc": 180
   },
   "anamnesisQuestions": [
     {
-      "id": "aq_pneumo-003_1",
-      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica)",
+      "id": "q1",
+      "prompt": "Quanti ricoveri per riacutizzazione nell'ultimo anno e qual e' la terapia in corso?",
       "critical": true,
       "expectedKeywords": [
-        "da quanto",
-        "quando",
-        "insorgenza",
-        "dispnea",
-        "tosse"
+        "ricovero",
+        "LABA",
+        "LAMA"
       ],
-      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+      "rationale": "Due ricoveri collocano nel gruppo E e la terapia gia' in corso sposta sull'algoritmo di follow-up."
     },
     {
-      "id": "aq_pneumo-003_2",
-      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "id": "q2",
+      "prompt": "Qual e' la conta degli eosinofili e la tecnica inalatoria?",
       "critical": true,
       "expectedKeywords": [
-        "espettorato",
-        "sangue",
-        "sibili",
-        "dolore",
-        "ortopnea"
-      ],
-      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
-    },
-    {
-      "id": "aq_pneumo-003_3",
-      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
-      "critical": true,
-      "expectedKeywords": [
-        "fum",
-        "lavoro",
-        "polvere",
-        "allergia",
-        "asbesto"
-      ],
-      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
-    },
-    {
-      "id": "aq_pneumo-003_4",
-      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
-      "critical": true,
-      "expectedKeywords": [
-        "inalator",
-        "ossigeno",
-        "cpap",
-        "antibiot",
+        "eosinofili",
+        "tecnica",
         "aderenza"
       ],
-      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
-    },
-    {
-      "id": "aq_pneumo-003_5",
-      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
-      "critical": true,
-      "expectedKeywords": [
-        "saturazione",
-        "confusione",
-        "emottisi",
-        "febbre",
-        "trauma"
-      ],
-      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
-    },
-    {
-      "id": "aq_pneumo-003_6",
-      "prompt": "Contesto di presentazione: Reparto di Pneumologia",
-      "critical": false,
-      "expectedKeywords": [
-        "dove si trova",
-        "arrivato",
-        "ambulanza",
-        "visita"
-      ],
-      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+      "rationale": "GOLD lega l'ICS agli eosinofili e chiede di verificare tecnica e aderenza prima di escalare."
     }
   ],
   "physicalExam": {
-    "summary": "Tachipnea, ipossiemia, ansia evidente, uso accessorio dei muscoli respiratori."
+    "summary": "Iperinflazione, saturazione 93% in aria, tecnica inalatoria corretta osservata in ambulatorio. Dolore di spalla meccanico."
   },
-  "goldPathNarrative": "Dopo aver eseguito un'analisi dei gas ematici, una radiografia del torace e un'analisi degli elettroliti, si è deciso di avviare la ventilazione non invasiva per gestire l'insufficienza respiratoria di Anna.",
   "escCitations": [
     {
-      "chunkId": "c0a378ce-a9ce-4bdb-a9db-7371ec408850-97",
-      "source": "knowledge_base/pneumologia/clinical/ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
-      "quote": "nic obstructive lung disease: risk factors and use of guidelines for management. Thorax 1992; 47: 34–40. 9 Brochard L, Isabey D, Piquet J, et al. Reversal of acute exacerbations of chronic obstructive lung disease by inspiratory assistance with a face mask. N Engl J Med 1990; 323: 1523–1530. 10 Nava S, Navalesi P, Conti G. Time of non-invasive ventilation. Intensive Care Med 2006; 32: 361–370. 11 Keenan SP, Powers CE, McCormack DG. Noninvasive positive-pressure ventilation in patients with milde"
+      "chunkId": "e",
+      "source": "knowledge_base/pneumologia/clinical/GOLD_2024_COPD_Guidelines.pdf",
+      "quote": "LABA+LAMA is the preferred choice for initial therapy in group E patients. Consider LABA+LAMA+ICS in group E if eos ≥ 300 cells/µL (practical recommendation). Use of LABA+ICS in COPD is not encouraged."
     },
     {
-      "chunkId": "c0a378ce-a9ce-4bdb-a9db-7371ec408850-31",
-      "source": "knowledge_base/pneumologia/clinical/ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
-      "quote": "https://doi.org/10.1183/[REDACTED]-2016 5 ERS/ATS GUIDELINES | B. ROCHWERG ET AL. on August 20, 2026 by guest. Please see licensing information on first page for reuse rights.https://publications.ersnet.orgDownloaded from Based on this evidence review, the committee felt the anticipated desirable effects of bilevel NIV in patients with acute hypercapnic respiratory failure due to a COPD exacerbation definitely outweighed the anticipated undesirable effects. This is true across the severity spect"
+      "chunkId": "fu",
+      "source": "knowledge_base/pneumologia/clinical/GOLD_2024_COPD_Guidelines.pdf",
+      "quote": "In patients who develop further exacerbations on LABA+LAMA therapy we suggest escalation to LABA+LAMA+ICS. A beneficial response after the addition of ICS may be observed at blood eosinophil counts ≥ 100 cells/µL, with a greater magnitude of response more likely with higher eosinophil counts."
     },
     {
-      "chunkId": "c0a378ce-a9ce-4bdb-a9db-7371ec408850-29",
-      "source": "knowledge_base/pneumologia/clinical/ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
-      "quote": "was associated with more rapid improvement in physiological abnormalities in the first few hours, but was also associated with a longer total duration of ventilation and ICU stay. Mortality was similar in the two groups. Patients receiving bilevel NIV had fewer episodes of ventilator-associated pneumonia and less requirement for tracheostomy. Coma has been described as a contraindication to NIV, but in a large case series DIAZ et al. [39] showed no difference in outcome between patients with and"
+      "chunkId": "rofl",
+      "source": "knowledge_base/pneumologia/clinical/GOLD_2024_COPD_Guidelines.pdf",
+      "quote": "Add roflumilast. This may be considered in patients with an FEV1 < 50% predicted and chronic bronchitis, particularly if they have experienced at least one hospitalization for an exacerbation in the previous year."
     },
     {
-      "chunkId": "c0a378ce-a9ce-4bdb-a9db-7371ec408850-21",
-      "source": "knowledge_base/pneumologia/clinical/ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
-      "quote": "respiratory failure. Bilevel NIV may be considered in COPD patients with an acute exacerbation in three clinical settings [10]: 1) To prevent acute respiratory acidosis, i.e. when the arterial CO2 tension (PaCO2) is normal or elevated but pH is normal (see Question 1a). 2) To prevent endotracheal intubation and invasive mechanical ventilation in patients with mild to moderate acidosis and respiratory distress, with the aim of preventing deterioration to a point when invasive ventilation would be"
+      "chunkId": "aco",
+      "source": "knowledge_base/pneumologia/clinical/GOLD_2024_COPD_Guidelines.pdf",
+      "quote": "We no longer refer to asthma and COPD overlap (ACO). If a concurrent diagnosis of asthma is suspected, pharmacotherapy should primarily follow asthma guidelines. If patients with COPD have concomitant asthma they should be treated like patients with asthma."
+    },
+    {
+      "chunkId": "n99",
+      "source": "knowledge_base/pneumologia/economic/nota-99-old-con-allegato.pdf",
+      "quote": "FARMACI PRESCRIVIBILI SU PROPOSTA DELLO SPECIALISTA: LAMA + LABA + ICS (unico erogatore)."
+    },
+    {
+      "chunkId": "de",
+      "source": "knowledge_base/pneumologia/clinical/GOLD_2024_COPD_Guidelines.pdf",
+      "quote": "Withdrawing ICS can be considered if pneumonia or other considerable side-effects develop. If blood eosinophils are ≥ 300 cells/µL de-escalation is more likely to be associated with the development of exacerbations."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/pneumologia/legal/Legge_22_dicembre_2017,_n.219.pdf",
+      "quote": "Legge 219/2017, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/pneumologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (2).pdf",
+      "quote": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Eseguire in sequenza il gold path: ega → rx-torace → elettroliti → lattati.",
-      "Non prescrivere di prima intenzione: pet-tc, colonscopia (ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf).",
-      "Budget SSN di riferimento: €110."
+      "Non usare la tabella ABCD della Nota 99 per scegliere un solo LAMA in chi GOLD chiama gruppo E.",
+      "Triplice se riacutizza in LABA+LAMA e gli eosinofili sono alti, su proposta specialistica.",
+      "Roflumilast non prima della triplice."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Il paziente mostra un'adeguata aderenza alle indicazioni mediche.",
+      "art5Adherence": "L'escalation segue GOLD 2024. Il vincolo di prescrizione della triplice segue la Nota 99. Informazione e dolore seguono le leggi 219/2017 e 38/2010.",
       "legalCriteria": [
-        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
-        "Raccogliere consenso informato prima di procedure invasive.",
-        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
-        "Registrare tempi critici nel setting Reparto di Pneumologia."
+        "Triplice in unico erogatore su proposta dello specialista, Nota 99.",
+        "Informazione su diagnosi e alternative, legge 219/2017 art. 1.",
+        "Dolore in cartella se ricoverato, legge 38/2010 art. 7."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "ega",
-      "name": "Emogasanalisi arteriosa (EGA)",
-      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
+      "examId": "emocromo",
+      "name": "Emocromo con eosinofili",
+      "finding": "Eosinofili 340/µL. Sopra la soglia di 300 che GOLD usa per considerare la triplice gia' nel gruppo E, e sopra 100 per l'aggiunta di ICS nel follow-up.",
       "isAbnormal": true,
-      "priceEuro": 12
+      "priceEuro": 4.5
     },
     {
-      "examId": "rx-torace",
-      "name": "RX Torace (2 proiezioni)",
-      "finding": "RX Torace (2 proiezioni) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
+      "examId": "spirometria",
+      "name": "Spirometria di controllo",
+      "finding": "FEV1 48% del predetto, rapporto sotto 0,70. Il broncodilatatore in corso non va sospeso per l'esame annuale.",
       "isAbnormal": true,
-      "priceEuro": 15.5
-    },
-    {
-      "examId": "elettroliti",
-      "name": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P)",
-      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
-      "isAbnormal": true,
-      "priceEuro": 8
-    },
-    {
-      "examId": "lattati",
-      "name": "Acido lattico (Lattati)",
-      "finding": "Acido lattico (Lattati) nel contesto di BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica (PNEUMO-003). Saturazione di ossigeno ridotta, frequenza respiratoria elevata, segni di distress respiratorio, ansia marcata.",
-      "isAbnormal": true,
-      "priceEuro": 7
+      "priceEuro": 37.15
     }
   ],
   "inappropriateExams": [
     {
       "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
+      "name": "PET-TC globale corporea",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
       "isAbnormal": false,
-      "priceEuro": 900,
+      "priceEuro": 1071.7,
       "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf."
-    },
-    {
-      "examId": "colonscopia",
-      "name": "Colonscopia",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
-      "isAbnormal": false,
-      "priceEuro": 90,
-      "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf."
+      "wasteRationale": "La PET non decide l'escalation inalatoria del gruppo E."
     }
   ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 88,
+      "bloodPressure": "142/80",
+      "spo2": 93,
+      "temperature": 36.6,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 70,
+    "demographics": {
+      "age": 72,
+      "sex": "M",
+      "context": "Ambulatorio pneumologico"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Tecnica inalatoria",
+        "result": "Corretta sul device in uso.",
+        "isPositive": true
+      },
+      {
+        "signName": "Bronchite cronica",
+        "result": "Tosse ed espettorato da mesi, non solo in riacutizzazione.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Tecnica inalatoria",
+        "result": "Corretta sul device in uso.",
+        "isPositive": true
+      },
+      {
+        "signName": "Bronchite cronica",
+        "result": "Tosse ed espettorato da mesi, non solo in riacutizzazione.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "emocromo": {
+          "finding": "Eosinofili 340/µL. Sopra la soglia di 300 che GOLD usa per considerare la triplice gia' nel gruppo E, e sopra 100 per l'aggiunta di ICS nel follow-up.",
+          "normalFinding": "Eosinofili 340/µL. Sopra la soglia di 300 che GOLD usa per considerare la triplice gia' nel gruppo E, e sopra 100 per l'aggiunta di ICS nel follow-up.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "spirometria": {
+          "finding": "FEV1 48% del predetto, rapporto sotto 0,70. Il broncodilatatore in corso non va sospeso per l'esame annuale.",
+          "normalFinding": "FEV1 48% del predetto, rapporto sotto 0,70. Il broncodilatatore in corso non va sospeso per l'esame annuale.",
+          "isAbnormal": true,
+          "price": 37.15
+        },
+        "pet-tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+          "isAbnormal": false,
+          "price": 1071.7
+        }
+      }
+    }
+  },
   "patientProfile": {
-    "healthLiteracy": "LOW",
-    "emotionalState": "ANXIOUS",
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "DEFENSIVE",
     "adherence": "FULL",
     "lifestyleAndSocial": {
       "sleepQuality": "POOR",
       "stressLevel": "HIGH",
       "socialSupport": "ADEQUATE"
     },
-    "communicationStyle": "Ha paura della maschera NIV. Il tono calmo e le spiegazioni sul 'aiuto a respirare' riducono l'opposizione; il gergo da rianimazione la fa ritirare."
-  }
+    "communicationStyle": "Sono Sergio. Due ricoveri, due broncodilatatori, eosinofili alti. Non tornate al solo spray vecchio. Se mi ricoverate, scrivete il dolore alla spalla."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Gruppo E, non il vecchio gruppo C",
+      "prompt": "Due ricoveri in dodici mesi, gia' LABA+LAMA, tecnica corretta. Il figlio legge sulla Nota 99 il gruppo C: un solo LAMA.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Usi lo schema ABE di GOLD 2024: questo e' gruppo E. Non lo riporti al solo LAMA della tabella ABCD",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Lo classifichi gruppo C della Nota 99 e tolga un broncodilatatore",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Schema ABCD al posto di ABE",
+      "prompt": "GOLD 2024 inizia il gruppo E con LABA+LAMA, non con un solo broncodilatatore. La Nota 99 riporta ancora i gruppi A B C D: non sostituisce l'algoritmo ABE del report 2024 letto in clinica.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Eosinofili prima dell'ICS",
+      "prompt": "L'emocromo con eosinofili non e' in cartella. Propongono la triplice 'a tutti i gruppo E'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Conti gli eosinofili. A 340/µL la triplice e' la considerazione scritta",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Aggiunga l'ICS a ogni gruppo E senza la conta",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "ICS senza eosinofili",
+      "prompt": "Consider LABA+LAMA+ICS in group E if eos ≥ 300 cells/µL. Nel follow-up, su LABA+LAMA che riacutizza, l'aggiunta di ICS puo' giovare da 100/µL in su.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "PET non richiesta",
+      "prompt": "Qualcuno prenota la PET-TC globale corporea, 92.18.C, 1.071,70 euro, per 'stadiare la BPCO'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non la esegua: non e' il passo dell'escalation inalatoria",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "La esegua a 1.071,70 euro",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+      "cost": 1071.7,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Triplice, non LABA+ICS",
+      "prompt": "Eosinofili 340, due ricoveri, gia' LABA+LAMA, tecnica a posto. Proposta: sospendere il LAMA e lasciare LABA+ICS.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Escalare a LABA+LAMA+ICS. Non tornare a LABA+ICS",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Sostituisca la duplice con LABA+ICS",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "LABA+ICS al posto della triplice",
+      "prompt": "Use of LABA+ICS in COPD is not encouraged. If there is an indication for an ICS, then LABA+LAMA+ICS is the preferred choice. In patients who develop further exacerbations on LABA+LAMA, escalation to triple therapy is suggested.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Proposta dello specialista",
+      "prompt": "La triplice in unico erogatore, in Nota 99, e' tra i farmaci prescrivibili su proposta dello specialista. Lui e' gia' seguito in ambulatorio specialistico. Un rinnovo vuole farla partire dal solo medico di famiglia senza quella proposta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "La triplice in unico device resta su proposta dello specialista, come scrive la Nota 99",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "La faccia partire in unico device senza alcuna proposta specialistica",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Triplice fuori dalla Nota 99",
+      "prompt": "Nota 99: LAMA + LABA + ICS (unico erogatore) sono farmaci prescrivibili su proposta dello specialista.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Roflumilast non come primo salto",
+      "prompt": "FEV1 48%, bronchite cronica, ricoveri. Qualcuno aggiunge roflumilast lasciando solo LABA+LAMA, senza triplice.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Prima la triplice. Il roflumilast e' un'opzione se le riacutizzazioni continuano nonostante LABA+LAMA+ICS, con FEV1 sotto il 50% e bronchite cronica",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Salti la triplice e metta subito il roflumilast",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Roflumilast fuori sequenza",
+      "prompt": "If patients treated with LABA+LAMA+ICS still have exacerbations, add roflumilast may be considered in patients with an FEV1 < 50% predicted and chronic bronchitis, particularly if they have experienced at least one hospitalization.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Non togliere l'ICS a eosinofili alti",
+      "prompt": "Dopo la triplice sta meglio. Una polmonite intercorsa fa proporre la sospensione dell'ICS. Eosinofili ancora sopra 300.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Valuti la sospensione solo per polmonite o effetti avversi, sapendo che sopra 300 la de-escalation si associa piu' spesso a nuove riacutizzazioni. Glielo dica",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Sospenda l'ICS senza dirgli il rischio legato agli eosinofili sopra 300",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "De-escalation taciuta",
+      "prompt": "Withdrawing ICS can be considered if pneumonia or other considerable side-effects develop. If blood eosinophils are ≥ 300 cells/µL de-escalation is more likely to be associated with the development of exacerbations. Legge 219/2017, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore in cartella e dispnea rivalutata",
+      "prompt": "Il dolore c'e' e in cartella non ci sono caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato. La dispnea si rivaluta sul testo clinico indicato, non sull'art. 7, che parla di dolore.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scriva il dolore come chiede l'art. 7 della legge 38/2010 e rivaluti la dispnea sul testo clinico",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Somministri un farmaco e non annoti il dolore ne' la dispnea",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. GOLD: review symptoms (dyspnea) and exacerbation risk at follow-up.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Gruppo E su ABE, eosinofili, triplice e non LABA+ICS, vincolo specialistico della Nota 99, roflumilast dopo, informazione sulla de-escalation, dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

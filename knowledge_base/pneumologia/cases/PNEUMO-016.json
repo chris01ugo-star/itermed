@@ -1,303 +1,471 @@
 {
-  "title": "Donna 46 anni con dispnea da sforzo e sospetta ipertensione polmonare",
-  "description": "Chiara si presenta con sintomi di affaticamento e dispnea, lamentando una sensazione di oppressione toracica. Ha una storia di ansia e insonnia, e ha recentemente iniziato a cercare informazioni online sulla ipertensione polmonare, il che ha aumentato la sua preoccupazione.",
-  "difficulty": "MEDIUM",
-  "goldStandardPath": [
-    "ecocardio",
-    "rx-torace",
-    "6mwt",
-    "nt-probnp"
-  ],
-  "baselineExamFindings": {
-    "vitals": {
-      "heartRate": 92,
-      "bloodPressure": "118/76",
-      "spo2": 94,
-      "temperature": 36.5,
-      "respiratoryRate": 20
-    },
-    "examBudgetEuro": 140,
-    "advancedExams": {
-      "values": {
-        "ecocardio": {
-          "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Ipertensione arteriosa polmonare — work-up diagnostico (PNEUMO-016). Dispnea durante l'attività fisica, affaticamento, segni di ansia, auscultazione polmonare regolare, SpO2 al 94%.",
-          "normalFinding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Ipertensione arteriosa polmonare — work-up diagnostico (PNEUMO-016). Dispnea durante l'attività fisica, affaticamento, segni di ansia, auscultazione polmonare regolare, SpO2 al 94%.",
-          "isAbnormal": true,
-          "price": 43.9
-        },
-        "rx-torace": {
-          "finding": "RX Torace (2 proiezioni) nel contesto di Ipertensione arteriosa polmonare — work-up diagnostico (PNEUMO-016). Dispnea durante l'attività fisica, affaticamento, segni di ansia, auscultazione polmonare regolare, SpO2 al 94%.",
-          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Ipertensione arteriosa polmonare — work-up diagnostico (PNEUMO-016). Dispnea durante l'attività fisica, affaticamento, segni di ansia, auscultazione polmonare regolare, SpO2 al 94%.",
-          "isAbnormal": true,
-          "price": 15.5
-        },
-        "6mwt": {
-          "finding": "Test del cammino (6MWT) nel contesto di Ipertensione arteriosa polmonare — work-up diagnostico (PNEUMO-016). Dispnea durante l'attività fisica, affaticamento, segni di ansia, auscultazione polmonare regolare, SpO2 al 94%.",
-          "normalFinding": "Test del cammino (6MWT) nel contesto di Ipertensione arteriosa polmonare — work-up diagnostico (PNEUMO-016). Dispnea durante l'attività fisica, affaticamento, segni di ansia, auscultazione polmonare regolare, SpO2 al 94%.",
-          "isAbnormal": true,
-          "price": 15
-        },
-        "nt-probnp": {
-          "finding": "NT-proBNP (o BNP) nel contesto di Ipertensione arteriosa polmonare — work-up diagnostico (PNEUMO-016). Dispnea durante l'attività fisica, affaticamento, segni di ansia, auscultazione polmonare regolare, SpO2 al 94%.",
-          "normalFinding": "NT-proBNP (o BNP) nel contesto di Ipertensione arteriosa polmonare — work-up diagnostico (PNEUMO-016). Dispnea durante l'attività fisica, affaticamento, segni di ansia, auscultazione polmonare regolare, SpO2 al 94%.",
-          "isAbnormal": true,
-          "price": 18
-        },
-        "pet-tc": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 900
-        },
-        "colonscopia": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 90
-        }
-      }
-    },
-    "demographics": {
-      "age": 46,
-      "sex": "F",
-      "context": "Ambulatorio di Pneumologia"
-    },
-    "physicalExam": {
-      "finding": "Chiara appare ansiosa, con segni di affaticamento. La auscultazione polmonare rivela un respiro regolare, ma con una leggera riduzione dei suoni respiratori. Non ci sono segni di edema periferico o di congestione cardiaca."
-    },
-    "ecocardio": {
-      "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Ipertensione arteriosa polmonare — work-up diagnostico (PNEUMO-016). Dispnea durante l'attività fisica, affaticamento, segni di ansia, auscultazione polmonare regolare, SpO2 al 94%.",
-      "isAbnormal": true
-    },
-    "rx-torace": {
-      "finding": "RX Torace (2 proiezioni) nel contesto di Ipertensione arteriosa polmonare — work-up diagnostico (PNEUMO-016). Dispnea durante l'attività fisica, affaticamento, segni di ansia, auscultazione polmonare regolare, SpO2 al 94%.",
-      "isAbnormal": true
-    },
-    "6mwt": {
-      "finding": "Test del cammino (6MWT) nel contesto di Ipertensione arteriosa polmonare — work-up diagnostico (PNEUMO-016). Dispnea durante l'attività fisica, affaticamento, segni di ansia, auscultazione polmonare regolare, SpO2 al 94%.",
-      "isAbnormal": true
-    },
-    "nt-probnp": {
-      "finding": "NT-proBNP (o BNP) nel contesto di Ipertensione arteriosa polmonare — work-up diagnostico (PNEUMO-016). Dispnea durante l'attività fisica, affaticamento, segni di ansia, auscultazione polmonare regolare, SpO2 al 94%.",
-      "isAbnormal": true
-    },
-    "pet-tc": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf.",
-      "isAbnormal": false
-    },
-    "colonscopia": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf.",
-      "isAbnormal": false
-    }
-  },
-  "correctSolution": "Eseguire un ecocardiogramma per valutare la funzionalità cardiaca e la pressione polmonare, seguito da una radiografia del torace e un test di cammino di sei minuti.",
-  "patientPrompt": "Ho 46 anni e da qualche tempo mi sento sempre più affaticata. La mia respirazione è diventata difficoltosa, soprattutto quando faccio attività fisica. Ho cercato informazioni online e ho letto di una condizione chiamata ipertensione polmonare, che mi preoccupa molto. Non riesco a dormire bene e sento di non avere un buon supporto da parte delle persone intorno a me. Quando parlo con i medici, ho paura che non mi credano o che non prendano sul serio i miei sintomi. Ho anche avuto un episodio di bronchite di recente, ma non credo che sia solo quello.",
   "id": "PNEUMO-016",
   "code": "PNEUMO-016",
+  "title": "Sospetta ipertensione polmonare: il cateterismo destro conferma",
+  "description": "Donna di 46 anni, dispnea, eco che suggerisce pressioni polmonari alte. Vogliono un farmaco per l'ipertensione arteriosa polmonare senza cateterismo, e una PET.",
+  "difficulty": "HARD",
   "specialty": "pneumologia",
   "specialtyLabel": "Pneumologia",
-  "condition": "Ipertensione arteriosa polmonare — work-up diagnostico",
-  "frequencyCategory": "HIGH",
-  "matrixDifficulty": "INTERMEDIATE",
+  "condition": "Sospetta ipertensione polmonare, gruppo ancora non confermato",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
   "setting": "AMBULATORIO",
-  "guidelineRef": "ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf",
-  "diagnosis": "Ipertensione arteriosa polmonare",
-  "pastMedicalHistory": "Storia di ansia, insonnia, e allergie stagionali. Non ci sono precedenti di malattie polmonari o cardiache significative.",
-  "presentation": "Chiara, una donna di 46 anni, si presenta in ambulatorio lamentando affaticamento e dispnea che si aggravano durante l'attività fisica. Ha una storia di ansia e insonnia, e ha cercato informazioni online riguardo all'ipertensione polmonare, il che ha aumentato la sua preoccupazione. Durante la visita, appare ansiosa e insicura riguardo alla sua condizione. Chiara ha un supporto sociale limitato e riferisce di avere difficoltà a seguire le indicazioni mediche.",
+  "guidelineRef": "ESC/ERS 2022 PH; nomenclatore; L.219/2017",
+  "diagnosis": "Il cateterismo destro e' raccomandato per confermare l'ipertensione polmonare, specie PAH o CTEPH, e per le decisioni di cura. Non si parte da un farmaco PAH ne' dalla PET.",
+  "pastMedicalHistory": "Dispnea da sei mesi. Nessuna embolia nota. Dolore toracico da sforzo.",
+  "presentation": "Eco: segni di pressione polmonare aumentata. Le propongono un vasodilatatore 'intanto' e la PET total body.",
   "redHerrings": [
-    "La sua dispnea potrebbe essere attribuita a un recente episodio di bronchite acuta.",
-    "Chiara ha una storia di allergie stagionali che potrebbero contribuire ai suoi sintomi.",
-    "Ha recentemente iniziato a prendere un nuovo farmaco per l'ansia che potrebbe influenzare la sua respirazione."
+    "Farmaco prima del cateterismo.",
+    "PET al posto del cateterismo."
   ],
-  "timeLimitMinutes": 25,
-  "patientDeteriorationThreshold": 12,
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Elena. Mi manca il fiato. Non voglio un farmaco prima dell'esame che conferma. Non voglio la PET al posto di quell'esame.",
+  "correctSolution": "Confermare con cateterismo destro secondo protocolli, set completo di emodinamica. Non iniziare un farmaco PAH prima. Non fare la PET come conferma. Informarla. Consenso sul cateterismo.",
+  "goldStandardPath": [
+    "ecocardio",
+    "ecg"
+  ],
+  "goldPathNarrative": "ESC/ERS 2022: RHC raccomandato. La PET non conferma la PH.",
   "examLatencies": {
     "ecocardio": 20,
-    "rx-torace": 20,
-    "6mwt": 30,
-    "nt-probnp": 40,
+    "ecg": 8,
     "pet-tc": 180
   },
   "anamnesisQuestions": [
     {
-      "id": "aq_pneumo-016_1",
-      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Ipertensione arteriosa polmonare — work-up diagnostico)",
+      "id": "q1",
+      "prompt": "L'eco suggerisce PH ma il cateterismo c'e'?",
       "critical": true,
       "expectedKeywords": [
-        "da quanto",
-        "quando",
-        "insorgenza",
-        "dispnea",
-        "tosse"
+        "eco",
+        "cateterismo",
+        "no"
       ],
-      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+      "rationale": "Senza RHC non c'e' conferma."
     },
     {
-      "id": "aq_pneumo-016_2",
-      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "id": "q2",
+      "prompt": "Le hanno spiegato rischi del cateterismo?",
       "critical": true,
       "expectedKeywords": [
-        "espettorato",
-        "sangue",
-        "sibili",
-        "dolore",
-        "ortopnea"
+        "rischi",
+        "consenso",
+        "spiegato"
       ],
-      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
-    },
-    {
-      "id": "aq_pneumo-016_3",
-      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
-      "critical": true,
-      "expectedKeywords": [
-        "fum",
-        "lavoro",
-        "polvere",
-        "allergia",
-        "asbesto"
-      ],
-      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
-    },
-    {
-      "id": "aq_pneumo-016_4",
-      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
-      "critical": true,
-      "expectedKeywords": [
-        "inalator",
-        "ossigeno",
-        "cpap",
-        "antibiot",
-        "aderenza"
-      ],
-      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
-    },
-    {
-      "id": "aq_pneumo-016_5",
-      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
-      "critical": true,
-      "expectedKeywords": [
-        "saturazione",
-        "confusione",
-        "emottisi",
-        "febbre",
-        "trauma"
-      ],
-      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
-    },
-    {
-      "id": "aq_pneumo-016_6",
-      "prompt": "Contesto di presentazione: Ambulatorio di Pneumologia",
-      "critical": false,
-      "expectedKeywords": [
-        "dove si trova",
-        "arrivato",
-        "ambulanza",
-        "visita"
-      ],
-      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+      "rationale": "E' un atto che richiede consenso."
     }
   ],
   "physicalExam": {
-    "summary": "Chiara appare ansiosa, con segni di affaticamento. La auscultazione polmonare rivela un respiro regolare, ma con una leggera riduzione dei suoni respiratori. Non ci sono segni di edema periferico o di congestione cardiaca."
+    "summary": "Dispnea, secondo tono rinforzato. Saturazione 96%."
   },
-  "goldPathNarrative": "Iniziare il work-up diagnostico con un ecocardiogramma per valutare la pressione polmonare e la funzionalità cardiaca. Successivamente, eseguire una radiografia del torace per escludere altre patologie polmonari. Infine, programmare un test di cammino di sei minuti per valutare la capacità funzionale. Se i risultati sono suggestivi di ipertensione polmonare, considerare la misurazione del NT-proBNP per ulteriori informazioni sulla funzionalità cardiaca.",
   "escCitations": [
     {
-      "chunkId": "ba3c11c3-2557-4381-a25e-ee0fed762104-613",
+      "chunkId": "rhc",
       "source": "knowledge_base/pneumologia/clinical/ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf",
-      "quote": "unes H, et al. Management and long-term outcomes of sarcoidosis-associated pulmonary hypertension. Eur Respir J 2017; 50: 1700465. 60 Rich S, Dantzker DR, Ayres SM, et al. Primary pulmonary hypertension. A national prospective study. Ann Intern Med 1987; 107: 216–223. 61 Jing ZC, Xu XQ, Han ZY, et al. Registry and survival study in Chinese patients with idiopathic and familial pulmonary arterial hypertension. Chest 2007; 132: 373–379. 62 Galiè N, Saia F, Palazzini M, et al. Left main coronary ar"
+      "quote": "Right heart catheterisation is recommended to confirm the diagnosis of PH (especially PAH or CTEPH), and to support treatment decisions."
     },
     {
-      "chunkId": "ba3c11c3-2557-4381-a25e-ee0fed762104-673",
+      "chunkId": "set",
       "source": "knowledge_base/pneumologia/clinical/ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf",
-      "quote": "pertension. Chest 2021; 159: 337–346. 297 Bouzina H, Rådegran G, Butler O, et al. Longitudinal changes in risk status in pulmonary arterial hypertension. ESC Heart Fail 2021; 8: 680–690. 298 D’Alto M, Badagliacca R, Lo Giudice F, et al. Hemodynamics and risk assessment 2 years after the initiation of upfront ambrisentan–tadalafil in pulmonary arterial hypertension. J Heart Lung Transpl 2020; 39: 1389–1397. 299 Hjalmarsson C, Rådegran G, Kylhammar D, et al. Impact of age and comorbidity on risk s"
+      "quote": "It is recommended that RHC comprises a complete set of haemodynamics and is performed following standardized protocols."
     },
     {
-      "chunkId": "ba3c11c3-2557-4381-a25e-ee0fed762104-643",
-      "source": "knowledge_base/pneumologia/clinical/ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf",
-      "quote": "view of the published literature. Eur Respir J 2017; 49: 1601792. 179 Ende-Verhaar YM, Huisman MV, Klok FA. To screen or not to screen for chronic thromboembolic pulmonary hypertension after acute pulmonary embolism. Thromb Res 2017; 151: 1–7. 180 Kiely DG, Doyle O, Drage E, et al. Utilising artificial intelligence to determine patients at risk of a rare disease: idiopathic pulmonary arterial hypertension. Pulm Circ 2019; 9: [REDACTED]. 181 Nathan SD, Behr J, Collard HR, et al. Riociguat for idi"
+      "chunkId": "pet",
+      "source": "knowledge_base/pneumologia/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro."
     },
     {
-      "chunkId": "ba3c11c3-2557-4381-a25e-ee0fed762104-641",
-      "source": "knowledge_base/pneumologia/clinical/ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf",
-      "quote": "m to diagnosis of pulmonary hypertension from the patients and spouses perspective. J Prim Care Community Health 2021; 12: [REDACTED]. 172 Kiely DG, Lawrie A, Humbert M. Screening strategies for pulmonary arterial hypertension. Eur Heart J Suppl 2019; 21: K9–K20. 173 Coghlan JG, Denton CP, Grunig E, et al. Evidence-based detection of pulmonary arterial hypertension in systemic sclerosis: the DETECT study. Ann Rheum Dis 2014; 73: 1340–1349. 174 Weatherald J, Montani D, Jevnikar M, et al. Screenin"
+      "chunkId": "i",
+      "source": "knowledge_base/pneumologia/legal/Legge_22_dicembre_2017,_n.219.pdf",
+      "quote": "Legge 219/2017, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/pneumologia/legal/Legge_22_dicembre_2017,_n.219.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Eseguire in sequenza il gold path: ecocardio → rx-torace → 6mwt → nt-probnp.",
-      "Non prescrivere di prima intenzione: pet-tc, colonscopia (ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf).",
-      "Budget SSN di riferimento: €140."
+      "RHC prima del farmaco PAH.",
+      "Set emodinamico completo.",
+      "Niente PET come conferma."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Seguendo il gold path, si garantisce la protezione prevista dalla L. 24/2017 Art. 5.",
+      "art5Adherence": "ESC/ERS 2022 sul cateterismo. Consenso sulla procedura.",
       "legalCriteria": [
-        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
-        "Raccogliere consenso informato prima di procedure invasive.",
-        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
-        "Registrare tempi critici nel setting Ambulatorio di Pneumologia."
+        "RHC raccomandato.",
+        "Consenso, legge 219/2017.",
+        "Informazione su rischi e alternative."
       ]
     }
   },
   "mandatoryExams": [
     {
       "examId": "ecocardio",
-      "name": "Ecocardiografia (Transtoracica/Transesofagea)",
-      "finding": "Ecocardiografia (Transtoracica/Transesofagea) nel contesto di Ipertensione arteriosa polmonare — work-up diagnostico (PNEUMO-016). Dispnea durante l'attività fisica, affaticamento, segni di ansia, auscultazione polmonare regolare, SpO2 al 94%.",
+      "name": "Ecocardiogramma",
+      "finding": "Segni indiretti di pressione polmonare aumentata. Non conferma la PH: serve il cateterismo.",
       "isAbnormal": true,
       "priceEuro": 43.9
     },
     {
-      "examId": "rx-torace",
-      "name": "RX Torace (2 proiezioni)",
-      "finding": "RX Torace (2 proiezioni) nel contesto di Ipertensione arteriosa polmonare — work-up diagnostico (PNEUMO-016). Dispnea durante l'attività fisica, affaticamento, segni di ansia, auscultazione polmonare regolare, SpO2 al 94%.",
-      "isAbnormal": true,
-      "priceEuro": 15.5
-    },
-    {
-      "examId": "6mwt",
-      "name": "Test del cammino (6MWT)",
-      "finding": "Test del cammino (6MWT) nel contesto di Ipertensione arteriosa polmonare — work-up diagnostico (PNEUMO-016). Dispnea durante l'attività fisica, affaticamento, segni di ansia, auscultazione polmonare regolare, SpO2 al 94%.",
-      "isAbnormal": true,
-      "priceEuro": 15
-    },
-    {
-      "examId": "nt-probnp",
-      "name": "NT-proBNP (o BNP)",
-      "finding": "NT-proBNP (o BNP) nel contesto di Ipertensione arteriosa polmonare — work-up diagnostico (PNEUMO-016). Dispnea durante l'attività fisica, affaticamento, segni di ansia, auscultazione polmonare regolare, SpO2 al 94%.",
-      "isAbnormal": true,
-      "priceEuro": 18
+      "examId": "ecg",
+      "name": "ECG",
+      "finding": "Onda P polmonare possibile. Non sostituisce il cateterismo. Codice orientativo di visita, tariffa ECG 89.52: 12,50 euro.",
+      "isAbnormal": false,
+      "priceEuro": 12.5
     }
   ],
   "inappropriateExams": [
     {
       "examId": "pet-tc",
       "name": "PET-TC",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf.",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
       "isAbnormal": false,
-      "priceEuro": 900,
+      "priceEuro": 1071.7,
       "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf."
-    },
-    {
-      "examId": "colonscopia",
-      "name": "Colonscopia",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf.",
-      "isAbnormal": false,
-      "priceEuro": 90,
-      "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf."
+      "wasteRationale": "La PET non conferma la PH."
     }
   ],
-  "patientProfile": {
-    "healthLiteracy": "CYBERCHONDRIA_AI",
-    "emotionalState": "ANXIOUS",
-    "adherence": "PARTIAL",
-    "lifestyleAndSocial": {
-      "sleepQuality": "POOR",
-      "stressLevel": "HIGH",
-      "socialSupport": "LIMITED"
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 92,
+      "bloodPressure": "118/74",
+      "spo2": 96,
+      "temperature": 36.5,
+      "respiratoryRate": 18
     },
-    "communicationStyle": "Insonnia e ricerche notturne su PAH. Porta stampe ESC/ERS. Se si ignora il materiale, si sente non creduta. Serve ancorare il work-up (eco, 6MWT) al sospetto clinico."
-  }
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 46,
+      "sex": "F",
+      "context": "Ambulatorio"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Secondo tono rinforzato",
+        "result": "Si.",
+        "isPositive": true
+      },
+      {
+        "signName": "Edemi",
+        "result": "Lievi alle caviglie.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Secondo tono rinforzato",
+        "result": "Si.",
+        "isPositive": true
+      },
+      {
+        "signName": "Edemi",
+        "result": "Lievi alle caviglie.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ecocardio": {
+          "finding": "Segni indiretti di pressione polmonare aumentata. Non conferma la PH: serve il cateterismo.",
+          "normalFinding": "Segni indiretti di pressione polmonare aumentata. Non conferma la PH: serve il cateterismo.",
+          "isAbnormal": true,
+          "price": 43.9
+        },
+        "ecg": {
+          "finding": "Onda P polmonare possibile. Non sostituisce il cateterismo. Codice orientativo di visita, tariffa ECG 89.52: 12,50 euro.",
+          "normalFinding": "Onda P polmonare possibile. Non sostituisce il cateterismo. Codice orientativo di visita, tariffa ECG 89.52: 12,50 euro.",
+          "isAbnormal": false,
+          "price": 12.5
+        },
+        "pet-tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+          "isAbnormal": false,
+          "price": 1071.7
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "HIGH",
+    "emotionalState": "ANXIOUS",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "FAIR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Sono Elena. Fate l'esame che conferma prima di ogni farmaco mirato. La PET no. Spiegatemi i rischi."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Sospetto, non diagnosi",
+      "prompt": "Eco suggestiva, niente cateterismo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "La chiami sospetta PH, non PAH gia' confermata",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Inizi un farmaco PAH oggi",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Farmaco senza conferma",
+      "prompt": "RHC is recommended to confirm the diagnosis of PH, especially PAH or CTEPH, and to support treatment decisions.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Cateterismo completo",
+      "prompt": "Accetta di programmarlo. Vogliono solo la pressione sistolica stimata, senza set completo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Il cateterismo deve avere il set emodinamico completo, con protocollo standard",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Si accontenti della stima ecografica",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Set incompleto",
+      "prompt": "It is recommended that RHC comprises a complete set of haemodynamics and is performed following standardized protocols.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente PET",
+      "prompt": "PET 92.18.C a 1.071,70 euro proposta come conferma.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non la esegua per confermare la PH",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "La prenoti",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+      "cost": 1071.7,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente farmaco prima",
+      "prompt": "Il famigliare porta una ricetta di un farmaco per la PAH.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non lo inizi prima della conferma e della decisione supportata dal cateterismo",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Lo inizi oggi",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Farmaco prematuro",
+      "prompt": "RHC supports treatment decisions. Senza conferma non c'e' la base scritta per il farmaco della PAH.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Informazione",
+      "prompt": "Chiede che cosa cambia se il cateterismo conferma.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Le spieghi diagnosi possibile, benefici, rischi e alternative",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Minimizza e non spieghi",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Informazione",
+      "prompt": "Legge 219/2017, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso",
+      "prompt": "Dopo la spiegazione rifiuta il cateterismo oggi. Vuole pensarci.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non lo esegua oggi",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo faccia lo stesso",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Consenso",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Non e' un'embolia acuta da trombolisare",
+      "prompt": "Qualcuno vuole trombolisi perche' 'e' un'embolia'. Non c'e' una guida dell'embolia acuta in cartella: c'e' la guida della PH.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non faccia una trombolisi acuta su questo sospetto di PH cronica",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Trombolisi oggi",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Trombolisi non scritta",
+      "prompt": "Il PDF letto e' la guida ESC/ERS 2022 sull'ipertensione polmonare, non un protocollo di embolia acuta a rischio intermedio. La trombolisi non e' la raccomandazione estratta per questo sospetto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore in cartella",
+      "prompt": "Dolore presente e cartella incompleta su caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scriva il dolore come chiede l'art. 7 della legge 38/2010",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Non lo scriva",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore omesso",
+      "prompt": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Dolore toracico da sforzo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Sospetta PH: cateterismo completo prima del farmaco, niente PET, niente trombolisi inventata, informazione e consenso.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

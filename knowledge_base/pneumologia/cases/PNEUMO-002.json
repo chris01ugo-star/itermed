@@ -1,285 +1,481 @@
 {
-  "title": "Uomo in follow-up ambulatoriale per patologia ostruttiva stabile",
-  "description": "Luigi presenta segni di ipossiemia e tachipnea. È ansioso riguardo alla sua condizione e ha difficoltà a comprendere le istruzioni ricevute.",
-  "difficulty": "EASY",
-  "goldStandardPath": [
-    "spirometria",
-    "rx-torace",
-    "6mwt"
-  ],
-  "baselineExamFindings": {
-    "vitals": {
-      "heartRate": 82,
-      "bloodPressure": "138/82",
-      "spo2": 93,
-      "temperature": 36.5,
-      "respiratoryRate": 18
-    },
-    "examBudgetEuro": 70,
-    "advancedExams": {
-      "values": {
-        "spirometria": {
-          "finding": "Spirometria (semplice/globale) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
-          "normalFinding": "Spirometria (semplice/globale) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
-          "isAbnormal": true,
-          "price": 25
-        },
-        "rx-torace": {
-          "finding": "RX Torace (2 proiezioni) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
-          "normalFinding": "RX Torace (2 proiezioni) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
-          "isAbnormal": true,
-          "price": 15.5
-        },
-        "6mwt": {
-          "finding": "Test del cammino (6MWT) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
-          "normalFinding": "Test del cammino (6MWT) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
-          "isAbnormal": true,
-          "price": 15
-        },
-        "tc": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GOLD_2024_COPD_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GOLD_2024_COPD_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 180
-        },
-        "broncoscopia": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GOLD_2024_COPD_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GOLD_2024_COPD_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 180
-        }
-      }
-    },
-    "demographics": {
-      "age": 72,
-      "sex": "M",
-      "context": "Luigi è un paziente di 72 anni con BPCO stabile in follow-up ambulatoriale. Si presenta per un controllo della sua terapia inalatoria. Ha una storia di difficoltà respiratorie e ha ricevuto diagnosi di BPCO in passato. La sua aderenza alla "
-    },
-    "physicalExam": {
-      "finding": "Esame obiettivo con segni di difficoltà respiratoria, auscultazione con ronchi e rantoli, lieve edema periferico."
-    },
-    "spirometria": {
-      "finding": "Spirometria (semplice/globale) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
-      "isAbnormal": true
-    },
-    "rx-torace": {
-      "finding": "RX Torace (2 proiezioni) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
-      "isAbnormal": true
-    },
-    "6mwt": {
-      "finding": "Test del cammino (6MWT) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
-      "isAbnormal": true
-    },
-    "tc": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GOLD_2024_COPD_Guidelines.pdf.",
-      "isAbnormal": false
-    },
-    "broncoscopia": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GOLD_2024_COPD_Guidelines.pdf.",
-      "isAbnormal": false
-    }
-  },
-  "correctSolution": "Ottimizzazione della terapia inalatoria e supporto educativo per migliorare l'aderenza.",
-  "patientPrompt": "Ho 72 anni e ho la BPCO. Ogni volta che vengo qui, mi sento un po' confuso e non capisco sempre cosa mi dicono. Ho difficoltà a respirare e mi preoccupo di non sapere come usare bene gli inalatori. A volte mi sento solo e non ho nessuno con cui parlare di queste cose. Cerco di rimanere attivo, ma mi stanco facilmente e non riesco a fare molto. Vorrei sapere come posso migliorare la mia situazione, ma non so da dove cominciare.",
   "id": "PNEUMO-002",
   "code": "PNEUMO-002",
+  "title": "BPCO stabile di gruppo B: LABA+LAMA, non lo steroide inalatorio",
+  "description": "Donna di 64 anni, tosse e dispnea da anni, fumatrice. Il medico di famiglia vuole partire con uno steroide inalatorio senza spirometria.",
+  "difficulty": "HARD",
   "specialty": "pneumologia",
   "specialtyLabel": "Pneumologia",
-  "condition": "BPCO stabile — ottimizzazione terapia inalatoria GOLD",
+  "condition": "BPCO stabile, sintomi e al massimo una riacutizzazione moderata: gruppo B GOLD",
   "frequencyCategory": "HIGH",
-  "matrixDifficulty": "BASE",
+  "matrixDifficulty": "ADVANCED",
   "setting": "AMBULATORIO",
-  "guidelineRef": "GOLD_2024_COPD_Guidelines.pdf",
-  "diagnosis": "BPCO stabile",
-  "pastMedicalHistory": "Storia di BPCO, ipertensione, e lieve insufficienza cardiaca.",
-  "presentation": "Luigi si presenta in ambulatorio per un follow-up della sua BPCO. Riferisce di sentirsi affaticato e di avere difficoltà a respirare, specialmente durante sforzi leggeri. È preoccupato per la sua salute e sembra confuso riguardo alla corretta modalità di utilizzo degli inalatori. Non ha chiesto chiarimenti sulle istruzioni precedenti e mostra segni di ansia. La sua rete sociale è limitata e si sente spesso solo.",
+  "guidelineRef": "GOLD_2024_COPD_Guidelines.pdf; nota-99; nomenclatore 14-10-2026; L.219/2017",
+  "diagnosis": "Sospetto di BPCO da confermare con FEV1/FVC dopo broncodilatazione inferiore a 0,70. Con CAT almeno 10 e non piu' di una riacutizzazione moderata l'avvio e' LABA+LAMA. LABA+ICS non e' incoraggiato.",
+  "pastMedicalHistory": "Fumatrice, 25 pacchetti-anno. Nessuna asma precedente. Una bronchite trattata a domicilio l'anno scorso, senza ricovero. Capace di rifiutare un atto.",
+  "presentation": "Dispnea al passo svelto, CAT che lei stessa colloca sopra 10, mMRC 2. Nessun ricovero nell'ultimo anno. Chiede 'la bomboletta del cortisone' vista in rete. Non ha mai fatto una spirometria.",
   "redHerrings": [
-    "Riflesso bronchiale accentuato durante l'esame obiettivo.",
-    "Rumore di fondo di un ventilatore in funzione nell'ambulatorio.",
-    "Presenza di un leggero edema periferico."
+    "Chiede lo steroide inalatorio perche' 'la BPCO e' un'asma del fumatore'.",
+    "Il figlio vuole una TC torace con mezzo di contrasto oggi."
   ],
-  "timeLimitMinutes": 20,
-  "patientDeteriorationThreshold": 10,
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Lucia. Mi manca il fiato se cammino svelta. Non ho mai fatto la prova del soffio. Non voglio il cortisone spray se non e' quello scritto. La TAC non la voglio al posto della spirometria.",
+  "correctSolution": "Confermare l'ostruzione con spirometria post-broncodilatatore, FEV1/FVC < 0,70. Classificare gruppo B. Avviare LABA+LAMA, non LABA+ICS. Istruire il device. Controllare tecnica e aderenza. Consenso. Non eseguire la TC con mezzo di contrasto come primo esame.",
+  "goldStandardPath": [
+    "spirometria",
+    "emocromo"
+  ],
+  "goldPathNarrative": "Nota 99 e GOLD chiedono la spirometria prima della terapia di mantenimento. GOLD 2024 avvia il gruppo B con LABA+LAMA. La TC 87.41.1 non e' il primo passo.",
   "examLatencies": {
     "spirometria": 25,
-    "rx-torace": 20,
-    "6mwt": 30,
-    "tc": 40,
-    "broncoscopia": 60
+    "emocromo": 20,
+    "tc": 40
   },
   "anamnesisQuestions": [
     {
-      "id": "aq_pneumo-002_1",
-      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (BPCO stabile — ottimizzazione terapia inalatoria GOLD)",
+      "id": "q1",
+      "prompt": "Quante riacutizzazioni e che CAT o mMRC riferisce?",
       "critical": true,
       "expectedKeywords": [
-        "da quanto",
-        "quando",
-        "insorgenza",
-        "dispnea",
-        "tosse"
+        "riacutizzazione",
+        "CAT",
+        "dispnea"
       ],
-      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+      "rationale": "Il gruppo B di GOLD e' sintomatico con non piu' di una riacutizzazione moderata."
     },
     {
-      "id": "aq_pneumo-002_2",
-      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "id": "q2",
+      "prompt": "C'e' una spirometria con rapporto dopo broncodilatatore?",
       "critical": true,
       "expectedKeywords": [
-        "espettorato",
-        "sangue",
-        "sibili",
-        "dolore",
-        "ortopnea"
+        "spirometria",
+        "FEV1",
+        "FVC"
       ],
-      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
-    },
-    {
-      "id": "aq_pneumo-002_3",
-      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
-      "critical": true,
-      "expectedKeywords": [
-        "fum",
-        "lavoro",
-        "polvere",
-        "allergia",
-        "asbesto"
-      ],
-      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
-    },
-    {
-      "id": "aq_pneumo-002_4",
-      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
-      "critical": true,
-      "expectedKeywords": [
-        "inalator",
-        "ossigeno",
-        "cpap",
-        "antibiot",
-        "aderenza"
-      ],
-      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
-    },
-    {
-      "id": "aq_pneumo-002_5",
-      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
-      "critical": true,
-      "expectedKeywords": [
-        "saturazione",
-        "confusione",
-        "emottisi",
-        "febbre",
-        "trauma"
-      ],
-      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
-    },
-    {
-      "id": "aq_pneumo-002_6",
-      "prompt": "Contesto di presentazione: Ambulatorio di Pneumologia",
-      "critical": false,
-      "expectedKeywords": [
-        "dove si trova",
-        "arrivato",
-        "ambulanza",
-        "visita"
-      ],
-      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+      "rationale": "Senza FEV1/FVC < 0,70 dopo broncodilatazione la Nota 99 non consente la terapia di mantenimento a carico del SSN."
     }
   ],
   "physicalExam": {
-    "summary": "Esame obiettivo con segni di difficoltà respiratoria, auscultazione con ronchi e rantoli, lieve edema periferico."
+    "summary": "Respiro leggermente prolungato, non sibili a riposo, saturazione 95% in aria. Nessun dolore pleurico."
   },
-  "goldPathNarrative": "Si procederà con una spirometria per valutare la funzione polmonare attuale di Luigi, seguita da una radiografia del torace per escludere complicanze. Infine, si eseguirà un test di cammino di 6 minuti per valutare la tolleranza all'esercizio e fornire indicazioni su un programma di riabilitazione polmonare.",
   "escCitations": [
     {
-      "chunkId": "cc086550-97a3-496b-a099-89a5239acbb2-269",
+      "chunkId": "dx",
       "source": "knowledge_base/pneumologia/clinical/GOLD_2024_COPD_Guidelines.pdf",
-      "quote": "ological treatment and should form part of the comprehensive management of COPD. After receiving a diagnosis of COPD a patient should be given further information about the condition. Physicians should emphasize the importance of a smoke free environment, empower adherence to prescribed medication, ensure proper inhaler technique, promote physical activity, prescribe vaccinations, and refer patients to pulmonary rehabilitation. Algorithms for the initiation and follow-up of non- pharmacological "
+      "quote": "The presence of a post-bronchodilator FEV1/FVC < 0.7 is mandatory to establish the diagnosis of COPD."
     },
     {
-      "chunkId": "cc086550-97a3-496b-a099-89a5239acbb2-44",
+      "chunkId": "b",
       "source": "knowledge_base/pneumologia/clinical/GOLD_2024_COPD_Guidelines.pdf",
-      "quote": "HARMACOLOGICAL TREATMENT OF STABLE COPD ..........................................................................................................................................47 ALGORITHMS FOR THE INITIATION AND FOLLOW-UP OF PHARMACOLOGICAL TREATMENT ...........................................................................................................49 Managing inhaled therapy ..............................................................................................................."
+      "quote": "Treatment should be initiated with a LABA+LAMA combination. It has been shown in a RCT that in patients with ≤ 1 moderate exacerbation in the year before the study and a CAT ≥ 10 LABA+LAMA is superior to a LAMA. Therefore LABA+LAMA is the recommended initial pharmacological choice."
     },
     {
-      "chunkId": "cc086550-97a3-496b-a099-89a5239acbb2-243",
+      "chunkId": "ics",
       "source": "knowledge_base/pneumologia/clinical/GOLD_2024_COPD_Guidelines.pdf",
-      "quote": "m randomized controlled trials. However, as these recommendations are intended to support clinician decision-making, they also incorporate expert advice based on clinical experience.COPYRIGHT MATERIAL - DO NOT DISTRIBUTE Be sure to read and understand the paragraph entitled Important Purpose & Liability Disclaimer 48 Initial pharmacotherapy should be based on the patient’s GOLD group (Figure 3.7). Patients should be offered guidance and follow up on self-management of breathlessness, and stress "
+      "quote": "Use of LABA+ICS in COPD is not encouraged. If there is an indication for an ICS, then LABA+LAMA+ICS has been shown to be superior to LABA+ICS and is therefore the preferred choice."
     },
     {
-      "chunkId": "cc086550-97a3-496b-a099-89a5239acbb2-742",
+      "chunkId": "n99",
+      "source": "knowledge_base/pneumologia/economic/nota-99-old-con-allegato.pdf",
+      "quote": "La sospetta diagnosi di BPCO in pazienti che presentano dispnea, tosse cronica od espettorazione ed una storia di esposizione a fattori di rischio deve essere confermata mediante spirometria che dimostri la presenza di una ostruzione bronchiale persistente: FEV1/FVC (dopo broncodilatazione) <0,70 (70%)."
+    },
+    {
+      "chunkId": "tech",
       "source": "knowledge_base/pneumologia/clinical/GOLD_2024_COPD_Guidelines.pdf",
-      "quote": "terol monotherapies in symptomatic patients with COPD not receiving inhaled corticosteroids: the EMAX randomised trial. Respir Res 2019; 20(1): 238 https://pubmed.ncbi.nlm.nih.gov/[REDACTED]. 563. Lange P, Marott JL, Vestbo J, et al. Prediction of the clinical course of chronic obstructive pulmonary disease, using the new GOLD classification: a study of the general population. Am J Respir Crit Care Med 2012; 186(10): 975-81 https://pubmed.ncbi.nlm.nih.gov/[REDACTED]. 564. Agusti A, Edwards LD, C"
+      "quote": "Inhaler technique, adherence to prescribed therapy (both pharmacological and non-pharmacological), smoking status and continued exposure to risk factors should be checked at each clinical visit. Spirometry should be repeated at least annually."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/pneumologia/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.41 TC DEL TORACE tariffa 89,30 euro; 87.41.1 TC DEL TORACE SENZA E CON MDC tariffa 142,70 euro. Si prescrive solo se il testo della linea guida la colloca in questo passo."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/pneumologia/legal/Legge_22_dicembre_2017,_n.219.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Eseguire in sequenza il gold path: spirometria → rx-torace → 6mwt.",
-      "Non prescrivere di prima intenzione: tc, broncoscopia (GOLD_2024_COPD_Guidelines.pdf).",
-      "Budget SSN di riferimento: €70."
+      "Spirometria post-broncodilatatore prima di ogni inalatore di mantenimento.",
+      "Gruppo B: LABA+LAMA, non LABA+ICS di partenza.",
+      "Niente TC torace con mezzo di contrasto al posto della spirometria."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Il paziente necessita di supporto per migliorare l'aderenza alla terapia.",
+      "art5Adherence": "Diagnosi e avvio terapeutico seguono GOLD 2024 e la Nota 99. La TC segue il nomenclatore solo se indicata. Il consenso segue la legge 219/2017.",
       "legalCriteria": [
-        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
-        "Raccogliere consenso informato prima di procedure invasive.",
-        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
-        "Registrare tempi critici nel setting Ambulatorio di Pneumologia."
+        "Spirometria obbligatoria per la diagnosi a carico SSN, Nota 99.",
+        "Consenso informato, legge 219/2017 art. 1.",
+        "Linee guida come riferimento, legge 24/2017 art. 5."
       ]
     }
   },
   "mandatoryExams": [
     {
       "examId": "spirometria",
-      "name": "Spirometria (semplice/globale)",
-      "finding": "Spirometria (semplice/globale) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
+      "name": "Spirometria con test di broncodilatazione",
+      "finding": "FEV1/FVC dopo broncodilatazione 0,62. Ostruzione persistente. Il test 89.37.4 costa 37,15 euro e non si associa alla semplice 89.37.1.",
       "isAbnormal": true,
-      "priceEuro": 25
+      "priceEuro": 37.15
     },
     {
-      "examId": "rx-torace",
-      "name": "RX Torace (2 proiezioni)",
-      "finding": "RX Torace (2 proiezioni) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
-      "isAbnormal": true,
-      "priceEuro": 15.5
-    },
-    {
-      "examId": "6mwt",
-      "name": "Test del cammino (6MWT)",
-      "finding": "Test del cammino (6MWT) nel contesto di BPCO stabile — ottimizzazione terapia inalatoria GOLD (PNEUMO-002). Ipossia, tachipnea, rumore bronchiale accentuato, confusione nella comprensione delle istruzioni.",
-      "isAbnormal": true,
-      "priceEuro": 15
+      "examId": "emocromo",
+      "name": "Emocromo con eosinofili",
+      "finding": "Eosinofili 120/µL. Nel gruppo B l'avvio resta LABA+LAMA: la triplice iniziale e' una considerazione del gruppo E se gli eosinofili sono almeno 300.",
+      "isAbnormal": false,
+      "priceEuro": 4.5
     }
   ],
   "inappropriateExams": [
     {
       "examId": "tc",
-      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GOLD_2024_COPD_Guidelines.pdf.",
+      "name": "TC del torace senza e con mezzo di contrasto",
+      "finding": "Codice 87.41.1, tariffa 142,70 euro. Non conferma il rapporto FEV1/FVC e non sceglie l'inalatore.",
       "isAbnormal": false,
-      "priceEuro": 180,
+      "priceEuro": 142.7,
       "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GOLD_2024_COPD_Guidelines.pdf."
-    },
-    {
-      "examId": "broncoscopia",
-      "name": "Broncoscopia (e BAL)",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GOLD_2024_COPD_Guidelines.pdf.",
-      "isAbnormal": false,
-      "priceEuro": 180,
-      "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GOLD_2024_COPD_Guidelines.pdf."
+      "wasteRationale": "La TC con mezzo di contrasto non sostituisce la spirometria della Nota 99."
     }
   ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 84,
+      "bloodPressure": "138/82",
+      "spo2": 95,
+      "temperature": 36.5,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 90,
+    "demographics": {
+      "age": 64,
+      "sex": "F",
+      "context": "Ambulatorio di pneumologia"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Dispnea da sforzo",
+        "result": "mMRC 2, CAT sopra 10 riferito.",
+        "isPositive": true
+      },
+      {
+        "signName": "Sibili a riposo",
+        "result": "Assenti in questa visita.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Dispnea da sforzo",
+        "result": "mMRC 2, CAT sopra 10 riferito.",
+        "isPositive": true
+      },
+      {
+        "signName": "Sibili a riposo",
+        "result": "Assenti in questa visita.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "spirometria": {
+          "finding": "FEV1/FVC dopo broncodilatazione 0,62. Ostruzione persistente. Il test 89.37.4 costa 37,15 euro e non si associa alla semplice 89.37.1.",
+          "normalFinding": "FEV1/FVC dopo broncodilatazione 0,62. Ostruzione persistente. Il test 89.37.4 costa 37,15 euro e non si associa alla semplice 89.37.1.",
+          "isAbnormal": true,
+          "price": 37.15
+        },
+        "emocromo": {
+          "finding": "Eosinofili 120/µL. Nel gruppo B l'avvio resta LABA+LAMA: la triplice iniziale e' una considerazione del gruppo E se gli eosinofili sono almeno 300.",
+          "normalFinding": "Eosinofili 120/µL. Nel gruppo B l'avvio resta LABA+LAMA: la triplice iniziale e' una considerazione del gruppo E se gli eosinofili sono almeno 300.",
+          "isAbnormal": false,
+          "price": 4.5
+        },
+        "tc": {
+          "finding": "Codice 87.41.1, tariffa 142,70 euro. Non conferma il rapporto FEV1/FVC e non sceglie l'inalatore.",
+          "normalFinding": "Codice 87.41.1, tariffa 142,70 euro. Non conferma il rapporto FEV1/FVC e non sceglie l'inalatore.",
+          "isAbnormal": false,
+          "price": 142.7
+        }
+      }
+    }
+  },
   "patientProfile": {
-    "healthLiteracy": "LOW",
-    "emotionalState": "PASSIVE",
-    "adherence": "NON_COMPLIANT",
+    "healthLiteracy": "HIGH",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
     "lifestyleAndSocial": {
       "sleepQuality": "FAIR",
       "stressLevel": "MEDIUM",
-      "socialSupport": "ISOLATED"
+      "socialSupport": "ADEQUATE"
     },
-    "communicationStyle": "Annuisce senza capire. Se il linguaggio è tecnico, non chiede spiegazioni e poi non usa gli inalatori. Risponde meglio a istruzioni concrete e dimostrazioni pratiche."
-  }
+    "communicationStyle": "Sono Lucia. Voglio sapere se e' davvero BPCO prima delle bombolette. Il cortisone spray non lo prendo se la guida non lo mette per primo. La TAC oggi no."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Sintomi e riacutizzazioni",
+      "prompt": "CAT sopra 10, mMRC 2, una bronchite senza ricovero nell'ultimo anno. Nessuna asma nota. Fumo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "La collochi nel gruppo B: sintomatica, non piu' di una riacutizzazione moderata",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "La chiami gruppo E solo perche' fuma, senza contare le riacutizzazioni",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Gruppo GOLD sbagliato",
+      "prompt": "GOLD: il gruppo B ha sintomi (CAT almeno 10 nello studio citato) e non piu' di una riacutizzazione moderata. Il gruppo E e' quello delle riacutizzazioni frequenti o del ricovero. L'avvio del gruppo B e' LABA+LAMA.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Spirometria prima del farmaco",
+      "prompt": "Non esiste una spirometria. Propongono di prescrivere il mantenimento e fare la prova del soffio 'piu' avanti'. La Nota 99 condiziona la diagnosi a FEV1/FVC dopo broncodilatazione < 0,70.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Esegua il test di broncodilatazione 89.37.4 prima di ogni inalatore di mantenimento",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Prescriva il mantenimento senza alcuna spirometria",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Terapia senza conferma funzionale",
+      "prompt": "Nota 99: la sospetta diagnosi deve essere confermata mediante spirometria che dimostri FEV1/FVC (dopo broncodilatazione) < 0,70. GOLD: post-bronchodilator FEV1/FVC < 0.7 is mandatory.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC con mezzo di contrasto",
+      "prompt": "Il figlio chiede la TC del torace senza e con mezzo di contrasto, codice 87.41.1, 142,70 euro, al posto della spirometria.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non la esegua ora: non sostituisce il rapporto FEV1/FVC",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "La prenoti subito a 142,70 euro come primo esame",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.41 TC DEL TORACE tariffa 89,30 euro; 87.41.1 TC DEL TORACE SENZA E CON MDC tariffa 142,70 euro. Si prescrive solo se il testo della linea guida la colloca in questo passo.",
+      "cost": 142.7,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Avvio del gruppo B",
+      "prompt": "Spirometria: rapporto 0,62. Eosinofili 120. Nessuna asma.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Avvii LABA+LAMA. Non avvii LABA+ICS",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Avvii formoterolo/beclometasone o un'altra coppia LABA+ICS come prima scelta",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "LABA+ICS non incoraggiato",
+      "prompt": "Use of LABA+ICS in COPD is not encouraged. Treatment should be initiated with a LABA+LAMA combination in this symptomatic group.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Device e istruzione",
+      "prompt": "Nota 99 e GOLD chiedono di istruire il device alla prima prescrizione e di verificare l'uso a ogni controllo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Scelga l'erogatore con lei, le mostri l'uso e programmi la verifica della tecnica",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Consegni il device senza mostrare i passaggi",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Tecnica non insegnata",
+      "prompt": "Nota 99: alla prima prescrizione il paziente dovra' essere istruito sulla modalita' di somministrazione e, ad ogni visita di controllo, si dovra' verificare che l'utilizzo sia corretto. GOLD: inhaler technique should be checked at each clinical visit.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Rivalutazione, non escalation cieca",
+      "prompt": "Al controllo la dispnea e' migliorata e non ci sono nuove riacutizzazioni. Qualcuno aggiunge lo steroide inalatorio 'per sicurezza'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Confermi LABA+LAMA se il beneficio e' documentato. Non aggiunga l'ICS senza il tratto scritto",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Aggiunga l'ICS anche se i sintomi sono controllati e gli eosinofili sono bassi",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Escalation senza tratto",
+      "prompt": "GOLD follow-up: review symptoms (dyspnea) and exacerbation risk, assess inhaler technique and adherence, then adjust. Adding ICS for exacerbations on LABA+LAMA e' suggerito, con risposta utile da eosinofili almeno 100/µL. Qui il tratto non c'e'.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sul device",
+      "prompt": "Le ha spiegato benefici e rischi. Rifiuta quel device e ne accetta un altro della stessa classe, dopo averlo visto.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Rispetti il rifiuto di quel device e concordi il cambio, come chiede anche la Nota 99",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Imponga il device rifiutato",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Device imposto",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico. Nota 99: un eventuale cambio di erogatore dovra' essere concordato con il paziente avendogliene illustrato il funzionamento.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Fumo e spirometria annuale",
+      "prompt": "Fuma ancora. Qualcuno rinvia la cessazione e non programma la spirometria annuale.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "La sostenga a smettere e ripeta la spirometria almeno ogni anno, senza sospendere il broncodilatatore il giorno dell'esame se gia' in terapia",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Ignori il fumo e sospenda il broncodilatatore per 'pulire' la spirometria annuale",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Fumo e spirometria trascurati",
+      "prompt": "GOLD: all individuals who smoke should be strongly encouraged and supported to quit. Spirometry should be repeated at least annually. If the patient is already receiving bronchodilator treatment, the latter should not be interrupted for performing spirometry.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Percorso di gruppo B: spirometria, niente TC di prima intenzione, LABA+LAMA, tecnica, niente ICS senza tratto, consenso sul device, fumo e spirometria annuale.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

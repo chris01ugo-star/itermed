@@ -1,322 +1,486 @@
 {
-  "title": "Paziente con versamento pleurico e sospetta infezione",
-  "description": "Paziente presenta segni di infezione pleurica con febbre, tachipnea e ipossiemia.",
-  "difficulty": "MEDIUM",
-  "goldStandardPath": [
-    "rx-torace",
-    "tc",
-    "emocromo",
-    "pcr-pct",
-    "liquidi"
-  ],
-  "baselineExamFindings": {
-    "vitals": {
-      "heartRate": 98,
-      "bloodPressure": "126/78",
-      "spo2": 93,
-      "temperature": 38.1,
-      "respiratoryRate": 22
-    },
-    "examBudgetEuro": 260,
-    "advancedExams": {
-      "values": {
-        "rx-torace": {
-          "finding": "RX Torace (2 proiezioni) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
-          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
-          "isAbnormal": true,
-          "price": 15.5
-        },
-        "tc": {
-          "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
-          "normalFinding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
-          "isAbnormal": true,
-          "price": 180
-        },
-        "emocromo": {
-          "finding": "Emocromo completo con formula nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
-          "normalFinding": "Emocromo completo con formula nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
-          "isAbnormal": true,
-          "price": 4.5
-        },
-        "pcr-pct": {
-          "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
-          "normalFinding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
-          "isAbnormal": true,
-          "price": 12
-        },
-        "liquidi": {
-          "finding": "Liquidi biologici (liquor/pleurico/ascitico/sinoviale) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
-          "normalFinding": "Liquidi biologici (liquor/pleurico/ascitico/sinoviale) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
-          "isAbnormal": true,
-          "price": 40
-        },
-        "pet-tc": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pleural_Infection_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pleural_Infection_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 900
-        },
-        "colonscopia": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pleural_Infection_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pleural_Infection_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 90
-        }
-      }
-    },
-    "demographics": {
-      "age": 64,
-      "sex": "F",
-      "context": "Reparto di Pneumologia"
-    },
-    "physicalExam": {
-      "finding": "Tachipnea, ipossiemia, febbre, dolore toracico alla palpazione, suoni respiratori anomali all'auscultazione."
-    },
-    "rx-torace": {
-      "finding": "RX Torace (2 proiezioni) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
-      "isAbnormal": true
-    },
-    "tc": {
-      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
-      "isAbnormal": true
-    },
-    "emocromo": {
-      "finding": "Emocromo completo con formula nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
-      "isAbnormal": true
-    },
-    "pcr-pct": {
-      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
-      "isAbnormal": true
-    },
-    "liquidi": {
-      "finding": "Liquidi biologici (liquor/pleurico/ascitico/sinoviale) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
-      "isAbnormal": true
-    },
-    "pet-tc": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pleural_Infection_Guidelines.pdf.",
-      "isAbnormal": false
-    },
-    "colonscopia": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pleural_Infection_Guidelines.pdf.",
-      "isAbnormal": false
-    }
-  },
-  "correctSolution": "Procedere con rx torace, TC torace, emocromo, PCR e PCT per valutare la situazione e decidere il trattamento.",
-  "patientPrompt": "Ho 64 anni e sono qui perché ho febbre e sento dolore al torace. Ogni volta che respiro profondamente, il dolore aumenta. Sono preoccupata e vorrei capire perché devo fare questi esami. Mi hanno parlato di una toracentesi, ma non so cosa sia e ho un po' paura. Se mi spiegate tutto, forse riuscirò a stare più tranquilla.",
   "id": "PNEUMO-014",
   "code": "PNEUMO-014",
+  "title": "Infezione pleurica: pH, tubo piccolo, non la chirurgia al primo gesto",
+  "description": "Uomo di 60 anni, polmonite e versamento. L'aspirato non e' pus franco. Vogliono un tubo grosso senza pH.",
+  "difficulty": "HARD",
   "specialty": "pneumologia",
   "specialtyLabel": "Pneumologia",
-  "condition": "Infezione dello spazio pleurico (empiema)",
+  "condition": "Sospetta infezione pleurica / versamento parapneumonico",
   "frequencyCategory": "HIGH",
-  "matrixDifficulty": "INTERMEDIATE",
+  "matrixDifficulty": "ADVANCED",
   "setting": "REPARTO",
-  "guidelineRef": "BTS_Pleural_Infection_Guidelines.pdf",
-  "diagnosis": "Infezione pleurica / empiema",
-  "pastMedicalHistory": "Non presenta patologie pregresse significative. Non è fumatrice e non ha mai avuto interventi chirurgici.",
-  "presentation": "Paola, una donna di 64 anni, si presenta in reparto con febbre e difficoltà respiratorie. Riferisce di avere dolore al torace che aumenta con la respirazione profonda. È preoccupata per la sua condizione e chiede chiarimenti su ogni esame che le viene proposto. Ha una rete di supporto adeguata, ma si sente ansiosa riguardo alla sua salute e ha difficoltà a dormire bene.",
+  "guidelineRef": "BTS pleural disease; nomenclatore; L.219/2017; L.38/2010",
+  "diagnosis": "Se l'aspirato non e' pus franco serve il pH subito. pH uguale o sotto 7,2 implica drenaggio se il volume e' accessibile. Il primo drenaggio e' un tubo di calibro 14F o piu' piccolo. TPA piu' DNasi se il drenaggio si ferma e resta raccolta.",
+  "pastMedicalHistory": "Polmonite in cura. Dolore pleuritico. Capace.",
+  "presentation": "Febbre che non cala, versamento. Aspirato torbido, non pus franco. Propongono tubo da 28 French e la chirurgia in giornata.",
   "redHerrings": [
-    "Dolore muscolare",
-    "Storia di reflusso gastroesofageo",
-    "Allergia ai pollini"
+    "Tubo grosso.",
+    "Chirurgia prima del pH."
   ],
-  "timeLimitMinutes": 25,
-  "patientDeteriorationThreshold": 12,
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Enzo. Il fianco fa male e la febbre resta. Misurate il pH prima di un tubo enorme. Non operatemi come primo gesto.",
+  "correctSolution": "Ecografia e aspirato. Se non e' pus, pH immediato. Se pH <= 7,2, drenare con tubo piccolo se l'ecografia dice che e' sicuro. Non il grosso calibro di partenza. TPA e DNasi solo se il tubo si e' fermato e resta liquido. Consenso. Dolore in cartella.",
+  "goldStandardPath": [
+    "ecografia",
+    "rx-torace"
+  ],
+  "goldPathNarrative": "BTS: pH, soglia 7,2, tubo 14F o meno, TPA+DNasi sulla raccolta residua.",
   "examLatencies": {
+    "ecografia": 20,
     "rx-torace": 20,
-    "tc": 40,
-    "emocromo": 30,
-    "pcr-pct": 35,
-    "liquidi": 40,
-    "pet-tc": 180
+    "tc": 40
   },
   "anamnesisQuestions": [
     {
-      "id": "aq_pneumo-014_1",
-      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Infezione dello spazio pleurico (empiema))",
+      "id": "q1",
+      "prompt": "L'aspirato e' pus franco?",
       "critical": true,
       "expectedKeywords": [
-        "da quanto",
-        "quando",
-        "insorgenza",
-        "dispnea",
-        "tosse"
+        "pus",
+        "torbido",
+        "no"
       ],
-      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+      "rationale": "Senza pus franco il pH e' immediato."
     },
     {
-      "id": "aq_pneumo-014_2",
-      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "id": "q2",
+      "prompt": "Qual e' il pH?",
       "critical": true,
       "expectedKeywords": [
-        "espettorato",
-        "sangue",
-        "sibili",
-        "dolore",
-        "ortopnea"
+        "pH",
+        "7,2",
+        "versamento"
       ],
-      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
-    },
-    {
-      "id": "aq_pneumo-014_3",
-      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
-      "critical": true,
-      "expectedKeywords": [
-        "fum",
-        "lavoro",
-        "polvere",
-        "allergia",
-        "asbesto"
-      ],
-      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
-    },
-    {
-      "id": "aq_pneumo-014_4",
-      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
-      "critical": true,
-      "expectedKeywords": [
-        "inalator",
-        "ossigeno",
-        "cpap",
-        "antibiot",
-        "aderenza"
-      ],
-      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
-    },
-    {
-      "id": "aq_pneumo-014_5",
-      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
-      "critical": true,
-      "expectedKeywords": [
-        "saturazione",
-        "confusione",
-        "emottisi",
-        "febbre",
-        "trauma"
-      ],
-      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
-    },
-    {
-      "id": "aq_pneumo-014_6",
-      "prompt": "Contesto di presentazione: Reparto di Pneumologia",
-      "critical": false,
-      "expectedKeywords": [
-        "dove si trova",
-        "arrivato",
-        "ambulanza",
-        "visita"
-      ],
-      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+      "rationale": "Sotto o uguale a 7,2 il rischio e' alto e si drena."
     }
   ],
   "physicalExam": {
-    "summary": "Tachipnea, ipossiemia, febbre, dolore toracico alla palpazione, suoni respiratori anomali all'auscultazione."
+    "summary": "Febbre, ottusita' basale, dolore pleuritico."
   },
-  "goldPathNarrative": "Iniziare con una radiografia del torace per valutare la presenza di versamento pleurico. Se necessario, eseguire una TC torace per una valutazione più dettagliata. Successivamente, effettuare emocromo, PCR e PCT per confermare l'infezione e valutare la gravità. La toracentesi sarà eseguita per analizzare il liquido pleurico e determinare il trattamento appropriato.",
   "escCitations": [
     {
-      "chunkId": "8bd85bf9-348f-4c87-81a5-ff93272d1762-3",
-      "source": "knowledge_base/pneumologia/clinical/BTS_Pleural_Infection_Guidelines.pdf",
-      "quote": "physicians, oncologists, emer- gency physicians, hospital practitioners, inten- sive care physicians, palliative care physicians, radiologists, other allied health professional and patients and carers. areas covered by the guideline The guideline focuses on the investigation and management of pleural disease in adults and covers four broad areas of pleural disease: a. Spontaneous pneumothorax b. Undiagnosed unilateral pleural effusion c. Pleural infection d. Pleural malignancy Adult patients in "
+      "chunkId": "ph",
+      "source": "knowledge_base/pneumologia/clinical/BTS Guideline for Pleural Disease.pdf",
+      "quote": "For patients with parapneumonic effusion or suspected pleural infection, where diagnostic aspiration does not yield frank pus, immediate pH analysis should be performed."
     },
     {
-      "chunkId": "8bd85bf9-348f-4c87-81a5-ff93272d1762-55",
-      "source": "knowledge_base/pneumologia/clinical/BTS_Pleural_Infection_Guidelines.pdf",
-      "quote": "n-purulent fluid – initial decision tree CPPE, complex parapneumonic effusion; LDH, lactate dehydrogenase; ICD, intercostal drain. 1154Roberts ME, et al. Thorax 2023;78:1143–1156. doi:10.1136/thorax-[REDACTED] Protected by copyright, including for uses related to text and data mining, AI training, and similar technologies. .by gueston August 20, 2026http://thorax.bmj.com/Downloaded from8 August 2023.10.1136/thorax-[REDACTED] onThorax: first published as Guideline summary Pleural infection treatm"
+      "chunkId": "72",
+      "source": "knowledge_base/pneumologia/clinical/BTS Guideline for Pleural Disease.pdf",
+      "quote": "If pleural fluid pH is <=7.2, this implies a high risk of CPPE or pleural infection and an ICD should be inserted if the volume of accessible pleural fluid on ultrasound makes it safe to do so."
     },
     {
-      "chunkId": "8bd85bf9-348f-4c87-81a5-ff93272d1762-26",
-      "source": "knowledge_base/pneumologia/clinical/BTS_Pleural_Infection_Guidelines.pdf",
-      "quote": "ment of pleural infection. ✓ Due to lack of supporting evidence, medical thoracoscopy should not be considered as initial treatment for pleural infection. Intrapleural therapy for managing pleural infection Recommendations ► Combination tissue plasminogen activator (TPA) and DNAse should be considered for the treatment of pleural infection, where initial chest tube drainage has ceased and leaves a residual pleural collection. (Conditional – by consensus) ► Saline irrigation can be considered for"
+      "chunkId": "bore",
+      "source": "knowledge_base/pneumologia/clinical/BTS Guideline for Pleural Disease.pdf",
+      "quote": "Initial drainage of pleural infection should be undertaken using a small bore chest tube (14F or smaller). Bore size >14F may increase post-treatment pain."
     },
     {
-      "chunkId": "8bd85bf9-348f-4c87-81a5-ff93272d1762-22",
-      "source": "knowledge_base/pneumologia/clinical/BTS_Pleural_Infection_Guidelines.pdf",
-      "quote": "al biopsies should not be conducted. (Strong – by consensus) Pleural infection Predicting clinical outcomes of pleural infection Recommendation ► RAPID (renal, age, purulence, infection source, dietary factors) scoring should be considered for risk stratifying adults with pleural infection and can be used to inform discussions with patients regarding potential outcome from infection. (Conditional) Pleural fluid, or radiology parameters for determining which patients can be treated with intercost"
+      "chunkId": "img",
+      "source": "knowledge_base/pneumologia/clinical/BTS Guideline for Pleural Disease.pdf",
+      "quote": "Image-guided thoracentesis should always be used to reduce the risk of complications."
+    },
+    {
+      "chunkId": "tpa",
+      "source": "knowledge_base/pneumologia/clinical/BTS Guideline for Pleural Disease.pdf",
+      "quote": "Combination tissue plasminogen activator (TPA) and DNAse should be considered for the treatment of pleural infection, where initial chest tube drainage has ceased and leaves a residual pleural collection."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/pneumologia/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.41 TC DEL TORACE tariffa 89,30 euro; 87.41.1 TC DEL TORACE SENZA E CON MDC tariffa 142,70 euro. Si prescrive solo se il testo della linea guida la colloca in questo passo."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/pneumologia/legal/Legge_22_dicembre_2017,_n.219.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/pneumologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (2).pdf",
+      "quote": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Eseguire in sequenza il gold path: rx-torace → tc → emocromo → pcr-pct → liquidi.",
-      "Non prescrivere di prima intenzione: pet-tc, colonscopia (BTS_Pleural_Infection_Guidelines.pdf).",
-      "Budget SSN di riferimento: €260."
+      "pH se non c'e' pus franco.",
+      "Tubo 14F o piu' piccolo.",
+      "TPA+DNasi non al primo minuto."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Il paziente è collaborativo e aderente alle indicazioni fornite.",
+      "art5Adherence": "BTS pleural. Consenso e dolore secondo le leggi.",
       "legalCriteria": [
-        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
-        "Raccogliere consenso informato prima di procedure invasive.",
-        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
-        "Registrare tempi critici nel setting Reparto di Pneumologia."
+        "pH e calibro secondo BTS.",
+        "Consenso, legge 219/2017.",
+        "Dolore, art. 7."
       ]
     }
   },
   "mandatoryExams": [
     {
+      "examId": "ecografia",
+      "name": "Ecografia toracica",
+      "finding": "Versamento accessibile. Guida l'aspirato: la toracentesi deve essere image-guided. Voce di orientamento, non una PET.",
+      "isAbnormal": true,
+      "priceEuro": 35
+    },
+    {
       "examId": "rx-torace",
-      "name": "RX Torace (2 proiezioni)",
-      "finding": "RX Torace (2 proiezioni) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
+      "name": "RX del torace",
+      "finding": "Versamento basale. 87.44.1, 18,60 euro.",
       "isAbnormal": true,
-      "priceEuro": 15.5
-    },
-    {
-      "examId": "tc",
-      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
-      "finding": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
-      "isAbnormal": true,
-      "priceEuro": 180
-    },
-    {
-      "examId": "emocromo",
-      "name": "Emocromo completo con formula",
-      "finding": "Emocromo completo con formula nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
-      "isAbnormal": true,
-      "priceEuro": 4.5
-    },
-    {
-      "examId": "pcr-pct",
-      "name": "Proteina C Reattiva (PCR) e Procalcitonina (PCT)",
-      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
-      "isAbnormal": true,
-      "priceEuro": 12
-    },
-    {
-      "examId": "liquidi",
-      "name": "Liquidi biologici (liquor/pleurico/ascitico/sinoviale)",
-      "finding": "Liquidi biologici (liquor/pleurico/ascitico/sinoviale) nel contesto di Infezione dello spazio pleurico (empiema) (PNEUMO-014). Febbre, tachipnea, ipossiemia, dolore toracico, suoni respiratori anomali all'auscultazione.",
-      "isAbnormal": true,
-      "priceEuro": 40
+      "priceEuro": 18.6
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pleural_Infection_Guidelines.pdf.",
+      "examId": "tc",
+      "name": "TC con mezzo di contrasto di prima intenzione",
+      "finding": "87.41.1, 142,70 euro. Il primo passo scritto e' l'aspirato con pH, non questa TC.",
       "isAbnormal": false,
-      "priceEuro": 900,
+      "priceEuro": 142.7,
       "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pleural_Infection_Guidelines.pdf."
-    },
-    {
-      "examId": "colonscopia",
-      "name": "Colonscopia",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pleural_Infection_Guidelines.pdf.",
-      "isAbnormal": false,
-      "priceEuro": 90,
-      "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: BTS_Pleural_Infection_Guidelines.pdf."
+      "wasteRationale": "TC non sostituisce il pH."
     }
   ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 104,
+      "bloodPressure": "128/76",
+      "spo2": 94,
+      "temperature": 38.3,
+      "respiratoryRate": 22
+    },
+    "examBudgetEuro": 80,
+    "demographics": {
+      "age": 60,
+      "sex": "M",
+      "context": "Reparto"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Ottusita' basale",
+        "result": "Presente.",
+        "isPositive": true
+      },
+      {
+        "signName": "Pus franco all'ago",
+        "result": "No, liquido torbido.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Ottusita' basale",
+        "result": "Presente.",
+        "isPositive": true
+      },
+      {
+        "signName": "Pus franco all'ago",
+        "result": "No, liquido torbido.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ecografia": {
+          "finding": "Versamento accessibile. Guida l'aspirato: la toracentesi deve essere image-guided. Voce di orientamento, non una PET.",
+          "normalFinding": "Versamento accessibile. Guida l'aspirato: la toracentesi deve essere image-guided. Voce di orientamento, non una PET.",
+          "isAbnormal": true,
+          "price": 35
+        },
+        "rx-torace": {
+          "finding": "Versamento basale. 87.44.1, 18,60 euro.",
+          "normalFinding": "Versamento basale. 87.44.1, 18,60 euro.",
+          "isAbnormal": true,
+          "price": 18.6
+        },
+        "tc": {
+          "finding": "87.41.1, 142,70 euro. Il primo passo scritto e' l'aspirato con pH, non questa TC.",
+          "normalFinding": "87.41.1, 142,70 euro. Il primo passo scritto e' l'aspirato con pH, non questa TC.",
+          "isAbnormal": false,
+          "price": 142.7
+        }
+      }
+    }
+  },
   "patientProfile": {
     "healthLiteracy": "MEDIUM",
-    "emotionalState": "COLLABORATIVE",
-    "adherence": "FULL",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
     "lifestyleAndSocial": {
-      "sleepQuality": "FAIR",
-      "stressLevel": "MEDIUM",
-      "socialSupport": "ADEQUATE"
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
     },
-    "communicationStyle": "Chiede il perché di ogni prelievo. Accetta la toracentesi se si spiega dolore, consenso e cosa si cerca nel liquido. Il silenzio procedurale la inquieta."
-  }
+    "communicationStyle": "Sono Enzo. Fate il pH. Non voglio il tubo grosso se ne basta uno piccolo. Il dolore al fianco scrivetelo."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Aspirato guidato",
+      "prompt": "Versamento. Vogliono un ago alla cieca.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Aspiri sotto guida di immagine",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Aspiri alla cieca",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Ago cieco",
+      "prompt": "Image-guided thoracentesis should always be used to reduce the risk of complications.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "pH subito",
+      "prompt": "Non e' pus franco. Il campione parte senza pH.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Faccia il pH immediato",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Salti il pH e dreni alla cieca del numero",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "pH saltato",
+      "prompt": "Where diagnostic aspiration does not yield frank pus, immediate pH analysis should be performed.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Soglia 7,2",
+      "prompt": "pH 7,10. Volume accessibile in ecografia.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Dreni: il rischio e' alto",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Osservi un pH a 7,10",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Soglia persa",
+      "prompt": "If pleural fluid pH is <=7.2, an intercostal drain should be inserted if ultrasound shows an accessible volume.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Calibro",
+      "prompt": "Preparano un 28 French. Il testo dice 14F o piu' piccolo, e il calibro maggiore puo' aumentare il dolore.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Usi un tubo 14F o piu' piccolo",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Usi il grosso calibro di partenza",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Calibro",
+      "prompt": "Initial drainage should use a small bore chest tube (14F or smaller). Bore size >14F may increase pain.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC non al posto del pH",
+      "prompt": "Prima del pH chiedono la TC 87.41.1 a 142,70 euro.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non la metta prima del pH",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "TC a 142,70 euro come primo atto",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC al posto del pH",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.41 TC DEL TORACE tariffa 89,30 euro; 87.41.1 TC DEL TORACE SENZA E CON MDC tariffa 142,70 euro. Si prescrive solo se il testo della linea guida la colloca in questo passo.",
+      "cost": 142.7,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "TPA e DNasi dopo",
+      "prompt": "Il tubo drena. Qualcuno mette subito TPA e DNasi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Le consideri solo se il drenaggio si ferma e resta raccolta",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Le metta all'inserzione",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Fibrinolisi precoce",
+      "prompt": "TPA and DNase should be considered where initial chest tube drainage has ceased and leaves a residual collection.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sul tubo",
+      "prompt": "Informato, accetta il tubo piccolo. Il figlio vuole la chirurgia subito.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Metta il tubo che lui accetta. Non la chirurgia come primo gesto contro il suo consenso",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo operi perche' il figlio insiste",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Consenso",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore in cartella",
+      "prompt": "Dolore presente e cartella incompleta su caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scriva il dolore come chiede l'art. 7 della legge 38/2010",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Non lo scriva",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore omesso",
+      "prompt": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Dolore pleuritico e dolore da tubo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Infezione pleurica: ago guidato, pH, drenaggio se <=7,2, tubo piccolo, TPA+DNasi dopo, niente TC al posto del pH.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

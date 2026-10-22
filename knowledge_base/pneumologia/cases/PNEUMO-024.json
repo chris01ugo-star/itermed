@@ -1,303 +1,476 @@
 {
-  "title": "Paziente con insufficienza respiratoria ipercapnica da ventilare",
-  "description": "Pietro è un paziente anziano che presenta segni di insufficienza respiratoria acuta. È affetto da ipercapnia e mostra una certa confusione mentale a causa della sua condizione. È visibilmente ansioso e ha difficoltà a comprendere le istruzioni fornite dal personale medico.",
-  "difficulty": "HARD",
-  "goldStandardPath": [
-    "ega",
-    "rx-torace",
-    "elettroliti",
-    "lattati"
-  ],
-  "baselineExamFindings": {
-    "vitals": {
-      "heartRate": 110,
-      "bloodPressure": "152/88",
-      "spo2": 85,
-      "temperature": 36.8,
-      "respiratoryRate": 28
-    },
-    "examBudgetEuro": 100,
-    "advancedExams": {
-      "values": {
-        "ega": {
-          "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
-          "normalFinding": "Emogasanalisi arteriosa (EGA) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
-          "isAbnormal": true,
-          "price": 12
-        },
-        "rx-torace": {
-          "finding": "RX Torace (2 proiezioni) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
-          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
-          "isAbnormal": true,
-          "price": 15.5
-        },
-        "elettroliti": {
-          "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
-          "normalFinding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
-          "isAbnormal": true,
-          "price": 8
-        },
-        "lattati": {
-          "finding": "Acido lattico (Lattati) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
-          "normalFinding": "Acido lattico (Lattati) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
-          "isAbnormal": true,
-          "price": 7
-        },
-        "pet-tc": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 900
-        },
-        "colonscopia": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 90
-        }
-      }
-    },
-    "demographics": {
-      "age": 77,
-      "sex": "M",
-      "context": "Pietro è un paziente di 77 anni che presenta segni di insufficienza respiratoria acuta. Si trova nel reparto di pneumologia e mostra un quadro clinico di ipercapnia. È visibilmente sonnolento e non riesce a seguire le indicazioni fornite, f"
-    },
-    "physicalExam": {
-      "finding": "Pietro presenta tachipnea, ipossiemia e segni di affaticamento respiratorio. È sonnolento e ha una comunicazione limitata."
-    },
-    "ega": {
-      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
-      "isAbnormal": true
-    },
-    "rx-torace": {
-      "finding": "RX Torace (2 proiezioni) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
-      "isAbnormal": true
-    },
-    "elettroliti": {
-      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
-      "isAbnormal": true
-    },
-    "lattati": {
-      "finding": "Acido lattico (Lattati) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
-      "isAbnormal": true
-    },
-    "pet-tc": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
-      "isAbnormal": false
-    },
-    "colonscopia": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
-      "isAbnormal": false
-    }
-  },
-  "correctSolution": "Iniziare la ventilazione non invasiva (NIV) e monitorare i parametri vitali.",
-  "patientPrompt": "Ho 77 anni e mi sento molto stanco. È difficile respirare e mi sento un po' confuso. Non riesco a seguire tutto quello che mi dite e mi preoccupa un po' questa macchina che deve aiutarmi a respirare. Non capisco bene come funziona e ho bisogno di qualcuno che mi spieghi meglio. Ho avuto problemi di sonno ultimamente e mi sento ansioso.",
   "id": "PNEUMO-024",
   "code": "PNEUMO-024",
+  "title": "Sarcoidosi polmonare a rischio: glucocorticoidi, non la PET al posto della funzione",
+  "description": "Donna di 36 anni, sarcoidosi polmonare con calo della capacita' vitale e sintomi. Vogliono osservare e una PET.",
+  "difficulty": "HARD",
   "specialty": "pneumologia",
   "specialtyLabel": "Pneumologia",
-  "condition": "Insufficienza respiratoria acuta ipercapnica — NIV",
+  "condition": "Sarcoidosi polmonare sintomatica con rischio di danno permanente",
   "frequencyCategory": "MEDIUM",
   "matrixDifficulty": "ADVANCED",
-  "setting": "REPARTO",
-  "guidelineRef": "ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
-  "diagnosis": "Insufficienza respiratoria acuta ipercapnica.",
-  "pastMedicalHistory": "Bronchite cronica, ipertensione controllata.",
-  "presentation": "Pietro si presenta con tachipnea e ipossiemia. È visibilmente affaticato e mostra segni di ansia. La sua rete sociale è adeguata, ma la sua literacy è bassa, il che rende difficile per lui comprendere le informazioni mediche. Ha un sonno scarso e la sua aderenza alle terapie è parziale.",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ERS sarcoidosis 2021; nomenclatore; L.219/2017; L.38/2010",
+  "diagnosis": "Se il rischio di mortalita' futura o di disabilita' permanente e' piu' alto, i glucocorticoidi sono raccomandati in modo forte per migliorare o preservare FVC e qualita' di vita. Tabella: prednisone o prednisolone, inizio 20 mg una volta al giorno. I glucocorticoidi restano la prima scelta iniziale nella malattia sintomatica.",
+  "pastMedicalHistory": "Linfonodi ilari e interstizio. FVC in calo. Dolore alle caviglie. Nessuna controindicazione assoluta scritta al cortisone.",
+  "presentation": "Dispnea e tosse. Le dicono di aspettare un anno. Il marito chiede la PET total body prima di ogni compressa.",
   "redHerrings": [
-    "Pietro ha una storia di bronchite cronica, ma non è in fase acuta al momento.",
-    "Ha avuto un episodio di febbre leggera nei giorni precedenti, ma non è attualmente febbrile.",
-    "È in trattamento per ipertensione, ma i valori attuali della pressione arteriosa sono stabili."
+    "Osservazione nonostante il rischio.",
+    "PET al posto della spirometria."
   ],
-  "timeLimitMinutes": 30,
-  "patientDeteriorationThreshold": 12,
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Irene. Il fiato cala e la prova del soffio peggiora. Se la guida dice il cortisone a 20 mg, spiegatemelo. Non voglio la PET al posto di quella scelta. Le caviglie fanno male.",
+  "correctSolution": "Riconoscere il rischio e introdurre il glucocorticoide. Dose iniziale di tabella: 20 mg una volta al giorno, poi follow-up 5-10 mg. Non sostituire con la PET. Monitorare gli effetti scritti in tabella: glicemia, pressione, osso, umore, cataratta, glaucoma. Consenso. Dolore articolare in cartella se ricoverata.",
+  "goldStandardPath": [
+    "spirometria",
+    "rx-torace"
+  ],
+  "goldPathNarrative": "ERS: glucocorticoidi se rischio di mortalita' o disabilita'; prednisone iniziale 20 mg.",
   "examLatencies": {
-    "ega": 10,
+    "spirometria": 25,
     "rx-torace": 20,
-    "elettroliti": 30,
-    "lattati": 15,
     "pet-tc": 180
   },
   "anamnesisQuestions": [
     {
-      "id": "aq_pneumo-024_1",
-      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Insufficienza respiratoria acuta ipercapnica — NIV)",
+      "id": "q1",
+      "prompt": "La FVC sta calando e ci sono sintomi?",
       "critical": true,
       "expectedKeywords": [
-        "da quanto",
-        "quando",
-        "insorgenza",
+        "FVC",
         "dispnea",
-        "tosse"
+        "sintomi"
       ],
-      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+      "rationale": "Il rischio di danno permanente apre alla raccomandazione forte."
     },
     {
-      "id": "aq_pneumo-024_2",
-      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "id": "q2",
+      "prompt": "Quale dose iniziale e' in tabella?",
       "critical": true,
       "expectedKeywords": [
-        "espettorato",
-        "sangue",
-        "sibili",
-        "dolore",
-        "ortopnea"
+        "20",
+        "prednisone",
+        "mg"
       ],
-      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
-    },
-    {
-      "id": "aq_pneumo-024_3",
-      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
-      "critical": true,
-      "expectedKeywords": [
-        "fum",
-        "lavoro",
-        "polvere",
-        "allergia",
-        "asbesto"
-      ],
-      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
-    },
-    {
-      "id": "aq_pneumo-024_4",
-      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
-      "critical": true,
-      "expectedKeywords": [
-        "inalator",
-        "ossigeno",
-        "cpap",
-        "antibiot",
-        "aderenza"
-      ],
-      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
-    },
-    {
-      "id": "aq_pneumo-024_5",
-      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
-      "critical": true,
-      "expectedKeywords": [
-        "saturazione",
-        "confusione",
-        "emottisi",
-        "febbre",
-        "trauma"
-      ],
-      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
-    },
-    {
-      "id": "aq_pneumo-024_6",
-      "prompt": "Contesto di presentazione: Reparto di Pneumologia",
-      "critical": false,
-      "expectedKeywords": [
-        "dove si trova",
-        "arrivato",
-        "ambulanza",
-        "visita"
-      ],
-      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+      "rationale": "La tabella scrive 20 mg una volta al giorno all'inizio."
     }
   ],
   "physicalExam": {
-    "summary": "Pietro presenta tachipnea, ipossiemia e segni di affaticamento respiratorio. È sonnolento e ha una comunicazione limitata."
+    "summary": "Dispnea, tosse, caviglie dolenti. Saturazione 97%."
   },
-  "goldPathNarrative": "Seguire il percorso GOLD: eseguire un'emogasanalisi, una radiografia del torace, controllare gli elettroliti e i lattati per valutare la gravità della condizione di Pietro.",
   "escCitations": [
     {
-      "chunkId": "c0a378ce-a9ce-4bdb-a9db-7371ec408850-103",
-      "source": "knowledge_base/pneumologia/clinical/ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
-      "quote": "f noninvasive ventilation for acute respiratory failure. Am J Respir Crit Care Med 2000; 161: 807–813. 31 Nava S, Grassi M, Fanfulla F, et al. Non-invasive ventilation in elderly patients with acute hypercapnic respiratory failure: a randomised controlled trial. Age Ageing 2011; 40: 444–450. 32 Plant PK, Owen JL, Elliott MW. Early use of non-invasive ventilation for acute exacerbations of chronic obstructive pulmonary disease on general respiratory wards: a multicentre randomised controlled tria"
+      "chunkId": "rec",
+      "source": "knowledge_base/pneumologia/clinical/ERS_2021_Sarcoidosis_Guidelines.pdf",
+      "quote": "For patients with pulmonary sarcoidosis believed to be at higher risk of future mortality or permanent disability, we recommend the introduction of glucocorticoid treatment to improve and/or preserve FVC and quality of life. Strong recommendation, low quality of evidence."
     },
     {
-      "chunkId": "c0a378ce-a9ce-4bdb-a9db-7371ec408850-92",
-      "source": "knowledge_base/pneumologia/clinical/ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
-      "quote": "ult (compared with other indications) and therefore the committee felt more comfortable with a conditional, rather than a strong, recommendation. Centres must have adequate experience using NIV in this setting before considering use. Conclusions Based on a systematic review of the literature, and building upon previous meta-analyses and guidelines, we make recommendations regarding the current use of NIV for various forms of respiratory failure encountered in acute care settings (table 2). Our r"
+      "chunkId": "first",
+      "source": "knowledge_base/pneumologia/clinical/ERS_2021_Sarcoidosis_Guidelines.pdf",
+      "quote": "While glucocorticoids remain the first choice for initial treatment of symptomatic disease, prolonged use is associated with significant toxicity. Glucocorticoid-sparing alternatives are available."
     },
     {
-      "chunkId": "c0a378ce-a9ce-4bdb-a9db-7371ec408850-1",
-      "source": "knowledge_base/pneumologia/clinical/ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
-      "quote": "; 50: 1602426 [https://doi. org/10.1183/[REDACTED]-2016]. ABSTRACT Noninvasive mechanical ventilation (NIV) is widely used in the acute care setting for acute respiratory failure (ARF) across a variety of aetiologies. This document provides European Respiratory Society/American Thoracic Society recommendations for the clinical application of NIV based on the most current literature. The guideline committee was composed of clinicians, methodologists and experts in the field of NIV. The committee "
+      "chunkId": "dose",
+      "source": "knowledge_base/pneumologia/clinical/ERS_2021_Sarcoidosis_Guidelines.pdf",
+      "quote": "Prednisone/prednisolone. Usual dosage: initial 20 mg once a day; follow-up 5-10 mg once a day to once every other day. Major toxicities: diabetes, hypertension, weight gain, osteoporosis, cataracts, glaucoma, moodiness."
     },
     {
-      "chunkId": "c0a378ce-a9ce-4bdb-a9db-7371ec408850-24",
-      "source": "knowledge_base/pneumologia/clinical/ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
-      "quote": "a pH >7.35 (n=151) showed a beneficial effect of NIV for patients meeting clinical criteria for intubation versus those that did not (9 out of 80 versus 2 out of 71; p=0.045) but not for mortality. However, NIV was started much later than in other studies (24–48 h after admission) and the number of patients deteriorating to the point at which endotracheal intubation was considered necessary was surprisingly high, considering the mild acidosis. The main focus in hypercapnic patients with COPD who"
+      "chunkId": "pet",
+      "source": "knowledge_base/pneumologia/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro."
+    },
+    {
+      "chunkId": "i",
+      "source": "knowledge_base/pneumologia/legal/Legge_22_dicembre_2017,_n.219.pdf",
+      "quote": "Legge 219/2017, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/pneumologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (2).pdf",
+      "quote": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Eseguire in sequenza il gold path: ega → rx-torace → elettroliti → lattati.",
-      "Non prescrivere di prima intenzione: pet-tc, colonscopia (ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf).",
-      "Budget SSN di riferimento: €100."
+      "Glucocorticoide se il rischio e' alto.",
+      "20 mg iniziali come da tabella.",
+      "Niente PET al posto della funzione."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Il paziente ha bisogno di supporto e spiegazioni chiare per seguire il trattamento proposto.",
+      "art5Adherence": "ERS 2021. Tossicita' da spiegare. Dolore articolare in cartella se ricovero.",
       "legalCriteria": [
-        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
-        "Raccogliere consenso informato prima di procedure invasive.",
-        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
-        "Registrare tempi critici nel setting Reparto di Pneumologia."
+        "Raccomandazione forte sui glucocorticoidi.",
+        "Informazione sulle tossicita', legge 219/2017.",
+        "Dolore, art. 7."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "ega",
-      "name": "Emogasanalisi arteriosa (EGA)",
-      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
+      "examId": "spirometria",
+      "name": "Spirometria",
+      "finding": "FVC in calo. E' l'esito che la raccomandazione vuole preservare.",
       "isAbnormal": true,
-      "priceEuro": 12
+      "priceEuro": 37.15
     },
     {
       "examId": "rx-torace",
-      "name": "RX Torace (2 proiezioni)",
-      "finding": "RX Torace (2 proiezioni) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
+      "name": "RX del torace",
+      "finding": "Ili ingranditi e interstizio. 18,60 euro. Non sostituisce la decisione terapeutica.",
       "isAbnormal": true,
-      "priceEuro": 15.5
-    },
-    {
-      "examId": "elettroliti",
-      "name": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P)",
-      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
-      "isAbnormal": true,
-      "priceEuro": 8
-    },
-    {
-      "examId": "lattati",
-      "name": "Acido lattico (Lattati)",
-      "finding": "Acido lattico (Lattati) nel contesto di Insufficienza respiratoria acuta ipercapnica — NIV (PNEUMO-024). Tachipnea, ipossiemia, affaticamento respiratorio, sonnolenza.",
-      "isAbnormal": true,
-      "priceEuro": 7
+      "priceEuro": 18.6
     }
   ],
   "inappropriateExams": [
     {
       "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
+      "name": "PET-TC prima di ogni steroide",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
       "isAbnormal": false,
-      "priceEuro": 900,
+      "priceEuro": 1071.7,
       "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf."
-    },
-    {
-      "examId": "colonscopia",
-      "name": "Colonscopia",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf.",
-      "isAbnormal": false,
-      "priceEuro": 90,
-      "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf."
+      "wasteRationale": "La PET non sostituisce la raccomandazione sul glucocorticoide."
     }
   ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 80,
+      "bloodPressure": "118/74",
+      "spo2": 97,
+      "temperature": 36.6,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 50,
+    "demographics": {
+      "age": 36,
+      "sex": "F",
+      "context": "Ambulatorio"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Dispnea",
+        "result": "In peggioramento.",
+        "isPositive": true
+      },
+      {
+        "signName": "Caviglie dolenti",
+        "result": "Si.",
+        "isPositive": true
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Dispnea",
+        "result": "In peggioramento.",
+        "isPositive": true
+      },
+      {
+        "signName": "Caviglie dolenti",
+        "result": "Si.",
+        "isPositive": true
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "spirometria": {
+          "finding": "FVC in calo. E' l'esito che la raccomandazione vuole preservare.",
+          "normalFinding": "FVC in calo. E' l'esito che la raccomandazione vuole preservare.",
+          "isAbnormal": true,
+          "price": 37.15
+        },
+        "rx-torace": {
+          "finding": "Ili ingranditi e interstizio. 18,60 euro. Non sostituisce la decisione terapeutica.",
+          "normalFinding": "Ili ingranditi e interstizio. 18,60 euro. Non sostituisce la decisione terapeutica.",
+          "isAbnormal": true,
+          "price": 18.6
+        },
+        "pet-tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+          "isAbnormal": false,
+          "price": 1071.7
+        }
+      }
+    }
+  },
   "patientProfile": {
-    "healthLiteracy": "LOW",
-    "emotionalState": "PASSIVE",
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
     "adherence": "PARTIAL",
     "lifestyleAndSocial": {
       "sleepQuality": "POOR",
-      "stressLevel": "MEDIUM",
-      "socialSupport": "ADEQUATE"
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
     },
-    "communicationStyle": "Sonnolento per ipercapnia. Non discute. Se si parla in fretta firma senza capire la NIV. Serve check-back con il familiare e frasi su 'macchina che aiuta i polmoni'."
-  }
+    "communicationStyle": "Sono Irene. Il soffio peggiora. Spiegatemi il cortisone, la dose e i danni. La PET non la voglio al posto della cura."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Rischio",
+      "prompt": "Sintomi e FVC in calo: il gruppo la ritiene a rischio di disabilita' permanente.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Introduca il glucocorticoide",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Osservi un altro anno",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Osservazione fuori testo",
+      "prompt": "If at higher risk of future mortality or permanent disability, we recommend glucocorticoid treatment to improve and/or preserve FVC and quality of life.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Funzione, non PET",
+      "prompt": "Manca la spirometria recente. C'e' la richiesta di PET a 1.071,70 euro.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Faccia la spirometria. Non la PET come passo della cura",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "PET a 1.071,70 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+      "cost": 1071.7,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Prima scelta",
+      "prompt": "Vogliono un risparmiatore di steroide come primo farmaco, senza mai il cortisone, in malattia sintomatica iniziale.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "I glucocorticoidi restano la prima scelta iniziale del sintomatico. I risparmiatori vengono dopo, per la tossicita' dell'uso prolungato",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Salti il cortisone all'esordio sintomatico",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Sequenza",
+      "prompt": "Glucocorticoids remain the first choice for initial treatment of symptomatic disease. Sparing alternatives exist because prolonged use is toxic.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Dose di tabella",
+      "prompt": "Qualcuno parte da 60 mg senza che la tabella lo scriva.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Inizio 20 mg una volta al giorno, poi 5-10 mg",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "60 mg inventati",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Dose non in tabella",
+      "prompt": "Usual dosage: initial 20 mg once a day; follow-up 5-10 mg once a day to once every other day.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Tossicita'",
+      "prompt": "Va detto che puo' dare diabete, pressione, peso, osso, cataratta, glaucoma, umore.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Glielo dica e monitori quei punti",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Consegni la ricetta senza elencarli",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Tossicita' taciuta",
+      "prompt": "Major toxicities: diabetes, hypertension, weight gain, osteoporosis, cataracts, glaucoma, moodiness. Legge 219/2017, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso",
+      "prompt": "Dopo la spiegazione accetta i 20 mg. La madre rifiuta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Rispetti il suo si'",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Obbedisca alla madre",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Consenso",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Non prolungare alla cieca",
+      "prompt": "A sei mesi sta bene e la FVC e' stabile. Vogliono lasciare 20 mg per sempre.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Passi al follow-up di tabella, 5-10 mg, non lasci 20 mg indefiniti",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "20 mg sine die",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dose di mantenimento",
+      "prompt": "Follow-up dosage in the table is 5-10 mg once a day to once every other day. Prolonged use is associated with significant toxicity.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore in cartella",
+      "prompt": "Dolore presente, scheda incompleta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Compili l'art. 7 della legge 38/2010",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Non annoti",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore omesso",
+      "prompt": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Dolore alle caviglie.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Sarcoidosi a rischio: glucocorticoide forte, 20 mg poi 5-10, tossicita' spiegate, niente PET al posto della FVC.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

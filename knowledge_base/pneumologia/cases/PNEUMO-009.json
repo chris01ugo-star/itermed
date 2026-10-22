@@ -1,322 +1,496 @@
 {
-  "title": "Paziente ricoverato con nuova opacità polmonare",
-  "description": "Giuseppe presenta segni di polmonite acquisita in ospedale, con febbre, tachipnea e ipossiemia. È ansioso riguardo alla sua condizione e mostra una comprensione limitata dei termini medici.",
-  "difficulty": "MEDIUM",
+  "id": "PNEUMO-009",
+  "code": "PNEUMO-009",
+  "title": "Polmonite ospedaliera: criteri clinici, non la procalcitonina",
+  "description": "Donna di 79 anni, ricoverata da cinque giorni, nuovo infiltrato e febbre. Vogliono la procalcitonina per decidere se partire.",
+  "difficulty": "HARD",
+  "specialty": "pneumologia",
+  "specialtyLabel": "Pneumologia",
+  "condition": "Sospetta polmonite acquisita in ospedale, non associata a ventilatore",
+  "frequencyCategory": "HIGH",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "IDSA/ATS HAP-VAP 2016; nomenclatore; L.38/2010; L.219/2017",
+  "diagnosis": "Sospetta HAP. Si decide l'avvio con i criteri clinici, non con la procalcitonina. Si usano gli studi microbiologici sul campione respiratorio non invasivo, non la sola empiria cieca quando il risultato c'e'. L'antibiogramma locale va usato.",
+  "pastMedicalHistory": "Frattura di femore, giorno 5. Nessuna ventilazione. Dolore alla ferita gia' in terapia, ma la scheda e' vuota.",
+  "presentation": "Febbre, espettorato purulento, infiltrato nuovo. La procalcitonina e' bassa e un protocollo vuole non dare antibiotici.",
+  "redHerrings": [
+    "PCT bassa.",
+    "Chiedono una broncoscopia quantitativa come primo gesto in chi non e' intubato, al posto del campione non invasivo."
+  ],
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Teresa. Sono in ospedale da cinque giorni e ora ho la febbre. Non fate la scelta sulla procalcitonina. Il dolore della ferita non e' scritto da nessuna parte.",
+  "correctSolution": "Usare i criteri clinici per iniziare, non PCT ne' PCR ne' CPIS come aggiunta decisiva. Campione respiratorio non invasivo e terapia secondo quel risultato piuttosto che empiria cieca. Antibiogramma locale. Non broncoscopia come primo passo obbligato. Dolore della ferita in cartella. Consenso.",
   "goldStandardPath": [
     "rx-torace",
     "emocromo",
-    "pcr-pct",
-    "emocolture",
-    "ega"
+    "pcr-pct"
   ],
-  "baselineExamFindings": {
-    "vitals": {
-      "heartRate": 96,
-      "bloodPressure": "128/76",
-      "spo2": 90,
-      "temperature": 38.4,
-      "respiratoryRate": 22
-    },
-    "examBudgetEuro": 120,
-    "advancedExams": {
-      "values": {
-        "rx-torace": {
-          "finding": "RX Torace (2 proiezioni) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
-          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
-          "isAbnormal": true,
-          "price": 15.5
-        },
-        "emocromo": {
-          "finding": "Emocromo completo con formula nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
-          "normalFinding": "Emocromo completo con formula nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
-          "isAbnormal": true,
-          "price": 4.5
-        },
-        "pcr-pct": {
-          "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
-          "normalFinding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
-          "isAbnormal": true,
-          "price": 12
-        },
-        "emocolture": {
-          "finding": "Emocoltura (da due o più siti) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
-          "normalFinding": "Emocoltura (da due o più siti) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
-          "isAbnormal": true,
-          "price": 22
-        },
-        "ega": {
-          "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
-          "normalFinding": "Emogasanalisi arteriosa (EGA) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
-          "isAbnormal": true,
-          "price": 12
-        },
-        "pet-tc": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
-          "isAbnormal": false,
-          "price": 900
-        },
-        "colonscopia": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
-          "isAbnormal": false,
-          "price": 90
-        }
-      }
-    },
-    "demographics": {
-      "age": 75,
-      "sex": "M",
-      "context": "Giuseppe è un paziente di 75 anni ricoverato nel reparto di Pneumologia per sospetta polmonite acquisita in ospedale. Presenta segni di ipossiemia, febbre e tachipnea. La sua storia clinica è caratterizzata da una scarsa literacy e un'adegu"
-    },
-    "physicalExam": {
-      "finding": "Paziente con febbre, tachipnea, ipossiemia, e segni di distress respiratorio. Auscultazione polmonare con ronchi e crepitii bilaterali."
-    },
-    "rx-torace": {
-      "finding": "RX Torace (2 proiezioni) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
-      "isAbnormal": true
-    },
-    "emocromo": {
-      "finding": "Emocromo completo con formula nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
-      "isAbnormal": true
-    },
-    "pcr-pct": {
-      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
-      "isAbnormal": true
-    },
-    "emocolture": {
-      "finding": "Emocoltura (da due o più siti) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
-      "isAbnormal": true
-    },
-    "ega": {
-      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
-      "isAbnormal": true
-    },
-    "pet-tc": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
-      "isAbnormal": false
-    },
-    "colonscopia": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
-      "isAbnormal": false
-    }
-  },
-  "correctSolution": "Iniziare il percorso diagnostico GOLD: rx-torace, emocromo, PCR-PCT, emocolture, EGA.",
-  "patientPrompt": "Mi chiamo Giuseppe e ho 75 anni. Sono ricoverato qui da qualche giorno e mi sento molto stanco. Ho la febbre e respiro con difficoltà. Quando i medici parlano, non capisco sempre cosa dicono, e alcune parole mi spaventano. Ho bisogno di sapere cosa mi sta succedendo, ma ho anche paura di quello che potrebbe significare. Ho un po' di sostegno da parte della mia famiglia, ma sono ansioso e non riesco a dormire bene la notte.",
-  "id": "PNEUMO-009",
-  "code": "PNEUMO-009",
-  "specialty": "pneumologia",
-  "specialtyLabel": "Pneumologia",
-  "condition": "Polmonite acquisita in ospedale (HAP)",
-  "frequencyCategory": "HIGH",
-  "matrixDifficulty": "INTERMEDIATE",
-  "setting": "REPARTO",
-  "guidelineRef": "IDSA_ATS_Hospital_Acquired_Pneumonia.pdf",
-  "diagnosis": "Polmonite acquisita in ospedale (HAP).",
-  "pastMedicalHistory": "Nessuna patologia polmonare pregressa nota, ma storia di ipertensione controllata.",
-  "presentation": "Giuseppe, un paziente di 75 anni, è ricoverato in reparto di Pneumologia. Si presenta stanco e ansioso, con difficoltà a comprendere le spiegazioni mediche. Riferisce di avere febbre e di sentirsi affaticato. La sua saturazione è al 90% e la frequenza respiratoria è elevata. È preoccupato per la sua condizione e ha bisogno di rassicurazioni.",
-  "redHerrings": [
-    "Tosse secca occasionale senza produzione di espettorato.",
-    "Storia di lieve reflusso gastroesofageo, ma senza sintomi attivi al momento.",
-    "Leggera congestione nasale, non correlata alla polmonite."
-  ],
-  "timeLimitMinutes": 25,
-  "patientDeteriorationThreshold": 12,
+  "goldPathNarrative": "IDSA/ATS 2016: criteri clinici e non PCT per iniziare; campione non invasivo nella HAP non-VAP.",
   "examLatencies": {
     "rx-torace": 20,
-    "emocromo": 30,
-    "pcr-pct": 35,
-    "emocolture": 15,
-    "ega": 10,
-    "pet-tc": 180
+    "emocromo": 20,
+    "pcr-pct": 30,
+    "broncoscopia": 60
   },
   "anamnesisQuestions": [
     {
-      "id": "aq_pneumo-009_1",
-      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Polmonite acquisita in ospedale (HAP))",
+      "id": "q1",
+      "prompt": "Da quanti giorni e' in ospedale e c'e' un nuovo infiltrato?",
       "critical": true,
       "expectedKeywords": [
-        "da quanto",
-        "quando",
-        "insorgenza",
-        "dispnea",
-        "tosse"
+        "giorni",
+        "infiltrato",
+        "febbre"
       ],
-      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+      "rationale": "La HAP e' la polmonite nosocomiale non presente all'ingresso."
     },
     {
-      "id": "aq_pneumo-009_2",
-      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "id": "q2",
+      "prompt": "E' intubata?",
       "critical": true,
       "expectedKeywords": [
-        "espettorato",
-        "sangue",
-        "sibili",
-        "dolore",
-        "ortopnea"
+        "no",
+        "ventilatore",
+        "respiro"
       ],
-      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
-    },
-    {
-      "id": "aq_pneumo-009_3",
-      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
-      "critical": true,
-      "expectedKeywords": [
-        "fum",
-        "lavoro",
-        "polvere",
-        "allergia",
-        "asbesto"
-      ],
-      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
-    },
-    {
-      "id": "aq_pneumo-009_4",
-      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
-      "critical": true,
-      "expectedKeywords": [
-        "inalator",
-        "ossigeno",
-        "cpap",
-        "antibiot",
-        "aderenza"
-      ],
-      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
-    },
-    {
-      "id": "aq_pneumo-009_5",
-      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
-      "critical": true,
-      "expectedKeywords": [
-        "saturazione",
-        "confusione",
-        "emottisi",
-        "febbre",
-        "trauma"
-      ],
-      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
-    },
-    {
-      "id": "aq_pneumo-009_6",
-      "prompt": "Contesto di presentazione: Reparto di Pneumologia",
-      "critical": false,
-      "expectedKeywords": [
-        "dove si trova",
-        "arrivato",
-        "ambulanza",
-        "visita"
-      ],
-      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+      "rationale": "Il campionamento consigliato cambia tra HAP non-VAP e VAP."
     }
   ],
   "physicalExam": {
-    "summary": "Paziente con febbre, tachipnea, ipossiemia, e segni di distress respiratorio. Auscultazione polmonare con ronchi e crepitii bilaterali."
+    "summary": "Febbre, espettorato purulento, ferita chirurgica dolente. Non intubata."
   },
-  "goldPathNarrative": "Si procede con una radiografia del torace per valutare la presenza di infiltrati polmonari. Si esegue un emocromo per valutare i segni di infezione. La PCR e la PCT vengono richieste per valutare l'infiammazione e la possibile infezione batterica. Si effettuano emocolture per identificare eventuali patogeni. Infine, si esegue un'analisi dei gas ematici per monitorare l'ossigenazione e l'equilibrio acido-base.",
   "escCitations": [
     {
-      "chunkId": "d932e601-794d-41a2-b6dc-3c74956b6c0c-4",
+      "chunkId": "pct",
       "source": "knowledge_base/pneumologia/clinical/IDSA_ATS_Hospital_Acquired_Pneumonia.pdf",
-      "quote": "each patient’s individual circumstances. These guidelines are intended for use by healthcare professionals who care for patients at risk for hospital-acquired pneumonia (HAP) and ventilator-associated pneumonia (VAP), including specialists in infectious diseases, pulmonary diseases, critical care, and surgeons, anesthesiologists, hospitalists, and any clinicians and healthcare providers caring for hospitalized patients with nosocomial pneumonia. The panel’s recommendations for the diagnosis and "
+      "quote": "For patients with suspected HAP/VAP, we recommend using clinical criteria alone, rather than using serum PCT plus clinical criteria, to decide whether or not to initiate antibiotic therapy (strong recommendation, moderate-quality evidence)."
     },
     {
-      "chunkId": "d932e601-794d-41a2-b6dc-3c74956b6c0c-380",
+      "chunkId": "crp",
       "source": "knowledge_base/pneumologia/clinical/IDSA_ATS_Hospital_Acquired_Pneumonia.pdf",
-      "quote": "; 16:1–9. 230. Kohlenberg A, Schwab F, Behnke M, Geffers C, Gastmeier P. Pneumonia associ- ated with invasive and noninvasive ventilation: an analysis of the German noso- comial infection surveillance system database. Intensive Care Med 2010; 36:971–8. 231. Herer B, Fuhrman C, Demontrond D, Gazevic Z, Housset B, Chouaid C. Diag- nosis of nosocomial pneumonia in medical ward: repeatability of the protected specimen brush. Eur Respir J 2001; 18:157–63. 232. Edis EC, Hatipoglu ON, Yilmam I, Eker A,"
+      "quote": "In patients with suspected HAP/VAP, we suggest using clinical criteria alone, rather than using CRP plus clinical criteria, to decide whether or not to initiate antibiotic therapy (weak recommendation, low-quality evidence)."
     },
     {
-      "chunkId": "d932e601-794d-41a2-b6dc-3c74956b6c0c-378",
+      "chunkId": "samp",
       "source": "knowledge_base/pneumologia/clinical/IDSA_ATS_Hospital_Acquired_Pneumonia.pdf",
-      "quote": "are unit acquired by mechanically ventilated versus nonventilated patients. Am J Respir Crit Care Med 2010; 182:1533–9. 223. Maruyama T, Niederman MS, Kobayashi T, et al. A prospective comparison of nursing home-acquired pneumonia with hospital-acquired pneumonia in non- intubated elderly. Respir Med 2008; 102:1287–95. 224. Barreiro-Lopez B, Tricas JM, Mauri E, Quintana S, Garau J. Risk factors and prognostic factors in nosocomial pneumonia outside the intensive care units set- ting [in Spanish]"
+      "quote": "We suggest that patients with suspected HAP (non-VAP) be treated according to the results of microbiologic studies performed on respiratory samples obtained noninvasively, rather than being treated empirically."
     },
     {
-      "chunkId": "d932e601-794d-41a2-b6dc-3c74956b6c0c-54",
+      "chunkId": "bio",
       "source": "knowledge_base/pneumologia/clinical/IDSA_ATS_Hospital_Acquired_Pneumonia.pdf",
-      "quote": "ients at risk for HAP and VAP, including specialists in infectious diseases, pulmonary diseases, critical care, and sur- geons, anesthesiologists, hospitalists, and any clinicians and healthcare providers caring for hospitalized patients with noso- comial pneumonia. This document may also serve as the basis for development and implementation of locally adapted guidelines. To determine the scope of the current guidelines, the panel considered whether or not there were new data that could lead to "
+      "quote": "We recommend that all hospitals regularly generate and disseminate a local antibiogram, ideally one that is specific to their intensive care population if possible."
+    },
+    {
+      "chunkId": "br",
+      "source": "knowledge_base/pneumologia/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "33.22 BRONCOSCOPIA [fibre-ottiche - autofluorescenza - Ebus]. Tracheobroncoscopia esplorativa. Tariffa 82,63 euro. Non e' il primo campionamento scritto per la HAP non ventilata."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/pneumologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (2).pdf",
+      "quote": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/pneumologia/legal/Legge_22_dicembre_2017,_n.219.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Eseguire in sequenza il gold path: rx-torace → emocromo → pcr-pct → emocolture → ega.",
-      "Non prescrivere di prima intenzione: pet-tc, colonscopia (IDSA_ATS_Hospital_Acquired_Pneumonia.pdf).",
-      "Budget SSN di riferimento: €120."
+      "Niente PCT per decidere l'avvio.",
+      "Campione non invasivo nella HAP non-VAP.",
+      "Antibiogramma locale."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Il paziente segue il percorso diagnostico GOLD.",
+      "art5Adherence": "HAP secondo IDSA/ATS 2016. Broncoscopia a tariffa solo se indicata. Dolore e consenso secondo le leggi.",
       "legalCriteria": [
-        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
-        "Raccogliere consenso informato prima di procedure invasive.",
-        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
-        "Registrare tempi critici nel setting Reparto di Pneumologia."
+        "Criteri clinici, non PCT.",
+        "Consenso, legge 219/2017.",
+        "Dolore della ferita in cartella, art. 7 legge 38/2010."
       ]
     }
   },
   "mandatoryExams": [
     {
       "examId": "rx-torace",
-      "name": "RX Torace (2 proiezioni)",
-      "finding": "RX Torace (2 proiezioni) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+      "name": "RX del torace",
+      "finding": "Infiltrato nuovo rispetto all'ingresso. 87.44.1, 18,60 euro.",
       "isAbnormal": true,
-      "priceEuro": 15.5
+      "priceEuro": 18.6
     },
     {
       "examId": "emocromo",
-      "name": "Emocromo completo con formula",
-      "finding": "Emocromo completo con formula nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
+      "name": "Emocromo",
+      "finding": "Leucocitosi. Fa parte del quadro clinico, non sostituisce la decisione.",
       "isAbnormal": true,
       "priceEuro": 4.5
     },
     {
       "examId": "pcr-pct",
-      "name": "Proteina C Reattiva (PCR) e Procalcitonina (PCT)",
-      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
-      "isAbnormal": true,
-      "priceEuro": 12
-    },
-    {
-      "examId": "emocolture",
-      "name": "Emocoltura (da due o più siti)",
-      "finding": "Emocoltura (da due o più siti) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
-      "isAbnormal": true,
-      "priceEuro": 22
-    },
-    {
-      "examId": "ega",
-      "name": "Emogasanalisi arteriosa (EGA)",
-      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Polmonite acquisita in ospedale (HAP) (PNEUMO-009). Febbre (38.4°C), tachipnea (FR 22), ipossiemia (SpO2 90%), auscultazione polmonare con crepitii e ronchi bilaterali.",
-      "isAbnormal": true,
+      "name": "PCT",
+      "finding": "PCT bassa. La guida dice di non usarla, aggiunta ai criteri clinici, per decidere se iniziare.",
+      "isAbnormal": false,
       "priceEuro": 12
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
+      "examId": "broncoscopia",
+      "name": "Broncoscopia esplorativa di prima intenzione",
+      "finding": "Codice 33.22, 82,63 euro. Nella HAP non ventilata il testo suggerisce il campione non invasivo.",
       "isAbnormal": false,
-      "priceEuro": 900,
+      "priceEuro": 82.63,
       "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf."
-    },
-    {
-      "examId": "colonscopia",
-      "name": "Colonscopia",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf.",
-      "isAbnormal": false,
-      "priceEuro": 90,
-      "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: IDSA_ATS_Hospital_Acquired_Pneumonia.pdf."
+      "wasteRationale": "Broncoscopia non e' il campionamento suggerito come primo passo nella HAP non-VAP."
     }
   ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 102,
+      "bloodPressure": "128/70",
+      "spo2": 94,
+      "temperature": 38.2,
+      "respiratoryRate": 22
+    },
+    "examBudgetEuro": 60,
+    "demographics": {
+      "age": 79,
+      "sex": "F",
+      "context": "Reparto"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Espettorato purulento",
+        "result": "Nuovo.",
+        "isPositive": true
+      },
+      {
+        "signName": "Ventilazione invasiva",
+        "result": "No.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Espettorato purulento",
+        "result": "Nuovo.",
+        "isPositive": true
+      },
+      {
+        "signName": "Ventilazione invasiva",
+        "result": "No.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "rx-torace": {
+          "finding": "Infiltrato nuovo rispetto all'ingresso. 87.44.1, 18,60 euro.",
+          "normalFinding": "Infiltrato nuovo rispetto all'ingresso. 87.44.1, 18,60 euro.",
+          "isAbnormal": true,
+          "price": 18.6
+        },
+        "emocromo": {
+          "finding": "Leucocitosi. Fa parte del quadro clinico, non sostituisce la decisione.",
+          "normalFinding": "Leucocitosi. Fa parte del quadro clinico, non sostituisce la decisione.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "pcr-pct": {
+          "finding": "PCT bassa. La guida dice di non usarla, aggiunta ai criteri clinici, per decidere se iniziare.",
+          "normalFinding": "PCT bassa. La guida dice di non usarla, aggiunta ai criteri clinici, per decidere se iniziare.",
+          "isAbnormal": false,
+          "price": 12
+        },
+        "broncoscopia": {
+          "finding": "Codice 33.22, 82,63 euro. Nella HAP non ventilata il testo suggerisce il campione non invasivo.",
+          "normalFinding": "Codice 33.22, 82,63 euro. Nella HAP non ventilata il testo suggerisce il campione non invasivo.",
+          "isAbnormal": false,
+          "price": 82.63
+        }
+      }
+    }
+  },
   "patientProfile": {
-    "healthLiteracy": "LOW",
-    "emotionalState": "PASSIVE",
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "COLLABORATIVE",
     "adherence": "FULL",
     "lifestyleAndSocial": {
-      "sleepQuality": "FAIR",
-      "stressLevel": "LOW",
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
       "socialSupport": "ADEQUATE"
     },
-    "communicationStyle": "Paziente di reparto stanco. Accetta le procedure se spiegate in una frase. Il gergo nosocomiale (HAP, MDR) lo spaventa senza migliorare la comprensione."
-  }
+    "communicationStyle": "Sono Teresa. La febbre e' cominciata in ospedale. Non fate decidere un numero di laboratorio al posto del medico. Scrivete il dolore della ferita."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "HAP, non polmonite dell'ingresso",
+      "prompt": "Giorno 5, infiltrato nuovo, febbre, espettorato. Non era polmonite all'ingresso. Non e' intubata.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "La inquadri come sospetta HAP non-VAP",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "La chiami polmonite di comunita' perche' e' anziana",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Quadro sbagliato",
+      "prompt": "Il testo IDSA/ATS distingue HAP e VAP. Qui non c'e' ventilatore e l'infiltrato e' comparso in ospedale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Criteri clinici, non PCT",
+      "prompt": "PCT bassa. Il protocollo blocca l'antibiotico.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Decida l'avvio sui criteri clinici da soli",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Neghi l'antibiotico perche' la PCT e' bassa",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PCT come interruttore",
+      "prompt": "We recommend using clinical criteria alone, rather than serum PCT plus clinical criteria, to decide whether or not to initiate antibiotic therapy.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Ne' PCR ne' CPIS al posto della clinica",
+      "prompt": "Propongono di aggiungere la PCR o il CPIS per vietare l'avvio.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Resti sui criteri clinici. PCR e CPIS non sono il decisore scritto",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Blocco l'antibiotico sulla sola PCR",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Biomarcatore fuori raccomandazione",
+      "prompt": "The guideline suggests clinical criteria alone rather than CRP plus clinical criteria, and addresses CPIS the same way: not as the reason to withhold therapy.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Campione non invasivo",
+      "prompt": "Qualcuno prenota la broncoscopia 33.22 a 82,63 euro come primo gesto, in una paziente che tossisce e non e' intubata.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Usi un campione respiratorio non invasivo e tratti secondo quel risultato",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Faccia subito la broncoscopia esplorativa a 82,63 euro",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Broncoscopia di prima intenzione",
+      "prompt": "We suggest that patients with suspected HAP (non-VAP) be treated according to microbiologic studies on respiratory samples obtained noninvasively, rather than being treated empirically. Broncoscopia 33.22: 82,63 euro.",
+      "cost": 82.63,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Antibiogramma",
+      "prompt": "L'ospedale ha un antibiogramma. La terapia empirica di attesa ignora quei dati.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Usi l'antibiogramma locale per stringere la terapia",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Scelga antibiotici senza guardare l'antibiogramma",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Antibiogramma ignorato",
+      "prompt": "We recommend that all hospitals regularly generate and disseminate a local antibiogram, and that empiric regimens use those data.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso",
+      "prompt": "Capace, informata, accetta il prelievo dell'espettorato. Il figlio lo rifiuta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Esegua il prelievo che lei accetta",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Obbedisca al figlio",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Consenso del figlio",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "De-escalation sul risultato",
+      "prompt": "Il campione cresce un germe sensibile a un farmaco stretto. Lasciano due antibiotici larghi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Restringa sul risultato, che e' il senso del campione non invasivo e dell'antibiogramma",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Tenga la copertura larga nonostante il risultato",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Niente de-escalation",
+      "prompt": "The guideline ties treatment of non-VAP HAP to the microbiologic result and urges antibiogram data to decrease unnecessary dual gram-negative and empiric MRSA coverage.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore in cartella",
+      "prompt": "Dolore presente, cartella muta su caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Compili l'art. 7 della legge 38/2010",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Non annoti il dolore",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Il dolore della ferita e' gia' in terapia ma la scheda e' vuota: l'art. 7 chiede caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "HAP non-VAP: clinica e non PCT, campione non invasivo, antibiogramma, niente broncoscopia di default, consenso e dolore.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

@@ -1,266 +1,486 @@
 {
-  "title": "Donna giovane con respiro sibilante e ansia da ricerca online",
-  "description": "Giulia è una giovane donna di 28 anni che si presenta con sintomi di ansia e preoccupazione per la sua salute respiratoria. Ha una storia di autosomministrazione di farmaci e ha cercato informazioni online, mostrando segni di cybercondria. I suoi segni vitali sono stabili, ma presenta un certo grado di tachipnea e ansia.",
-  "difficulty": "EASY",
-  "goldStandardPath": [
-    "spirometria",
-    "emocromo"
-  ],
-  "baselineExamFindings": {
-    "vitals": {
-      "heartRate": 88,
-      "bloodPressure": "118/74",
-      "spo2": 97,
-      "temperature": 36.4,
-      "respiratoryRate": 16
-    },
-    "examBudgetEuro": 55,
-    "advancedExams": {
-      "values": {
-        "spirometria": {
-          "finding": "Spirometria (semplice/globale) nel contesto di Asma bronchiale lieve — avvio terapia anti-infiammatoria GINA (PNEUMO-004). Sibilanti all'auscultazione, tachipnea, ansia evidente.",
-          "normalFinding": "Spirometria (semplice/globale) nel contesto di Asma bronchiale lieve — avvio terapia anti-infiammatoria GINA (PNEUMO-004). Sibilanti all'auscultazione, tachipnea, ansia evidente.",
-          "isAbnormal": true,
-          "price": 25
-        },
-        "emocromo": {
-          "finding": "Emocromo completo con formula nel contesto di Asma bronchiale lieve — avvio terapia anti-infiammatoria GINA (PNEUMO-004). Sibilanti all'auscultazione, tachipnea, ansia evidente.",
-          "normalFinding": "Emocromo completo con formula nel contesto di Asma bronchiale lieve — avvio terapia anti-infiammatoria GINA (PNEUMO-004). Sibilanti all'auscultazione, tachipnea, ansia evidente.",
-          "isAbnormal": true,
-          "price": 4.5
-        },
-        "tc": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 180
-        },
-        "broncoscopia": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 180
-        }
-      }
-    },
-    "demographics": {
-      "age": 28,
-      "sex": "F",
-      "context": "Giulia si presenta all'ambulatorio di pneumologia con una certa ansia. Ha portato con sé screenshot di ricerche fatte online riguardo ai sintomi respiratori e alle possibili malattie. È preoccupata per la sua salute e teme di avere un probl"
-    },
-    "physicalExam": {
-      "finding": "Esame obiettivo con auscultazione polmonare che mostra sibilanti espiratori. Nessun segno di distress respiratorio acuto. Segni vitali stabili."
-    },
-    "spirometria": {
-      "finding": "Spirometria (semplice/globale) nel contesto di Asma bronchiale lieve — avvio terapia anti-infiammatoria GINA (PNEUMO-004). Sibilanti all'auscultazione, tachipnea, ansia evidente.",
-      "isAbnormal": true
-    },
-    "emocromo": {
-      "finding": "Emocromo completo con formula nel contesto di Asma bronchiale lieve — avvio terapia anti-infiammatoria GINA (PNEUMO-004). Sibilanti all'auscultazione, tachipnea, ansia evidente.",
-      "isAbnormal": true
-    },
-    "tc": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
-      "isAbnormal": false
-    },
-    "broncoscopia": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
-      "isAbnormal": false
-    }
-  },
-  "correctSolution": "Iniziare terapia anti-infiammatoria secondo le linee guida GINA.",
-  "patientPrompt": "Ho 28 anni e da qualche tempo ho notato che mi manca il respiro, soprattutto quando faccio attività fisica. Ho cercato informazioni online e ho trovato articoli sull'asma che mi hanno spaventata. Ho portato con me degli screenshot di quello che ho trovato. Ho anche avuto un raffreddore di recente, e ora temo che ci sia qualcosa di grave. A volte prendo farmaci che trovo in casa, ma non ho mai parlato con un medico di questo. Sono ansiosa e ho bisogno di sapere cosa sta succedendo.",
   "id": "PNEUMO-004",
   "code": "PNEUMO-004",
+  "title": "Acidosi respiratoria in BPCO: NIV prima del tubo, e le DAT si rispettano",
+  "description": "Donna di 76 anni, BPCO, pH 7,28, sonnolenta ma risvegliabile. Ha DAT che rifiutano l'intubazione. Il figlio chiede il tubo subito.",
+  "difficulty": "HARD",
   "specialty": "pneumologia",
   "specialtyLabel": "Pneumologia",
-  "condition": "Asma bronchiale lieve — avvio terapia anti-infiammatoria GINA",
+  "condition": "Riacutizzazione di BPCO con acidosi respiratoria acuta, pH non superiore a 7,35",
   "frequencyCategory": "HIGH",
-  "matrixDifficulty": "BASE",
-  "setting": "AMBULATORIO",
-  "guidelineRef": "GINA_2024_Asthma_Guidelines.pdf",
-  "diagnosis": "Asma bronchiale lieve",
-  "pastMedicalHistory": "Nessuna patologia cronica nota, ma storia di allergie stagionali e episodi occasionali di ansia.",
-  "presentation": "Giulia si presenta all'ambulatorio lamentando difficoltà respiratorie occasionali, specialmente durante l'attività fisica. Ha portato con sé screenshot di articoli e forum online riguardo all'asma, che ha trovato preoccupanti. È visibilmente ansiosa e chiede conferme sulla sua salute, temendo di avere una malattia grave. Nonostante ciò, ha un buon supporto sociale ma tende a non seguire le indicazioni mediche, autosomministrandosi farmaci per alleviare i sintomi.",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "ERS/ATS NIV; GOLD 2024; L.219/2017 art. 4; L.38/2010",
+  "diagnosis": "Insufficienza respiratoria ipercapnica acidotica da riacutizzazione di BPCO. La NIV bilevel e' raccomandata. Non va usata se c'e' ipercapnia senza acidosi. Le DAT che rifiutano l'intubazione vincolano il medico.",
+  "pastMedicalHistory": "BPCO grave, ossigeno a lungo termine non in corso. DAT depositate che rifiutano intubazione e tracheostomia, fiduciario e' il fratello, non il figlio. Dolore da osteoporosi.",
+  "presentation": "Dispnea, frequenza 28, saturazione 84%, pH 7,28, PaCO2 alta. Risponde agli stimoli. Il figlio, in corridoio, ordina l'intubazione immediata e vuole ignorare le DAT.",
   "redHerrings": [
-    "Giulia ha recentemente avuto un raffreddore che ha aggravato la sua ansia.",
-    "Ha una storia di allergie stagionali, che crede possano essere collegate ai suoi sintomi attuali.",
-    "Riferisce di aver avuto un episodio di reflusso gastroesofageo, che teme possa influire sulla sua respirazione."
+    "Il figlio dice che le DAT 'non valgono in ospedale'.",
+    "Propongono ossigeno a 98% prima ancora della NIV."
   ],
-  "timeLimitMinutes": 20,
-  "patientDeteriorationThreshold": 10,
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Anna. Ho scritto che non voglio il tubo. Mio fratello e' il fiduciario. Se il pH e' basso, provate la maschera. Non il tubo contro quel foglio. Il dolore alle ossa va scritto.",
+  "correctSolution": "Ossigeno 88-92% e gas. NIV bilevel perche' c'e' acidosi da riacutizzazione, pH non superiore a 7,35. Non intubare come primo atto. Leggere le DAT: rifiuto di intubazione, fiduciario il fratello. Non disattendere le DAT solo perche' il figlio dissente. Se la NIV fallisce, non procedere al tubo rifiutato. Sollievo dei sintomi e dolore in cartella. Niente ostinazione.",
+  "goldStandardPath": [
+    "ega",
+    "rx-torace"
+  ],
+  "goldPathNarrative": "ERS/ATS raccomanda la NIV bilevel nell'acidosi da riacutizzazione e la sconsiglia nell'ipercapnia senza acidosi. GOLD preferisce la NIV all'intubazione iniziale e richiama le volonta' del paziente. L'art. 4 impone il rispetto delle DAT.",
   "examLatencies": {
-    "spirometria": 25,
-    "emocromo": 30,
-    "tc": 40,
-    "broncoscopia": 60
+    "ega": 10,
+    "rx-torace": 20,
+    "pet-tc": 180
   },
   "anamnesisQuestions": [
     {
-      "id": "aq_pneumo-004_1",
-      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Asma bronchiale lieve — avvio terapia anti-infiammatoria GINA)",
+      "id": "q1",
+      "prompt": "Qual e' il pH e c'e' una causa metabolica dell'acidosi?",
       "critical": true,
       "expectedKeywords": [
-        "da quanto",
-        "quando",
-        "insorgenza",
-        "dispnea",
-        "tosse"
+        "pH",
+        "acidosi",
+        "gas"
       ],
-      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+      "rationale": "La raccomandazione forte di NIV riguarda l'acidosi respiratoria acuta o acuta-su-cronica con pH non superiore a 7,35."
     },
     {
-      "id": "aq_pneumo-004_2",
-      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "id": "q2",
+      "prompt": "Che cosa dicono le DAT e chi e' il fiduciario?",
       "critical": true,
       "expectedKeywords": [
-        "espettorato",
-        "sangue",
-        "sibili",
-        "dolore",
-        "ortopnea"
+        "DAT",
+        "intubazione",
+        "fiduciario"
       ],
-      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
-    },
-    {
-      "id": "aq_pneumo-004_3",
-      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
-      "critical": true,
-      "expectedKeywords": [
-        "fum",
-        "lavoro",
-        "polvere",
-        "allergia",
-        "asbesto"
-      ],
-      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
-    },
-    {
-      "id": "aq_pneumo-004_4",
-      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
-      "critical": true,
-      "expectedKeywords": [
-        "inalator",
-        "ossigeno",
-        "cpap",
-        "antibiot",
-        "aderenza"
-      ],
-      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
-    },
-    {
-      "id": "aq_pneumo-004_5",
-      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
-      "critical": true,
-      "expectedKeywords": [
-        "saturazione",
-        "confusione",
-        "emottisi",
-        "febbre",
-        "trauma"
-      ],
-      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
-    },
-    {
-      "id": "aq_pneumo-004_6",
-      "prompt": "Contesto di presentazione: Ambulatorio di Pneumologia",
-      "critical": false,
-      "expectedKeywords": [
-        "dove si trova",
-        "arrivato",
-        "ambulanza",
-        "visita"
-      ],
-      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+      "rationale": "L'art. 4 vincola il medico alle DAT. Il fiduciario non e' automaticamente il figlio."
     }
   ],
   "physicalExam": {
-    "summary": "Esame obiettivo con auscultazione polmonare che mostra sibilanti espiratori. Nessun segno di distress respiratorio acuto. Segni vitali stabili."
+    "summary": "Sonnolenza reversibile, muscoli accessori, non arresto respiratorio. pH 7,28. Dolore osseo riferito."
   },
-  "goldPathNarrative": "Dopo aver eseguito una spirometria che conferma la diagnosi di asma lieve, si procede con un emocromo per escludere altre patologie. Si discute con Giulia l'importanza di seguire un trattamento regolare e si le forniscono informazioni sui farmaci anti-infiammatori per via inalatoria. Si stabilisce un piano di follow-up per monitorare i sintomi e l'aderenza alla terapia.",
   "escCitations": [
     {
-      "chunkId": "6a33dbf3-8e3e-4ade-8b5c-f45be44fe6d7-69",
-      "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
-      "quote": "ferent medication at the same step. If asthma has been well controlled for 2–3 months or more, consider stepping down (page 27). Presenting symptoms Preferred INITIAL treatment (GINA Track 1) Alternative INITIAL treatment (GINA Track 2)COPYRIGHTED MATERIAL - DO NOT COPY OR DISTRIBUTE *AIR: Anti-inflammatory reliever; Ig: immunoglobulin; ICS: inhaled corticosteroids; HDM: house dust mite; IL: interleukin; LABA: long-acting beta2-agonist; LAMA: long-acting muscarinic antagonist; MART: maintenance-"
+      "chunkId": "niv",
+      "source": "knowledge_base/pneumologia/clinical/ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
+      "quote": "We recommend bilevel NIV for patients with ARF leading to acute or acute-on-chronic respiratory acidosis (pH ≤7.35) due to COPD exacerbation. (Strong recommendation, high certainty of evidence.) We recommend a trial of bilevel NIV in patients considered to require endotracheal intubation and mechanical ventilation, unless the patient is immediately deteriorating."
     },
     {
-      "chunkId": "6a33dbf3-8e3e-4ade-8b5c-f45be44fe6d7-58",
-      "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
-      "quote": "gies In addition to medications, other therapies and strategies may help control symptoms and reduce risk (see the full 2026 GINA Report for details). There is consistent, high-quality evidence to support some strategies, for example: • Advice about smoking cessation. At every visit, strongly encourage smokers to quit. Provide access to counselling and resources. Advise parents/caregivers not to smoke in rooms or cars used by children with asthma. • Physical activity. Encourage people with asthm"
+      "chunkId": "no",
+      "source": "knowledge_base/pneumologia/clinical/ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf",
+      "quote": "We suggest NIV not be used in patients with hypercapnia who are not acidotic in the setting of a COPD exacerbation. (Conditional recommendation, low certainty of evidence.)"
     },
     {
-      "chunkId": "6a33dbf3-8e3e-4ade-8b5c-f45be44fe6d7-43",
-      "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
-      "quote": "NA Track 1 if available • Check for risk factors such as smoking, beta-blockers, NSAIDs, allergen exposure. Check for and manage conditions such as rhinitis, obesity, GERD, depression/anxiety. Consider short-term step up to next treatment level. Use shared decision-making, and balance potential benefits and risks. If asthma still uncontrolled after 3–6 months on Step 4 treatment, refer for expert advice. Refer earlier if asthma symptoms severe, or doubts about diagnosis. Watch patient using thei"
+      "chunkId": "gold",
+      "source": "knowledge_base/pneumologia/clinical/GOLD_2024_COPD_Guidelines.pdf",
+      "quote": "The use of noninvasive mechanical ventilation (NIV) is preferred over invasive ventilation as the initial mode of ventilation to treat acute respiratory failure in patients hospitalized for acute exacerbations of COPD. The use of invasive ventilation in patients with very severe COPD is influenced by the likely reversibility of the precipitating event, the patient's wishes, and the availability of intensive care facilities. When possible, a clear statement of the patient's own treatment wishes, such as an advance directive, makes these difficult decisions easier to resolve."
     },
     {
-      "chunkId": "6a33dbf3-8e3e-4ade-8b5c-f45be44fe6d7-49",
-      "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
-      "quote": "ost effective in clinical trials, particularly for reducing exacerbations, and/or are more convenient for patients. To choose the best treatment for an individual patient, also consider their risk factors, their other medical conditions, the type of asthma they have, their personal goals for their asthma treatment, their ability to use different types of inhalers correctly, whether they are likely to adhere to treatment, the cost of medication, and its environmental impact. GINA treatment option"
+      "chunkId": "dat",
+      "source": "knowledge_base/pneumologia/legal/Legge_22_dicembre_2017,_n.219.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 4 comma 5: il medico e' tenuto al rispetto delle DAT, le quali possono essere disattese, in tutto o in parte, dal medico stesso, in accordo con il fiduciario, qualora esse appaiano palesemente incongrue o non corrispondenti alla condizione clinica attuale del paziente ovvero sussistano terapie non prevedibili all'atto della sottoscrizione, capaci di offrire concrete possibilita' di miglioramento delle condizioni di vita."
+    },
+    {
+      "chunkId": "art2",
+      "source": "knowledge_base/pneumologia/legal/Legge_22_dicembre_2017,_n.219.pdf",
+      "quote": "Legge 219/2017, art. 2 comma 2: nei casi di paziente con prognosi infausta a breve termine o di imminenza di morte, il medico deve astenersi da ogni ostinazione irragionevole nella somministrazione delle cure e dal ricorso a trattamenti inutili o sproporzionati. Il ricorso alla sedazione palliativa profonda continua e' annotato in cartella."
+    },
+    {
+      "chunkId": "pall",
+      "source": "knowledge_base/pneumologia/clinical/GOLD_2024_COPD_Guidelines.pdf",
+      "quote": "Palliative care is a broad term. The goal of palliative care is to prevent and relieve suffering, and to support the best possible quality of life for patients and their families, regardless of the stage of disease or the need for other therapies. COPD is a highly symptomatic disease and has many elements such as fatigue, dyspnea, depression, anxiety, insomnia that require symptom-based palliative treatments."
+    },
+    {
+      "chunkId": "pain",
+      "source": "knowledge_base/pneumologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (2).pdf",
+      "quote": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "o2",
+      "source": "knowledge_base/pneumologia/clinical/GOLD_2024_COPD_Guidelines.pdf",
+      "quote": "Supplemental oxygen should be titrated to improve the patient's hypoxemia with a target saturation of 88-92%."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Eseguire in sequenza il gold path: spirometria → emocromo.",
-      "Non prescrivere di prima intenzione: tc, broncoscopia (GINA_2024_Asthma_Guidelines.pdf).",
-      "Budget SSN di riferimento: €55."
+      "NIV bilevel se pH non superiore a 7,35 da riacutizzazione, non intubazione di prima scelta.",
+      "Niente NIV se l'ipercapnia non e' acidotica.",
+      "DAT di rifiuto dell'intubazione rispettate anche contro il figlio."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Adesione alle linee guida GINA per il trattamento dell'asma.",
+      "art5Adherence": "La NIV segue ERS/ATS e GOLD. Le DAT e il divieto di ostinazione seguono la legge 219/2017. Il dolore segue la legge 38/2010.",
       "legalCriteria": [
-        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
-        "Raccogliere consenso informato prima di procedure invasive.",
-        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
-        "Registrare tempi critici nel setting Ambulatorio di Pneumologia."
+        "Rispetto delle DAT, legge 219/2017 art. 4.",
+        "Niente ostinazione irragionevole, art. 2.",
+        "Dolore in cartella, legge 38/2010 art. 7."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "spirometria",
-      "name": "Spirometria (semplice/globale)",
-      "finding": "Spirometria (semplice/globale) nel contesto di Asma bronchiale lieve — avvio terapia anti-infiammatoria GINA (PNEUMO-004). Sibilanti all'auscultazione, tachipnea, ansia evidente.",
+      "examId": "ega",
+      "name": "Emogasanalisi",
+      "finding": "pH 7,28, PaCO2 elevata, ipossiemia. Acidosi respiratoria, non solo ipercapnia compensata.",
       "isAbnormal": true,
-      "priceEuro": 25
+      "priceEuro": 15.05
     },
     {
-      "examId": "emocromo",
-      "name": "Emocromo completo con formula",
-      "finding": "Emocromo completo con formula nel contesto di Asma bronchiale lieve — avvio terapia anti-infiammatoria GINA (PNEUMO-004). Sibilanti all'auscultazione, tachipnea, ansia evidente.",
+      "examId": "rx-torace",
+      "name": "RX del torace",
+      "finding": "Iperinflazione, nessun pneumotorace. Codice 87.44.1, 18,60 euro.",
       "isAbnormal": true,
-      "priceEuro": 4.5
+      "priceEuro": 18.6
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "tc",
-      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
+      "examId": "pet-tc",
+      "name": "PET-TC globale corporea",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
       "isAbnormal": false,
-      "priceEuro": 180,
+      "priceEuro": 1071.7,
       "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf."
-    },
-    {
-      "examId": "broncoscopia",
-      "name": "Broncoscopia (e BAL)",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
-      "isAbnormal": false,
-      "priceEuro": 180,
-      "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf."
+      "wasteRationale": "In acidosi acuta la PET ritarda la NIV."
     }
   ],
-  "patientProfile": {
-    "healthLiteracy": "CYBERCHONDRIA_AI",
-    "emotionalState": "ANXIOUS",
-    "adherence": "SELF_MEDICATED",
-    "lifestyleAndSocial": {
-      "sleepQuality": "FAIR",
-      "stressLevel": "HIGH",
-      "socialSupport": "STRONG"
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 112,
+      "bloodPressure": "150/90",
+      "spo2": 84,
+      "temperature": 37.2,
+      "respiratoryRate": 28
     },
-    "communicationStyle": "Arriva con screenshot di ChatGPT e forum. Se il medico sminuisce le ricerche, si chiude e aumenta l'autosomministrazione. Collabora se si riconosce l'ansia e si ricentra sulle evidenze GINA."
-  }
+    "examBudgetEuro": 50,
+    "demographics": {
+      "age": 76,
+      "sex": "F",
+      "context": "Reparto di pneumologia"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Acidosi",
+        "result": "pH 7,28 senza causa metabolica evidente.",
+        "isPositive": true
+      },
+      {
+        "signName": "Arresto respiratorio",
+        "result": "Assente: respira e risponde.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Acidosi",
+        "result": "pH 7,28 senza causa metabolica evidente.",
+        "isPositive": true
+      },
+      {
+        "signName": "Arresto respiratorio",
+        "result": "Assente: respira e risponde.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ega": {
+          "finding": "pH 7,28, PaCO2 elevata, ipossiemia. Acidosi respiratoria, non solo ipercapnia compensata.",
+          "normalFinding": "pH 7,28, PaCO2 elevata, ipossiemia. Acidosi respiratoria, non solo ipercapnia compensata.",
+          "isAbnormal": true,
+          "price": 15.05
+        },
+        "rx-torace": {
+          "finding": "Iperinflazione, nessun pneumotorace. Codice 87.44.1, 18,60 euro.",
+          "normalFinding": "Iperinflazione, nessun pneumotorace. Codice 87.44.1, 18,60 euro.",
+          "isAbnormal": true,
+          "price": 18.6
+        },
+        "pet-tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+          "isAbnormal": false,
+          "price": 1071.7
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "OPPOSITIONAL",
+    "adherence": "FULL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ADEQUATE"
+    },
+    "communicationStyle": "Sono Anna. Il foglio dice niente tubo. Il fiduciario e' mio fratello, non mio figlio. Provate la maschera. Non voglio trattamenti sproporzionati se la maschera non basta."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Acidosi, non sola ipercapnia",
+      "prompt": "pH 7,28, PaCO2 alta, riacutizzazione. Non e' un'ipercapnia cronica con pH normale.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Riconosca l'acidosi respiratoria acuta-su-cronica da riacutizzazione",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "La tratti come ipercapnia senza acidosi e non consideri la NIV",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Indicazione NIV persa",
+      "prompt": "ERS/ATS: NIV bilevel raccomandata se l'insufficienza respiratoria acuta porta ad acidosi acuta o acuta-su-cronica con pH non superiore a 7,35. Suggeriscono di non usare la NIV se c'e' ipercapnia senza acidosi.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Gas e ossigeno, non PET",
+      "prompt": "Manca il ricontrollo dopo l'ossigeno. Qualcuno chiede la PET a 1.071,70 euro.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Titoli l'ossigeno a 88-92%, ricontrolli i gas, non prenoti la PET",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Ossigeno a 98% e PET immediata",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Ossigeno e PET fuori testo",
+      "prompt": "GOLD: target saturation 88-92%, poi ricontrollo dei gas. Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+      "cost": 1071.7,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "NIV prima del tubo",
+      "prompt": "Non sta precipitando in arresto. Il figlio chiede l'intubazione subito, senza provare la maschera.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Provi la NIV bilevel, salvo deterioramento immediato",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Intubi come primo atto, senza prova di NIV",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Tubo al posto della NIV",
+      "prompt": "We recommend a trial of bilevel NIV in patients considered to require endotracheal intubation and mechanical ventilation, unless the patient is immediately deteriorating. GOLD: NIV is preferred over invasive ventilation as the initial mode.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Risposta nelle prime ore",
+      "prompt": "Dopo un'ora di NIV il pH sale e la frequenza scende. Qualcuno la toglie perche' 'ha gia' provato'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "La continui: la risposta, se arriva, si vede in genere entro 1-4 ore, su pH o frequenza",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "La sospenda a un'ora nonostante pH e frequenza in miglioramento",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "NIV interrotta in risposta",
+      "prompt": "An improvement in either pH or respiratory rate, or ideally both, is a good predictor of a successful outcome with NIV; in those that will respond, response is almost universally seen within the first 1-4 h after NIV initiation.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "DAT contro il tubo",
+      "prompt": "La NIV non basta. Le DAT rifiutano intubazione e tracheostomia. Il figlio pretende il tubo. Il fiduciario e' il fratello e conferma il rifiuto. Non ci sono terapie nuove capaci di offrire un miglioramento non prevedibile al momento della firma.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non intubi. Le DAT si rispettano. Il conflitto col figlio non le cancella",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Intubi perche' il figlio lo chiede, contro le DAT e contro il fiduciario",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Intubazione contro le DAT",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 4 comma 5: il medico e' tenuto al rispetto delle DAT, le quali possono essere disattese, in tutto o in parte, dal medico stesso, in accordo con il fiduciario, qualora esse appaiano palesemente incongrue o non corrispondenti alla condizione clinica attuale del paziente ovvero sussistano terapie non prevedibili all'atto della sottoscrizione, capaci di offrire concrete possibilita' di miglioramento delle condizioni di vita.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Niente ostinazione",
+      "prompt": "La NIV non e' tollerata, le DAT escludono il tubo, la prognosi di questa insufficienza e' infausta nel breve se non ventilata in modo invasivo. Qualcuno insiste con sedazione per forzare il tubo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Eviti l'ostinazione e i trattamenti sproporzionati. Il sollievo dei sintomi resta. Una sedazione palliativa profonda richiede il consenso e l'annotazione",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Sedazione per procedere al tubo rifiutato",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Ostinazione irragionevole",
+      "prompt": "Legge 219/2017, art. 2 comma 2: nei casi di paziente con prognosi infausta a breve termine o di imminenza di morte, il medico deve astenersi da ogni ostinazione irragionevole nella somministrazione delle cure e dal ricorso a trattamenti inutili o sproporzionati. Il ricorso alla sedazione palliativa profonda continua e' annotato in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Cure di sollievo",
+      "prompt": "GOLD descrive la BPCO come malattia con dispnea, fatica, ansia, insonnia che chiedono trattamenti palliativi dei sintomi, non solo a fine vita.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Attivi il sollievo di dispnea e degli altri sintomi, insieme alle cure gia' appropriate",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Sospenda ogni sollievo perche' 'non e' ancora l'hospice'",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Sollievo negato",
+      "prompt": "The goal of palliative care is to prevent and relieve suffering, regardless of the stage of disease or the need for other therapies. People with COPD are less likely to receive such services compared to patients with lung cancer.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore in cartella e dispnea rivalutata",
+      "prompt": "Il dolore c'e' e in cartella non ci sono caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato. La dispnea si rivaluta sul testo clinico indicato, non sull'art. 7, che parla di dolore.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Scriva il dolore come chiede l'art. 7 della legge 38/2010 e rivaluti la dispnea sul testo clinico",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Somministri un farmaco e non annoti il dolore ne' la dispnea",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. GOLD elenca la dispnea tra i sintomi che richiedono trattamento palliativo. L'art. 7 della legge 38 riguarda il dolore in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "NIV nell'acidosi, non nell'ipercapnia senza acidosi, ossigeno 88-92%, prova di NIV prima del tubo, DAT rispettate, niente ostinazione, sollievo e dolore in cartella.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

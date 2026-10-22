@@ -1,304 +1,481 @@
 {
-  "title": "Uomo 62 anni con tosse, febbre e dispnea",
-  "description": "Antonio si presenta al pronto soccorso con tosse persistente, produzione di espettorato e difficoltà respiratorie. Riferisce febbre alta e una sensazione di oppressione al petto. È visibilmente ansioso e preoccupato per la sua condizione, ma collabora attivamente con il personale medico. Ha una buona rete di supporto familiare e tende a seguire le indicazioni mediche. Tuttavia, si sente disorientato dal linguaggio tecnico e preferirebbe un piano chiaro e semplice da seguire.",
-  "difficulty": "EASY",
-  "goldStandardPath": [
-    "rx-torace",
-    "emocromo",
-    "pcr-pct",
-    "ega"
-  ],
-  "baselineExamFindings": {
-    "vitals": {
-      "heartRate": 102,
-      "bloodPressure": "136/84",
-      "spo2": 92,
-      "temperature": 38.7,
-      "respiratoryRate": 24
-    },
-    "examBudgetEuro": 85,
-    "advancedExams": {
-      "values": {
-        "rx-torace": {
-          "finding": "RX Torace (2 proiezioni) nel contesto di Polmonite acquisita in comunità (CAP) (PNEUMO-007). Tachicardia, ipossiemia, febbre, aumento della frequenza respiratoria, rales bilaterali all'auscultazione, segni di distress respiratorio.",
-          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Polmonite acquisita in comunità (CAP) (PNEUMO-007). Tachicardia, ipossiemia, febbre, aumento della frequenza respiratoria, rales bilaterali all'auscultazione, segni di distress respiratorio.",
-          "isAbnormal": true,
-          "price": 15.5
-        },
-        "emocromo": {
-          "finding": "Emocromo completo con formula nel contesto di Polmonite acquisita in comunità (CAP) (PNEUMO-007). Tachicardia, ipossiemia, febbre, aumento della frequenza respiratoria, rales bilaterali all'auscultazione, segni di distress respiratorio.",
-          "normalFinding": "Emocromo completo con formula nel contesto di Polmonite acquisita in comunità (CAP) (PNEUMO-007). Tachicardia, ipossiemia, febbre, aumento della frequenza respiratoria, rales bilaterali all'auscultazione, segni di distress respiratorio.",
-          "isAbnormal": true,
-          "price": 4.5
-        },
-        "pcr-pct": {
-          "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Polmonite acquisita in comunità (CAP) (PNEUMO-007). Tachicardia, ipossiemia, febbre, aumento della frequenza respiratoria, rales bilaterali all'auscultazione, segni di distress respiratorio.",
-          "normalFinding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Polmonite acquisita in comunità (CAP) (PNEUMO-007). Tachicardia, ipossiemia, febbre, aumento della frequenza respiratoria, rales bilaterali all'auscultazione, segni di distress respiratorio.",
-          "isAbnormal": true,
-          "price": 12
-        },
-        "ega": {
-          "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Polmonite acquisita in comunità (CAP) (PNEUMO-007). Tachicardia, ipossiemia, febbre, aumento della frequenza respiratoria, rales bilaterali all'auscultazione, segni di distress respiratorio.",
-          "normalFinding": "Emogasanalisi arteriosa (EGA) nel contesto di Polmonite acquisita in comunità (CAP) (PNEUMO-007). Tachicardia, ipossiemia, febbre, aumento della frequenza respiratoria, rales bilaterali all'auscultazione, segni di distress respiratorio.",
-          "isAbnormal": true,
-          "price": 12
-        },
-        "pet-tc": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf.",
-          "isAbnormal": false,
-          "price": 900
-        },
-        "broncoscopia": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf.",
-          "isAbnormal": false,
-          "price": 180
-        }
-      }
-    },
-    "demographics": {
-      "age": 62,
-      "sex": "M",
-      "context": "Pronto Soccorso"
-    },
-    "physicalExam": {
-      "finding": "Tachipnea, ipossiemia, febbre, rales alla auscultazione polmonare."
-    },
-    "rx-torace": {
-      "finding": "RX Torace (2 proiezioni) nel contesto di Polmonite acquisita in comunità (CAP) (PNEUMO-007). Tachicardia, ipossiemia, febbre, aumento della frequenza respiratoria, rales bilaterali all'auscultazione, segni di distress respiratorio.",
-      "isAbnormal": true
-    },
-    "emocromo": {
-      "finding": "Emocromo completo con formula nel contesto di Polmonite acquisita in comunità (CAP) (PNEUMO-007). Tachicardia, ipossiemia, febbre, aumento della frequenza respiratoria, rales bilaterali all'auscultazione, segni di distress respiratorio.",
-      "isAbnormal": true
-    },
-    "pcr-pct": {
-      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Polmonite acquisita in comunità (CAP) (PNEUMO-007). Tachicardia, ipossiemia, febbre, aumento della frequenza respiratoria, rales bilaterali all'auscultazione, segni di distress respiratorio.",
-      "isAbnormal": true
-    },
-    "ega": {
-      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Polmonite acquisita in comunità (CAP) (PNEUMO-007). Tachicardia, ipossiemia, febbre, aumento della frequenza respiratoria, rales bilaterali all'auscultazione, segni di distress respiratorio.",
-      "isAbnormal": true
-    },
-    "pet-tc": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf.",
-      "isAbnormal": false
-    },
-    "broncoscopia": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf.",
-      "isAbnormal": false
-    }
-  },
-  "correctSolution": "Iniziare il percorso diagnostico con RX torace, emocromo, PCR e PCT, seguito da trattamento antibiotico appropriato.",
-  "patientPrompt": "Mi chiamo Antonio, ho 62 anni e sono qui perché ho una tosse persistente e mi sento molto affaticato. Ho anche febbre alta e una sensazione di oppressione al petto. Sono preoccupato per la mia salute e vorrei capire cosa sta succedendo. Ho una buona rete di supporto familiare, ma mi sento un po' ansioso e disorientato dal linguaggio medico. Vorrei un piano chiaro su cosa fare e quali esami saranno necessari.",
   "id": "PNEUMO-007",
   "code": "PNEUMO-007",
+  "title": "Asma quasi fatale: tante confezioni di SABA e niente sedazione",
+  "description": "Uomo di 41 anni, un'intubazione due anni fa, dodici confezioni di salbutamolo quest'anno, ancora senza ICS.",
+  "difficulty": "HARD",
   "specialty": "pneumologia",
   "specialtyLabel": "Pneumologia",
-  "condition": "Polmonite acquisita in comunità (CAP)",
+  "condition": "Asma con storia di episodio quasi fatale e overuse di SABA",
   "frequencyCategory": "HIGH",
-  "matrixDifficulty": "BASE",
+  "matrixDifficulty": "ADVANCED",
   "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf",
-  "diagnosis": "Polmonite acquisita in comunità (CAP)",
-  "pastMedicalHistory": "Antonio non ha patologie pregresse significative, non è fumatore e non ha mai subito interventi chirurgici. Prende occasionalmente farmaci per l'ansia.",
-  "presentation": "Antonio, un uomo di 62 anni, si presenta al pronto soccorso con sintomi di tosse, febbre e difficoltà respiratorie. Riferisce di avere avuto un raffreddore nelle ultime settimane, ma la situazione è peggiorata negli ultimi giorni. Ha una storia di ansia legata alla sua salute e ha difficoltà a dormire bene a causa della tosse. È collaborativo durante la visita e desidera comprendere il piano di trattamento. La sua literacy è media e ha una buona aderenza alle terapie.",
+  "guidelineRef": "GINA summary; L.219/2017; L.38/2010",
+  "diagnosis": "Asma ad alto rischio. Dodici confezioni di SABA in un anno si associano a morte. Manca l'ICS. Non va sedato. Va portato in Track 1 e seguito da vicino.",
+  "pastMedicalHistory": "Intubazione per asma due anni fa. Nessuna DAT. Dolore toracico post-tosse. Vive solo.",
+  "presentation": "Dispnea da stamattina, saturazione 93%, parla a frasi corte, non soporoso. In tasca ha il salbutamolo e dice di finire una confezione a settimana.",
   "redHerrings": [
-    "Antonio ha recentemente viaggiato all'estero, ma non ha avuto contatti con persone malate.",
-    "Riferisce di avere anche un leggero mal di testa, ma non è il suo sintomo principale.",
-    "Ha una storia di allergie stagionali, ma non ha avuto sintomi allergici recenti."
+    "Chiede morfina per il fiato.",
+    "Il collega vuole una PET per escludere un tumore prima dell'ICS."
   ],
-  "timeLimitMinutes": 20,
-  "patientDeteriorationThreshold": 10,
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Davide. Due anni fa mi hanno intubato. Finisco il salbutamolo in fretta e non prendo il cortisone spray. Non sedatemi. Non voglio la PET prima della cura.",
+  "correctSolution": "Riconoscere il rischio (episodio quasi fatale, dodici o piu' confezioni). Trattare la riacutizzazione senza sedativi. Non fare la PET. Avviare ICS, preferibilmente Track 1, e informarlo del rischio di morte legato alle confezioni. Consenso. Dolore in cartella.",
+  "goldStandardPath": [
+    "spirometria",
+    "ega"
+  ],
+  "goldPathNarrative": "GINA lega dodici confezioni al rischio di morte e vieta i sedativi in riacutizzazione. La PET non e' il passo.",
   "examLatencies": {
-    "rx-torace": 20,
-    "emocromo": 30,
-    "pcr-pct": 35,
     "ega": 10,
-    "pet-tc": 180,
-    "broncoscopia": 60
+    "spirometria": 20,
+    "pet-tc": 180
   },
   "anamnesisQuestions": [
     {
-      "id": "aq_pneumo-007_1",
-      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Polmonite acquisita in comunità (CAP))",
+      "id": "q1",
+      "prompt": "C'e' stata un'intubazione o un'asma quasi fatale?",
       "critical": true,
       "expectedKeywords": [
-        "da quanto",
-        "quando",
-        "insorgenza",
-        "dispnea",
-        "tosse"
+        "intubazione",
+        "rianimazione",
+        "asma"
       ],
-      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+      "rationale": "GINA elenca la precedente asma quasi fatale tra i rischi."
     },
     {
-      "id": "aq_pneumo-007_2",
-      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "id": "q2",
+      "prompt": "Quante confezioni di SABA in un anno?",
       "critical": true,
       "expectedKeywords": [
-        "espettorato",
-        "sangue",
-        "sibili",
-        "dolore",
-        "ortopnea"
+        "dodici",
+        "confezioni",
+        "salbutamolo"
       ],
-      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
-    },
-    {
-      "id": "aq_pneumo-007_3",
-      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
-      "critical": true,
-      "expectedKeywords": [
-        "fum",
-        "lavoro",
-        "polvere",
-        "allergia",
-        "asbesto"
-      ],
-      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
-    },
-    {
-      "id": "aq_pneumo-007_4",
-      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
-      "critical": true,
-      "expectedKeywords": [
-        "inalator",
-        "ossigeno",
-        "cpap",
-        "antibiot",
-        "aderenza"
-      ],
-      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
-    },
-    {
-      "id": "aq_pneumo-007_5",
-      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
-      "critical": true,
-      "expectedKeywords": [
-        "saturazione",
-        "confusione",
-        "emottisi",
-        "febbre",
-        "trauma"
-      ],
-      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
-    },
-    {
-      "id": "aq_pneumo-007_6",
-      "prompt": "Contesto di presentazione: Pronto Soccorso",
-      "critical": false,
-      "expectedKeywords": [
-        "dove si trova",
-        "arrivato",
-        "ambulanza",
-        "visita"
-      ],
-      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+      "rationale": "Dodici o piu' confezioni si associano al rischio di morte."
     }
   ],
   "physicalExam": {
-    "summary": "Tachipnea, ipossiemia, febbre, rales alla auscultazione polmonare."
+    "summary": "Frasi corte, sibili, saturazione 93%, non soporoso. Dolore toracico pari alla tosse."
   },
-  "goldPathNarrative": "Dopo la valutazione iniziale, si procederà con una radiografia del torace per valutare la presenza di infiltrati polmonari. Successivamente, verranno eseguiti un emocromo e test per la PCR e la PCT per identificare l'infezione. In base ai risultati, si avvierà un trattamento antibiotico mirato.",
   "escCitations": [
     {
-      "chunkId": "8adb8af3-31cc-42bf-9b79-96396620d895-0",
-      "source": "knowledge_base/pneumologia/clinical/ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf",
-      "quote": "Diagnosis and Treatment of Adults with Community-Acquired Pneumonia An Official Clinical Practice Guideline of the American Thoracic Society and Infectious Diseases Society of America ONLINE SUPPLEMENT Joshua P. Metlay, MD, PhD, Grant Waterer, MBBS, PhD, Ann C. Long, MD, MS, Antonio Anzueto, MD, Jan Brozek, MD, PhD, Kristina Crothers, MD, Laura A. Cooley, MD, Nathan C. Dean, MD, Michael J. Fine, MD, MSc, Scott A.Flanders, MD, Marie R. Griffin, MD, MPH, Mark L. Metersky, MD, Daniel M. Musher, MD,"
+      "chunkId": "12",
+      "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
+      "quote": "Dispensing of ≥12 SABA canisters (possibly less) in a year is associated with increased risk of death due to asthma. Home use of nebulized SABA is also associated with an increased risk of asthma death."
     },
     {
-      "chunkId": "8adb8af3-31cc-42bf-9b79-96396620d895-122",
-      "source": "knowledge_base/pneumologia/clinical/ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf",
-      "quote": "new or increased cough, sputum production, shortness of breath, pleuritic chest pain, confusion, fever, rales, and leukocytosis (or suppressed white blood cell count with increased band forms). The 2019 IDSA/ATS pneumonia guidelines confine themselves to community-acquired pneumonia (CAP), specifically pneumonia that develops in adults in the community. The guidelines’ recommendations for diagnostic evaluation and treatment exclude persons who have congenital or acquired immune deficiency or dru"
+      "chunkId": "ics",
+      "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
+      "quote": "ICS-containing medication markedly reduces risk of asthma hospitalizations and death. Patients who have a severe exacerbation when not taking ICS have worse long-term lung function than those who have started ICS."
     },
     {
-      "chunkId": "8adb8af3-31cc-42bf-9b79-96396620d895-131",
-      "source": "knowledge_base/pneumologia/clinical/ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf",
-      "quote": "sites in the Netherlands. These subjects were followed for a mean of 3.9 years. Immunocompromised patients were excluded. Main source of data from Huijts et al (10), with some additional information from Bonten et al (9)E58 REFERENCES 1. Musher DM, Roig IL, Cazares G, Stager CE, Logan N, Safar H. Can an etiologic agent be identified in adults who are hospitalized for community-acquired pneumonia: results of a one-year study. J Infect 2013; 67: 11-18. 2. Heffron R. Pneumonia with Special Referenc"
+      "chunkId": "sed",
+      "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
+      "quote": "Do not use sedatives."
     },
     {
-      "chunkId": "8adb8af3-31cc-42bf-9b79-96396620d895-2",
-      "source": "knowledge_base/pneumologia/clinical/ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf",
-      "quote": "ipt Preparation References Search Strategies Evidence Tables Supplemental Text on Etiology of PneumoniaE2 Methods Panel composition This guideline was developed by a multidisciplinary panel that consisted of 15 members including pulmonologists, infectious disease specialists, general internists, and two methodologists with expertise in evidence synthesis and the guideline development process (J.L.B. and A.C.L.). The panel was chaired by J.M. and G.W., representing the IDSA and ATS, respectively."
+      "chunkId": "near",
+      "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
+      "quote": "Lack of ICS treatment in a patient with a history of severe exacerbations increases risk. Any patient can have severe exacerbations, even those whose asthma seems to be mild."
+    },
+    {
+      "chunkId": "pet",
+      "source": "knowledge_base/pneumologia/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/pneumologia/legal/Legge_22_dicembre_2017,_n.219.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/pneumologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (2).pdf",
+      "quote": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Eseguire in sequenza il gold path: rx-torace → emocromo → pcr-pct → ega.",
-      "Non prescrivere di prima intenzione: pet-tc, broncoscopia (ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf).",
-      "Budget SSN di riferimento: €85."
+      "Riconoscere dodici confezioni come rischio di morte.",
+      "Niente sedativi.",
+      "Niente PET prima dell'ICS."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Il paziente mostra una buona aderenza al piano terapeutico proposto.",
+      "art5Adherence": "Il rischio e la terapia seguono GINA. PET, consenso e dolore seguono nomenclatore e leggi.",
       "legalCriteria": [
-        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
-        "Raccogliere consenso informato prima di procedure invasive.",
-        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
-        "Registrare tempi critici nel setting Pronto Soccorso."
+        "ICS dopo asma grave, testo GINA.",
+        "Consenso, legge 219/2017.",
+        "Dolore in cartella, legge 38/2010 art. 7."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "rx-torace",
-      "name": "RX Torace (2 proiezioni)",
-      "finding": "RX Torace (2 proiezioni) nel contesto di Polmonite acquisita in comunità (CAP) (PNEUMO-007). Tachicardia, ipossiemia, febbre, aumento della frequenza respiratoria, rales bilaterali all'auscultazione, segni di distress respiratorio.",
-      "isAbnormal": true,
-      "priceEuro": 15.5
-    },
-    {
-      "examId": "emocromo",
-      "name": "Emocromo completo con formula",
-      "finding": "Emocromo completo con formula nel contesto di Polmonite acquisita in comunità (CAP) (PNEUMO-007). Tachicardia, ipossiemia, febbre, aumento della frequenza respiratoria, rales bilaterali all'auscultazione, segni di distress respiratorio.",
-      "isAbnormal": true,
-      "priceEuro": 4.5
-    },
-    {
-      "examId": "pcr-pct",
-      "name": "Proteina C Reattiva (PCR) e Procalcitonina (PCT)",
-      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Polmonite acquisita in comunità (CAP) (PNEUMO-007). Tachicardia, ipossiemia, febbre, aumento della frequenza respiratoria, rales bilaterali all'auscultazione, segni di distress respiratorio.",
-      "isAbnormal": true,
-      "priceEuro": 12
-    },
-    {
       "examId": "ega",
-      "name": "Emogasanalisi arteriosa (EGA)",
-      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Polmonite acquisita in comunità (CAP) (PNEUMO-007). Tachicardia, ipossiemia, febbre, aumento della frequenza respiratoria, rales bilaterali all'auscultazione, segni di distress respiratorio.",
+      "name": "Emogasanalisi",
+      "finding": "Ipossiemia senza acidosi grave. Non autorizza il sedativo.",
       "isAbnormal": true,
-      "priceEuro": 12
+      "priceEuro": 15.05
+    },
+    {
+      "examId": "spirometria",
+      "name": "Picco di flusso",
+      "finding": "Ridotto, compatibile con riacutizzazione, non con un tumore da stadiare in PET.",
+      "isAbnormal": true,
+      "priceEuro": 27.9
     }
   ],
   "inappropriateExams": [
     {
       "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf.",
+      "name": "PET-TC globale corporea",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
       "isAbnormal": false,
-      "priceEuro": 900,
+      "priceEuro": 1071.7,
       "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf."
-    },
-    {
-      "examId": "broncoscopia",
-      "name": "Broncoscopia (e BAL)",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf.",
-      "isAbnormal": false,
-      "priceEuro": 180,
-      "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf."
+      "wasteRationale": "La PET non cura l'overuse di SABA."
     }
   ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 120,
+      "bloodPressure": "140/86",
+      "spo2": 93,
+      "temperature": 36.7,
+      "respiratoryRate": 26
+    },
+    "examBudgetEuro": 50,
+    "demographics": {
+      "age": 41,
+      "sex": "M",
+      "context": "Pronto Soccorso"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Storia di intubazione per asma",
+        "result": "Due anni fa.",
+        "isPositive": true
+      },
+      {
+        "signName": "Sopor",
+        "result": "Assente.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Storia di intubazione per asma",
+        "result": "Due anni fa.",
+        "isPositive": true
+      },
+      {
+        "signName": "Sopor",
+        "result": "Assente.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ega": {
+          "finding": "Ipossiemia senza acidosi grave. Non autorizza il sedativo.",
+          "normalFinding": "Ipossiemia senza acidosi grave. Non autorizza il sedativo.",
+          "isAbnormal": true,
+          "price": 15.05
+        },
+        "spirometria": {
+          "finding": "Ridotto, compatibile con riacutizzazione, non con un tumore da stadiare in PET.",
+          "normalFinding": "Ridotto, compatibile con riacutizzazione, non con un tumore da stadiare in PET.",
+          "isAbnormal": true,
+          "price": 27.9
+        },
+        "pet-tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+          "isAbnormal": false,
+          "price": 1071.7
+        }
+      }
+    }
+  },
   "patientProfile": {
     "healthLiteracy": "MEDIUM",
-    "emotionalState": "COLLABORATIVE",
-    "adherence": "FULL",
+    "emotionalState": "ANXIOUS",
+    "adherence": "SELF_MEDICATED",
     "lifestyleAndSocial": {
-      "sleepQuality": "GOOD",
-      "stressLevel": "MEDIUM",
-      "socialSupport": "ADEQUATE"
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "ISOLATED"
     },
-    "communicationStyle": "Ascolta e riassume. Preferisce un piano chiaro (esami, antibiotico, criteri di rientro). Il burocratese lo disorienta ma non lo fa opporre."
-  }
+    "communicationStyle": "Sono Davide. Il salbutamolo lo finisco. Niente morfina per il fiato e niente PET. Datemi la cura con il cortisone inalato e scrivetemi il dolore."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Quasi fatale e confezioni",
+      "prompt": "Intubazione due anni fa. Circa dodici confezioni di SABA quest'anno. Nessun ICS.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Lo classifichi ad alto rischio di morte per asma",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Lo chiami asma lieve perche' oggi non e' intubato",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Rischio perso",
+      "prompt": "Dispensing of ≥12 SABA canisters in a year is associated with increased risk of death due to asthma. Lack of ICS in a patient with a history of severe exacerbations increases risk.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente PET",
+      "prompt": "Propongono la PET 92.18.C a 1.071,70 euro prima di ogni ICS.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non la esegua",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "La prenoti prima dell'ICS",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+      "cost": 1071.7,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente sedativi ne' morfina per il fiato",
+      "prompt": "Chiede un sedativo. Saturazione 93%, non soporoso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Niente sedativi. Ossigeno se serve, bersaglio 92-95%",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Morfina o benzodiazepina per 'calmare il fiato'",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Sedazione in asma acuta",
+      "prompt": "Do not use sedatives. Titrate oxygen to 92-95% if needed.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "ICS subito",
+      "prompt": "E' ancora senza ICS dopo un'asma che porto' all'intubazione.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Inizi un trattamento che contiene ICS. Negli adulti la preferenza e' la Track 1",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Rinnovi solo il salbutamolo",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Ancora solo SABA",
+      "prompt": "ICS-containing medication markedly reduces risk of asthma hospitalizations and death. Asthma should not be treated solely with as-needed SABA.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Nebulizzazioni a casa",
+      "prompt": "Vuole un nebulizzatore di solo SABA a domicilio, da usare spesso.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non imposti il SABA nebulizzato domiciliare come soluzione: GINA lo associa a piu' morti",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Gli prescriva il nebulizzatore di solo SABA per casa",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Nebulizzatore domiciliare",
+      "prompt": "Home use of nebulized SABA is also associated with an increased risk of asthma death.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Glielo dica",
+      "prompt": "Non vuole sapere la prognosi. Poi chiede che cosa rischia. L'art. 1 gli da' diritto all'informazione, e puo' rifiutarla se lo registra.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Gli dica il rischio legato alle confezioni e all'assenza di ICS, in modo comprensibile, salvo rifiuto registrato dell'informazione",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Gli nasconda il rischio di morte",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Rischio taciuto",
+      "prompt": "Legge 219/2017, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sull'ICS",
+      "prompt": "Dopo la spiegazione accetta l'ICS. Il coinquilino dice di non darglielo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Rispetti il suo consenso, non il veto del coinquilino",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Obbedisca al coinquilino e non prescriva l'ICS",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Consenso scavalcato",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore in cartella",
+      "prompt": "Il dolore e' presente. In cartella mancano caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato. La dispnea, se va misurata, si misura sul testo clinico, non sull'art. 7.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Annoti il dolore come chiede l'art. 7 e misuri la dispnea sul testo clinico del caso",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Non annoti nulla",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. GINA valuta la dispnea nella riacutizzazione. L'art. 7 obbliga a scrivere il dolore.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Asma quasi fatale: dodici confezioni, niente solo SABA e niente nebulizzatore domiciliare di SABA, niente sedativi, niente PET, informazione e consenso.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

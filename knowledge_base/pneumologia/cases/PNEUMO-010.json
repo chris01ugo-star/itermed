@@ -1,285 +1,486 @@
 {
-  "title": "Uomo 48 anni con russamento e sonnolenza diurna",
-  "description": "Roberto è un uomo di 48 anni che si presenta in ambulatorio con sintomi di sonno disturbato e preoccupazioni legate alla sua salute. Riferisce di avere difficoltà a dormire, di sentirsi stanco durante il giorno e di avere episodi di risveglio notturno con sensazione di soffocamento. È ansioso riguardo alla possibilità di avere un problema serio, come un infarto notturno, e ha cercato informazioni online che lo hanno ulteriormente preoccupato.",
-  "difficulty": "EASY",
-  "goldStandardPath": [
-    "polisonnografia",
-    "emocromo",
-    "spirometria"
-  ],
-  "baselineExamFindings": {
-    "vitals": {
-      "heartRate": 78,
-      "bloodPressure": "142/90",
-      "spo2": 94,
-      "temperature": 36.5,
-      "respiratoryRate": 16
-    },
-    "examBudgetEuro": 140,
-    "advancedExams": {
-      "values": {
-        "polisonnografia": {
-          "finding": "Polisonnografia nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
-          "normalFinding": "Polisonnografia nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
-          "isAbnormal": true,
-          "price": 80
-        },
-        "emocromo": {
-          "finding": "Emocromo completo con formula nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
-          "normalFinding": "Emocromo completo con formula nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
-          "isAbnormal": true,
-          "price": 4.5
-        },
-        "spirometria": {
-          "finding": "Spirometria (semplice/globale) nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
-          "normalFinding": "Spirometria (semplice/globale) nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
-          "isAbnormal": true,
-          "price": 25
-        },
-        "tc": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 180
-        },
-        "pet-tc": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 900
-        }
-      }
-    },
-    "demographics": {
-      "age": 48,
-      "sex": "M",
-      "context": "Ambulatorio di Pneumologia"
-    },
-    "physicalExam": {
-      "finding": "Esame obiettivo nei limiti della norma, con particolare attenzione alla valutazione della respirazione e della saturazione di ossigeno."
-    },
-    "polisonnografia": {
-      "finding": "Polisonnografia nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
-      "isAbnormal": true
-    },
-    "emocromo": {
-      "finding": "Emocromo completo con formula nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
-      "isAbnormal": true
-    },
-    "spirometria": {
-      "finding": "Spirometria (semplice/globale) nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
-      "isAbnormal": true
-    },
-    "tc": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
-      "isAbnormal": false
-    },
-    "pet-tc": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
-      "isAbnormal": false
-    }
-  },
-  "correctSolution": "Polisonnografia per confermare la diagnosi di OSAS.",
-  "patientPrompt": "Ho 48 anni e mi chiamo Roberto. Ultimamente ho avuto problemi a dormire, mi sveglio spesso durante la notte e ho la sensazione di soffocare. Ho letto che l'OSAS può causare infarti notturni e sono molto preoccupato. Ho cercato informazioni online e sono ansioso riguardo alla mia salute. A volte mi sento stanco durante il giorno e mi chiedo se ci sia qualcosa di serio. Vorrei sapere se posso fare qualcosa per capire meglio la mia situazione e se una polisonnografia potrebbe essere utile.",
   "id": "PNEUMO-010",
   "code": "PNEUMO-010",
+  "title": "Polmonite da ventilatore: sette giorni, campionamento non invasivo, MRSA solo se indicato",
+  "description": "Uomo di 68 anni, intubato da sei giorni, sospetta VAP. Vogliono 14 giorni di vancomicina comunque e una broncoscopia quantitativa.",
+  "difficulty": "HARD",
   "specialty": "pneumologia",
   "specialtyLabel": "Pneumologia",
-  "condition": "Sindrome delle apnee ostruttive del sonno — sospetto diagnostico",
-  "frequencyCategory": "HIGH",
-  "matrixDifficulty": "BASE",
-  "setting": "AMBULATORIO",
-  "guidelineRef": "MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf",
-  "diagnosis": "Sindrome delle apnee ostruttive del sonno - sospetto diagnostico",
-  "pastMedicalHistory": "Nessuna patologia pregressa significativa, non fuma e non consuma alcol.",
-  "presentation": "Roberto, un uomo di 48 anni, si presenta in ambulatorio lamentando disturbi del sonno. Riferisce di russare frequentemente e di svegliarsi durante la notte con la sensazione di non riuscire a respirare. Ha anche notato una crescente stanchezza durante il giorno. È molto ansioso riguardo alla sua salute e ha letto online che l'OSAS può portare a gravi complicazioni, come infarti notturni. La sua rete sociale è forte, ma la sua aderenza alle raccomandazioni mediche è parziale, a causa della sua ansia e della mancanza di sonno.",
+  "condition": "Sospetta polmonite associata a ventilazione",
+  "frequencyCategory": "MEDIUM",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "REPARTO",
+  "guidelineRef": "IDSA/ATS HAP-VAP 2016; L.219/2017; L.38/2010",
+  "diagnosis": "Sospetta VAP. Campionamento non invasivo con colture semiquantitative suggerito rispetto all'invasivo quantitativo. Se la crescita invasiva e' sotto soglia si suggerisce di sospendere. Durata 7 giorni, non 8-15. Vancomicina o linezolid solo se la copertura MRSA e' indicata.",
+  "pastMedicalHistory": "BPCO, intubato per acidosi, ora sospetta VAP. DAT: accetta le cure intensive in corso. Dolore da tubo, scheda vuota.",
+  "presentation": "Secrezioni purulente, infiltrato nuovo, febbre. Unita' con MRSA sotto il 10%. Nessun fattore di rischio MRSA riferito.",
   "redHerrings": [
-    "Roberto ha un BMI nella norma e non è obeso, quindi non si considera un fattore di rischio primario per l'OSAS.",
-    "Non ha una storia di apnee notturne segnalate dai familiari, il che potrebbe far pensare a un'altra causa dei suoi sintomi.",
-    "Riferisce di avere episodi di reflusso gastroesofageo, che potrebbero spiegare alcuni dei suoi risvegli notturni."
+    "14 giorni 'per sicurezza'.",
+    "Vancomicina a tutti."
   ],
-  "timeLimitMinutes": 20,
-  "patientDeteriorationThreshold": 10,
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Non posso parlare bene col tubo. Mia moglie dice: sette giorni se e' quello scritto, non la vancomicina se non serve, e il dolore del tubo va scritto.",
+  "correctSolution": "Criteri clinici per iniziare. Campione non invasivo semiquantitativo. Niente MRSA empirico se l'unita' e' sotto il 10-20% e non ci sono fattori di rischio: allora un agente per MSSA. Se MRSA serve, vancomicina o linezolid. Sette giorni. Dolore in cartella. Rispetto delle DAT gia' favorevoli alle cure in corso.",
+  "goldStandardPath": [
+    "rx-torace",
+    "emocromo"
+  ],
+  "goldPathNarrative": "IDSA/ATS 2016 su VAP: non invasivo, 7 giorni, MRSA mirato.",
   "examLatencies": {
-    "polisonnografia": 720,
-    "emocromo": 30,
-    "spirometria": 25,
-    "tc": 40,
-    "pet-tc": 180
+    "rx-torace": 20,
+    "emocromo": 20,
+    "broncoscopia": 60
   },
   "anamnesisQuestions": [
     {
-      "id": "aq_pneumo-010_1",
-      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Sindrome delle apnee ostruttive del sonno — sospetto diagnostico)",
+      "id": "q1",
+      "prompt": "Da quanti giorni e' il tubo e qual e' la prevalenza di MRSA nell'unita'?",
       "critical": true,
       "expectedKeywords": [
-        "da quanto",
-        "quando",
-        "insorgenza",
-        "dispnea",
-        "tosse"
+        "giorni",
+        "MRSA",
+        "unita"
       ],
-      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+      "rationale": "La copertura MRSA empirica dipende dal rischio e dalla prevalenza sotto o sopra il 10-20%."
     },
     {
-      "id": "aq_pneumo-010_2",
-      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "id": "q2",
+      "prompt": "Le DAT accettano le cure intensive?",
       "critical": true,
       "expectedKeywords": [
-        "espettorato",
-        "sangue",
-        "sibili",
-        "dolore",
-        "ortopnea"
+        "DAT",
+        "accetta",
+        "tubo"
       ],
-      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
-    },
-    {
-      "id": "aq_pneumo-010_3",
-      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
-      "critical": true,
-      "expectedKeywords": [
-        "fum",
-        "lavoro",
-        "polvere",
-        "allergia",
-        "asbesto"
-      ],
-      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
-    },
-    {
-      "id": "aq_pneumo-010_4",
-      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
-      "critical": true,
-      "expectedKeywords": [
-        "inalator",
-        "ossigeno",
-        "cpap",
-        "antibiot",
-        "aderenza"
-      ],
-      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
-    },
-    {
-      "id": "aq_pneumo-010_5",
-      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
-      "critical": true,
-      "expectedKeywords": [
-        "saturazione",
-        "confusione",
-        "emottisi",
-        "febbre",
-        "trauma"
-      ],
-      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
-    },
-    {
-      "id": "aq_pneumo-010_6",
-      "prompt": "Contesto di presentazione: Ambulatorio di Pneumologia",
-      "critical": false,
-      "expectedKeywords": [
-        "dove si trova",
-        "arrivato",
-        "ambulanza",
-        "visita"
-      ],
-      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+      "rationale": "Qui le DAT non rifiutano l'intubazione gia' in corso."
     }
   ],
   "physicalExam": {
-    "summary": "Esame obiettivo nei limiti della norma, con particolare attenzione alla valutazione della respirazione e della saturazione di ossigeno."
+    "summary": "Intubato, secrezioni purulente, febbre. Dolore riferito dal fiduciario come smorfie al tubo."
   },
-  "goldPathNarrative": "Dopo aver ascoltato le preoccupazioni di Roberto e aver validato i suoi timori, propongo di eseguire una polisonnografia per valutare la qualità del suo sonno e identificare eventuali apnee notturne. Questo esame ci permetterà di avere un quadro chiaro della sua situazione e di decidere il trattamento più adeguato.",
   "escCitations": [
     {
-      "chunkId": "f4f8165e-158b-4b14-b66c-b7686ca421d2-325",
-      "source": "knowledge_base/pneumologia/clinical/MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf",
-      "quote": "est standard sul sonno. La diagnosi di OSAS non può prescindere da una valutazione strumentale per l’intera durata della notte; prima di avviare un paziente con sospetto OSAS al percorso diagnostico strumentale, de- vono essere ricercati i segni e i sintomi di sospetto (russamento abituale, pause respiratorie, risvegli con senso di soffocamento, BMI, circonferenza collo > 43 cm ecc.). Nell’attuazione del percorso diagnostico andranno inoltre valutati i livelli di priorità. In particolare, il liv"
+      "chunkId": "nv",
+      "source": "knowledge_base/pneumologia/clinical/IDSA_ATS_Hospital_Acquired_Pneumonia.pdf",
+      "quote": "We suggest noninvasive sampling with semiquantitative cultures to diagnose VAP, rather than invasive sampling with quantitative cultures and rather than noninvasive sampling with quantitative cultures (weak recommendation)."
     },
     {
-      "chunkId": "3d7cbcef-fe97-4929-82a0-6772457a420e-325",
-      "source": "knowledge_base/pneumologia/clinical/MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf",
-      "quote": "est standard sul sonno. La diagnosi di OSAS non può prescindere da una valutazione strumentale per l’intera durata della notte; prima di avviare un paziente con sospetto OSAS al percorso diagnostico strumentale, de- vono essere ricercati i segni e i sintomi di sospetto (russamento abituale, pause respiratorie, risvegli con senso di soffocamento, BMI, circonferenza collo > 43 cm ecc.). Nell’attuazione del percorso diagnostico andranno inoltre valutati i livelli di priorità. In particolare, il liv"
+      "chunkId": "7",
+      "source": "knowledge_base/pneumologia/clinical/IDSA_ATS_Hospital_Acquired_Pneumonia.pdf",
+      "quote": "For patients with VAP, we recommend a 7-day course of antimicrobial therapy rather than a longer duration (strong recommendation, moderate-quality evidence)."
     },
     {
-      "chunkId": "3d7cbcef-fe97-4929-82a0-6772457a420e-324",
-      "source": "knowledge_base/pneumologia/clinical/MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf",
-      "quote": "plicanze di OSAS e di intraprendere una te- rapia adeguata. È ormai provato che l’OSAS si associa e/o è un importante fattore di rischio e aggravamento per insufficienza respiratoria ipos- siemica-ipercapnica, ipertensione arteriosa siste- mica (mancanza del “dipping” notturno e dello scarso controllo farmacologico), cardiopatia ische- mica e scompenso cardiaco, aritmie cardiache, patologie cerebrovascolari, sindrome metabolica. Recenti studi eseguiti su pazienti OSAS hanno inoltre dimostrato un"
+      "chunkId": "mrsa",
+      "source": "knowledge_base/pneumologia/clinical/IDSA_ATS_Hospital_Acquired_Pneumonia.pdf",
+      "quote": "If empiric coverage for MRSA is indicated, we recommend either vancomycin or linezolid (strong recommendation, moderate-quality evidence). We suggest including an agent active against methicillin-sensitive S. aureus (and not MRSA) for empiric treatment of suspected VAP in patients without risk factors for antimicrobial resistance and in ICUs where <10%-20% of S. aureus isolates are methicillin resistant."
     },
     {
-      "chunkId": "f4f8165e-158b-4b14-b66c-b7686ca421d2-324",
-      "source": "knowledge_base/pneumologia/clinical/MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf",
-      "quote": "plicanze di OSAS e di intraprendere una te- rapia adeguata. È ormai provato che l’OSAS si associa e/o è un importante fattore di rischio e aggravamento per insufficienza respiratoria ipos- siemica-ipercapnica, ipertensione arteriosa siste- mica (mancanza del “dipping” notturno e dello scarso controllo farmacologico), cardiopatia ische- mica e scompenso cardiaco, aritmie cardiache, patologie cerebrovascolari, sindrome metabolica. Recenti studi eseguiti su pazienti OSAS hanno inoltre dimostrato un"
+      "chunkId": "hold",
+      "source": "knowledge_base/pneumologia/clinical/IDSA_ATS_Hospital_Acquired_Pneumonia.pdf",
+      "quote": "If invasive quantitative cultures are below the threshold, we suggest that antibiotics be withheld rather than continued (weak recommendation, very low-quality evidence)."
+    },
+    {
+      "chunkId": "pct",
+      "source": "knowledge_base/pneumologia/clinical/IDSA_ATS_Hospital_Acquired_Pneumonia.pdf",
+      "quote": "For patients with suspected HAP/VAP, we recommend using clinical criteria alone, rather than serum procalcitonin plus clinical criteria, to decide whether or not to initiate antibiotic therapy."
+    },
+    {
+      "chunkId": "br",
+      "source": "knowledge_base/pneumologia/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "33.24 BRONCOSCOPIA con PRELIEVO BRONCHIALE. Biopsia, brushing, washing, BAL. Tariffa 64,95 euro. Il testo suggerisce prima il campionamento non invasivo."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/pneumologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (2).pdf",
+      "quote": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "d",
+      "source": "knowledge_base/pneumologia/legal/Legge_22_dicembre_2017,_n.219.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 4 comma 5: il medico e' tenuto al rispetto delle DAT, le quali possono essere disattese, in tutto o in parte, dal medico stesso, in accordo con il fiduciario, qualora esse appaiano palesemente incongrue o non corrispondenti alla condizione clinica attuale del paziente ovvero sussistano terapie non prevedibili all'atto della sottoscrizione, capaci di offrire concrete possibilita' di miglioramento delle condizioni di vita."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Eseguire in sequenza il gold path: polisonnografia → emocromo → spirometria.",
-      "Non prescrivere di prima intenzione: tc, pet-tc (MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf).",
-      "Budget SSN di riferimento: €140."
+      "7 giorni, non 14.",
+      "Niente vancomicina se MRSA non indicato.",
+      "Campione non invasivo prima della BAL a tariffa."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Scudo L. 24/2017 Art. 5 L'adesione alle linee guida (MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf) e al gold path costituisce parametro di conformità alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "art5Adherence": "VAP secondo IDSA/ATS 2016. Dolore e DAT secondo le leggi.",
       "legalCriteria": [
-        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
-        "Raccogliere consenso informato prima di procedure invasive.",
-        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
-        "Registrare tempi critici nel setting Ambulatorio di Pneumologia."
+        "Durata e MRSA come da guida.",
+        "DAT rispettate, legge 219/2017 art. 4.",
+        "Dolore del tubo in cartella, art. 7."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "polisonnografia",
-      "name": "Polisonnografia",
-      "finding": "Polisonnografia nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
+      "examId": "rx-torace",
+      "name": "RX del torace",
+      "finding": "Infiltrato nuovo. Non decide da solo la durata.",
       "isAbnormal": true,
-      "priceEuro": 80
+      "priceEuro": 18.6
     },
     {
       "examId": "emocromo",
-      "name": "Emocromo completo con formula",
-      "finding": "Emocromo completo con formula nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
+      "name": "Emocromo",
+      "finding": "Leucocitosi. Criterio clinico, non una PCT.",
       "isAbnormal": true,
       "priceEuro": 4.5
-    },
-    {
-      "examId": "spirometria",
-      "name": "Spirometria (semplice/globale)",
-      "finding": "Spirometria (semplice/globale) nel contesto di Sindrome delle apnee ostruttive del sonno — sospetto diagnostico (PNEUMO-010). Russamento abituale, risvegli notturni con senso di soffocamento, stanchezza diurna, ansia elevata.",
-      "isAbnormal": true,
-      "priceEuro": 25
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "tc",
-      "name": "TC Addome/Encefalo/Torace/Rachide (con-senza mdc)",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
+      "examId": "broncoscopia",
+      "name": "BAL quantitativa di prima scelta",
+      "finding": "33.24, 64,95 euro. Il testo suggerisce il campionamento non invasivo semiquantitativo.",
       "isAbnormal": false,
-      "priceEuro": 180,
+      "priceEuro": 64.95,
       "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf."
-    },
-    {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
-      "isAbnormal": false,
-      "priceEuro": 900,
-      "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf."
+      "wasteRationale": "BAL non e' il campionamento suggerito come prima scelta."
     }
   ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 110,
+      "bloodPressure": "108/64",
+      "spo2": 94,
+      "temperature": 38.6,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 70,
+    "demographics": {
+      "age": 68,
+      "sex": "M",
+      "context": "Area critica"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Secrezioni purulente",
+        "result": "Nuove.",
+        "isPositive": true
+      },
+      {
+        "signName": "Fattore di rischio MRSA noto",
+        "result": "Non riferito. MRSA di unita' sotto il 10%.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Secrezioni purulente",
+        "result": "Nuove.",
+        "isPositive": true
+      },
+      {
+        "signName": "Fattore di rischio MRSA noto",
+        "result": "Non riferito. MRSA di unita' sotto il 10%.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "rx-torace": {
+          "finding": "Infiltrato nuovo. Non decide da solo la durata.",
+          "normalFinding": "Infiltrato nuovo. Non decide da solo la durata.",
+          "isAbnormal": true,
+          "price": 18.6
+        },
+        "emocromo": {
+          "finding": "Leucocitosi. Criterio clinico, non una PCT.",
+          "normalFinding": "Leucocitosi. Criterio clinico, non una PCT.",
+          "isAbnormal": true,
+          "price": 4.5
+        },
+        "broncoscopia": {
+          "finding": "33.24, 64,95 euro. Il testo suggerisce il campionamento non invasivo semiquantitativo.",
+          "normalFinding": "33.24, 64,95 euro. Il testo suggerisce il campionamento non invasivo semiquantitativo.",
+          "isAbnormal": false,
+          "price": 64.95
+        }
+      }
+    }
+  },
   "patientProfile": {
-    "healthLiteracy": "CYBERCHONDRIA_AI",
-    "emotionalState": "ANXIOUS",
-    "adherence": "PARTIAL",
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "PASSIVE",
+    "adherence": "FULL",
     "lifestyleAndSocial": {
       "sleepQuality": "POOR",
       "stressLevel": "HIGH",
-      "socialSupport": "STRONG"
+      "socialSupport": "ADEQUATE"
     },
-    "communicationStyle": "Ha letto che l'OSAS 'provoca infarto notturno'. Interrompe con citazioni da Google. Se si convalida la preoccupazione e si propone la polisonnografia come passo concreto, collabora."
-  }
+    "communicationStyle": "Il paziente e' intubato. La moglie riferisce: rispettate le DAT, che accettano queste cure, fate sette giorni, niente vancomicina se non serve, scrivete il dolore del tubo."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "VAP e rischio MRSA",
+      "prompt": "Intubato, infiltrato nuovo, secrezioni, febbre. MRSA di reparto sotto il 10%, nessun fattore di rischio.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Sospetta VAP senza indicazione empirica alla copertura MRSA",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Metta vancomicina a ogni intubato",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "MRSA cieco",
+      "prompt": "Suggest an agent active against MSSA and not MRSA when there are no risk factors and MRSA is under 10-20% of S. aureus in the ICU.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non invasivo, non BAL di default",
+      "prompt": "Propongono la broncoscopia con BAL, codice 33.24, 64,95 euro, come unico modo per diagnosticare.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Usi un campione non invasivo semiquantitativo",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Faccia solo la BAL quantitativa a 64,95 euro",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "BAL di prima scelta",
+      "prompt": "We suggest noninvasive sampling with semiquantitative cultures to diagnose VAP, rather than invasive quantitative cultures. Tariffa 33.24: 64,95 euro.",
+      "cost": 64.95,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Sotto soglia si sospende",
+      "prompt": "Se poi fanno comunque una coltura quantitativa invasiva e la crescita e' sotto soglia, vogliono continuare gli antibiotici.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Suggerisca di sospenderli, tenendo conto anche dei fattori clinici come dice la guida",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Li continui comunque sotto soglia",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Antibiotico sotto soglia",
+      "prompt": "If cultures are below the diagnostic threshold for VAP, we suggest that antibiotics be withheld rather than continued. Clinical factors should also be considered.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Sette giorni",
+      "prompt": "Giorno 7, miglioramento. Propongono di arrivare a 14.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Fermarsi a 7 giorni",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Prolungare a 8-15 giorni di routine",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Durata lunga",
+      "prompt": "For patients with VAP, we recommend a 7-day course rather than a longer duration (strong recommendation).",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Se MRSA serve, due farmaci equivalenti",
+      "prompt": "Un altro paziente della stessa unita' ha fattori di rischio MRSA. Devono coprirlo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Vancomicina oppure linezolid",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Un aminoglicoside da solo 'per lo stafilococco resistente'",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "MRSA senza i due farmaci scritti",
+      "prompt": "If empiric MRSA coverage is indicated, we recommend either vancomycin or linezolid.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non la PCT",
+      "prompt": "PCT bassa al giorno 1. Vogliono non iniziare.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Inizi sui criteri clinici",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Blocco sulla PCT",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "PCT in VAP",
+      "prompt": "We recommend clinical criteria alone rather than serum PCT plus clinical criteria to decide whether to initiate therapy.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "DAT favorevoli",
+      "prompt": "Le DAT accettano l'intubazione gia' in corso. Un parente chiede di estubare contro quelle DAT e contro il quadro.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Non disattenda DAT che accettano queste cure, senza i motivi stretti dell'art. 4",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Estubi solo perche' un parente non fiduciario lo chiede",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "DAT rovesciate dal parente",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 4 comma 5: il medico e' tenuto al rispetto delle DAT, le quali possono essere disattese, in tutto o in parte, dal medico stesso, in accordo con il fiduciario, qualora esse appaiano palesemente incongrue o non corrispondenti alla condizione clinica attuale del paziente ovvero sussistano terapie non prevedibili all'atto della sottoscrizione, capaci di offrire concrete possibilita' di miglioramento delle condizioni di vita.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore in cartella",
+      "prompt": "Dolore presente, cartella muta su caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Compili l'art. 7 della legge 38/2010",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Non annoti il dolore",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Dolore del tubo: art. 7.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "VAP: non invasivo, 7 giorni, MRSA solo se indicato e allora vancomicina o linezolid, niente PCT, DAT e dolore.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

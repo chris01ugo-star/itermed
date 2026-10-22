@@ -1,322 +1,481 @@
 {
-  "title": "Paziente con insufficienza respiratoria ipossiemica grave",
-  "description": "Silvia si presenta in pronto soccorso con grave difficoltà respiratoria, accompagnata da un caregiver che la supporta. È visibilmente ansiosa e ha difficoltà a comunicare a causa dell'ipossiemia. La sua pelle appare pallida e sudata, e il respiro è affannoso. La saturazione di ossigeno è molto bassa, e la temperatura corporea è elevata, suggerendo una possibile infezione. Il caregiver riferisce che Silvia ha avuto febbre e tosse nei giorni precedenti, ma non ha cercato assistenza medica fino a questo momento.",
-  "difficulty": "HARD",
-  "goldStandardPath": [
-    "ega",
-    "rx-torace",
-    "lattati",
-    "emocromo",
-    "pcr-pct"
-  ],
-  "baselineExamFindings": {
-    "vitals": {
-      "heartRate": 126,
-      "bloodPressure": "96/58",
-      "spo2": 82,
-      "temperature": 38.9,
-      "respiratoryRate": 36
-    },
-    "examBudgetEuro": 120,
-    "advancedExams": {
-      "values": {
-        "ega": {
-          "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
-          "normalFinding": "Emogasanalisi arteriosa (EGA) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
-          "isAbnormal": true,
-          "price": 12
-        },
-        "rx-torace": {
-          "finding": "RX Torace (2 proiezioni) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
-          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
-          "isAbnormal": true,
-          "price": 15.5
-        },
-        "lattati": {
-          "finding": "Acido lattico (Lattati) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
-          "normalFinding": "Acido lattico (Lattati) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
-          "isAbnormal": true,
-          "price": 7
-        },
-        "emocromo": {
-          "finding": "Emocromo completo con formula nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
-          "normalFinding": "Emocromo completo con formula nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
-          "isAbnormal": true,
-          "price": 4.5
-        },
-        "pcr-pct": {
-          "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
-          "normalFinding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
-          "isAbnormal": true,
-          "price": 12
-        },
-        "pet-tc": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: TS_ERS_ARDS_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: TS_ERS_ARDS_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 900
-        },
-        "colonscopia": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: TS_ERS_ARDS_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: TS_ERS_ARDS_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 90
-        }
-      }
-    },
-    "demographics": {
-      "age": 54,
-      "sex": "F",
-      "context": "Pronto Soccorso"
-    },
-    "physicalExam": {
-      "finding": "Paziente con segni di distress respiratorio, tachicardia, ipotensione, febbre, e ipossiemia. Respiro affannoso e uso dei muscoli accessori per la respirazione."
-    },
-    "ega": {
-      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
-      "isAbnormal": true
-    },
-    "rx-torace": {
-      "finding": "RX Torace (2 proiezioni) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
-      "isAbnormal": true
-    },
-    "lattati": {
-      "finding": "Acido lattico (Lattati) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
-      "isAbnormal": true
-    },
-    "emocromo": {
-      "finding": "Emocromo completo con formula nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
-      "isAbnormal": true
-    },
-    "pcr-pct": {
-      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
-      "isAbnormal": true
-    },
-    "pet-tc": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: TS_ERS_ARDS_Guidelines.pdf.",
-      "isAbnormal": false
-    },
-    "colonscopia": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: TS_ERS_ARDS_Guidelines.pdf.",
-      "isAbnormal": false
-    }
-  },
-  "correctSolution": "Eseguire un'analisi dei gas ematici arteriosi (ega), una radiografia del torace, e valutare i lattati, l'emocromo e i marcatori infiammatori come PCR e PCT per la gestione dell'ARDS.",
-  "patientPrompt": "Non riesco a respirare bene e mi sento molto ansiosa. Ho avuto febbre e tosse negli ultimi giorni, ma non pensavo fosse così grave. Ho difficoltà a parlare e mi sento debole. Il rumore in sala mi mette ancora più ansia e ho bisogno che qualcuno mi parli a bassa voce. Ho sempre avuto una buona rete di supporto, ma ora mi sento sopraffatta.",
   "id": "PNEUMO-020",
   "code": "PNEUMO-020",
+  "title": "Fibrosi polmonare idiopatica: nintedanib o pirfenidone, non il warfarin",
+  "description": "Uomo di 71 anni, IPF alla TC e in discussione multidisciplinare. Gli propongono warfarin e la triade prednisone-azatioprina-NAC.",
+  "difficulty": "HARD",
   "specialty": "pneumologia",
   "specialtyLabel": "Pneumologia",
-  "condition": "Sindrome da distress respiratorio acuto (ARDS)",
+  "condition": "Fibrosi polmonare idiopatica",
   "frequencyCategory": "MEDIUM",
   "matrixDifficulty": "ADVANCED",
-  "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "TS_ERS_ARDS_Guidelines.pdf",
-  "diagnosis": "Sindrome da distress respiratorio acuto (ARDS)",
-  "pastMedicalHistory": "Nessuna patologia pregressa significativa, non fuma e non ha allergie conosciute.",
-  "presentation": "Silvia, 54 anni, si presenta in pronto soccorso con grave difficoltà respiratoria. È accompagnata da un caregiver, che la aiuta a comunicare. Silvia sembra molto ansiosa e ha difficoltà a parlare. La sua saturazione di ossigeno è bassa e presenta segni di distress respiratorio. Il caregiver riferisce che ha avuto febbre e tosse nei giorni precedenti, e che la sua condizione è peggiorata rapidamente. Silvia ha un'adeguata rete sociale, ma il suo sonno è stato disturbato a causa della difficoltà respiratoria e dell'ansia.",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "ATS/ERS IPF 2015 update; L.219/2017; L.38/2010",
+  "diagnosis": "IPF. Raccomandazione forte contro warfarin, imatinib, triade prednisone-azatioprina-NAC e ambrisentan. Raccomandazione condizionale a favore di nintedanib e pirfenidone. Condizionale contro sildenafil e contro i duali macitentan e bosentan.",
+  "pastMedicalHistory": "Ex fumatore. Dispnea progressiva. Dolore muscolare. Nessuna indicazione cardiologica al warfarin scritta in cartella.",
+  "presentation": "Pattern di fibrosi in discussione come IPF. Il collega vuole 'fluidificare il sangue' con warfarin e la vecchia triade.",
   "redHerrings": [
-    "Tosse persistente",
-    "Febbre alta",
-    "Affaticamento generale"
+    "Warfarin.",
+    "Triade immunosoppressiva."
   ],
-  "timeLimitMinutes": 30,
-  "patientDeteriorationThreshold": 12,
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Luigi. Il fiato cala da mesi. Non voglio il warfarin se la guida della fibrosi lo sconsiglia forte. Ditemi le due cure che invece si possono proporre. Il dolore muscolare va scritto se resto.",
+  "correctSolution": "Non warfarin, non imatinib, non triade, non ambrisentan. Proporre nintedanib o pirfenidone come raccomandazioni condizionali, spiegando che 'condizionale' non e' un ordine cieco. Non sildenafil ne' macitentan/bosentan come cura dell'IPF. Consenso. Dolore in cartella. Cure di sollievo della dispnea senza ostinazione se il fine vita arriva.",
+  "goldStandardPath": [
+    "tc",
+    "spirometria"
+  ],
+  "goldPathNarrative": "ATS/ERS 2015: forti no al warfarin e alla triade; condizionali si a nintedanib e pirfenidone.",
   "examLatencies": {
-    "ega": 10,
-    "rx-torace": 20,
-    "lattati": 15,
-    "emocromo": 30,
-    "pcr-pct": 35,
+    "tc": 40,
+    "spirometria": 25,
     "pet-tc": 180
   },
   "anamnesisQuestions": [
     {
-      "id": "aq_pneumo-020_1",
-      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Sindrome da distress respiratorio acuto (ARDS))",
+      "id": "q1",
+      "prompt": "La diagnosi di IPF e' quella discussa dal gruppo?",
       "critical": true,
       "expectedKeywords": [
-        "da quanto",
-        "quando",
-        "insorgenza",
-        "dispnea",
-        "tosse"
+        "IPF",
+        "fibrosi",
+        "TC"
       ],
-      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+      "rationale": "Le raccomandazioni lette sono per l'IPF."
     },
     {
-      "id": "aq_pneumo-020_2",
-      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "id": "q2",
+      "prompt": "C'e' un altro motivo, non polmonare, per il warfarin?",
       "critical": true,
       "expectedKeywords": [
-        "espettorato",
-        "sangue",
-        "sibili",
-        "dolore",
-        "ortopnea"
+        "warfarin",
+        "no",
+        "cuore"
       ],
-      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
-    },
-    {
-      "id": "aq_pneumo-020_3",
-      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
-      "critical": true,
-      "expectedKeywords": [
-        "fum",
-        "lavoro",
-        "polvere",
-        "allergia",
-        "asbesto"
-      ],
-      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
-    },
-    {
-      "id": "aq_pneumo-020_4",
-      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
-      "critical": true,
-      "expectedKeywords": [
-        "inalator",
-        "ossigeno",
-        "cpap",
-        "antibiot",
-        "aderenza"
-      ],
-      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
-    },
-    {
-      "id": "aq_pneumo-020_5",
-      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
-      "critical": true,
-      "expectedKeywords": [
-        "saturazione",
-        "confusione",
-        "emottisi",
-        "febbre",
-        "trauma"
-      ],
-      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
-    },
-    {
-      "id": "aq_pneumo-020_6",
-      "prompt": "Contesto di presentazione: Pronto Soccorso",
-      "critical": false,
-      "expectedKeywords": [
-        "dove si trova",
-        "arrivato",
-        "ambulanza",
-        "visita"
-      ],
-      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+      "rationale": "Il no forte e' sull'uso per trattare l'IPF."
     }
   ],
   "physicalExam": {
-    "summary": "Paziente con segni di distress respiratorio, tachicardia, ipotensione, febbre, e ipossiemia. Respiro affannoso e uso dei muscoli accessori per la respirazione."
+    "summary": "Dispnea, crepitii basali, dita a bacchetta. Saturazione 93% a riposo."
   },
-  "goldPathNarrative": "Iniziare con un'analisi dei gas ematici per valutare l'ipossiemia e l'eventuale acidosi. Procedere con una radiografia del torace per escludere altre cause di distress respiratorio. Monitorare i lattati per valutare la perfusione tissutale e completare l'emocromo e i marcatori infiammatori per identificare possibili infezioni. La gestione deve essere tempestiva e mirata a stabilizzare la paziente.",
   "escCitations": [
     {
-      "chunkId": "9630b63f-724c-43b8-a151-bce233d6b0f2-159",
-      "source": "knowledge_base/pneumologia/clinical/TS_ERS_ARDS_Guidelines.pdf",
-      "quote": "https:// doi. org/ 10. 1007/ s00063‑ 017‑ 0371‑0 13. Fan E, Del Sorbo L, Goligher EC et al (2017) An Official American Thoracic Society/European Society of Intensive Care Medicine/Society of critical care medicine clinical practice guideline: mechanical ventila‑ tion in adult patients with acute respiratory distress syndrome. Am J Respir Crit Care Med 195:1253–1263. https:// doi. org/ 10. 1164/ rccm. 201703‑ 0548ST 14. Murray JF, Matthay MA, Luce JM, Flick MR (1988) An expanded defini‑ tion of t"
+      "chunkId": "no",
+      "source": "knowledge_base/pneumologia/clinical/ATS_ERS_Idiopathic_Pulmonary_Fibrosis.pdf",
+      "quote": "The recommendation against the use of the following agents for the treatment of IPF is strong: anticoagulation (warfarin); imatinib; combination prednisone, azathioprine, and N-acetylcysteine; selective endothelin receptor antagonist (ambrisentan)."
     },
     {
-      "chunkId": "9630b63f-724c-43b8-a151-bce233d6b0f2-2",
-      "source": "knowledge_base/pneumologia/clinical/TS_ERS_ARDS_Guidelines.pdf",
-      "quote": "ntensive Care Medicine Taskforce on ARDS © 2023 The Author(s) Abstract The aim of these guidelines is to update the 2017 clinical practice guideline (CPG) of the European Society of Inten‑ sive Care Medicine (ESICM). The scope of this CPG is limited to adult patients and to non‑pharmacological respiratory support strategies across different aspects of acute respiratory distress syndrome (ARDS), including ARDS due to coronavirus disease 2019 (COVID‑19). These guidelines were formulated by an inte"
+      "chunkId": "yes",
+      "source": "knowledge_base/pneumologia/clinical/ATS_ERS_Idiopathic_Pulmonary_Fibrosis.pdf",
+      "quote": "The recommendation for the use of the following agents for the treatment of IPF is conditional: nintedanib; pirfenidone."
     },
     {
-      "chunkId": "9630b63f-724c-43b8-a151-bce233d6b0f2-164",
-      "source": "knowledge_base/pneumologia/clinical/TS_ERS_ARDS_Guidelines.pdf",
-      "quote": "cute respiratory distress syndrome: a randomized, controlled trial. Crit Care Med 34:1311–1318. https:// doi. org/ 10. 1097/ 01. CCM. [REDACTED]. 84885. 01 29. Villar J, Pérez‑Méndez L, López J et al (2007) An early PEEP/FIO2 trial identifies different degrees of lung injury in patients with acute respira‑ tory distress syndrome. Am J Respir Crit Care Med 176:795–804. https:// doi. org/ 10. 1164/ rccm. 200610‑ 1534OC 30. Ranieri VM, Rubenfeld G, Slutsky AS (2022) Rethinking ARDS after COVID‑19. "
+      "chunkId": "sild",
+      "source": "knowledge_base/pneumologia/clinical/ATS_ERS_Idiopathic_Pulmonary_Fibrosis.pdf",
+      "quote": "The recommendation against the use of the following agents for the treatment of IPF is conditional: phosphodiesterase-5 inhibitor (sildenafil); dual endothelin receptor antagonists (macitentan, bosentan)."
     },
     {
-      "chunkId": "9630b63f-724c-43b8-a151-bce233d6b0f2-130",
-      "source": "knowledge_base/pneumologia/clinical/TS_ERS_ARDS_Guidelines.pdf",
-      "quote": "mes for patients and families and ascertain ECCO2R specific morbidity. The views of patients and carers should be central to determining future research questions and outcomes. Conclusions In conclusion, these guidelines present 21 evidence-based recommendations (summarized in Table 2) including def- inition, phenotyping and the respiratory management of ARDS. A summary table comparing the changes in scope and recommendations compared with the 2017 ARDS guidelines are presented in Table 3. Final"
+      "chunkId": "pet",
+      "source": "knowledge_base/pneumologia/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/pneumologia/legal/Legge_22_dicembre_2017,_n.219.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico."
+    },
+    {
+      "chunkId": "a2",
+      "source": "knowledge_base/pneumologia/legal/Legge_22_dicembre_2017,_n.219.pdf",
+      "quote": "Legge 219/2017, art. 2 comma 2: nei casi di paziente con prognosi infausta a breve termine o di imminenza di morte, il medico deve astenersi da ogni ostinazione irragionevole nella somministrazione delle cure e dal ricorso a trattamenti inutili o sproporzionati. Il ricorso alla sedazione palliativa profonda continua e' annotato in cartella."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/pneumologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (2).pdf",
+      "quote": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Eseguire in sequenza il gold path: ega → rx-torace → lattati → emocromo → pcr-pct.",
-      "Non prescrivere di prima intenzione: pet-tc, colonscopia (TS_ERS_ARDS_Guidelines.pdf).",
-      "Budget SSN di riferimento: €120."
+      "Niente warfarin per l'IPF.",
+      "Niente triade.",
+      "Nintedanib o pirfenidone come opzioni condizionali."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Scudo L. 24/2017 Art. 5 L'adesione alle linee guida (TS_ERS_ARDS_Guidelines.pdf) e al gold path costituisce parametro di conformità alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "art5Adherence": "ATS/ERS IPF. Consenso sulla scelta condizionale. Dolore e, se fase finale, niente ostinazione.",
       "legalCriteria": [
-        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
-        "Raccogliere consenso informato prima di procedure invasive.",
-        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
-        "Registrare tempi critici nel setting Pronto Soccorso."
+        "Forti raccomandazioni contro warfarin e triade.",
+        "Consenso, legge 219/2017.",
+        "Dolore, art. 7."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "ega",
-      "name": "Emogasanalisi arteriosa (EGA)",
-      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+      "examId": "tc",
+      "name": "TC del torace",
+      "finding": "Pattern compatibile con la fibrosi in discussione come IPF. 87.41, 89,30 euro. Non autorizza il warfarin.",
       "isAbnormal": true,
-      "priceEuro": 12
+      "priceEuro": 89.3
     },
     {
-      "examId": "rx-torace",
-      "name": "RX Torace (2 proiezioni)",
-      "finding": "RX Torace (2 proiezioni) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
+      "examId": "spirometria",
+      "name": "Spirometria",
+      "finding": "Restrizione e diffusione da inquadrare nel percorso. Non sceglie il warfarin.",
       "isAbnormal": true,
-      "priceEuro": 15.5
-    },
-    {
-      "examId": "lattati",
-      "name": "Acido lattico (Lattati)",
-      "finding": "Acido lattico (Lattati) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
-      "isAbnormal": true,
-      "priceEuro": 7
-    },
-    {
-      "examId": "emocromo",
-      "name": "Emocromo completo con formula",
-      "finding": "Emocromo completo con formula nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
-      "isAbnormal": true,
-      "priceEuro": 4.5
-    },
-    {
-      "examId": "pcr-pct",
-      "name": "Proteina C Reattiva (PCR) e Procalcitonina (PCT)",
-      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Sindrome da distress respiratorio acuto (ARDS) (PNEUMO-020). Tachicardia, ipotensione, ipossiemia, febbre, respiro affannoso, uso dei muscoli accessori per la respirazione.",
-      "isAbnormal": true,
-      "priceEuro": 12
+      "priceEuro": 38
     }
   ],
   "inappropriateExams": [
     {
       "examId": "pet-tc",
       "name": "PET-TC",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: TS_ERS_ARDS_Guidelines.pdf.",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
       "isAbnormal": false,
-      "priceEuro": 900,
+      "priceEuro": 1071.7,
       "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: TS_ERS_ARDS_Guidelines.pdf."
-    },
-    {
-      "examId": "colonscopia",
-      "name": "Colonscopia",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: TS_ERS_ARDS_Guidelines.pdf.",
-      "isAbnormal": false,
-      "priceEuro": 90,
-      "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: TS_ERS_ARDS_Guidelines.pdf."
+      "wasteRationale": "La PET non sceglie nintedanib o pirfenidone."
     }
   ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 90,
+      "bloodPressure": "130/78",
+      "spo2": 93,
+      "temperature": 36.5,
+      "respiratoryRate": 20
+    },
+    "examBudgetEuro": 140,
+    "demographics": {
+      "age": 71,
+      "sex": "M",
+      "context": "Ambulatorio"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Crepitii basali",
+        "result": "Tipo velcro.",
+        "isPositive": true
+      },
+      {
+        "signName": "Indicazione cardiologica al warfarin",
+        "result": "Non in cartella.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Crepitii basali",
+        "result": "Tipo velcro.",
+        "isPositive": true
+      },
+      {
+        "signName": "Indicazione cardiologica al warfarin",
+        "result": "Non in cartella.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "tc": {
+          "finding": "Pattern compatibile con la fibrosi in discussione come IPF. 87.41, 89,30 euro. Non autorizza il warfarin.",
+          "normalFinding": "Pattern compatibile con la fibrosi in discussione come IPF. 87.41, 89,30 euro. Non autorizza il warfarin.",
+          "isAbnormal": true,
+          "price": 89.3
+        },
+        "spirometria": {
+          "finding": "Restrizione e diffusione da inquadrare nel percorso. Non sceglie il warfarin.",
+          "normalFinding": "Restrizione e diffusione da inquadrare nel percorso. Non sceglie il warfarin.",
+          "isAbnormal": true,
+          "price": 38
+        },
+        "pet-tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+          "isAbnormal": false,
+          "price": 1071.7
+        }
+      }
+    }
+  },
   "patientProfile": {
     "healthLiteracy": "MEDIUM",
-    "emotionalState": "PASSIVE",
-    "adherence": "FULL",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
     "lifestyleAndSocial": {
       "sleepQuality": "POOR",
       "stressLevel": "HIGH",
-      "socialSupport": "ADEQUATE"
+      "socialSupport": "LIMITED"
     },
-    "communicationStyle": "Poco in grado di parlare per l'ipossiemia. Il caregiver interpreta. Qualsiasi allarme urlato in sala peggiora il distress; serve comunicazione al team a bassa voce e aggiornamenti brevi ai familiari."
-  }
+    "communicationStyle": "Sono Luigi. Niente warfarin per la fibrosi. Spiegatemi nintedanib e pirfenidone, e che posso rifiutare. Il dolore ai muscoli scrivetelo."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "No warfarin",
+      "prompt": "Propongono warfarin per 'la fibrosi'. Nessun'altra indicazione.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Non lo usi: la raccomandazione contro e' forte",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Lo inizi",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Warfarin",
+      "prompt": "Strong recommendation against anticoagulation (warfarin) for the treatment of IPF.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "No triade",
+      "prompt": "Propongono prednisone, azatioprina e N-acetilcisteina insieme.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non la usi: raccomandazione forte contro",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "La inizi",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Triade",
+      "prompt": "Strong recommendation against combination prednisone, azathioprine, and N-acetylcysteine.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "No imatinib e no ambrisentan",
+      "prompt": "Qualcuno propone imatinib o ambrisentan.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Nemmeno quelli: raccomandazione forte contro",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Ne scelga uno",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Imatinib",
+      "prompt": "Strong recommendation against imatinib and against ambrisentan for IPF.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Nintedanib o pirfenidone",
+      "prompt": "Va scelta una delle due opzioni a raccomandazione condizionale, spiegando che molti le vorrebbero ma non tutti.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Proponga nintedanib o pirfenidone come opzioni condizionali e raccolga la preferenza",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Dica che non esiste alcuna cura scritta a favore",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Opzioni taciute",
+      "prompt": "Conditional recommendation for nintedanib and for pirfenidone.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "No sildenafil come cura",
+      "prompt": "Saturazione 93%. Propongono sildenafil per trattare l'IPF.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non lo usi come trattamento dell'IPF: raccomandazione condizionale contro",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo metta come cura dell'IPF",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Sildenafil",
+      "prompt": "Conditional recommendation against sildenafil and against dual endothelin receptor antagonists (macitentan, bosentan).",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente PET per scegliere il farmaco",
+      "prompt": "PET a 1.071,70 euro per 'vedere se il farmaco serve'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non la esegua per questa scelta",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "La prenoti",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+      "cost": 1071.7,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Consenso e fase finale",
+      "prompt": "Accetta il pirfenidone dopo la spiegazione. Se piu' avanti la prognosi fosse infausta a breve, niente ostinazione.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Rispetti il consenso di oggi e, nel fine vita, eviti trattamenti sproporzionati",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Imponga l'altro farmaco e, a fine vita, insista con cure sproporzionate",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Consenso",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico. Legge 219/2017, art. 2 comma 2: nei casi di paziente con prognosi infausta a breve termine o di imminenza di morte, il medico deve astenersi da ogni ostinazione irragionevole nella somministrazione delle cure e dal ricorso a trattamenti inutili o sproporzionati. Il ricorso alla sedazione palliativa profonda continua e' annotato in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore in cartella",
+      "prompt": "Dolore presente, scheda incompleta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Compili l'art. 7 della legge 38/2010",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Non annoti",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore omesso",
+      "prompt": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Dolore muscolare.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "IPF: no forti a warfarin, imatinib, triade e ambrisentan; si condizionali a nintedanib e pirfenidone; no condizionali a sildenafil e ai duali.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

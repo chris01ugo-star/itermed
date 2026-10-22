@@ -1,285 +1,475 @@
 {
-  "title": "Paziente con apnee notturne gravi e scarsa aderenza alla CPAP",
-  "description": "Francesco presenta segni di ipossiemia e tachipnea, con una storia di sonnolenza diurna e difficoltà di concentrazione. Riferisce anche un sonno di scarsa qualità e un livello di stress elevato.",
-  "difficulty": "MEDIUM",
-  "goldStandardPath": [
-    "polisonnografia",
-    "ega",
-    "spirometria"
-  ],
-  "baselineExamFindings": {
-    "vitals": {
-      "heartRate": 84,
-      "bloodPressure": "150/92",
-      "spo2": 93,
-      "temperature": 36.6,
-      "respiratoryRate": 18
-    },
-    "examBudgetEuro": 150,
-    "advancedExams": {
-      "values": {
-        "polisonnografia": {
-          "finding": "Polisonnografia nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
-          "normalFinding": "Polisonnografia nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
-          "isAbnormal": true,
-          "price": 80
-        },
-        "ega": {
-          "finding": "Emogasanalisi arteriosa (EGA) nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
-          "normalFinding": "Emogasanalisi arteriosa (EGA) nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
-          "isAbnormal": true,
-          "price": 12
-        },
-        "spirometria": {
-          "finding": "Spirometria (semplice/globale) nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
-          "normalFinding": "Spirometria (semplice/globale) nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
-          "isAbnormal": true,
-          "price": 25
-        },
-        "angio": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 180
-        },
-        "pet-tc": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 900
-        }
-      }
-    },
-    "demographics": {
-      "age": 55,
-      "sex": "M",
-      "context": "Francesco si presenta all'ambulatorio di pneumologia lamentando sonnolenza diurna e difficoltà a mantenere la concentrazione. Ha ricevuto una diagnosi di OSAS grave e gli è stata prescritta una CPAP, ma non riesce ad adattarsi all'apparecch"
-    },
-    "physicalExam": {
-      "finding": "Francesco presenta segni di ipossiemia, tachipnea e un aumento della pressione arteriosa. È visibilmente ansioso durante l'esame."
-    },
-    "polisonnografia": {
-      "finding": "Polisonnografia nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
-      "isAbnormal": true
-    },
-    "ega": {
-      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
-      "isAbnormal": true
-    },
-    "spirometria": {
-      "finding": "Spirometria (semplice/globale) nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
-      "isAbnormal": true
-    },
-    "angio": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
-      "isAbnormal": false
-    },
-    "pet-tc": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
-      "isAbnormal": false
-    }
-  },
-  "correctSolution": "Iniziare un programma di supporto per migliorare l'aderenza alla CPAP e gestire l'ansia. Considerare una rivalutazione della terapia e l'educazione sul rischio di incidenti legati alla sonnolenza diurna.",
-  "patientPrompt": "Ho 55 anni e da tempo ho problemi di sonno. Mi sento sempre stanco durante il giorno e ho difficoltà a concentrarmi. Ho ricevuto una diagnosi di OSAS grave e mi è stata prescritta una CPAP, ma non riesco ad abituarmi. Ogni volta che la indosso, mi sento come se fossi un astronauta e mi dà fastidio. Ho anche notato che il mio sonno è molto disturbato e mi sveglio spesso. Sono molto ansioso riguardo alla mia salute e ho paura di non essere in grado di guidare in sicurezza. Non ho molto supporto da parte della mia famiglia e questo mi fa sentire ancora più stressato.",
   "id": "PNEUMO-011",
   "code": "PNEUMO-011",
+  "title": "Sospetto OSAS: sintomi prima, polisonnografia in laboratorio solo se il test e' dubbio",
+  "description": "Uomo di 52 anni, obeso, russamento e pause riferite dalla moglie. Vogliono subito la polisonnografia in laboratorio e una TC.",
+  "difficulty": "HARD",
   "specialty": "pneumologia",
   "specialtyLabel": "Pneumologia",
-  "condition": "OSAS grave con non aderenza alla ventilazione notturna",
+  "condition": "Sospetto di sindrome delle apnee ostruttive del sonno",
   "frequencyCategory": "HIGH",
-  "matrixDifficulty": "INTERMEDIATE",
+  "matrixDifficulty": "ADVANCED",
   "setting": "AMBULATORIO",
-  "guidelineRef": "MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf",
-  "diagnosis": "OSAS grave con scarsa aderenza alla CPAP.",
-  "pastMedicalHistory": "Francesco ha una storia di ipertensione, ma non ha mai avuto ricoveri ospedalieri significativi. Non ha patologie respiratorie note oltre all'OSAS.",
-  "presentation": "Francesco, 55 anni, si presenta con una storia di OSAS grave. Riferisce di non utilizzare la CPAP a causa di una sensazione di disagio e di ansia. Il suo sonno è frequentemente interrotto e non si sente riposato al mattino. È preoccupato per i rischi legati alla guida e per la sua salute generale.",
+  "guidelineRef": "Ministero Salute, documento appropriatezza (file OSAS); nomenclatore; L.219/2017",
+  "diagnosis": "Sospetto OSAS. I criteri si basano su sintomi e test del sonno. La polisonnografia di laboratorio e' obbligatoria solo se il monitoraggio cardiorespiratorio o la polisonnografia portatile sono dubbi.",
+  "pastMedicalHistory": "Obesita', ipertensione. Nessun incidente alla guida riferito, ma fa il camionista. Dolore cervicale.",
+  "presentation": "Russa sempre, la moglie vede pause, si sveglia con soffocamento. Collo largo. Chiede la 'macchina dell'ospedale' come primo esame e una TC del torace.",
   "redHerrings": [
-    "Francesco ha un lieve sovrappeso, ma non è obeso.",
-    "Riferisce di avere episodi occasionali di reflusso gastroesofageo.",
-    "Ha avuto un recente aumento della pressione arteriosa, ma non ha mai avuto problemi cardiaci precedenti."
+    "TC del torace.",
+    "Polisonnografia di laboratorio subito."
   ],
-  "timeLimitMinutes": 25,
-  "patientDeteriorationThreshold": 12,
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Carlo. Russo e mia moglie dice che smetto di respirare. Faccio il camionista. Non voglio l'esame piu' caro se il testo dice di partire da un altro. Il collo mi fa male di giorno, scrivetelo se resto.",
+  "correctSolution": "Cercare russamento, pause, risvegli con soffocamento, BMI e collo. Priorita' alta per il lavoro a rischio. Monitoraggio cardiorespiratorio o polisonnografia portatile prima. Laboratorio solo se dubbio. Non TC. Consenso. Dolore cervicale annotato se c'e' ricovero; in ambulatorio si informa comunque.",
+  "goldStandardPath": [
+    "polisonnografia",
+    "ecg"
+  ],
+  "goldPathNarrative": "Il documento ministeriale sequenzia i test e riserva il laboratorio ai risultati dubbi. Il monitoraggio 89.17.3 costa 139 euro, la polisonnografia 89.17 costa 139,40.",
   "examLatencies": {
     "polisonnografia": 720,
-    "ega": 10,
-    "spirometria": 25,
-    "angio": 45,
-    "pet-tc": 180
+    "tc": 40,
+    "ecg": 15
   },
   "anamnesisQuestions": [
     {
-      "id": "aq_pneumo-011_1",
-      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (OSAS grave con non aderenza alla ventilazione notturna)",
+      "id": "q1",
+      "prompt": "Russa, ha pause, si sveglia con soffocamento? Che lavoro fa?",
       "critical": true,
       "expectedKeywords": [
-        "da quanto",
-        "quando",
-        "insorgenza",
-        "dispnea",
-        "tosse"
+        "russamento",
+        "pause",
+        "camion"
       ],
-      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+      "rationale": "Sintomi di sospetto e professione a rischio alzano la priorita'."
     },
     {
-      "id": "aq_pneumo-011_2",
-      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "id": "q2",
+      "prompt": "Ha gia' un monitoraggio cardiorespiratorio?",
       "critical": true,
       "expectedKeywords": [
-        "espettorato",
-        "sangue",
-        "sibili",
-        "dolore",
-        "ortopnea"
+        "no",
+        "monitoraggio",
+        "dubbio"
       ],
-      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
-    },
-    {
-      "id": "aq_pneumo-011_3",
-      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
-      "critical": true,
-      "expectedKeywords": [
-        "fum",
-        "lavoro",
-        "polvere",
-        "allergia",
-        "asbesto"
-      ],
-      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
-    },
-    {
-      "id": "aq_pneumo-011_4",
-      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
-      "critical": true,
-      "expectedKeywords": [
-        "inalator",
-        "ossigeno",
-        "cpap",
-        "antibiot",
-        "aderenza"
-      ],
-      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
-    },
-    {
-      "id": "aq_pneumo-011_5",
-      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
-      "critical": true,
-      "expectedKeywords": [
-        "saturazione",
-        "confusione",
-        "emottisi",
-        "febbre",
-        "trauma"
-      ],
-      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
-    },
-    {
-      "id": "aq_pneumo-011_6",
-      "prompt": "Contesto di presentazione: Ambulatorio di Pneumologia",
-      "critical": false,
-      "expectedKeywords": [
-        "dove si trova",
-        "arrivato",
-        "ambulanza",
-        "visita"
-      ],
-      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+      "rationale": "Il laboratorio e' obbligatorio solo dopo un esito dubbio."
     }
   ],
   "physicalExam": {
-    "summary": "Francesco presenta segni di ipossiemia, tachipnea e un aumento della pressione arteriosa. È visibilmente ansioso durante l'esame."
+    "summary": "Obeso, collo largo, saturazione diurna 96%. Non in insufficienza respiratoria ora."
   },
-  "goldPathNarrative": "Il percorso diagnostico per Francesco prevede una polisonnografia per confermare la gravità dell'OSAS, seguita da un'analisi dei gas ematici (ega) e una spirometria per valutare eventuali comorbidità respiratorie. È fondamentale affrontare le sue preoccupazioni riguardo alla CPAP e fornire supporto psicologico per migliorare l'aderenza al trattamento.",
   "escCitations": [
     {
-      "chunkId": "f4f8165e-158b-4b14-b66c-b7686ca421d2-325",
+      "chunkId": "crit",
       "source": "knowledge_base/pneumologia/clinical/MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf",
-      "quote": "est standard sul sonno. La diagnosi di OSAS non può prescindere da una valutazione strumentale per l’intera durata della notte; prima di avviare un paziente con sospetto OSAS al percorso diagnostico strumentale, de- vono essere ricercati i segni e i sintomi di sospetto (russamento abituale, pause respiratorie, risvegli con senso di soffocamento, BMI, circonferenza collo > 43 cm ecc.). Nell’attuazione del percorso diagnostico andranno inoltre valutati i livelli di priorità. In particolare, il liv"
+      "quote": "I criteri diagnostici di OSAS si basano su sintomi e segni clinici e test standard sul sonno. La diagnosi di OSAS non puo' prescindere da una valutazione strumentale per l'intera durata della notte."
     },
     {
-      "chunkId": "3d7cbcef-fe97-4929-82a0-6772457a420e-325",
+      "chunkId": "segni",
       "source": "knowledge_base/pneumologia/clinical/MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf",
-      "quote": "est standard sul sonno. La diagnosi di OSAS non può prescindere da una valutazione strumentale per l’intera durata della notte; prima di avviare un paziente con sospetto OSAS al percorso diagnostico strumentale, de- vono essere ricercati i segni e i sintomi di sospetto (russamento abituale, pause respiratorie, risvegli con senso di soffocamento, BMI, circonferenza collo > 43 cm ecc.). Nell’attuazione del percorso diagnostico andranno inoltre valutati i livelli di priorità. In particolare, il liv"
+      "quote": "Prima di avviare un paziente con sospetto OSAS al percorso diagnostico strumentale, devono essere ricercati i segni e i sintomi di sospetto (russamento abituale, pause respiratorie, risvegli con senso di soffocamento, BMI, circonferenza collo)."
     },
     {
-      "chunkId": "3d7cbcef-fe97-4929-82a0-6772457a420e-324",
+      "chunkId": "lab",
       "source": "knowledge_base/pneumologia/clinical/MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf",
-      "quote": "plicanze di OSAS e di intraprendere una te- rapia adeguata. È ormai provato che l’OSAS si associa e/o è un importante fattore di rischio e aggravamento per insufficienza respiratoria ipos- siemica-ipercapnica, ipertensione arteriosa siste- mica (mancanza del “dipping” notturno e dello scarso controllo farmacologico), cardiopatia ische- mica e scompenso cardiaco, aritmie cardiache, patologie cerebrovascolari, sindrome metabolica. Recenti studi eseguiti su pazienti OSAS hanno inoltre dimostrato un"
+      "quote": "La polisonnografia notturna in laboratorio per la diagnosi di OSAS e' obbligatoria solo in caso di risultati dubbi dopo monitoraggio cardiorespiratorio o polisonnografia portatile."
     },
     {
-      "chunkId": "f4f8165e-158b-4b14-b66c-b7686ca421d2-324",
+      "chunkId": "prio",
       "source": "knowledge_base/pneumologia/clinical/MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf",
-      "quote": "plicanze di OSAS e di intraprendere una te- rapia adeguata. È ormai provato che l’OSAS si associa e/o è un importante fattore di rischio e aggravamento per insufficienza respiratoria ipos- siemica-ipercapnica, ipertensione arteriosa siste- mica (mancanza del “dipping” notturno e dello scarso controllo farmacologico), cardiopatia ische- mica e scompenso cardiaco, aritmie cardiache, patologie cerebrovascolari, sindrome metabolica. Recenti studi eseguiti su pazienti OSAS hanno inoltre dimostrato un"
+      "quote": "Il livello di priorita' andrà graduato su sintomatologia clinica e severita' del quadro, insufficienza respiratoria, comorbidita' cardiovascolare, occupazioni e professioni a rischio di incidenti."
+    },
+    {
+      "chunkId": "tar",
+      "source": "knowledge_base/pneumologia/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "89.17 POLISONNOGRAFIA diurna o notturna, tariffa 139,40 euro. 89.17.3 MONITORAGGIO CARDIORESPIRATORIO NOTTURNO COMPLETO per studio apnee, tariffa 139,00 euro."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/pneumologia/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.41 TC DEL TORACE tariffa 89,30 euro; 87.41.1 TC DEL TORACE SENZA E CON MDC tariffa 142,70 euro. Si prescrive solo se il testo della linea guida la colloca in questo passo."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/pneumologia/legal/Legge_22_dicembre_2017,_n.219.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Eseguire in sequenza il gold path: polisonnografia → ega → spirometria.",
-      "Non prescrivere di prima intenzione: angio, pet-tc (MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf).",
-      "Budget SSN di riferimento: €150."
+      "Sintomi prima del test.",
+      "Laboratorio solo se il primo test e' dubbio.",
+      "Priorita' per il camionista."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Adesione non conforme secondo la L. 24/2017 Art. 5.",
+      "art5Adherence": "Il percorso segue il testo ministeriale estratto e le tariffe del nomenclatore.",
       "legalCriteria": [
-        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
-        "Raccogliere consenso informato prima di procedure invasive.",
-        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
-        "Registrare tempi critici nel setting Ambulatorio di Pneumologia."
+        "Test a tariffa solo nel passo scritto.",
+        "Consenso, legge 219/2017.",
+        "Legge 24/2017 art. 5."
       ]
     }
   },
   "mandatoryExams": [
     {
       "examId": "polisonnografia",
-      "name": "Polisonnografia",
-      "finding": "Polisonnografia nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
+      "name": "Monitoraggio cardiorespiratorio notturno",
+      "finding": "Da eseguire per primo: codice 89.17.3, 139,00 euro. Il laboratorio 89.17 a 139,40 euro solo se questo o il portatile sono dubbi.",
       "isAbnormal": true,
-      "priceEuro": 80
+      "priceEuro": 139
     },
     {
-      "examId": "ega",
-      "name": "Emogasanalisi arteriosa (EGA)",
-      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
-      "isAbnormal": true,
-      "priceEuro": 12
-    },
-    {
-      "examId": "spirometria",
-      "name": "Spirometria (semplice/globale)",
-      "finding": "Spirometria (semplice/globale) nel contesto di OSAS grave con non aderenza alla ventilazione notturna (PNEUMO-011). Ipossia, tachipnea, pressione arteriosa elevata, segni di ansia.",
-      "isAbnormal": true,
-      "priceEuro": 25
+      "examId": "ecg",
+      "name": "ECG",
+      "finding": "Nel documento ministeriale, se e' presente ipertensione arteriosa, l'ECG (segni di ipertrofia ventricolare sinistra e altre alterazioni) entra negli indicatori di cartella. Codice 89.52, tariffa 12,50 euro. Non sostituisce il monitoraggio cardiorespiratorio e non autorizza la TC.",
+      "isAbnormal": false,
+      "priceEuro": 12.5
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "angio",
-      "name": "Angio-TC e Angio-RM",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
+      "examId": "tc",
+      "name": "TC del torace",
+      "finding": "87.41, 89,30 euro. Non diagnostica l'OSAS.",
       "isAbnormal": false,
-      "priceEuro": 180,
+      "priceEuro": 89.3,
       "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf."
-    },
-    {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf.",
-      "isAbnormal": false,
-      "priceEuro": 900,
-      "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf."
+      "wasteRationale": "La TC non sostituisce il test del sonno."
     }
   ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 82,
+      "bloodPressure": "148/92",
+      "spo2": 96,
+      "temperature": 36.5,
+      "respiratoryRate": 16
+    },
+    "examBudgetEuro": 160,
+    "demographics": {
+      "age": 52,
+      "sex": "M",
+      "context": "Ambulatorio"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Russamento e pause riferite",
+        "result": "Ogni notte, secondo la moglie.",
+        "isPositive": true
+      },
+      {
+        "signName": "Insufficienza respiratoria diurna",
+        "result": "Non oggi.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Russamento e pause riferite",
+        "result": "Ogni notte, secondo la moglie.",
+        "isPositive": true
+      },
+      {
+        "signName": "Insufficienza respiratoria diurna",
+        "result": "Non oggi.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "polisonnografia": {
+          "finding": "Da eseguire per primo: codice 89.17.3, 139,00 euro. Il laboratorio 89.17 a 139,40 euro solo se questo o il portatile sono dubbi.",
+          "normalFinding": "Da eseguire per primo: codice 89.17.3, 139,00 euro. Il laboratorio 89.17 a 139,40 euro solo se questo o il portatile sono dubbi.",
+          "isAbnormal": true,
+          "price": 139
+        },
+        "tc": {
+          "finding": "87.41, 89,30 euro. Non diagnostica l'OSAS.",
+          "normalFinding": "87.41, 89,30 euro. Non diagnostica l'OSAS.",
+          "isAbnormal": false,
+          "price": 89.3
+        }
+      }
+    }
+  },
   "patientProfile": {
     "healthLiteracy": "MEDIUM",
-    "emotionalState": "DEFENSIVE",
-    "adherence": "NON_COMPLIANT",
+    "emotionalState": "COLLABORATIVE",
+    "adherence": "FULL",
     "lifestyleAndSocial": {
       "sleepQuality": "POOR",
       "stressLevel": "HIGH",
-      "socialSupport": "LIMITED"
+      "socialSupport": "ADEQUATE"
     },
-    "communicationStyle": "Minimizza il russamento e rifiuta la CPAP ('sembro un astronauta'). Il paternalismo irrigidisce. Funziona il confronto sui sintomi diurni e sul rischio alla guida."
-  }
+    "communicationStyle": "Sono Carlo. Guido i camion. Russo e ho le pause. Fate l'esame giusto, non il piu' grosso. Se il primo e' dubbio, allora quello in laboratorio."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Sintomi di sospetto",
+      "prompt": "Russamento, pause, soffocamento, collo, camionista.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Li raccolga prima di qualsiasi macchina",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Prenoti un esame senza chiedere russamento e pause",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Sintomi saltati",
+      "prompt": "Prima del percorso strumentale vanno cercati russamento abituale, pause, risvegli con soffocamento, BMI e circonferenza del collo.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Priorita'",
+      "prompt": "Fa il camionista. Non e' in insufficienza respiratoria oggi, ma il lavoro e' a rischio incidenti.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Gli dia priorita' per la professione a rischio",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Lo metta in lista ordinaria come un impiegato senza sintomi",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Priorita' persa",
+      "prompt": "La priorita' si gradua anche su occupazioni e professioni a rischio di incidenti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Non il laboratorio per primo",
+      "prompt": "Non ha ancora un monitoraggio. Chiedono la polisonnografia in laboratorio, 89.17, 139,40 euro, come obbligo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Parta dal monitoraggio cardiorespiratorio 89.17.3 o dal portatile. Il laboratorio solo se il risultato e' dubbio",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Obblighi il laboratorio come primo esame",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Laboratorio fuori sequenza",
+      "prompt": "La polisonnografia notturna in laboratorio e' obbligatoria solo in caso di risultati dubbi dopo monitoraggio cardiorespiratorio o polisonnografia portatile. Tariffe 89.17.3: 139,00 euro; 89.17: 139,40 euro.",
+      "cost": 139.4,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente TC",
+      "prompt": "Chiede la TC 87.41 a 89,30 euro per 'vedere le apnee'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Non la esegua per questo quesito",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "La prenoti",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC fuori passo",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.41 TC DEL TORACE tariffa 89,30 euro; 87.41.1 TC DEL TORACE SENZA E CON MDC tariffa 142,70 euro. Si prescrive solo se il testo della linea guida la colloca in questo passo.",
+      "cost": 89.3,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Notte intera",
+      "prompt": "Propongono un'ossimetria di dieci minuti in ambulatorio come diagnosi.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Il test deve coprire l'intera notte",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Chiuda la diagnosi sui dieci minuti",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "Test incompleto",
+      "prompt": "La diagnosi non puo' prescindere da una valutazione strumentale per l'intera durata della notte.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Prima di trattamenti invasivi dell'obesita'",
+      "prompt": "Il chirurgo vuole il bypass la prossima settimana senza alcun test del sonno.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Diagnostichi l'OSAS, se possibile, prima di un trattamento invasivo-bariatrico",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo mandi in sala senza alcun test",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Bariatrica senza OSAS",
+      "prompt": "L'eventuale presenza e severita' di OSAS deve essere diagnosticata se possibile prima di procedere a trattamenti, soprattutto se invasivi-bariatrici, dell'obesita'.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Consenso sul test",
+      "prompt": "Accetta il monitoraggio a domicilio. La moglie vuole solo il laboratorio.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Esegua il test che lui accetta, nel passo scritto",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Imponga il laboratorio contro il suo consenso",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Consenso saltato",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore in cartella",
+      "prompt": "Il dolore c'e'. Mancano in cartella caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Compili l'art. 7 della legge 38/2010",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Non annoti il dolore",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Dolore cervicale diurno: se entra in un ricovero va scritto per art. 7. Il test del sonno resta ambulatoriale.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "OSAS: sintomi, priorita' del camionista, monitoraggio prima del laboratorio, niente TC, niente bariatrica cieca, consenso.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

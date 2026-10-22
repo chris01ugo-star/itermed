@@ -1,303 +1,481 @@
 {
-  "title": "Adulto giovane con tosse protrattata e infiltrati",
-  "description": "Andrea è un uomo di 38 anni che si presenta in ambulatorio con sintomi respiratori. Riferisce di avere una tosse persistente da alcune settimane, accompagnata da una leggera febbre e sudorazioni notturne. Si mostra ansioso e difensivo riguardo alla possibilità di una diagnosi di tubercolosi, temendo lo stigma sociale. Ha una rete sociale limitata e non si sente supportato. La sua aderenza alle cure è scarsa, e ha difficoltà a comprendere appieno le informazioni mediche.",
-  "difficulty": "MEDIUM",
-  "goldStandardPath": [
-    "rx-torace",
-    "quantiferon",
-    "emocromo",
-    "tamponi"
-  ],
-  "baselineExamFindings": {
-    "vitals": {
-      "heartRate": 90,
-      "bloodPressure": "122/78",
-      "spo2": 95,
-      "temperature": 37.8,
-      "respiratoryRate": 18
-    },
-    "examBudgetEuro": 90,
-    "advancedExams": {
-      "values": {
-        "rx-torace": {
-          "finding": "RX Torace (2 proiezioni) nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
-          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
-          "isAbnormal": true,
-          "price": 15.5
-        },
-        "quantiferon": {
-          "finding": "Quantiferon nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
-          "normalFinding": "Quantiferon nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
-          "isAbnormal": true,
-          "price": 35
-        },
-        "emocromo": {
-          "finding": "Emocromo completo con formula nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
-          "normalFinding": "Emocromo completo con formula nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
-          "isAbnormal": true,
-          "price": 4.5
-        },
-        "tamponi": {
-          "finding": "Specie microbiche da tampone nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
-          "normalFinding": "Specie microbiche da tampone nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
-          "isAbnormal": true,
-          "price": 15
-        },
-        "pet-tc": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: WHO_2022_Tuberculosis_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: WHO_2022_Tuberculosis_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 900
-        },
-        "colonscopia": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: WHO_2022_Tuberculosis_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: WHO_2022_Tuberculosis_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 90
-        }
-      }
-    },
-    "demographics": {
-      "age": 38,
-      "sex": "M",
-      "context": "Ambulatorio di Pneumologia"
-    },
-    "physicalExam": {
-      "finding": "Tachipnea, uso dei muscoli accessori, auscultazione con crepitii e ronchi, segni di ipossiemia."
-    },
-    "rx-torace": {
-      "finding": "RX Torace (2 proiezioni) nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
-      "isAbnormal": true
-    },
-    "quantiferon": {
-      "finding": "Quantiferon nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
-      "isAbnormal": true
-    },
-    "emocromo": {
-      "finding": "Emocromo completo con formula nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
-      "isAbnormal": true
-    },
-    "tamponi": {
-      "finding": "Specie microbiche da tampone nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
-      "isAbnormal": true
-    },
-    "pet-tc": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: WHO_2022_Tuberculosis_Guidelines.pdf.",
-      "isAbnormal": false
-    },
-    "colonscopia": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: WHO_2022_Tuberculosis_Guidelines.pdf.",
-      "isAbnormal": false
-    }
-  },
-  "correctSolution": "Seguire il gold path: rx-torace → quantiferon → emocromo → tamponi",
-  "patientPrompt": "Ho 38 anni e da alcune settimane ho una tosse che non va via. A volte ho anche febbre e sudo molto di notte. Sono preoccupato perché ho sentito parlare di tubercolosi e temo che le persone possano giudicarmi se scoprissero che ho questa malattia. Non ho molti amici e mi sento solo in questo momento. Non riesco a capire bene le informazioni che mi danno i medici e ho difficoltà a seguire le cure.",
   "id": "PNEUMO-021",
   "code": "PNEUMO-021",
+  "title": "ARDS: ossigeno ad alti flussi se non intubato, poi volumi bassi e prono",
+  "description": "Donna di 54 anni, polmonite, PaO2/FiO2 110, non e' BPCO e non e' edema cardiogeno. Ancora non intubata. Poi, se intubata, vogliono volumi alti.",
+  "difficulty": "HARD",
   "specialty": "pneumologia",
   "specialtyLabel": "Pneumologia",
-  "condition": "Tubercolosi polmonare attiva",
+  "condition": "ARDS moderata-grave non da BPCO ne' da edema cardiogeno",
   "frequencyCategory": "MEDIUM",
-  "matrixDifficulty": "INTERMEDIATE",
-  "setting": "AMBULATORIO",
-  "guidelineRef": "WHO_2022_Tuberculosis_Guidelines.pdf",
-  "diagnosis": "Tubercolosi polmonare attiva",
-  "pastMedicalHistory": "Non presenta patologie pregresse significative, ma ha una storia di ansia e stress elevato.",
-  "presentation": "Andrea, un uomo di 38 anni, si presenta in ambulatorio lamentando tosse persistente, febbre leggera e sudorazioni notturne. Si mostra ansioso e difensivo, temendo il giudizio degli altri riguardo alla possibilità di avere la tubercolosi. Riferisce di sentirsi isolato e di avere difficoltà a seguire le indicazioni mediche. La sua literacy è bassa, il che complica ulteriormente la sua comprensione della situazione.",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "PRONTO_SOCCORSO",
+  "guidelineRef": "ATS/ESICM ARDS (file TS_ERS); L.219/2017; L.38/2010",
+  "diagnosis": "Prima dell'intubazione, HFNO rispetto all'ossigeno convenzionale per ridurre l'intubazione, se non e' edema cardiogeno ne' riacutizzazione di BPCO. Se intubata: volumi 4-8 ml/kg di peso predetto. Prono se PaO2/FiO2 resta sotto 150 con PEEP almeno 5, sessioni di almeno 16 ore.",
+  "pastMedicalHistory": "Sana, polmonite grave. Nessuna DAT di rifiuto. Dolore da decubito potenziale. Il marito chiede 'di non girarla'.",
+  "presentation": "Ipossiemia grave, infiltrati, non scompenso. Maschera a ossigeno alto senza migliorare. Frequenza alta.",
   "redHerrings": [
-    "Andrea ha recentemente viaggiato in un'area con alta incidenza di COVID-19, ma non presenta sintomi tipici di infezione da SARS-CoV-2.",
-    "Ha una storia di allergie respiratorie, ma non ha mai avuto episodi significativi in passato che possano giustificare i sintomi attuali.",
-    "Riferisce di aver fumato occasionalmente in passato, ma ha smesso da diversi anni e non ha mai avuto problemi polmonari significativi."
+    "Volume di 12 ml/kg.",
+    "Prono solo a notte fonda per poche ore."
   ],
-  "timeLimitMinutes": 25,
-  "patientDeteriorationThreshold": 12,
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Sara. Non respiro. Se la guida dice gli occhialini ad alto flusso prima del tubo, provateli. Se mi intubate, non volumi grandi. Girarmi se serve. Il dolore va scritto.",
+  "correctSolution": "HFNO se non ventilata e la causa non e' edema o BPCO. Se si intuba, 4-8 ml/kg PBW. Prono precoce se dopo stabilizzazione e PEEP il rapporto resta sotto 150, per almeno 16 ore. Consenso del marito non cancella l'indicazione se lei non ha rifiutato; se incapace si seguono le regole, ma qui non c'e' un rifiuto in DAT. Dolore in cartella.",
+  "goldStandardPath": [
+    "ega",
+    "rx-torace"
+  ],
+  "goldPathNarrative": "Linea ARDS: HFNO, basso volume 4-8, prono sotto 150 per sessioni lunghe.",
   "examLatencies": {
+    "ega": 10,
     "rx-torace": 20,
-    "quantiferon": 120,
-    "emocromo": 30,
-    "tamponi": 20,
-    "pet-tc": 180
+    "tc": 40
   },
   "anamnesisQuestions": [
     {
-      "id": "aq_pneumo-021_1",
-      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Tubercolosi polmonare attiva)",
+      "id": "q1",
+      "prompt": "E' edema cardiogeno o una riacutizzazione di BPCO?",
       "critical": true,
       "expectedKeywords": [
-        "da quanto",
-        "quando",
-        "insorgenza",
-        "dispnea",
-        "tosse"
+        "no",
+        "polmonite",
+        "BPCO"
       ],
-      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+      "rationale": "L'HFNO raccomandato esclude quelle due cause."
     },
     {
-      "id": "aq_pneumo-021_2",
-      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "id": "q2",
+      "prompt": "Qual e' il rapporto PaO2/FiO2 dopo PEEP e volume basso?",
       "critical": true,
       "expectedKeywords": [
-        "espettorato",
-        "sangue",
-        "sibili",
-        "dolore",
-        "ortopnea"
+        "110",
+        "PEEP",
+        "rapporto"
       ],
-      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
-    },
-    {
-      "id": "aq_pneumo-021_3",
-      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
-      "critical": true,
-      "expectedKeywords": [
-        "fum",
-        "lavoro",
-        "polvere",
-        "allergia",
-        "asbesto"
-      ],
-      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
-    },
-    {
-      "id": "aq_pneumo-021_4",
-      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
-      "critical": true,
-      "expectedKeywords": [
-        "inalator",
-        "ossigeno",
-        "cpap",
-        "antibiot",
-        "aderenza"
-      ],
-      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
-    },
-    {
-      "id": "aq_pneumo-021_5",
-      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
-      "critical": true,
-      "expectedKeywords": [
-        "saturazione",
-        "confusione",
-        "emottisi",
-        "febbre",
-        "trauma"
-      ],
-      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
-    },
-    {
-      "id": "aq_pneumo-021_6",
-      "prompt": "Contesto di presentazione: Ambulatorio di Pneumologia",
-      "critical": false,
-      "expectedKeywords": [
-        "dove si trova",
-        "arrivato",
-        "ambulanza",
-        "visita"
-      ],
-      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+      "rationale": "Il prono parte sotto 150."
     }
   ],
   "physicalExam": {
-    "summary": "Tachipnea, uso dei muscoli accessori, auscultazione con crepitii e ronchi, segni di ipossiemia."
+    "summary": "Tachipnea, saturazione 88% in maschera, non edema clinico. Non intubata all'arrivo."
   },
-  "goldPathNarrative": "Iniziare con una radiografia del torace per valutare la presenza di lesioni polmonari. Successivamente, eseguire un test Quantiferon per valutare l'esposizione alla tubercolosi. Un emocromo sarà utile per escludere altre condizioni e monitorare la salute generale. Infine, raccogliere tamponi per confermare la diagnosi.",
   "escCitations": [
     {
-      "chunkId": "717b823b-ee00-43f0-a5a4-03ae337d6064-900",
-      "source": "knowledge_base/pneumologia/clinical/WHO_2022_Tuberculosis_Guidelines.pdf",
-      "quote": "Curatola A, Ynga W, Franco J et al. The Innovative Socio-economic Interventions Against Tuberculosis (ISIAT) project: an operational assessment. Int J Tuberc Lung Dis. 2011;15 Suppl 2:50–7 (https://doi.org/10.5588/ijtld.10.0447). 160. Latent tuberculosis infection: updated and consolidated guidelines for programmatic management (WHO/CDS/TB/2018.4). Geneva: World Health Organization; 2018 (https://www.who.int/publications/i/ item/[REDACTED]). 161. Global tuberculosis report 2020. Geneva: World He"
+      "chunkId": "hf",
+      "source": "knowledge_base/pneumologia/clinical/TS_ERS_ARDS_Guidelines.pdf",
+      "quote": "We recommend that non-mechanically ventilated patients with acute hypoxemic respiratory failure not due to cardiogenic pulmonary edema or acute exacerbation of COPD receive high-flow nasal oxygen as compared to conventional oxygen therapy to reduce the risk of intubation."
     },
     {
-      "chunkId": "717b823b-ee00-43f0-a5a4-03ae337d6064-129",
-      "source": "knowledge_base/pneumologia/clinical/WHO_2022_Tuberculosis_Guidelines.pdf",
-      "quote": "he treatment of tuberculosis undertaken by the British Medical Research Council tuberculosis units, 1946–1986, with relevant subsequent publications. Int J Tuberc Lung Dis. 1999;3:S231–79 (https://www.ncbi.nlm.nih.gov/pubmed/[REDACTED]). 4. WHO consolidated guidelines on tuberculosis. Module 5: Management of tuberculosis in children and adolescents. Geneva: World Health Organization; 2022 (https://www.who.int/publications/i/ item/[REDACTED]). Licence: CC BY-NC-SA 3.0 IGO. 5. The End TB Strategy."
+      "chunkId": "vt",
+      "source": "knowledge_base/pneumologia/clinical/TS_ERS_ARDS_Guidelines.pdf",
+      "quote": "We recommend the use of low tidal volume ventilation strategies (i.e., 4-8 ml/kg PBW), compared to larger tidal volumes (traditionally used to normalize blood gases), to reduce mortality in patients with ARDS."
     },
     {
-      "chunkId": "717b823b-ee00-43f0-a5a4-03ae337d6064-927",
-      "source": "knowledge_base/pneumologia/clinical/WHO_2022_Tuberculosis_Guidelines.pdf",
-      "quote": "levant to children and adolescents, are featured in the guidelines on childhood TB treatment that are published in the module on management of tuberculosis in children and adolescents of this series of consolidated guidelines. (Recommendation 9) Children with suspected or confirmed pulmonary TB or tuberculous peripheral lymphadenitis who live in settings with low HIV prevalence or low prevalence of isoniazid resistance and children who are HIV-negative can be treated with a three- drug regimen ("
+      "chunkId": "pr",
+      "source": "knowledge_base/pneumologia/clinical/TS_ERS_ARDS_Guidelines.pdf",
+      "quote": "We recommend using prone position as compared to supine position for patients with moderate-severe ARDS (defined as PaO2/FiO2 < 150 mmHg and PEEP >= 5 cmH2O, despite optimization of ventilation settings) to reduce mortality."
     },
     {
-      "chunkId": "717b823b-ee00-43f0-a5a4-03ae337d6064-731",
-      "source": "knowledge_base/pneumologia/clinical/WHO_2022_Tuberculosis_Guidelines.pdf",
-      "quote": "is. Int J Tuberc Lung Dis. 2016;20:1099–104 (https://doi.org/10.5588/ijtld.15.0864). 108. Blumberg HM, Burman WJ, Chaisson RE, Daley CL, Etkind S, LN F et al. American Thoracic Society/Centers for Disease Control and Prevention/Infectious Diseases Society of America: treatment of tuberculosis. Am J Respir Crit Care Med. 2003;167:603–62 (https://doi.org/10.1164/rccm.167.4.603). 109. Ahmad Khan F, Minion J, Al-Motairi A, Benedetti A, Harries AD, Menzies D. An updated systematic review and meta-ana"
+      "chunkId": "early",
+      "source": "knowledge_base/pneumologia/clinical/TS_ERS_ARDS_Guidelines.pdf",
+      "quote": "We recommend starting prone position early after intubation, after a period of stabilization during which low tidal volume is applied and PEEP adjusted and at the end of which the PaO2/FiO2 remains < 150 mmHg; and proning should be applied for prolonged sessions (16 consecutive hours or more)."
+    },
+    {
+      "chunkId": "tc",
+      "source": "knowledge_base/pneumologia/economic/nomenclatore-tariffario-valido-dal-14-ottobre-2026.pdf",
+      "quote": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.41 TC DEL TORACE tariffa 89,30 euro; 87.41.1 TC DEL TORACE SENZA E CON MDC tariffa 142,70 euro. Si prescrive solo se il testo della linea guida la colloca in questo passo."
+    },
+    {
+      "chunkId": "d",
+      "source": "knowledge_base/pneumologia/legal/Legge_22_dicembre_2017,_n.219.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 4 comma 5: il medico e' tenuto al rispetto delle DAT, le quali possono essere disattese, in tutto o in parte, dal medico stesso, in accordo con il fiduciario, qualora esse appaiano palesemente incongrue o non corrispondenti alla condizione clinica attuale del paziente ovvero sussistano terapie non prevedibili all'atto della sottoscrizione, capaci di offrire concrete possibilita' di miglioramento delle condizioni di vita."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/pneumologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (2).pdf",
+      "quote": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Eseguire in sequenza il gold path: rx-torace → quantiferon → emocromo → tamponi.",
-      "Non prescrivere di prima intenzione: pet-tc, colonscopia (WHO_2022_Tuberculosis_Guidelines.pdf).",
-      "Budget SSN di riferimento: €90."
+      "HFNO se non e' BPCO ne' edema.",
+      "Volumi 4-8 ml/kg, non 12.",
+      "Prono lungo se il rapporto resta sotto 150."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Il paziente potrebbe beneficiare di un approccio che tenga conto della sua ansia e della sua scarsa aderenza, fornendo supporto e informazioni chiare.",
+      "art5Adherence": "Testo ARDS estratto. TC non al posto della ventilazione. Dolore e volonta' secondo le leggi.",
       "legalCriteria": [
-        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
-        "Raccogliere consenso informato prima di procedure invasive.",
-        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
-        "Registrare tempi critici nel setting Ambulatorio di Pneumologia."
+        "Volumi e prono secondo la guida.",
+        "Niente atto contro un rifiuto, legge 219/2017.",
+        "Dolore, art. 7."
       ]
     }
   },
   "mandatoryExams": [
     {
+      "examId": "ega",
+      "name": "Emogasanalisi",
+      "finding": "Rapporto intorno a 110. Non e' un'acidosi da BPCO.",
+      "isAbnormal": true,
+      "priceEuro": 15.05
+    },
+    {
       "examId": "rx-torace",
-      "name": "RX Torace (2 proiezioni)",
-      "finding": "RX Torace (2 proiezioni) nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
+      "name": "RX",
+      "finding": "Infiltrati bilaterali. 18,60 euro. Non mostra edema isolato come unica causa.",
       "isAbnormal": true,
-      "priceEuro": 15.5
-    },
-    {
-      "examId": "quantiferon",
-      "name": "Quantiferon",
-      "finding": "Quantiferon nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
-      "isAbnormal": true,
-      "priceEuro": 35
-    },
-    {
-      "examId": "emocromo",
-      "name": "Emocromo completo con formula",
-      "finding": "Emocromo completo con formula nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
-      "isAbnormal": true,
-      "priceEuro": 4.5
-    },
-    {
-      "examId": "tamponi",
-      "name": "Specie microbiche da tampone",
-      "finding": "Specie microbiche da tampone nel contesto di Tubercolosi polmonare attiva (PNEUMO-021). Tachipnea, crepitii bilaterali, SpO2 ridotta, febbre moderata.",
-      "isAbnormal": true,
-      "priceEuro": 15
+      "priceEuro": 18.6
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: WHO_2022_Tuberculosis_Guidelines.pdf.",
+      "examId": "tc",
+      "name": "TC del torace prima di ogni supporto",
+      "finding": "87.41.1, 142,70 euro, chiesta prima di HFNO e prima di correggere il volume. Ritarda il supporto scritto.",
       "isAbnormal": false,
-      "priceEuro": 900,
+      "priceEuro": 142.7,
       "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: WHO_2022_Tuberculosis_Guidelines.pdf."
-    },
-    {
-      "examId": "colonscopia",
-      "name": "Colonscopia",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: WHO_2022_Tuberculosis_Guidelines.pdf.",
-      "isAbnormal": false,
-      "priceEuro": 90,
-      "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: WHO_2022_Tuberculosis_Guidelines.pdf."
+      "wasteRationale": "La TC non sostituisce HFNO, volume basso e prono."
     }
   ],
-  "patientProfile": {
-    "healthLiteracy": "LOW",
-    "emotionalState": "DEFENSIVE",
-    "adherence": "NON_COMPLIANT",
-    "lifestyleAndSocial": {
-      "sleepQuality": "FAIR",
-      "stressLevel": "HIGH",
-      "socialSupport": "ISOLATED"
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 124,
+      "bloodPressure": "100/60",
+      "spo2": 88,
+      "temperature": 38.8,
+      "respiratoryRate": 32
     },
-    "communicationStyle": "Teme lo stigma della tubercolosi e il contatto dei servizi. Nega i sintomi se percepisce giudizio. Il tono non colpevolizzante e la spiegazione della contagiosità trattabile aprono il dialogo."
-  }
+    "examBudgetEuro": 50,
+    "demographics": {
+      "age": 54,
+      "sex": "F",
+      "context": "Pronto Soccorso poi area critica"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Edema polmonare cardiogeno",
+        "result": "Non e' il quadro.",
+        "isPositive": false
+      },
+      {
+        "signName": "BPCO nota",
+        "result": "No.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Edema polmonare cardiogeno",
+        "result": "Non e' il quadro.",
+        "isPositive": false
+      },
+      {
+        "signName": "BPCO nota",
+        "result": "No.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "ega": {
+          "finding": "Rapporto intorno a 110. Non e' un'acidosi da BPCO.",
+          "normalFinding": "Rapporto intorno a 110. Non e' un'acidosi da BPCO.",
+          "isAbnormal": true,
+          "price": 15.05
+        },
+        "rx-torace": {
+          "finding": "Infiltrati bilaterali. 18,60 euro. Non mostra edema isolato come unica causa.",
+          "normalFinding": "Infiltrati bilaterali. 18,60 euro. Non mostra edema isolato come unica causa.",
+          "isAbnormal": true,
+          "price": 18.6
+        },
+        "tc": {
+          "finding": "87.41.1, 142,70 euro, chiesta prima di HFNO e prima di correggere il volume. Ritarda il supporto scritto.",
+          "normalFinding": "87.41.1, 142,70 euro, chiesta prima di HFNO e prima di correggere il volume. Ritarda il supporto scritto.",
+          "isAbnormal": false,
+          "price": 142.7
+        }
+      }
+    }
+  },
+  "patientProfile": {
+    "healthLiteracy": "MEDIUM",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
+    "lifestyleAndSocial": {
+      "sleepQuality": "POOR",
+      "stressLevel": "HIGH",
+      "socialSupport": "LIMITED"
+    },
+    "communicationStyle": "Sono Sara. Provate i flussi alti se e' scritto. Se mi addormentate per il tubo, volumi piccoli e giratemi se il numero resta basso. Scrivete il dolore."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Non e' BPCO ne' edema",
+      "prompt": "Polmonite, ipossiemia, non scompenso, non BPCO. Non ancora intubata.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "La collochi nell'ipossiemia acuta in cui l'HFNO e' raccomandato rispetto all'ossigeno convenzionale",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "La tratti come riacutizzazione di BPCO e salti l'HFNO",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Causa sbagliata",
+      "prompt": "HFNO is recommended versus conventional oxygen to reduce intubation when AHRF is not due to cardiogenic edema or COPD exacerbation.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "TC non prima del supporto",
+      "prompt": "Chiedono la TC 87.41.1 a 142,70 euro prima di cambiare l'ossigeno.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non ritardi l'HFNO per quella TC",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "TC prima di ogni supporto",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "TC che ritarda il supporto",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 87.41 TC DEL TORACE tariffa 89,30 euro; 87.41.1 TC DEL TORACE SENZA E CON MDC tariffa 142,70 euro. Si prescrive solo se il testo della linea guida la colloca in questo passo.",
+      "cost": 142.7,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "HFNO",
+      "prompt": "E' ancora in maschera convenzionale, saturazione 88%.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Passi all'ossigeno nasale ad alti flussi",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Restituisca solo la maschera convenzionale",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "HFNO omesso",
+      "prompt": "We recommend HFNO compared with conventional oxygen therapy to reduce the risk of intubation in this population.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Volumi bassi se intubata",
+      "prompt": "Viene intubata. Propongono 12 ml/kg per normalizzare i gas.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Imposti 4-8 ml/kg di peso corporeo predetto",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "12 ml/kg",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Volume alto",
+      "prompt": "We recommend low tidal volume strategies (4-8 ml/kg PBW) compared with larger tidal volumes traditionally used to normalize blood gases.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Prono se il rapporto resta sotto 150",
+      "prompt": "Dopo volume basso e PEEP almeno 5, il rapporto e' ancora 110.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Proni, a sessioni di almeno 16 ore, presto dopo la stabilizzazione",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lasci supina, o proni per due ore",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Prono omesso",
+      "prompt": "Prone position is recommended if PaO2/FiO2 < 150 and PEEP >= 5 despite optimization. Start early and apply sessions of 16 consecutive hours or more.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Il marito non e' un rifiuto della paziente",
+      "prompt": "Non ci sono DAT che rifiutino il prono. Il marito non vuole 'girarla'. Lei e' sedata e non aveva rifiutato.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non tratti il veto del marito come una DAT. Il prono resta indicato",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Salti il prono solo per il marito",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Veto del familiare",
+      "prompt": "Legge 22 dicembre 2017, n. 219, art. 4 comma 5: il medico e' tenuto al rispetto delle DAT, le quali possono essere disattese, in tutto o in parte, dal medico stesso, in accordo con il fiduciario, qualora esse appaiano palesemente incongrue o non corrispondenti alla condizione clinica attuale del paziente ovvero sussistano terapie non prevedibili all'atto della sottoscrizione, capaci di offrire concrete possibilita' di miglioramento delle condizioni di vita. Qui non c'e' una DAT che rifiuti il prono. Il veto di un familiare non sostituisce quel documento.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Niente ostinazione se il quadro diventa terminale",
+      "prompt": "Se la prognosi diventasse infausta a breve, i volumi protettivi non autorizzano cure sproporzionate ulteriori contro una volonta'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Rilegga volonta' e proporzionalita'",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Aggiunga trattamenti sproporzionati senza rileggere le volonta'",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Proporzionalita'",
+      "prompt": "Legge 219/2017, art. 2 comma 2: nei casi di paziente con prognosi infausta a breve termine o di imminenza di morte, il medico deve astenersi da ogni ostinazione irragionevole nella somministrazione delle cure e dal ricorso a trattamenti inutili o sproporzionati. Il ricorso alla sedazione palliativa profonda continua e' annotato in cartella.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore in cartella",
+      "prompt": "Dolore presente, scheda incompleta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Compili l'art. 7 della legge 38/2010",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Non annoti",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore omesso",
+      "prompt": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Dolore e decubito da prono: vanno scritti.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "ARDS: HFNO se non e' BPCO o edema, volumi 4-8 ml/kg, prono sotto 150 per almeno 16 ore, niente TC che ritarda, niente veto del marito al posto delle DAT.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

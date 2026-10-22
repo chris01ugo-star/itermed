@@ -1,303 +1,478 @@
 {
-  "title": "Paziente con broncospasmo grave e overuse di SABA",
-  "description": "Paziente con asma grave, presenta difficoltà respiratorie acute e segni di ipossiemia. Riferisce di utilizzare frequentemente il SABA per alleviare i sintomi, ma mostra segni di ansia e difensiva riguardo la sua condizione.",
-  "difficulty": "HARD",
-  "goldStandardPath": [
-    "ega",
-    "rx-torace",
-    "lattati",
-    "elettroliti"
-  ],
-  "baselineExamFindings": {
-    "vitals": {
-      "heartRate": 128,
-      "bloodPressure": "110/68",
-      "spo2": 86,
-      "temperature": 36.7,
-      "respiratoryRate": 34
-    },
-    "examBudgetEuro": 100,
-    "advancedExams": {
-      "values": {
-        "ega": {
-          "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Asma grave / near-fatal con abuso di beta2-agonisti al bisogno (PNEUMO-006). Tachicardia, ipossiemia, tachipnea, uso accessorio dei muscoli respiratori, ronchi e sibilanti all'auscultazione.",
-          "normalFinding": "Emogasanalisi arteriosa (EGA) nel contesto di Asma grave / near-fatal con abuso di beta2-agonisti al bisogno (PNEUMO-006). Tachicardia, ipossiemia, tachipnea, uso accessorio dei muscoli respiratori, ronchi e sibilanti all'auscultazione.",
-          "isAbnormal": true,
-          "price": 12
-        },
-        "rx-torace": {
-          "finding": "RX Torace (2 proiezioni) nel contesto di Asma grave / near-fatal con abuso di beta2-agonisti al bisogno (PNEUMO-006). Tachicardia, ipossiemia, tachipnea, uso accessorio dei muscoli respiratori, ronchi e sibilanti all'auscultazione.",
-          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Asma grave / near-fatal con abuso di beta2-agonisti al bisogno (PNEUMO-006). Tachicardia, ipossiemia, tachipnea, uso accessorio dei muscoli respiratori, ronchi e sibilanti all'auscultazione.",
-          "isAbnormal": true,
-          "price": 15.5
-        },
-        "lattati": {
-          "finding": "Acido lattico (Lattati) nel contesto di Asma grave / near-fatal con abuso di beta2-agonisti al bisogno (PNEUMO-006). Tachicardia, ipossiemia, tachipnea, uso accessorio dei muscoli respiratori, ronchi e sibilanti all'auscultazione.",
-          "normalFinding": "Acido lattico (Lattati) nel contesto di Asma grave / near-fatal con abuso di beta2-agonisti al bisogno (PNEUMO-006). Tachicardia, ipossiemia, tachipnea, uso accessorio dei muscoli respiratori, ronchi e sibilanti all'auscultazione.",
-          "isAbnormal": true,
-          "price": 7
-        },
-        "elettroliti": {
-          "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Asma grave / near-fatal con abuso di beta2-agonisti al bisogno (PNEUMO-006). Tachicardia, ipossiemia, tachipnea, uso accessorio dei muscoli respiratori, ronchi e sibilanti all'auscultazione.",
-          "normalFinding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Asma grave / near-fatal con abuso di beta2-agonisti al bisogno (PNEUMO-006). Tachicardia, ipossiemia, tachipnea, uso accessorio dei muscoli respiratori, ronchi e sibilanti all'auscultazione.",
-          "isAbnormal": true,
-          "price": 8
-        },
-        "pet-tc": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 900
-        },
-        "colonscopia": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 90
-        }
-      }
-    },
-    "demographics": {
-      "age": 41,
-      "sex": "M",
-      "context": "Pronto Soccorso"
-    },
-    "physicalExam": {
-      "finding": "Paziente in evidente distress respiratorio, con uso accessorio dei muscoli respiratori, respiro affannoso e auscultazione polmonare con ronchi e sibilanti."
-    },
-    "ega": {
-      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Asma grave / near-fatal con abuso di beta2-agonisti al bisogno (PNEUMO-006). Tachicardia, ipossiemia, tachipnea, uso accessorio dei muscoli respiratori, ronchi e sibilanti all'auscultazione.",
-      "isAbnormal": true
-    },
-    "rx-torace": {
-      "finding": "RX Torace (2 proiezioni) nel contesto di Asma grave / near-fatal con abuso di beta2-agonisti al bisogno (PNEUMO-006). Tachicardia, ipossiemia, tachipnea, uso accessorio dei muscoli respiratori, ronchi e sibilanti all'auscultazione.",
-      "isAbnormal": true
-    },
-    "lattati": {
-      "finding": "Acido lattico (Lattati) nel contesto di Asma grave / near-fatal con abuso di beta2-agonisti al bisogno (PNEUMO-006). Tachicardia, ipossiemia, tachipnea, uso accessorio dei muscoli respiratori, ronchi e sibilanti all'auscultazione.",
-      "isAbnormal": true
-    },
-    "elettroliti": {
-      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Asma grave / near-fatal con abuso di beta2-agonisti al bisogno (PNEUMO-006). Tachicardia, ipossiemia, tachipnea, uso accessorio dei muscoli respiratori, ronchi e sibilanti all'auscultazione.",
-      "isAbnormal": true
-    },
-    "pet-tc": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
-      "isAbnormal": false
-    },
-    "colonscopia": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
-      "isAbnormal": false
-    }
-  },
-  "correctSolution": "Gestione dell'asma con terapia appropriata e riduzione dell'uso di SABA, monitoraggio e supporto psicologico.",
-  "patientPrompt": "Ho 41 anni e ho sempre avuto problemi di asma. Ultimamente, però, ho dovuto usare il mio inalatore molto più spesso. Non capisco perché, ma quando non lo uso, mi sento soffocare. È l'unico farmaco che mi fa stare bene. Non credo di abusarne, ma mi sento sempre più ansioso e stressato. A volte non riesco nemmeno a dormire bene. La mia famiglia non capisce la mia situazione e mi sento solo.",
   "id": "PNEUMO-006",
   "code": "PNEUMO-006",
+  "title": "Riacutizzazione d'asma: ossigeno 92-95%, steroide orale, niente antibiotico di routine",
+  "description": "Uomo di 34 anni in ambulatorio di guardia, non parla a frasi piene, saturazione 90%. Qualcuno vuole sedarlo e chiedere una radiografia di routine.",
+  "difficulty": "HARD",
   "specialty": "pneumologia",
   "specialtyLabel": "Pneumologia",
-  "condition": "Asma grave / near-fatal con abuso di beta2-agonisti al bisogno",
+  "condition": "Riacutizzazione d'asma moderata nell'adulto",
   "frequencyCategory": "HIGH",
   "matrixDifficulty": "ADVANCED",
-  "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "GINA_2024_Asthma_Guidelines.pdf",
-  "diagnosis": "Asma grave con abuso di SABA.",
-  "pastMedicalHistory": "Storia di asma grave, frequenti episodi di esacerbazione, uso regolare di SABA, nessuna altra patologia significativa.",
-  "presentation": "Stefano, un uomo di 41 anni, si presenta al pronto soccorso con difficoltà respiratorie acute, tachipnea e una saturazione di ossigeno ridotta. Riferisce di avere una storia di asma, ma nega di abusare del SABA, affermando che è l'unico farmaco che lo fa stare bene. È visibilmente ansioso e difensivo riguardo alla sua condizione, mostrando una scarsa aderenza alle raccomandazioni terapeutiche. La sua rete sociale è limitata e il livello di stress è elevato.",
+  "setting": "GUARDIA_MEDICA",
+  "guidelineRef": "GINA summary; L.219/2017; L.38/2010",
+  "diagnosis": "Riacutizzazione moderata. SABA, ossigeno a saturazione 92-95%, ipratropio se la risposta e' incompleta, prednisolone 40-50 mg al mattino per 5-7 giorni. Non radiografia, gas o antibiotico di routine. Non sedativi. Dopo, Track 1 step 4 se disponibile.",
+  "pastMedicalHistory": "Asma in solo SABA. Nessuna DAT. Dolore toracico da tosse.",
+  "presentation": "Da un giorno peggiora. Parla a frasi spezzate, non e' confuso, saturazione 90% in aria. Il collega propone diazepam 'per l'ansia' e una radiografia prima di ogni farmaco.",
   "redHerrings": [
-    "Stefano accusa anche un dolore toracico intermittente, ma non è correlato a un evento cardiaco.",
-    "Riferisce di avere avuto un episodio di bronchite l'anno scorso, ma non è attualmente in corso.",
-    "Ha anche un leggero raffreddore, ma non sembra influenzare significativamente la sua respirazione."
+    "Chiede antibiotico perche' ha un po' di raffreddore.",
+    "Vogliono i gas arteriosi di routine."
   ],
-  "timeLimitMinutes": 30,
-  "patientDeteriorationThreshold": 12,
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Luca. Non respiro bene, non sono confuso. Non datemi calmanti. Non voglio l'antibiotico se non serve. Dopo datemi la cura che evita un altro attacco. Scrivete il dolore.",
+  "correctSolution": "Valutare la gravita' mentre si inizia SABA e ossigeno. Bersaglio 92-95%. Ipratropio se moderata o risposta incompleta. Prednisolone 40-50 mg per 5-7 giorni. Niente sedativi. Niente radiografia, gas o antibiotico di routine. Trasferire se peggiora. Alla dimissione, ICS-formoterolo MART allo step 4 se disponibile, tecnica e piano, controllo in 2-7 giorni.",
+  "goldStandardPath": [
+    "spirometria"
+  ],
+  "goldPathNarrative": "Il summary GINA fissa ossigeno, steroide, divieti di routine e il ritorno in Track 1. Il dolore da tosse va in cartella se c'e' ricovero; in guardia si documenta comunque il rilievo.",
   "examLatencies": {
-    "ega": 10,
-    "rx-torace": 20,
-    "lattati": 15,
-    "elettroliti": 30,
-    "pet-tc": 180
+    "spirometria": 20,
+    "rx-torace": 30
   },
   "anamnesisQuestions": [
     {
-      "id": "aq_pneumo-006_1",
-      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Asma grave / near-fatal con abuso di beta2-agonisti al bisogno)",
+      "id": "q1",
+      "prompt": "Riesce a parlare a frasi intere? E' soporoso? Qual e' la saturazione?",
       "critical": true,
       "expectedKeywords": [
-        "da quanto",
-        "quando",
-        "insorgenza",
-        "dispnea",
-        "tosse"
-      ],
-      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
-    },
-    {
-      "id": "aq_pneumo-006_2",
-      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
-      "critical": true,
-      "expectedKeywords": [
-        "espettorato",
-        "sangue",
-        "sibili",
-        "dolore",
-        "ortopnea"
-      ],
-      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
-    },
-    {
-      "id": "aq_pneumo-006_3",
-      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
-      "critical": true,
-      "expectedKeywords": [
-        "fum",
-        "lavoro",
-        "polvere",
-        "allergia",
-        "asbesto"
-      ],
-      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
-    },
-    {
-      "id": "aq_pneumo-006_4",
-      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
-      "critical": true,
-      "expectedKeywords": [
-        "inalator",
-        "ossigeno",
-        "cpap",
-        "antibiot",
-        "aderenza"
-      ],
-      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
-    },
-    {
-      "id": "aq_pneumo-006_5",
-      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
-      "critical": true,
-      "expectedKeywords": [
+        "frasi",
         "saturazione",
-        "confusione",
-        "emottisi",
-        "febbre",
-        "trauma"
+        "confuso"
       ],
-      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
+      "rationale": "GINA fa valutare dispnea, frequenza, muscoli, ingresso d'aria, polso, saturazione e funzione mentre parte il SABA."
     },
     {
-      "id": "aq_pneumo-006_6",
-      "prompt": "Contesto di presentazione: Pronto Soccorso",
-      "critical": false,
+      "id": "q2",
+      "prompt": "Che mantenimento usa adesso?",
+      "critical": true,
       "expectedKeywords": [
-        "dove si trova",
-        "arrivato",
-        "ambulanza",
-        "visita"
+        "SABA",
+        "ICS",
+        "nessuno"
       ],
-      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+      "rationale": "Dopo l'attacco il mantenimento preferito nell'adulto e' lo step 4 con ICS-formoterolo MART, se disponibile."
     }
   ],
   "physicalExam": {
-    "summary": "Paziente in evidente distress respiratorio, con uso accessorio dei muscoli respiratori, respiro affannoso e auscultazione polmonare con ronchi e sibilanti."
+    "summary": "Frasi spezzate, sibili, saturazione 90%, non soporoso, non torace silente."
   },
-  "goldPathNarrative": "Iniziare con un'ega per valutare i gas ematici, seguito da una radiografia del torace per escludere altre patologie polmonari. Monitorare i lattati e gli elettroliti per valutare la gravità della situazione. È fondamentale coinvolgere il paziente in una discussione aperta riguardo l'uso eccessivo di SABA e le implicazioni per la salute a lungo termine, senza colpevolizzarlo.",
   "escCitations": [
     {
-      "chunkId": "6a33dbf3-8e3e-4ade-8b5c-f45be44fe6d7-47",
+      "chunkId": "sev",
       "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
-      "quote": "egimens with SABA reliever (see page 23 for options in adults and adolescents and page 29 for options in children 6–11 years). For safety, GINA recommends that asthma should not be treated solely with as-needed SABA. Most patients with asthma have airway inflammation, even if they have only intermittent or infrequent symptoms. SABA-only treatment is associated with increased risk of exacerbations, worse lung function, and increased risk of death due to asthma. Regular use of SABA increases aller"
+      "quote": "Assess severity of the exacerbation while starting SABA and oxygen: check for anaphylaxis and assess dyspnea, respiratory rate, accessory muscle use, air entry, pulse rate, oxygen saturation and lung function (for example, PEF)."
     },
     {
-      "chunkId": "6a33dbf3-8e3e-4ade-8b5c-f45be44fe6d7-90",
+      "chunkId": "o2",
       "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
-      "quote": "s Maintenance oral corticosteroids should only be used as a last resort. GINA does not recommend oral salbutamol, oral theophylline, oral epinephrine, or inhaled fenoterol, because of the increased risk of adverse effects. Regular use of SABA is not recommended, because within 1–2 weeks, it increases airway hyperresponsiveness and airway inflammation, and decreases bronchodilator response.COPYRIGHTED MATERIAL - DO NOT COPY OR DISTRIBUTE 28Summary Guide for Asthma Management and Prevention © GINA"
+      "quote": "Titrate oxygen, if needed, to maintain target saturation of 92-95%. Do not routinely perform chest X-ray or blood gases, or routinely prescribe antibiotics. Do not use sedatives."
     },
     {
-      "chunkId": "6a33dbf3-8e3e-4ade-8b5c-f45be44fe6d7-48",
+      "chunkId": "ocs",
       "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
-      "quote": "s) in a year is associated with increased risk of death due to asthma. Home use of nebulized SABA is also associated with an increased risk of asthma death. For more information on asthma medicines see the list of asthma medication classes and medicines on page 38.COPYRIGHTED MATERIAL - DO NOT COPY OR DISTRIBUTE 16Summary Guide for Asthma Management and Prevention © GINA 2026 www.ginasthma.org Principles of selecting treatment There are different treatment recommendations for adults/adolescents "
+      "quote": "Start oral corticosteroids (except for mild exacerbations): Adults: prednisolone 40-50 mg each morning for 5-7 days."
     },
     {
-      "chunkId": "6a33dbf3-8e3e-4ade-8b5c-f45be44fe6d7-146",
+      "chunkId": "ipra",
       "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
-      "quote": "dications Delivery Use in asthma Adverse effects Salbutamol (albuterol), terbutaline Short-acting inhaled beta2-agonist bronchodilators (SABA) Inhaled: pressurized metered-dose inhaler or dry-powder inhaler (also solution for nebulization or injection) Quick relief of asthma symptoms and bronchoconstriction, and for pretreatment before exercise. SABAs should be used only when needed (not regularly) at the dose needed to relieve symptoms. Use without ICS not recommended due to risk of severe exac"
+      "quote": "For moderate exacerbations, or with inadequate response to initial SABA, add ipratropium by puffer and spacer."
+    },
+    {
+      "chunkId": "after",
+      "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
+      "quote": "For adults and adolescents, the preferred treatment during/after an exacerbation is Step 4 ICS-formoterol MART, if available."
+    },
+    {
+      "chunkId": "fu",
+      "source": "knowledge_base/pneumologia/clinical/GINA_2024_Asthma_Guidelines.pdf",
+      "quote": "Arrange follow-up within 2-7 days (2-5 days for children). Transfer to intensive care if the patient is drowsy, confused, or has a silent chest."
+    },
+    {
+      "chunkId": "pain",
+      "source": "knowledge_base/pneumologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (2).pdf",
+      "quote": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
+    },
+    {
+      "chunkId": "c",
+      "source": "knowledge_base/pneumologia/legal/Legge_22_dicembre_2017,_n.219.pdf",
+      "quote": "Legge 22 dicembre 2017, n. 219, art. 1 comma 1: nessun trattamento sanitario puo' essere iniziato o proseguito se privo del consenso libero e informato della persona interessata, tranne che nei casi espressamente previsti dalla legge. Comma 5: ogni persona capace di agire ha il diritto di rifiutare, in tutto o in parte, qualsiasi accertamento diagnostico o trattamento sanitario indicato dal medico."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Eseguire in sequenza il gold path: ega → rx-torace → lattati → elettroliti.",
-      "Non prescrivere di prima intenzione: pet-tc, colonscopia (GINA_2024_Asthma_Guidelines.pdf).",
-      "Budget SSN di riferimento: €100."
+      "Ossigeno 92-95%, non 98%.",
+      "Niente antibiotico, radiografia o gas di routine, niente sedativi.",
+      "Alla dimissione MART step 4 se disponibile."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Il percorso terapeutico suggerito rispetta le linee guida e garantisce la sicurezza del paziente.",
+      "art5Adherence": "La riacutizzazione segue il summary GINA. Consenso e dolore seguono le leggi lette.",
       "legalCriteria": [
-        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
-        "Raccogliere consenso informato prima di procedure invasive.",
-        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
-        "Registrare tempi critici nel setting Pronto Soccorso."
+        "Niente sedazione, testo GINA.",
+        "Consenso, legge 219/2017 art. 1.",
+        "Dolore in cartella, legge 38/2010 art. 7 se ricoverato."
       ]
     }
   },
   "mandatoryExams": [
     {
-      "examId": "ega",
-      "name": "Emogasanalisi arteriosa (EGA)",
-      "finding": "Emogasanalisi arteriosa (EGA) nel contesto di Asma grave / near-fatal con abuso di beta2-agonisti al bisogno (PNEUMO-006). Tachicardia, ipossiemia, tachipnea, uso accessorio dei muscoli respiratori, ronchi e sibilanti all'auscultazione.",
+      "examId": "spirometria",
+      "name": "Picco di flusso o spirometria dopo un'ora",
+      "finding": "Funzione ancora ridotta a un'ora, sopra la soglia che GINA usa per non mandare subito in rianimazione: non e' soporoso e il torace non e' silente.",
       "isAbnormal": true,
-      "priceEuro": 12
+      "priceEuro": 27.9
     },
     {
-      "examId": "rx-torace",
-      "name": "RX Torace (2 proiezioni)",
-      "finding": "RX Torace (2 proiezioni) nel contesto di Asma grave / near-fatal con abuso di beta2-agonisti al bisogno (PNEUMO-006). Tachicardia, ipossiemia, tachipnea, uso accessorio dei muscoli respiratori, ronchi e sibilanti all'auscultazione.",
+      "examId": "spirometria",
+      "name": "Funzione respiratoria a un'ora",
+      "finding": "GINA: Measure lung function after 1 hour. E' lo stesso esame funzionale gia' indicato, non un secondo codice e non l'emogasanalisi, che GINA dice di non fare di routine.",
       "isAbnormal": true,
-      "priceEuro": 15.5
-    },
-    {
-      "examId": "lattati",
-      "name": "Acido lattico (Lattati)",
-      "finding": "Acido lattico (Lattati) nel contesto di Asma grave / near-fatal con abuso di beta2-agonisti al bisogno (PNEUMO-006). Tachicardia, ipossiemia, tachipnea, uso accessorio dei muscoli respiratori, ronchi e sibilanti all'auscultazione.",
-      "isAbnormal": true,
-      "priceEuro": 7
-    },
-    {
-      "examId": "elettroliti",
-      "name": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P)",
-      "finding": "Elettroliti sierici (Na, K, Ca, Mg, Cl, P) nel contesto di Asma grave / near-fatal con abuso di beta2-agonisti al bisogno (PNEUMO-006). Tachicardia, ipossiemia, tachipnea, uso accessorio dei muscoli respiratori, ronchi e sibilanti all'auscultazione.",
-      "isAbnormal": true,
-      "priceEuro": 8
+      "priceEuro": 0
     }
   ],
   "inappropriateExams": [
     {
-      "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
+      "examId": "rx-torace",
+      "name": "RX del torace di routine",
+      "finding": "GINA: do not routinely perform chest X-ray. Codice 87.44.1, 18,60 euro, non di routine in questa riacutizzazione.",
       "isAbnormal": false,
-      "priceEuro": 900,
+      "priceEuro": 18.6,
       "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf."
-    },
-    {
-      "examId": "colonscopia",
-      "name": "Colonscopia",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf.",
-      "isAbnormal": false,
-      "priceEuro": 90,
-      "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: GINA_2024_Asthma_Guidelines.pdf."
+      "wasteRationale": "Radiografia di routine non scritta da GINA."
     }
   ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 118,
+      "bloodPressure": "132/78",
+      "spo2": 90,
+      "temperature": 36.8,
+      "respiratoryRate": 28
+    },
+    "examBudgetEuro": 40,
+    "demographics": {
+      "age": 34,
+      "sex": "M",
+      "context": "Guardia medica"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Parla a frasi spezzate",
+        "result": "Si'. Non e' soporoso.",
+        "isPositive": true
+      },
+      {
+        "signName": "Torace silente",
+        "result": "No, i sibili si sentono.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Parla a frasi spezzate",
+        "result": "Si'. Non e' soporoso.",
+        "isPositive": true
+      },
+      {
+        "signName": "Torace silente",
+        "result": "No, i sibili si sentono.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "spirometria": {
+          "finding": "Funzione ancora ridotta a un'ora, sopra la soglia che GINA usa per non mandare subito in rianimazione: non e' soporoso e il torace non e' silente.",
+          "normalFinding": "Funzione ancora ridotta a un'ora, sopra la soglia che GINA usa per non mandare subito in rianimazione: non e' soporoso e il torace non e' silente.",
+          "isAbnormal": true,
+          "price": 27.9
+        },
+        "rx-torace": {
+          "finding": "GINA: do not routinely perform chest X-ray. Codice 87.44.1, 18,60 euro, non di routine in questa riacutizzazione.",
+          "normalFinding": "GINA: do not routinely perform chest X-ray. Codice 87.44.1, 18,60 euro, non di routine in questa riacutizzazione.",
+          "isAbnormal": false,
+          "price": 18.6
+        }
+      }
+    }
+  },
   "patientProfile": {
     "healthLiteracy": "MEDIUM",
-    "emotionalState": "DEFENSIVE",
-    "adherence": "SELF_MEDICATED",
+    "emotionalState": "ANXIOUS",
+    "adherence": "NON_COMPLIANT",
     "lifestyleAndSocial": {
-      "sleepQuality": "FAIR",
+      "sleepQuality": "POOR",
       "stressLevel": "HIGH",
       "socialSupport": "LIMITED"
     },
-    "communicationStyle": "Nega l'abuso di SABA ('è l'unico che mi fa stare bene'). Il tono moralizzatore innesca ostilità; il framing sul rischio di near-fatal asthma è accettato se non colpevolizzante."
-  }
+    "communicationStyle": "Sono Luca. Fatemi respirare, niente calmante e niente antibiotico a caso. Poi voglio la cura che evita il prossimo attacco. Il petto mi fa male quando tossisco."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "anamnesi",
+      "title": "Gravita' mentre parte il SABA",
+      "prompt": "Frasi spezzate, saturazione 90%, non soporoso, torace non silente.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "La classifichi come riacutizzazione moderata e inizi SABA e ossigeno insieme alla valutazione",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Aspetti la radiografia prima di ogni SABA",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "anamnesi",
+      "title": "Farmaco ritardato",
+      "prompt": "Assess severity while starting SABA and oxygen. Do not routinely perform chest X-ray.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente radiografia di routine",
+      "prompt": "Il collega prenota la RX 87.44.1, 18,60 euro, come passo obbligato prima del trattamento.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Non la faccia di routine",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "La renda obbligatoria prima del SABA",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "RX di routine",
+      "prompt": "Do not routinely perform chest X-ray or blood gases, or routinely prescribe antibiotics.",
+      "cost": 18.6,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Ossigeno e niente sedativi",
+      "prompt": "Saturazione 90%. Propongono ossigeno fino a 99% e diazepam.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Ossigeno per saturazione 92-95%. Nessun sedativo",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Sedativo e saturazione 99%",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Sedazione vietata",
+      "prompt": "Titrate oxygen to maintain target saturation of 92-95%. Do not use sedatives.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Ipratropio e steroide",
+      "prompt": "Risposta incompleta al primo SABA. Qualcuno evita lo steroide perche' 'non e' BPCO'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Aggiunga ipratropio. Prednisolone 40-50 mg al mattino per 5-7 giorni",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Solo SABA, nessuno steroide, nessun ipratropio",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Steroide omesso",
+      "prompt": "For moderate exacerbations, or with inadequate response to initial SABA, add ipratropium. Adults: prednisolone 40-50 mg each morning for 5-7 days.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente antibiotico di routine",
+      "prompt": "Ha il raffreddore. Chiedono amoxicillina 'per sicurezza'. Il testo GINA non la mette di routine.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Non prescriva l'antibiotico di routine",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Lo prescriva di routine per il raffreddore",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Antibiotico di routine",
+      "prompt": "Do not routinely prescribe antibiotics.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dopo l'attacco, step 4",
+      "prompt": "Sta meglio. Torna a casa ancora in solo SABA.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Prescriva, se disponibile, ICS-formoterolo MART allo step 4. Il sollievo solo al bisogno, non in modo regolare se e' un SABA",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "Lo rimandi a casa con il solo salbutamolo regolare",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Solo SABA dopo l'attacco",
+      "prompt": "The preferred treatment during/after an exacerbation is Step 4 ICS-formoterol MART, if available. If the reliever is SABA, regular use can make asthma worse.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Controllo e rianimazione se precipita",
+      "prompt": "Se diventasse soporoso andrebbe in rianimazione. Ora non lo e'. Il controllo e' entro 2-7 giorni.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Programmi il controllo in 2-7 giorni e trasferisca in rianimazione solo se soporoso, confuso o con torace silente",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Lo mandi in rianimazione ora, da sveglio e con sibili, oppure lo perda nel follow-up",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Soglia di trasferimento sbagliata",
+      "prompt": "Transfer to intensive care if the patient is drowsy, confused, or has a silent chest. Arrange follow-up within 2-7 days.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore in cartella",
+      "prompt": "Il dolore e' presente. In cartella mancano caratteristiche, evoluzione, tecnica, farmaci, dosaggi e risultato. La dispnea, se va misurata, si misura sul testo clinico, non sull'art. 7.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Annoti il dolore come chiede l'art. 7 e misuri la dispnea sul testo clinico del caso",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Non annoti nulla",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore non riportato",
+      "prompt": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. GINA chiede di valutare la dispnea insieme a frequenza, muscoli, saturazione e funzione. L'art. 7 riguarda il dolore.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "Riacutizzazione moderata: SABA subito, ossigeno 92-95%, ipratropio e prednisolone 40-50 mg, niente routine di RX gas antibiotico sedativi, poi MART step 4.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }

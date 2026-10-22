@@ -1,272 +1,227 @@
 [
   {
     "id": "PNEUMO-001",
-    "title": "Riacutizzazione di BPCO in uomo di 68 anni",
-    "condition": "BPCO riacutizzata (GOLD E) con insufficienza respiratoria ipossiemica",
+    "title": "Riacutizzazione di BPCO: ossigeno, steroidi e antibiotico solo se indicato",
+    "condition": "Riacutizzazione di BPCO con i tre sintomi cardinali, senza acidosi",
     "frequencyCategory": "HIGH",
-    "difficulty": "BASE",
+    "difficulty": "ADVANCED",
     "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "GOLD_2024_COPD_Guidelines.pdf"
+    "guidelineRef": "GOLD_2024_COPD_Guidelines.pdf; nomenclatore 14-10-2026; L.219/2017; L.38/2010"
   },
   {
     "id": "PNEUMO-002",
-    "title": "BPCO stabile in follow-up ambulatoriale",
-    "condition": "BPCO stabile — ottimizzazione terapia inalatoria GOLD",
+    "title": "BPCO stabile di gruppo B: LABA+LAMA, non lo steroide inalatorio",
+    "condition": "BPCO stabile, sintomi e al massimo una riacutizzazione moderata: gruppo B GOLD",
     "frequencyCategory": "HIGH",
-    "difficulty": "BASE",
+    "difficulty": "ADVANCED",
     "setting": "AMBULATORIO",
-    "guidelineRef": "GOLD_2024_COPD_Guidelines.pdf"
+    "guidelineRef": "GOLD_2024_COPD_Guidelines.pdf; nota-99; nomenclatore 14-10-2026; L.219/2017"
   },
   {
     "id": "PNEUMO-003",
-    "title": "BPCO grave con ipercapnia e indicazione a NIV",
-    "condition": "BPCO grave con insufficienza respiratoria ipercapnica acuta-su-cronica",
+    "title": "BPCO di gruppo E: quando la triplice e' una scelta e quando no",
+    "condition": "BPCO gruppo E, gia' in duplice broncodilatazione, eosinofili almeno 300",
     "frequencyCategory": "HIGH",
     "difficulty": "ADVANCED",
-    "setting": "REPARTO",
-    "guidelineRef": "ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf"
+    "setting": "AMBULATORIO",
+    "guidelineRef": "GOLD_2024_COPD_Guidelines.pdf; nota-99; L.219/2017; L.38/2010"
   },
   {
     "id": "PNEUMO-004",
-    "title": "Asma lieve in donna giovane con cybercondria",
-    "condition": "Asma bronchiale lieve — avvio terapia anti-infiammatoria GINA",
+    "title": "Acidosi respiratoria in BPCO: NIV prima del tubo, e le DAT si rispettano",
+    "condition": "Riacutizzazione di BPCO con acidosi respiratoria acuta, pH non superiore a 7,35",
     "frequencyCategory": "HIGH",
-    "difficulty": "BASE",
-    "setting": "AMBULATORIO",
-    "guidelineRef": "GINA_2024_Asthma_Guidelines.pdf"
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "ERS/ATS NIV; GOLD 2024; L.219/2017 art. 4; L.38/2010"
   },
   {
     "id": "PNEUMO-005",
-    "title": "Crisi asmatica in Pronto Soccorso",
-    "condition": "Esacerbazione asmatica moderata-grave",
+    "title": "Asma dell'adulto: niente solo SABA, Track 1 con ICS-formoterolo",
+    "condition": "Asma dell'adulto con sintomi infrequenti, non ancora in ICS",
     "frequencyCategory": "HIGH",
-    "difficulty": "INTERMEDIATE",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "GINA_2024_Asthma_Guidelines.pdf"
+    "difficulty": "ADVANCED",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "GINA summary (file GINA_2024, testo GINA 2026); nomenclatore; L.219/2017"
   },
   {
     "id": "PNEUMO-006",
-    "title": "Asma near-fatal da overuse di SABA",
-    "condition": "Asma grave / near-fatal con abuso di beta2-agonisti al bisogno",
+    "title": "Riacutizzazione d'asma: ossigeno 92-95%, steroide orale, niente antibiotico di routine",
+    "condition": "Riacutizzazione d'asma moderata nell'adulto",
     "frequencyCategory": "HIGH",
     "difficulty": "ADVANCED",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "GINA_2024_Asthma_Guidelines.pdf"
+    "setting": "GUARDIA_MEDICA",
+    "guidelineRef": "GINA summary; L.219/2017; L.38/2010"
   },
   {
     "id": "PNEUMO-007",
-    "title": "Polmonite comunitaria in uomo di 62 anni",
-    "condition": "Polmonite acquisita in comunità (CAP)",
+    "title": "Asma quasi fatale: tante confezioni di SABA e niente sedazione",
+    "condition": "Asma con storia di episodio quasi fatale e overuse di SABA",
     "frequencyCategory": "HIGH",
-    "difficulty": "BASE",
+    "difficulty": "ADVANCED",
     "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf"
+    "guidelineRef": "GINA summary; L.219/2017; L.38/2010"
   },
   {
     "id": "PNEUMO-008",
-    "title": "CAP grave in donna di 85 anni",
-    "condition": "Polmonite comunitaria grave ad alto rischio (CURB-65)",
+    "title": "Polmonite di comunita': sindrome, antibiotico empirico, niente PET",
+    "condition": "Sindrome di polmonite acquisita in comunita' nell'adulto",
     "frequencyCategory": "HIGH",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "ADVANCED",
     "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "ATS_IDSA_2019_Community_Acquired_Pneumonia.pdf"
+    "guidelineRef": "ATS/IDSA CAP 2019 (supplemento estratto); nomenclatore; L.219/2017; L.38/2010"
   },
   {
     "id": "PNEUMO-009",
-    "title": "Polmonite nosocomiale in degenza",
-    "condition": "Polmonite acquisita in ospedale (HAP)",
+    "title": "Polmonite ospedaliera: criteri clinici, non la procalcitonina",
+    "condition": "Sospetta polmonite acquisita in ospedale, non associata a ventilatore",
     "frequencyCategory": "HIGH",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "ADVANCED",
     "setting": "REPARTO",
-    "guidelineRef": "IDSA_ATS_Hospital_Acquired_Pneumonia.pdf"
+    "guidelineRef": "IDSA/ATS HAP-VAP 2016; nomenclatore; L.38/2010; L.219/2017"
   },
   {
     "id": "PNEUMO-010",
-    "title": "OSAS sospetta in uomo di 48 anni",
-    "condition": "Sindrome delle apnee ostruttive del sonno — sospetto diagnostico",
-    "frequencyCategory": "HIGH",
-    "difficulty": "BASE",
-    "setting": "AMBULATORIO",
-    "guidelineRef": "MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf"
+    "title": "Polmonite da ventilatore: sette giorni, campionamento non invasivo, MRSA solo se indicato",
+    "condition": "Sospetta polmonite associata a ventilazione",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "IDSA/ATS HAP-VAP 2016; L.219/2017; L.38/2010"
   },
   {
     "id": "PNEUMO-011",
-    "title": "OSAS grave con scarsa aderenza alla CPAP",
-    "condition": "OSAS grave con non aderenza alla ventilazione notturna",
+    "title": "Sospetto OSAS: sintomi prima, polisonnografia in laboratorio solo se il test e' dubbio",
+    "condition": "Sospetto di sindrome delle apnee ostruttive del sonno",
     "frequencyCategory": "HIGH",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "ADVANCED",
     "setting": "AMBULATORIO",
-    "guidelineRef": "MINISTERO_SALUTE_OSAS_Adulti_Guidelines.pdf"
+    "guidelineRef": "Ministero Salute, documento appropriatezza (file OSAS); nomenclatore; L.219/2017"
   },
   {
     "id": "PNEUMO-012",
-    "title": "Pneumotorace spontaneo primario in giovane di 22 anni",
-    "condition": "Pneumotorace spontaneo primario",
+    "title": "OSAS gia' nota: CPAP, non la chirurgia al posto della ventilazione",
+    "condition": "OSAS diagnosticata, scarsa aderenza alla CPAP",
     "frequencyCategory": "HIGH",
-    "difficulty": "BASE",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "BTS Guideline for Pleural Disease.pdf"
+    "difficulty": "INTERMEDIATE",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "Ministero Salute, file OSAS; L.219/2017; L.38/2010"
   },
   {
     "id": "PNEUMO-013",
-    "title": "Pneumotorace secondario in BPCO",
-    "condition": "Pneumotorace spontaneo secondario su BPCO",
+    "title": "Pneumotorace primario quasi senza sintomi: non drenare per riflesso",
+    "condition": "Pneumotorace spontaneo primario minimamente sintomatico",
     "frequencyCategory": "HIGH",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "ADVANCED",
     "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "BTS Guideline for Pleural Disease.pdf"
+    "guidelineRef": "BTS Guideline for Pleural Disease; nomenclatore; L.219/2017; L.38/2010"
   },
   {
     "id": "PNEUMO-014",
-    "title": "Infezione pleurica / empiema",
-    "condition": "Infezione dello spazio pleurico (empiema)",
+    "title": "Infezione pleurica: pH, tubo piccolo, non la chirurgia al primo gesto",
+    "condition": "Sospetta infezione pleurica / versamento parapneumonico",
     "frequencyCategory": "HIGH",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "ADVANCED",
     "setting": "REPARTO",
-    "guidelineRef": "BTS_Pleural_Infection_Guidelines.pdf"
+    "guidelineRef": "BTS pleural disease; nomenclatore; L.219/2017; L.38/2010"
   },
   {
     "id": "PNEUMO-015",
-    "title": "Embolia polmonare a rischio intermedio",
-    "condition": "Embolia polmonare acuta a rischio intermedio",
-    "frequencyCategory": "HIGH",
-    "difficulty": "INTERMEDIATE",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf"
+    "title": "Versamento maligno: non rinviare, non solo aspirazioni ripetute",
+    "condition": "Versamento pleurico maligno",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "BTS pleural disease; nomenclatore; L.219/2017; L.38/2010"
   },
   {
     "id": "PNEUMO-016",
-    "title": "Sospetta ipertensione polmonare in donna di 46 anni",
-    "condition": "Ipertensione arteriosa polmonare — work-up diagnostico",
-    "frequencyCategory": "HIGH",
-    "difficulty": "INTERMEDIATE",
+    "title": "Sospetta ipertensione polmonare: il cateterismo destro conferma",
+    "condition": "Sospetta ipertensione polmonare, gruppo ancora non confermato",
+    "frequencyCategory": "MEDIUM",
+    "difficulty": "ADVANCED",
     "setting": "AMBULATORIO",
-    "guidelineRef": "ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf"
+    "guidelineRef": "ESC/ERS 2022 PH; nomenclatore; L.219/2017"
   },
   {
     "id": "PNEUMO-017",
-    "title": "Nodulo polmonare solitario in ex fumatore",
-    "condition": "Nodulo polmonare solitario — stratificazione del rischio",
-    "frequencyCategory": "HIGH",
-    "difficulty": "BASE",
+    "title": "Dopo l'embolia resta il fiato: pensare alla CTEPH e al team",
+    "condition": "Sospetta ipertensione polmonare tromboembolica cronica dopo embolia",
+    "frequencyCategory": "LOW",
+    "difficulty": "ADVANCED",
     "setting": "AMBULATORIO",
-    "guidelineRef": "BTS_Pulmonary_Nodules_Guidelines.pdf"
+    "guidelineRef": "ESC/ERS 2022 PH, sezione CTEPH; L.219/2017; L.38/2010"
   },
   {
     "id": "PNEUMO-018",
-    "title": "NSCLC in stadiazione iniziale",
-    "condition": "Carcinoma polmonare non a piccole cellule — stadiazione",
+    "title": "Nodulo solido piccolo: niente follow-up sotto i 5 mm, PET solo sopra la soglia di rischio",
+    "condition": "Nodulo polmonare solido di 4 mm in ex fumatore di almeno 50 anni",
     "frequencyCategory": "HIGH",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "ADVANCED",
     "setting": "AMBULATORIO",
-    "guidelineRef": "ESMO_2023_Non_Small_Cell_Lung_Cancer_Guidelines.pdf"
+    "guidelineRef": "BTS pulmonary nodules 2015; nomenclatore; L.219/2017"
   },
   {
     "id": "PNEUMO-019",
-    "title": "Fibrosi polmonare idiopatica di nuova diagnosi",
-    "condition": "Fibrosi polmonare idiopatica (IPF)",
+    "title": "NSCLC avanzato non squamoso: tessuto, molecole, osimertinib se EGFR",
+    "condition": "NSCLC avanzato, istotipo adenocarcinoma",
     "frequencyCategory": "MEDIUM",
-    "difficulty": "INTERMEDIATE",
-    "setting": "AMBULATORIO",
-    "guidelineRef": "ATS_ERS_Idiopathic_Pulmonary_Fibrosis.pdf"
+    "difficulty": "ADVANCED",
+    "setting": "REPARTO",
+    "guidelineRef": "ESMO 2023 NSCLC; nomenclatore; L.219/2017; L.38/2010"
   },
   {
     "id": "PNEUMO-020",
-    "title": "ARDS ipossiemica grave",
-    "condition": "Sindrome da distress respiratorio acuto (ARDS)",
+    "title": "Fibrosi polmonare idiopatica: nintedanib o pirfenidone, non il warfarin",
+    "condition": "Fibrosi polmonare idiopatica",
     "frequencyCategory": "MEDIUM",
     "difficulty": "ADVANCED",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "TS_ERS_ARDS_Guidelines.pdf"
+    "setting": "AMBULATORIO",
+    "guidelineRef": "ATS/ERS IPF 2015 update; L.219/2017; L.38/2010"
   },
   {
     "id": "PNEUMO-021",
-    "title": "Tubercolosi polmonare in adulto giovane",
-    "condition": "Tubercolosi polmonare attiva",
+    "title": "ARDS: ossigeno ad alti flussi se non intubato, poi volumi bassi e prono",
+    "condition": "ARDS moderata-grave non da BPCO ne' da edema cardiogeno",
     "frequencyCategory": "MEDIUM",
-    "difficulty": "INTERMEDIATE",
-    "setting": "AMBULATORIO",
-    "guidelineRef": "WHO_2022_Tuberculosis_Guidelines.pdf"
+    "difficulty": "ADVANCED",
+    "setting": "PRONTO_SOCCORSO",
+    "guidelineRef": "ATS/ESICM ARDS (file TS_ERS); L.219/2017; L.38/2010"
   },
   {
     "id": "PNEUMO-022",
-    "title": "Riacutizzazione di bronchiectasie",
-    "condition": "Bronchiectasie — esacerbazione infettiva",
+    "title": "Tubercolosi polmonare nuova: sei mesi di rifampicina, ogni giorno",
+    "condition": "Tubercolosi polmonare nuova, sensibile ai farmaci",
     "frequencyCategory": "MEDIUM",
-    "difficulty": "BASE",
-    "setting": "PRONTO_SOCCORSO",
-    "guidelineRef": "ERS_2017_Bronchiectasis_Guidelines.pdf"
+    "difficulty": "ADVANCED",
+    "setting": "AMBULATORIO",
+    "guidelineRef": "WHO TB module 4; L.219/2017; L.38/2010"
   },
   {
     "id": "PNEUMO-023",
-    "title": "Sarcoidosi polmonare in donna di 36 anni",
-    "condition": "Sarcoidosi polmonare (stadio radiologico II)",
+    "title": "Bronchiectasie: drenare le vie aeree, non lo steroide inalatorio di routine",
+    "condition": "Bronchiectasie dell'adulto con riacutizzazioni frequenti e Pseudomonas cronico, senza asma ne' BPCO",
     "frequencyCategory": "MEDIUM",
-    "difficulty": "INTERMEDIATE",
+    "difficulty": "ADVANCED",
     "setting": "AMBULATORIO",
-    "guidelineRef": "ERS_2021_Sarcoidosis_Guidelines.pdf"
+    "guidelineRef": "ERS bronchiectasis (file 2017, testo aggiornato); L.219/2017; L.38/2010"
   },
   {
     "id": "PNEUMO-024",
-    "title": "Insufficienza respiratoria ipercapnica e NIV",
-    "condition": "Insufficienza respiratoria acuta ipercapnica — NIV",
+    "title": "Sarcoidosi polmonare a rischio: glucocorticoidi, non la PET al posto della funzione",
+    "condition": "Sarcoidosi polmonare sintomatica con rischio di danno permanente",
     "frequencyCategory": "MEDIUM",
     "difficulty": "ADVANCED",
-    "setting": "REPARTO",
-    "guidelineRef": "ERS_ATS_Noninvasive_Ventilation_Guidelines.pdf"
+    "setting": "AMBULATORIO",
+    "guidelineRef": "ERS sarcoidosis 2021; nomenclatore; L.219/2017; L.38/2010"
   },
   {
     "id": "PNEUMO-025",
-    "title": "Polmonite associata a ventilazione (VAP)",
-    "condition": "Polmonite associata a ventilazione meccanica (VAP/HAP)",
-    "frequencyCategory": "MEDIUM",
-    "difficulty": "ADVANCED",
-    "setting": "REPARTO",
-    "guidelineRef": "IDSA_ATS_Hospital_Acquired_Pneumonia.pdf"
-  },
-  {
-    "id": "PNEUMO-026",
-    "title": "Overlap asma-BPCO in ex fumatrice",
-    "condition": "Asthma-COPD overlap (ACO)",
-    "frequencyCategory": "MEDIUM",
-    "difficulty": "INTERMEDIATE",
-    "setting": "AMBULATORIO",
-    "guidelineRef": "GOLD_2024_COPD_Guidelines.pdf"
-  },
-  {
-    "id": "PNEUMO-027",
-    "title": "Versamento pleurico maligno",
-    "condition": "Versamento pleurico maligno in neoplasia polmonare",
-    "frequencyCategory": "MEDIUM",
-    "difficulty": "INTERMEDIATE",
-    "setting": "REPARTO",
-    "guidelineRef": "BTS Guideline for Pleural Disease.pdf"
-  },
-  {
-    "id": "PNEUMO-028",
-    "title": "Fibrosi cistica dell'adulto",
-    "condition": "Fibrosi cistica in transizione all'età adulta",
+    "title": "Asma da lavoro: togliere l'esposizione, la mascherina non basta",
+    "condition": "Asma lavoro-correlata, sospetta asma occupazionale del panettiere",
     "frequencyCategory": "LOW",
     "difficulty": "ADVANCED",
     "setting": "AMBULATORIO",
-    "guidelineRef": "ECFS_Cystic_Fibrosis_Standards_of_Care.pdf"
-  },
-  {
-    "id": "PNEUMO-029",
-    "title": "Pneumopatia professionale da inalanti",
-    "condition": "Pneumoconiosi / patologia polmonare lavoro-correlata",
-    "frequencyCategory": "LOW",
-    "difficulty": "INTERMEDIATE",
-    "setting": "AMBULATORIO",
-    "guidelineRef": "ATS_Work_Related_Lung_Diseases_Guidelines.pdf"
-  },
-  {
-    "id": "PNEUMO-030",
-    "title": "CTEPH dopo embolia polmonare",
-    "condition": "Ipertensione polmonare tromboembolica cronica (CTEPH)",
-    "frequencyCategory": "LOW",
-    "difficulty": "ADVANCED",
-    "setting": "AMBULATORIO",
-    "guidelineRef": "ESC_ERS_2022_Pulmonary_Hypertension_Guidelines.pdf"
+    "guidelineRef": "ERS work-related asthma; GINA summary; L.219/2017"
   }
 ]

@@ -1,303 +1,481 @@
 {
-  "title": "Paziente con riacutizzazione di dilatazioni bronchiali croniche",
-  "description": "Francesca si presenta al pronto soccorso con un quadro di esacerbazione delle bronchiectasie. Riferisce di avere difficoltà respiratorie, tosse produttiva e febbre. Ha già iniziato un trattamento antibiotico avanzato ma è preoccupata per la sua condizione e contesta le linee guida mediche, affermando che conosce meglio il suo corpo e che l'autosomministrazione di farmaci è sempre stata efficace per lei.",
-  "difficulty": "EASY",
-  "goldStandardPath": [
-    "rx-torace",
-    "emocromo",
-    "pcr-pct",
-    "spirometria"
-  ],
-  "baselineExamFindings": {
-    "vitals": {
-      "heartRate": 100,
-      "bloodPressure": "130/80",
-      "spo2": 91,
-      "temperature": 38,
-      "respiratoryRate": 24
-    },
-    "examBudgetEuro": 90,
-    "advancedExams": {
-      "values": {
-        "rx-torace": {
-          "finding": "RX Torace (2 proiezioni) nel contesto di Bronchiectasie — esacerbazione infettiva (PNEUMO-022). Tachipnea, SpO2 ridotta, febbre, crepitii bilaterali, espettorato purulento.",
-          "normalFinding": "RX Torace (2 proiezioni) nel contesto di Bronchiectasie — esacerbazione infettiva (PNEUMO-022). Tachipnea, SpO2 ridotta, febbre, crepitii bilaterali, espettorato purulento.",
-          "isAbnormal": true,
-          "price": 15.5
-        },
-        "emocromo": {
-          "finding": "Emocromo completo con formula nel contesto di Bronchiectasie — esacerbazione infettiva (PNEUMO-022). Tachipnea, SpO2 ridotta, febbre, crepitii bilaterali, espettorato purulento.",
-          "normalFinding": "Emocromo completo con formula nel contesto di Bronchiectasie — esacerbazione infettiva (PNEUMO-022). Tachipnea, SpO2 ridotta, febbre, crepitii bilaterali, espettorato purulento.",
-          "isAbnormal": true,
-          "price": 4.5
-        },
-        "pcr-pct": {
-          "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Bronchiectasie — esacerbazione infettiva (PNEUMO-022). Tachipnea, SpO2 ridotta, febbre, crepitii bilaterali, espettorato purulento.",
-          "normalFinding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Bronchiectasie — esacerbazione infettiva (PNEUMO-022). Tachipnea, SpO2 ridotta, febbre, crepitii bilaterali, espettorato purulento.",
-          "isAbnormal": true,
-          "price": 12
-        },
-        "spirometria": {
-          "finding": "Spirometria (semplice/globale) nel contesto di Bronchiectasie — esacerbazione infettiva (PNEUMO-022). Tachipnea, SpO2 ridotta, febbre, crepitii bilaterali, espettorato purulento.",
-          "normalFinding": "Spirometria (semplice/globale) nel contesto di Bronchiectasie — esacerbazione infettiva (PNEUMO-022). Tachipnea, SpO2 ridotta, febbre, crepitii bilaterali, espettorato purulento.",
-          "isAbnormal": true,
-          "price": 25
-        },
-        "pet-tc": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_2017_Bronchiectasis_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_2017_Bronchiectasis_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 900
-        },
-        "rm": {
-          "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_2017_Bronchiectasis_Guidelines.pdf.",
-          "normalFinding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_2017_Bronchiectasis_Guidelines.pdf.",
-          "isAbnormal": false,
-          "price": 220
-        }
-      }
-    },
-    "demographics": {
-      "age": 59,
-      "sex": "F",
-      "context": "Pronto Soccorso"
-    },
-    "physicalExam": {
-      "finding": "Tachipnea, ipossiemia, febbre, tosse produttiva con espettorato purulento, crepitii all'auscultazione polmonare."
-    },
-    "rx-torace": {
-      "finding": "RX Torace (2 proiezioni) nel contesto di Bronchiectasie — esacerbazione infettiva (PNEUMO-022). Tachipnea, SpO2 ridotta, febbre, crepitii bilaterali, espettorato purulento.",
-      "isAbnormal": true
-    },
-    "emocromo": {
-      "finding": "Emocromo completo con formula nel contesto di Bronchiectasie — esacerbazione infettiva (PNEUMO-022). Tachipnea, SpO2 ridotta, febbre, crepitii bilaterali, espettorato purulento.",
-      "isAbnormal": true
-    },
-    "pcr-pct": {
-      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Bronchiectasie — esacerbazione infettiva (PNEUMO-022). Tachipnea, SpO2 ridotta, febbre, crepitii bilaterali, espettorato purulento.",
-      "isAbnormal": true
-    },
-    "spirometria": {
-      "finding": "Spirometria (semplice/globale) nel contesto di Bronchiectasie — esacerbazione infettiva (PNEUMO-022). Tachipnea, SpO2 ridotta, febbre, crepitii bilaterali, espettorato purulento.",
-      "isAbnormal": true
-    },
-    "pet-tc": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_2017_Bronchiectasis_Guidelines.pdf.",
-      "isAbnormal": false
-    },
-    "rm": {
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_2017_Bronchiectasis_Guidelines.pdf.",
-      "isAbnormal": false
-    }
-  },
-  "correctSolution": "Iniziare un trattamento antibiotico adeguato, monitorare i segni vitali e considerare ulteriori indagini se non ci sono miglioramenti.",
-  "patientPrompt": "Ho 59 anni e da tempo soffro di bronchiectasie. Oggi sono venuta qui perché ho difficoltà a respirare e ho la febbre. Ho già iniziato un antibiotico che mi sono somministrata da sola, perché so che funziona sempre così. Non capisco perché dovrei seguire le linee guida, io conosco il mio corpo e so cosa mi fa bene. Inoltre, ho poco supporto da parte della mia famiglia e questo mi rende ancora più ansiosa. Non riesco a dormire bene e mi sento sempre stanca.",
   "id": "PNEUMO-022",
   "code": "PNEUMO-022",
+  "title": "Tubercolosi polmonare nuova: sei mesi di rifampicina, ogni giorno",
+  "description": "Uomo di 36 anni, TB polmonare suscettibile, nuova. Vogliono lo schema trisettimanale e allungare la fase intensiva perche' lo striscio e' ancora positivo.",
+  "difficulty": "HARD",
   "specialty": "pneumologia",
   "specialtyLabel": "Pneumologia",
-  "condition": "Bronchiectasie — esacerbazione infettiva",
+  "condition": "Tubercolosi polmonare nuova, sensibile ai farmaci",
   "frequencyCategory": "MEDIUM",
-  "matrixDifficulty": "BASE",
-  "setting": "PRONTO_SOCCORSO",
-  "guidelineRef": "ERS_2017_Bronchiectasis_Guidelines.pdf",
-  "diagnosis": "Esacerbazione infettiva delle bronchiectasie.",
-  "pastMedicalHistory": "Storia di bronchiectasie diagnosticate in giovane età, episodi ricorrenti di infezioni respiratorie, uso occasionale di antibiotici per trattamenti autonomi.",
-  "presentation": "Francesca, una donna di 59 anni, si presenta al pronto soccorso con un quadro di esacerbazione delle bronchiectasie. Riferisce di avere tosse produttiva, febbre e un aumento della difficoltà respiratoria. È visibilmente ansiosa e mostra una certa opposizione alle raccomandazioni mediche, sostenendo di aver già iniziato un antibiotico avanzato. Ha una rete sociale limitata e fatica a gestire lo stress.",
+  "matrixDifficulty": "ADVANCED",
+  "setting": "AMBULATORIO",
+  "guidelineRef": "WHO TB module 4; L.219/2017; L.38/2010",
+  "diagnosis": "Nuovo paziente con TB polmonare: regime con 6 mesi di rifampicina, 2HRZE/4HR, forte. Dosaggio quotidiano. Il trisettimanale non e' raccomandato. Non si allunga la fase intensiva solo perche' lo striscio e' positivo alla fine di quella fase. Le compresse combinate sono raccomandate rispetto alle bustine separate.",
+  "pastMedicalHistory": "Tosse, calo di peso. HIV negativo in questo caso. Dolore toracico. Isolato socialmente.",
+  "presentation": "Striscio e test rapido positivi, sensibile. Gli propongono pillole a giorni alterni 'per non dimenticare' e due mesi in piu' di quattro farmaci perche' lo striscio a due mesi e' ancora positivo.",
   "redHerrings": [
-    "Tosse secca intermittente da allergia.",
-    "Dolore toracico occasionale non correlato alla respirazione.",
-    "Stanchezza cronica attribuita a problemi di sonno."
+    "Schema trisettimanale.",
+    "Allungare la fase intensiva."
   ],
-  "timeLimitMinutes": 20,
-  "patientDeteriorationThreshold": 10,
+  "timeLimitMinutes": 50,
+  "patientDeteriorationThreshold": 35,
+  "patientPrompt": "Sono Omar. Ho la tubercolosi. Voglio lo schema giusto, tutti i giorni, non a salti. Non allungate i quattro farmaci solo per uno striscio. Il dolore al petto va scritto se mi ricoverate.",
+  "correctSolution": "2HRZE/4HR quotidiano. Non trisettimanale. Non estendere la fase intensiva per lo striscio positivo. Preferire l'associazione fissa. Informare. Consenso. Dolore in cartella se ricoverato. Se ci fosse meningite, steroide adiuvante: qui non c'e'.",
+  "goldStandardPath": [
+    "rx-torace",
+    "quantiferon"
+  ],
+  "goldPathNarrative": "WHO: 2HRZE/4HR, quotidiano, niente estensione della fase intensiva per striscio positivo, FDC.",
   "examLatencies": {
     "rx-torace": 20,
-    "emocromo": 30,
-    "pcr-pct": 35,
-    "spirometria": 25,
-    "pet-tc": 180
+    "quantiferon": 80,
+    "pet-tc": 20
   },
   "anamnesisQuestions": [
     {
-      "id": "aq_pneumo-022_1",
-      "prompt": "Tempo e modalità di insorgenza di dispnea, tosse o dolore toracico (Bronchiectasie — esacerbazione infettiva)",
+      "id": "q1",
+      "prompt": "E' una TB polmonare nuova e i farmaci sono sensibili?",
       "critical": true,
       "expectedKeywords": [
-        "da quanto",
-        "quando",
-        "insorgenza",
-        "dispnea",
-        "tosse"
+        "nuova",
+        "sensibile",
+        "polmonare"
       ],
-      "rationale": "Definisce urgenza respiratoria e finestra terapeutica."
+      "rationale": "Lo schema 2HRZE/4HR e' per il nuovo paziente."
     },
     {
-      "id": "aq_pneumo-022_2",
-      "prompt": "Caratteristiche respiratorie (espettorato, emoftoe, sibili, ortopnea, dolore pleurico)",
+      "id": "q2",
+      "prompt": "Lo striscio a fine fase intensiva e' positivo?",
       "critical": true,
       "expectedKeywords": [
-        "espettorato",
-        "sangue",
-        "sibili",
-        "dolore",
-        "ortopnea"
+        "striscio",
+        "positivo",
+        "due mesi"
       ],
-      "rationale": "Fenotipo clinico per diagnosi differenziale pneumologica."
-    },
-    {
-      "id": "aq_pneumo-022_3",
-      "prompt": "Fumo, esposizioni professionali/ambientali, allergie e atopia",
-      "critical": true,
-      "expectedKeywords": [
-        "fum",
-        "lavoro",
-        "polvere",
-        "allergia",
-        "asbesto"
-      ],
-      "rationale": "Fattori di rischio e nesso occupazionale / allergologico."
-    },
-    {
-      "id": "aq_pneumo-022_4",
-      "prompt": "Terapie inalatorie, ossigeno, CPAP/NIV, antibiotici e aderenza",
-      "critical": true,
-      "expectedKeywords": [
-        "inalator",
-        "ossigeno",
-        "cpap",
-        "antibiot",
-        "aderenza"
-      ],
-      "rationale": "Baseline prescrittiva, appropriatezza e scudo Gelli-Bianco."
-    },
-    {
-      "id": "aq_pneumo-022_5",
-      "prompt": "Red flag (ipossiemia, confusione, emottisi massiva, trauma, febbre alta)",
-      "critical": true,
-      "expectedKeywords": [
-        "saturazione",
-        "confusione",
-        "emottisi",
-        "febbre",
-        "trauma"
-      ],
-      "rationale": "Identifica instabilità e indicazioni a trasferimento/NIV."
-    },
-    {
-      "id": "aq_pneumo-022_6",
-      "prompt": "Contesto di presentazione: Pronto Soccorso",
-      "critical": false,
-      "expectedKeywords": [
-        "dove si trova",
-        "arrivato",
-        "ambulanza",
-        "visita"
-      ],
-      "rationale": "Il setting condiziona triage, risorse e obblighi di trasferimento."
+      "rationale": "Questo non autorizza ad allungare i quattro farmaci."
     }
   ],
   "physicalExam": {
-    "summary": "Tachipnea, ipossiemia, febbre, tosse produttiva con espettorato purulento, crepitii all'auscultazione polmonare."
+    "summary": "Tosse, dimagrimento, dolore toracico. Non segni meningei."
   },
-  "goldPathNarrative": "Seguire il percorso GOLD: eseguire una radiografia del torace, emocromo, PCR e PCT per valutare l'infezione e la gravità dell'esacerbazione. Considerare la spirometria per valutare la funzionalità polmonare.",
   "escCitations": [
     {
-      "chunkId": "8f67364a-f375-4325-85e0-337a0fd5daa4-8",
-      "source": "knowledge_base/pneumologia/clinical/ERS_2017_Bronchiectasis_Guidelines.pdf",
-      "quote": "tional recommendations support the use of eradication treatment or mucoactive drugs in specific circumstances. We suggest not to routinely use long-term oral, non-macrolide antibiotic treatment or inhaled corticosteroids. Additional guidance is also provided on testing for underlying causes, managing exacerbations and managing the deteriorating patient. Conclusion The ERS bronchiectasis guidelines provide an evidence-based framework for optimal management of adults with bronchiectasis and serve "
+      "chunkId": "reg",
+      "source": "knowledge_base/pneumologia/clinical/WHO_2022_Tuberculosis_Guidelines.pdf",
+      "quote": "New patients with pulmonary TB should receive a regimen containing 6 months of rifampicin: 2HRZE/4HR (strong recommendation, high certainty of evidence)."
     },
     {
-      "chunkId": "8f67364a-f375-4325-85e0-337a0fd5daa4-12",
-      "source": "knowledge_base/pneumologia/clinical/ERS_2017_Bronchiectasis_Guidelines.pdf",
-      "quote": "torically been a neglected and under-researched condition [17]. The first international guidelines for bronchiectasis were published by the ERS in 2017; however, the majority of recommendations were conditional and based on low or very low certainty of evidence, largely due to a lack of high-quality randomised controlled trials (RCTs) [18]. In the past 8 years there has been a notable increase in clinical trials and research activity in bronchiectasis, including extensive data from patient regis"
+      "chunkId": "day",
+      "source": "knowledge_base/pneumologia/clinical/WHO_2022_Tuberculosis_Guidelines.pdf",
+      "quote": "Wherever feasible, the optimal dosing frequency for new patients with pulmonary TB is daily throughout the course of therapy (strong recommendation, high certainty of evidence). In all patients with drug-susceptible pulmonary TB, the use of thrice-weekly dosing is not recommended."
     },
     {
-      "chunkId": "8f67364a-f375-4325-85e0-337a0fd5daa4-9",
-      "source": "knowledge_base/pneumologia/clinical/ERS_2017_Bronchiectasis_Guidelines.pdf",
-      "quote": "f permanent dilatation of the bronchi evident on chest computed tomography scan, along with characteristic clinical symptoms [1]. These guidelines are intended for all healthcare professionals involved in the care of adults with bronchiectasis, as well as for policymakers, regulatory authorities and pharmaceutical companies. Bronchiectasis is a complex and heterogeneous disease; therefore, no guideline can be entirely comprehensive or replace clinical judgement. All guideline recommendations mus"
+      "chunkId": "ext",
+      "source": "knowledge_base/pneumologia/clinical/WHO_2022_Tuberculosis_Guidelines.pdf",
+      "quote": "In new pulmonary TB patients treated with the regimen containing rifampicin throughout treatment, if a positive sputum smear is found at completion of the intensive phase, the extension of the intensive phase is not recommended (strong recommendation, high certainty of evidence)."
     },
     {
-      "chunkId": "8f67364a-f375-4325-85e0-337a0fd5daa4-126",
-      "source": "knowledge_base/pneumologia/clinical/ERS_2017_Bronchiectasis_Guidelines.pdf",
-      "quote": "ics should be prescribed for an exacerbation, guided by previous microbiology results, local susceptibility patterns and clinical severity [18, 95, 151, 152]. • An adult bronchiectasis self-management plan should include guidance on recognising exacerbations. Providing selected patients the ability to self-administer antibiotics at home with appropriate instruction and education may allow more prompt treatment [18, 95, 151, 152]. • Patients not responding promptly to oral antibiotics or showing "
+      "chunkId": "fdc",
+      "source": "knowledge_base/pneumologia/clinical/WHO_2022_Tuberculosis_Guidelines.pdf",
+      "quote": "The use of fixed-dose combination (FDC) tablets is recommended over separate drug formulations in treatment of patients with drug-susceptible TB."
+    },
+    {
+      "chunkId": "men",
+      "source": "knowledge_base/pneumologia/clinical/WHO_2022_Tuberculosis_Guidelines.pdf",
+      "quote": "In patients with tuberculous meningitis, an initial adjuvant corticosteroid therapy with dexamethasone or prednisolone tapered over 6-8 weeks should be used."
+    },
+    {
+      "chunkId": "i",
+      "source": "knowledge_base/pneumologia/legal/Legge_22_dicembre_2017,_n.219.pdf",
+      "quote": "Legge 219/2017, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto."
+    },
+    {
+      "chunkId": "p",
+      "source": "knowledge_base/pneumologia/legal/CPAL_Legge_38_Cure_Palliative_del_15_marzo_2010 (2).pdf",
+      "quote": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito."
     }
   ],
   "auditMetrics": {
     "appropriatenessIndicators": [
-      "Eseguire in sequenza il gold path: rx-torace → emocromo → pcr-pct → spirometria.",
-      "Non prescrivere di prima intenzione: pet-tc, rm (ERS_2017_Bronchiectasis_Guidelines.pdf).",
-      "Budget SSN di riferimento: €90."
+      "2HRZE/4HR quotidiano.",
+      "Niente trisettimanale.",
+      "Niente estensione della fase intensiva per striscio positivo."
     ],
     "gelliBiancoShield": {
-      "art5Adherence": "Scudo L. 24/2017 Art. 5 L'adesione alle linee guida (ERS_2017_Bronchiectasis_Guidelines.pdf) e al gold path costituisce parametro di conformità alle buone pratiche clinico-assistenziali (L. 24/2017 Art. 5 Gelli-Bianco).",
+      "art5Adherence": "WHO modulo trattamento. Informazione e dolore secondo le leggi.",
       "legalCriteria": [
-        "Documentare adesione alle linee guida accreditate (L. 24/2017 Art. 5 Gelli-Bianco).",
-        "Raccogliere consenso informato prima di procedure invasive.",
-        "Evitare esami inappropriati (Codice deontologico, appropriatezza prescrittiva).",
-        "Registrare tempi critici nel setting Pronto Soccorso."
+        "Regime e ritmo secondo WHO.",
+        "Informazione, legge 219/2017.",
+        "Dolore, art. 7 se ricovero."
       ]
     }
   },
   "mandatoryExams": [
     {
       "examId": "rx-torace",
-      "name": "RX Torace (2 proiezioni)",
-      "finding": "RX Torace (2 proiezioni) nel contesto di Bronchiectasie — esacerbazione infettiva (PNEUMO-022). Tachipnea, SpO2 ridotta, febbre, crepitii bilaterali, espettorato purulento.",
+      "name": "RX del torace",
+      "finding": "Infiltrato apicale. 18,60 euro. Compatibile con TB polmonare, non decide da solo la durata.",
       "isAbnormal": true,
-      "priceEuro": 15.5
+      "priceEuro": 18.6
     },
     {
-      "examId": "emocromo",
-      "name": "Emocromo completo con formula",
-      "finding": "Emocromo completo con formula nel contesto di Bronchiectasie — esacerbazione infettiva (PNEUMO-022). Tachipnea, SpO2 ridotta, febbre, crepitii bilaterali, espettorato purulento.",
-      "isAbnormal": true,
-      "priceEuro": 4.5
-    },
-    {
-      "examId": "pcr-pct",
-      "name": "Proteina C Reattiva (PCR) e Procalcitonina (PCT)",
-      "finding": "Proteina C Reattiva (PCR) e Procalcitonina (PCT) nel contesto di Bronchiectasie — esacerbazione infettiva (PNEUMO-022). Tachipnea, SpO2 ridotta, febbre, crepitii bilaterali, espettorato purulento.",
-      "isAbnormal": true,
-      "priceEuro": 12
-    },
-    {
-      "examId": "spirometria",
-      "name": "Spirometria (semplice/globale)",
-      "finding": "Spirometria (semplice/globale) nel contesto di Bronchiectasie — esacerbazione infettiva (PNEUMO-022). Tachipnea, SpO2 ridotta, febbre, crepitii bilaterali, espettorato purulento.",
-      "isAbnormal": true,
-      "priceEuro": 25
+      "examId": "quantiferon",
+      "name": "Test immunologico",
+      "finding": "Non sostituisce lo schema del paziente gia' batteriologicamente confermato. Non si usa per allungare la fase intensiva.",
+      "isAbnormal": false,
+      "priceEuro": 35
     }
   ],
   "inappropriateExams": [
     {
       "examId": "pet-tc",
-      "name": "PET-TC",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_2017_Bronchiectasis_Guidelines.pdf.",
+      "name": "PET-TC per 'vedere se lo striscio basta'",
+      "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
       "isAbnormal": false,
-      "priceEuro": 900,
+      "priceEuro": 1071.7,
       "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_2017_Bronchiectasis_Guidelines.pdf."
-    },
-    {
-      "examId": "rm",
-      "name": "RM Addome/Pelvi/Encefalo/Colonna/Articolare",
-      "finding": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_2017_Bronchiectasis_Guidelines.pdf.",
-      "isAbnormal": false,
-      "priceEuro": 220,
-      "inappropriate": true,
-      "wasteRationale": "Esame non di prima intenzione per questo quadro clinico (spreco SSN / possibile ritardo terapeutico). Riferimento: ERS_2017_Bronchiectasis_Guidelines.pdf."
+      "wasteRationale": "La PET non decide l'estensione della fase intensiva, che WHO sconsiglia."
     }
   ],
+  "baselineExamFindings": {
+    "vitals": {
+      "heartRate": 96,
+      "bloodPressure": "118/74",
+      "spo2": 96,
+      "temperature": 37.6,
+      "respiratoryRate": 18
+    },
+    "examBudgetEuro": 40,
+    "demographics": {
+      "age": 36,
+      "sex": "M",
+      "context": "Ambulatorio di malattia infettiva respiratoria"
+    },
+    "clinicalSigns": [
+      {
+        "signName": "Tosse produttiva",
+        "result": "Da un mese.",
+        "isPositive": true
+      },
+      {
+        "signName": "Segni meningei",
+        "result": "Assenti.",
+        "isPositive": false
+      }
+    ],
+    "semeiotics": [
+      {
+        "signName": "Tosse produttiva",
+        "result": "Da un mese.",
+        "isPositive": true
+      },
+      {
+        "signName": "Segni meningei",
+        "result": "Assenti.",
+        "isPositive": false
+      }
+    ],
+    "advancedExams": {
+      "values": {
+        "rx-torace": {
+          "finding": "Infiltrato apicale. 18,60 euro. Compatibile con TB polmonare, non decide da solo la durata.",
+          "normalFinding": "Infiltrato apicale. 18,60 euro. Compatibile con TB polmonare, non decide da solo la durata.",
+          "isAbnormal": true,
+          "price": 18.6
+        },
+        "quantiferon": {
+          "finding": "Non sostituisce lo schema del paziente gia' batteriologicamente confermato. Non si usa per allungare la fase intensiva.",
+          "normalFinding": "Non sostituisce lo schema del paziente gia' batteriologicamente confermato. Non si usa per allungare la fase intensiva.",
+          "isAbnormal": false,
+          "price": 35
+        },
+        "pet-tc": {
+          "finding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+          "normalFinding": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+          "isAbnormal": false,
+          "price": 1071.7
+        }
+      }
+    }
+  },
   "patientProfile": {
     "healthLiteracy": "MEDIUM",
-    "emotionalState": "OPPOSITIONAL",
-    "adherence": "SELF_MEDICATED",
+    "emotionalState": "ANXIOUS",
+    "adherence": "PARTIAL",
     "lifestyleAndSocial": {
       "sleepQuality": "POOR",
-      "stressLevel": "MEDIUM",
+      "stressLevel": "HIGH",
       "socialSupport": "LIMITED"
     },
-    "communicationStyle": "Ha già iniziato un antibiotico avanzato. Contesta le linee guida ERS ('funziona sempre così'). Serve riconoscere l'esperienza e spiegare perché l'autosomministrazione aumenta resistenze."
-  }
+    "communicationStyle": "Sono Omar. Tutti i giorni le compresse, non a salti. Non allungate la cura forte solo perche' un esame e' ancora positivo. Spiegatemi gli effetti."
+  },
+  "nodes": [
+    {
+      "id": "d1",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Sei mesi di rifampicina",
+      "prompt": "TB polmonare nuova, sensibile.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d1-ok",
+          "label": "Imposti 2HRZE/4HR",
+          "next": "d2"
+        },
+        {
+          "id": "d1-bad",
+          "label": "Usi un regime senza sei mesi di rifampicina",
+          "next": "res-d1"
+        }
+      ]
+    },
+    {
+      "id": "res-d1",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Regime corto sbagliato",
+      "prompt": "New patients with pulmonary TB should receive a regimen containing 6 months of rifampicin: 2HRZE/4HR.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d2",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Ogni giorno",
+      "prompt": "Propongono tre volte a settimana.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d2-ok",
+          "label": "Dosaggio quotidiano. Il trisettimanale non e' raccomandato",
+          "next": "d3"
+        },
+        {
+          "id": "d2-bad",
+          "label": "Schema trisettimanale",
+          "next": "res-d2"
+        }
+      ]
+    },
+    {
+      "id": "res-d2",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Trisettimanale",
+      "prompt": "Daily dosing throughout is optimal. Thrice-weekly dosing is not recommended in drug-susceptible pulmonary TB.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d3",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Non allungare i quattro farmaci",
+      "prompt": "A due mesi lo striscio e' ancora positivo.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d3-ok",
+          "label": "Non estenda la fase intensiva",
+          "next": "d4"
+        },
+        {
+          "id": "d3-bad",
+          "label": "Aggiunga due mesi di quattro farmaci",
+          "next": "res-d3"
+        }
+      ]
+    },
+    {
+      "id": "res-d3",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Estensione",
+      "prompt": "If a positive sputum smear is found at completion of the intensive phase, extension of the intensive phase is not recommended.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d4",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Compresse combinate",
+      "prompt": "Ci sono le bustine separate e le compresse FDC.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d4-ok",
+          "label": "Preferisca le compresse in associazione fissa",
+          "next": "d5"
+        },
+        {
+          "id": "d4-bad",
+          "label": "Solo le bustine separate senza motivo",
+          "next": "res-d4"
+        }
+      ]
+    },
+    {
+      "id": "res-d4",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "FDC",
+      "prompt": "FDC tablets are recommended over separate drug formulations.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d5",
+      "type": "decision",
+      "phase": "terapia",
+      "title": "Niente steroide meningeo qui",
+      "prompt": "Non ha meningite. Qualcuno mette desametasone 'di prassi'.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d5-ok",
+          "label": "Lo steroide adiuvante scritto e' per la meningite tubercolare, non per questa polmonite",
+          "next": "d6"
+        },
+        {
+          "id": "d5-bad",
+          "label": "Steroide di prassi",
+          "next": "res-d5"
+        }
+      ]
+    },
+    {
+      "id": "res-d5",
+      "type": "resolution",
+      "phase": "terapia",
+      "title": "Steroide fuori sede",
+      "prompt": "In tuberculous meningitis, initial adjuvant corticosteroid therapy tapered over 6-8 weeks should be used. Qui i segni meningei non ci sono.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d6",
+      "type": "decision",
+      "phase": "diagnostica",
+      "title": "Niente PET per lo striscio",
+      "prompt": "PET a 1.071,70 euro per decidere se allungare.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d6-ok",
+          "label": "Non la faccia: l'estensione non e' raccomandata comunque",
+          "next": "d7"
+        },
+        {
+          "id": "d6-bad",
+          "label": "La prenoti",
+          "next": "res-d6"
+        }
+      ]
+    },
+    {
+      "id": "res-d6",
+      "type": "resolution",
+      "phase": "diagnostica",
+      "title": "PET",
+      "prompt": "Nomenclatore tariffario valido dal 14 ottobre 2026: 92.18.C TOMOGRAFIA AD EMISSIONE DI POSITRONI [PET-TC] GLOBALE CORPOREA CON FDG, tariffa 1.071,70 euro. Non sostituisce il passo scritto in questo quadro.",
+      "cost": 1071.7,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "economico"
+    },
+    {
+      "id": "d7",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Informazione su durata ed effetti",
+      "prompt": "Deve sapere che sono sei mesi, ogni giorno, e che puo' rifiutare.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d7-ok",
+          "label": "Glielo spieghi e raccolga il consenso",
+          "next": "d8"
+        },
+        {
+          "id": "d7-bad",
+          "label": "Consegni le scatole senza parlare",
+          "next": "res-d7"
+        }
+      ]
+    },
+    {
+      "id": "res-d7",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Informazione",
+      "prompt": "Legge 219/2017, art. 1 comma 3: ogni persona ha il diritto di conoscere le proprie condizioni di salute e di essere informata in modo completo, aggiornato e a lei comprensibile riguardo alla diagnosi, alla prognosi, ai benefici e ai rischi degli accertamenti diagnostici e dei trattamenti sanitari indicati, nonche' riguardo alle possibili alternative e alle conseguenze dell'eventuale rifiuto.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "d8",
+      "type": "decision",
+      "phase": "follow-up",
+      "title": "Dolore in cartella",
+      "prompt": "Dolore presente, scheda incompleta.",
+      "cost": 0,
+      "score": 12,
+      "choices": [
+        {
+          "id": "d8-ok",
+          "label": "Compili l'art. 7 della legge 38/2010",
+          "next": "res-ok"
+        },
+        {
+          "id": "d8-bad",
+          "label": "Non annoti",
+          "next": "res-d8"
+        }
+      ]
+    },
+    {
+      "id": "res-d8",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Dolore omesso",
+      "prompt": "Legge 15 marzo 2010, n. 38, art. 7 comma 1: all'interno della cartella clinica, nelle sezioni medica ed infermieristica, devono essere riportati le caratteristiche del dolore rilevato e della sua evoluzione nel corso del ricovero, nonche' la tecnica antalgica e i farmaci utilizzati, i relativi dosaggi e il risultato antalgico conseguito. Dolore toracico.",
+      "cost": 0,
+      "score": 0,
+      "outcome": "negative",
+      "trap": "medico-legale"
+    },
+    {
+      "id": "res-ok",
+      "type": "resolution",
+      "phase": "follow-up",
+      "title": "Percorso coerente con i testi letti",
+      "prompt": "TB nuova sensibile: 2HRZE/4HR quotidiano, niente trisettimanale, niente estensione per striscio positivo, FDC, niente steroide senza meningite.",
+      "cost": 0,
+      "score": 100,
+      "outcome": "positive"
+    }
+  ]
 }
