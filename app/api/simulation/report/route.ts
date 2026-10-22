@@ -26,7 +26,8 @@ import {
 import { normalizeCaseLookupKey } from "@/lib/data/cases/registry";
 
 export const runtime = "nodejs";
-export const maxDuration = 120;
+/** Prisma and the queued evaluation job are Node-only. Edge cannot open this database client. */
+export const maxDuration = 300;
 
 const SimulationReportBodySchema = z.object({
   caseId: z.string().min(1, "caseId is required"),

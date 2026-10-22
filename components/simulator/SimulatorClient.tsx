@@ -25,6 +25,7 @@ import {
   Pause,
   Play,
   Send,
+  Server,
   Sparkles,
   User,
   X,
@@ -390,6 +391,41 @@ function SimulatorNavBar({
   );
 }
 
+const LIS_REPORT_PHASES = [
+  "Connessione al server LIS in corso...",
+  "Calcolo delle metriche di appropriatezza economica...",
+  "Stesura del referto...",
+] as const;
+
+function LisReportGeneratingOverlay() {
+  const [phase, setPhase] = useState(0);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setPhase((current) => (current + 1) % LIS_REPORT_PHASES.length);
+    }, 2200);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  return (
+    <div
+      className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-950/95 px-6"
+      role="status"
+      aria-live="polite"
+    >
+      <div className="w-full max-w-lg border border-slate-700 bg-slate-900 px-8 py-10 text-center shadow-2xl">
+        <Server className="mx-auto h-10 w-10 animate-pulse text-emerald-400" strokeWidth={1.5} />
+        <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.22em] text-slate-400">
+          Laboratory Information System
+        </p>
+        <p className="mt-6 min-h-[3rem] font-mono text-sm leading-relaxed text-slate-100">
+          {LIS_REPORT_PHASES[phase]}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export function SimulatorClient({
   initialCaseData,
   isVariant,
@@ -475,6 +511,7 @@ export function SimulatorClient({
   >("clinical");
 
   const [reportLoading, setReportLoading] = useState(false);
+  const [isGeneratingReport, setIsGeneratingReport] = useState(false);
   const [reportError, setReportError] = useState<string | null>(null);
   const [reportProgress, setReportProgress] = useState(0);
   const [reportProgressMessage, setReportProgressMessage] = useState("");
@@ -1334,6 +1371,7 @@ export function SimulatorClient({
     reportGenerationAbortRef.current = abortController;
 
     setReportError(null);
+    if (isLab) setIsGeneratingReport(true);
     setReportLoading(true);
     setReportProgress(10);
     setReportProgressMessage("Inizializzazione report...");
@@ -1457,6 +1495,7 @@ export function SimulatorClient({
     } finally {
       if (reportGenerationAbortRef.current === abortController) {
         setReportLoading(false);
+        setIsGeneratingReport(false);
         reportGenerationAbortRef.current = null;
       }
     }
@@ -1467,6 +1506,7 @@ export function SimulatorClient({
     helpRequested,
     initialCaseData.id,
     initialCaseData.patientPrompt,
+    isLab,
     messages,
     reportSections,
     router,
@@ -2049,6 +2089,7 @@ export function SimulatorClient({
           </div>
         ) : null}
 
+        {isLab && isGeneratingReport ? <LisReportGeneratingOverlay /> : null}
         {isLab ? (
           <LaboratoryLisDashboard
             caseId={initialCaseData.id}
