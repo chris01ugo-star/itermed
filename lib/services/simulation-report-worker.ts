@@ -58,6 +58,13 @@ import {
   type SessionPrescription,
 } from "@/lib/simulator/prescription-trace";
 import { getCaseById } from "@/lib/data/cases/registry";
+import type { RagPillarTrace } from "@/lib/reports/pillar-radar";
+import {
+  buildDocumentSearchQuery,
+  evaluateTraceAgainstDocuments,
+  type ReportCaseData,
+  type SelectedReportOption,
+} from "@/lib/services/rag-pillar-evaluation";
 import type { ClinicalCase } from "@/lib/data/cases/types";
 import { estimateAgeFromTitle, patientDisplayName } from "@/lib/prassi/demo-vitals";
 
@@ -526,6 +533,10 @@ export type SimulationReportJobInput = {
   requestedExamIds?: string[];
   helpRequested?: boolean;
   helpRequestCount?: number;
+  /** Node choices (and requested exams) sent by the simulator. */
+  selectedOptions?: SelectedReportOption[];
+  /** Clinical case presentation JSON sent by the client. */
+  caseData?: ReportCaseData;
 };
 
 /** Clinical fail ceiling on the trentesimi scale (&lt; 18/30). */
@@ -674,6 +685,8 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     const clinicalCase = await prisma.clinicalCase.findUnique({
       where: { id: input.caseId },
       select: {
+        title: true,
+        description: true,
         difficulty: true,
         medicalSpecialtyId: true,
         specialty: true,
@@ -699,11 +712,22 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       secondarySpecialties = readSecondarySpecialties(kbRow?.caseData);
     }
 
+    const documentQuery = buildDocumentSearchQuery({
+      title: input.caseData?.title || clinicalCase?.title,
+      specialty: input.caseData?.specialty || specialtyName,
+      selectedOptions: input.selectedOptions,
+    });
+    const optionTags = (input.selectedOptions ?? [])
+      .map((option) => option.label?.trim() || option.id?.trim())
+      .filter((tag): tag is string => Boolean(tag))
+      .slice(0, 8);
+
     const [guidelines, examCatalog] = await Promise.all([
       ragService.getRelevantGuidelines({
-        finalDiagnosis: input.finalDiagnosis,
-        caseContext: input.caseContext,
+        finalDiagnosis: input.caseData?.title || clinicalCase?.title || input.finalDiagnosis,
+        caseContext: [documentQuery, input.caseContext].filter(Boolean).join("\n"),
         reportText: input.normalizedReportText,
+        tags: optionTags,
         specialtyId,
         specialtyName,
         secondarySpecialties,
@@ -1158,6 +1182,91 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     await prisma.sessionReport.update({
       where: { id: input.reportId },
       data: {
+        progress: 95,
+        progressMessage: "Valutazione sui documenti ufficiali...",
+      },
+    });
+
+    const clientChat = Array.isArray(input.evaluationChatHistory)
+      ? input.evaluationChatHistory.filter(
+          (turn) =>
+            (turn.role === "user" || turn.role === "assistant") &&
+            typeof turn.content === "string" &&
+            turn.content.trim().length > 0,
+        )
+      : [];
+    const traceChat = clientChat.length > 0 ? clientChat : chatHistoryForAudit;
+    const traceOptions: SelectedReportOption[] =
+      Array.isArray(input.selectedOptions) && input.selectedOptions.length > 0
+        ? input.selectedOptions
+        : (Array.isArray(input.exams) ? input.exams : []).map((exam) => ({
+            id: exam.id,
+            label: exam.name,
+          }));
+    const traceCase: ReportCaseData = {
+      id: input.caseData?.id || input.caseId,
+      title: input.caseData?.title || clinicalCase?.title || registeredCase?.title,
+      specialty: input.caseData?.specialty || specialtyName || registeredCase?.specialty || undefined,
+      description: input.caseData?.description || clinicalCase?.description || registeredCase?.description,
+      patientPrompt: input.caseData?.patientPrompt || input.caseContext,
+      difficulty: input.caseData?.difficulty || clinicalCase?.difficulty,
+    };
+
+    let ragPillars: RagPillarTrace | null = null;
+    try {
+      ragPillars = await evaluateTraceAgainstDocuments({
+        caseData: traceCase,
+        selectedOptions: traceOptions,
+        chatHistory: traceChat,
+        exams: Array.isArray(input.exams) ? input.exams : [],
+        reportText: input.normalizedReportText,
+        guidelines,
+        specialty: traceCase.specialty,
+        caseId: traceCase.id,
+      });
+      scoresForGrade = sanitizeDimensionScores({
+        clinical: ragPillars.clinica.score,
+        legal: ragPillars.legale.score,
+        exams: ragPillars.economia.score,
+        economy: ragPillars.economia.score,
+        empathy: ragPillars.empatia.score,
+      });
+      const recomputed = computeFinalTrentesimiWithKillerSwitch(scoresForGrade, fatalErrors);
+      rawTotalTrentesimi = Number.isFinite(recomputed.rawTotal) ? recomputed.rawTotal : 0;
+      const capped = applyKillerSwitch(
+        Number.isFinite(recomputed.finalTotal) ? recomputed.finalTotal : 0,
+        fatalErrors,
+      );
+      finalTotalTrentesimi = Number.isFinite(capped) ? capped : 0;
+      totalScore = finalTotalTrentesimi;
+      killerSwitchApplied =
+        Boolean(recomputed.killerSwitchApplied) || totalScore < rawTotalTrentesimi;
+      evaluationForPersist = {
+        ...evaluationForPersist,
+        scores: scoresForGrade,
+        coachingFeedback: {
+          accuratezza: ragPillars.clinica.feedback,
+          economicita: ragPillars.economia.feedback,
+          tutelaLegale: ragPillars.legale.feedback,
+          empatia: ragPillars.empatia.feedback,
+        },
+        feedback: {
+          ...evaluationForPersist.feedback,
+          clinicalNote: ragPillars.clinica.feedback,
+          prescribingNote: ragPillars.economia.feedback,
+          economyNote: ragPillars.economia.feedback,
+          empathyNote: ragPillars.empatia.feedback,
+        },
+      };
+    } catch (error) {
+      log.warn("RAG pillar evaluation failed — keeping prior dimension scores", {
+        error: error instanceof Error ? error.message : String(error),
+      });
+    }
+
+    await prisma.sessionReport.update({
+      where: { id: input.reportId },
+      data: {
         progress: 96,
         progressMessage: killerSwitchApplied
           ? "Applicazione Killer-Switch clinico..."
@@ -1173,7 +1282,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
           userId: input.userId,
           caseId: input.caseId,
           clinicalCase: clinicalCase as ClinicalCaseSnapshot,
-          evaluationChatHistory: chatHistoryForAudit,
+          evaluationChatHistory: traceChat,
           exams: input.exams,
           normalizedReportText: input.normalizedReportText,
           clinicalSummary: sessionClinicalSummary,
@@ -1194,6 +1303,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
           economicAudit: economicAuditResult,
           clinicalAudit: clinicalAuditResult,
           relationalAudit: relationalAuditResult,
+          ragPillars,
         }),
         ...(liveSession ? { startedAt: liveSession.createdAt } : {}),
       },

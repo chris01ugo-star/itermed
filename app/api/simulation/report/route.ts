@@ -62,6 +62,28 @@ const SimulationReportBodySchema = z.object({
   patientStress: z.coerce.number().finite().min(0).max(100).optional(),
   /** Diario clinico / relazione di dimissione. */
   clinicalSummary: z.string().max(8000).optional(),
+  /** Scelte effettuate sui nodi decisionali (e esami richiesti). */
+  selectedOptions: z
+    .array(
+      z.object({
+        id: z.string().max(200).default(""),
+        label: z.string().max(500).default(""),
+        nodeId: z.string().max(200).optional(),
+      }),
+    )
+    .max(40)
+    .default([]),
+  /** JSON del caso clinico inviato dal simulatore (presentazione, senza gold standard). */
+  caseData: z
+    .object({
+      id: z.string().max(120).optional(),
+      title: z.string().max(400).optional(),
+      specialty: z.string().max(160).optional(),
+      description: z.string().max(8000).optional(),
+      patientPrompt: z.string().max(8000).optional(),
+      difficulty: z.string().max(40).optional(),
+    })
+    .optional(),
 });
 
 function jsonResponse(payload: unknown, status = 200): Response {
@@ -105,6 +127,8 @@ export async function POST(req: Request) {
       helpRequestCount,
       patientStress,
       clinicalSummary,
+      selectedOptions,
+      caseData,
     } = parsed.data;
     const caseId = normalizeCaseLookupKey(rawCaseId);
     const log = routeLogger.child({ caseId });
@@ -185,6 +209,8 @@ export async function POST(req: Request) {
       executedActionIds,
       helpRequested,
       helpRequestCount,
+      selectedOptions,
+      caseData,
     };
 
     const report = await prisma.sessionReport.create({
@@ -211,6 +237,8 @@ export async function POST(req: Request) {
           executedActionIds,
           helpRequested,
           helpRequestCount,
+          selectedOptions,
+          caseData,
         }),
       },
       select: { id: true },

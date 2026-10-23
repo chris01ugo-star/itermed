@@ -97,6 +97,7 @@ export default async function SharedRefertoPage({ params }: RefertoPageProps) {
           radarData={report.radarData}
           caseTitle={report.caseTitle}
           currentCaseId={report.caseId}
+          specialty={report.specialty}
           sessionId={report.sessionId}
           shareUrl={`${config.APP_URL}${reportSharePath(report.sessionId)}`}
           accessionCode={reportAccessionCode(report.sessionId)}
@@ -113,6 +114,7 @@ export default async function SharedRefertoPage({ params }: RefertoPageProps) {
           scoreBreakdown={report.scoreBreakdown}
           legalReport={report.legalAudit ?? null}
           clinicalSummary={report.clinicalSummary ?? null}
+          ragAuthoritative={report.ragAuthoritative}
         />
       </div>
     </div>

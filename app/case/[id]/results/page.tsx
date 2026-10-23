@@ -16,9 +16,7 @@ import type { LegalAuditResult } from "@/lib/services/legal-audit-service";
 import type { ClinicalAuditResult } from "@/lib/services/clinical-audit-service";
 import type { EconomicAuditResult } from "@/lib/services/economic-audit-service";
 import type { KillerSwitchTrace } from "@/lib/services/simulation-report-data";
-import { legalCompliancePercentFromAudit } from "@/lib/mappers/legal-audit-mapper";
-import { clinicalAccuracyPercentFromAudit } from "@/lib/mappers/clinical-audit-mapper";
-import { efficiencyPercentFromAudit } from "@/lib/mappers/economic-audit-mapper";
+import { buildResultsRadar, readRagAuthoritative } from "@/lib/reports/pillar-radar";
 import type {
   EmpathyBehavioralBreakdown,
   ScoreBreakdown,
@@ -147,42 +145,23 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
     const fatalErrors = normalizeFatalErrorsForUi(
       trace.fatalErrors ?? trace.analytical?.fatalErrors,
     );
+    const ragAuthoritative = readRagAuthoritative(trace);
 
-    const radarData = [
-      {
-        metric: "Accuratezza clinica",
-        key: "clinicalAccuracy",
-        score:
-          clinicalAccuracyPercentFromAudit(trace.clinicalAudit) ??
-          safeNum(session.clinicalAccuracy),
+    const radarData = buildResultsRadar({
+      specialty: registered?.specialty,
+      caseId,
+      ragAuthoritative,
+      scores: {
+        clinical: safeNum(session.clinicalAccuracy),
+        legal: safeNum(session.legalComplianceGelliBianco),
+        exams: safeNum(session.prescribingAppropriateness),
+        economy: safeNum(session.economicSustainability),
+        empathy: safeNum(session.empathy),
       },
-      {
-        metric: "Tutela medico-legale",
-        key: "legalComplianceGelliBianco",
-        score:
-          legalCompliancePercentFromAudit(trace.legalAudit) ??
-          safeNum(session.legalComplianceGelliBianco),
-      },
-      {
-        metric: "Appropriatezza esami",
-        key: "prescribingAppropriateness",
-        score:
-          efficiencyPercentFromAudit(trace.economicAudit) ??
-          safeNum(session.prescribingAppropriateness),
-      },
-      {
-        metric: "Sostenibilità economica",
-        key: "economicSustainability",
-        score:
-          efficiencyPercentFromAudit(trace.economicAudit) ??
-          safeNum(session.economicSustainability),
-      },
-      {
-        metric: "Comunicazione",
-        key: "empathy",
-        score: safeNum(session.empathy),
-      },
-    ];
+      clinicalAudit: trace.clinicalAudit,
+      legalAudit: trace.legalAudit,
+      economicAudit: trace.economicAudit,
+    });
 
     const economicAnalysis = trace.analytical?.economicAnalysis ?? null;
     const clinicalDeltaTable = Array.isArray(trace.analytical?.clinicalDeltaTable)
@@ -234,6 +213,7 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
             clinicalAudit={trace.clinicalAudit ?? null}
             economicAudit={trace.economicAudit ?? null}
             clinicalSummary={trace.clinicalSummary ?? null}
+            ragAuthoritative={ragAuthoritative}
           />
         </div>
       </div>

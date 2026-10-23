@@ -9,13 +9,15 @@ import type {
   FatalError,
   LegalProtectionStatus,
 } from "@/lib/services/evaluation-report-types";
-import { legalCompliancePercentFromAudit } from "@/lib/mappers/legal-audit-mapper";
 import type { LegalAuditResult } from "@/lib/services/legal-audit-service";
 import type { KillerSwitchTrace } from "@/lib/services/simulation-report-data";
 import type {
   EmpathyBehavioralBreakdown,
   ScoreBreakdown,
 } from "@/lib/services/evaluation-scoring";
+import { buildResultsRadar, readRagAuthoritative } from "@/lib/reports/pillar-radar";
+import type { ClinicalAuditResult } from "@/lib/services/clinical-audit-service";
+import type { EconomicAuditResult } from "@/lib/services/economic-audit-service";
 
 type SessionTrace = {
   feedback?: {
@@ -37,6 +39,8 @@ type SessionTrace = {
   empathyBreakdown?: EmpathyBehavioralBreakdown | null;
   scoreBreakdown?: ScoreBreakdown | null;
   legalAudit?: LegalAuditResult;
+  clinicalAudit?: ClinicalAuditResult;
+  economicAudit?: EconomicAuditResult;
   clinicalSummary?: string | null;
 };
 
@@ -78,6 +82,8 @@ export type SharedEliteReport = {
   scoreBreakdown: ScoreBreakdown | null;
   legalAudit?: LegalAuditResult;
   clinicalSummary?: string | null;
+  specialty?: string | null;
+  ragAuthoritative?: boolean;
 };
 
 export async function loadSharedSessionReport(
@@ -100,33 +106,28 @@ export async function loadSharedSessionReport(
     registered?.title ??
     (normalizeCaseLookupKey(session.caseId) ? session.caseId : null);
   const trace = (session.rawTrace ?? {}) as SessionTrace;
+  const ragAuthoritative = readRagAuthoritative(trace);
 
   return {
     caseId: session.caseId,
     caseTitle,
     sessionId: session.id,
     totalScore: safeNum(session.totalScore),
-    radarData: [
-      { metric: "Accuratezza clinica", key: "clinicalAccuracy", score: safeNum(session.clinicalAccuracy) },
-      {
-        metric: "Tutela medico-legale",
-        key: "legalComplianceGelliBianco",
-        score:
-          legalCompliancePercentFromAudit(trace.legalAudit) ??
-          safeNum(session.legalComplianceGelliBianco),
+    radarData: buildResultsRadar({
+      specialty: registered?.specialty,
+      caseId: session.caseId,
+      ragAuthoritative,
+      scores: {
+        clinical: safeNum(session.clinicalAccuracy),
+        legal: safeNum(session.legalComplianceGelliBianco),
+        exams: safeNum(session.prescribingAppropriateness),
+        economy: safeNum(session.economicSustainability),
+        empathy: safeNum(session.empathy),
       },
-      {
-        metric: "Appropriatezza esami",
-        key: "prescribingAppropriateness",
-        score: safeNum(session.prescribingAppropriateness),
-      },
-      {
-        metric: "Sostenibilità economica",
-        key: "economicSustainability",
-        score: safeNum(session.economicSustainability),
-      },
-      { metric: "Comunicazione", key: "empathy", score: safeNum(session.empathy) },
-    ],
+      clinicalAudit: trace.clinicalAudit,
+      legalAudit: trace.legalAudit,
+      economicAudit: trace.economicAudit,
+    }),
     dismissed: Boolean(trace.dismissed),
     strengths: Array.isArray(trace.feedback?.strengths) ? trace.feedback!.strengths! : [],
     weaknesses: Array.isArray(trace.feedback?.weaknesses) ? trace.feedback!.weaknesses! : [],
@@ -144,5 +145,7 @@ export async function loadSharedSessionReport(
     scoreBreakdown: trace.scoreBreakdown ?? null,
     legalAudit: trace.legalAudit,
     clinicalSummary: trace.clinicalSummary ?? null,
+    specialty: registered?.specialty ?? null,
+    ragAuthoritative,
   };
 }

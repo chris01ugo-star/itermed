@@ -473,6 +473,7 @@ export function SimulatorClient({
   /** Non-exam clinical actions (e.g. consenso-informato) for ESC executedActionIds. */
   const [extraExecutedActionIds, setExtraExecutedActionIds] = useState<string[]>([]);
   const extraExecutedActionIdsRef = useRef<string[]>([]);
+  const selectedOptionsRef = useRef<Array<{ id: string; label: string; nodeId?: string }>>([]);
   const [consentRequested, setConsentRequested] = useState(false);
   const [isConsentBusy, setIsConsentBusy] = useState(false);
   const [isPrescriptionPadOpen, setIsPrescriptionPadOpen] = useState(false);
@@ -1415,6 +1416,13 @@ export function SimulatorClient({
       }
 
       setReportProgressMessage("Inizializzazione report...");
+      const nodeOptions = selectedOptionsRef.current;
+      const selectedOptions = [...nodeOptions];
+      for (const exam of selectedExams) {
+        if (!selectedOptions.some((option) => option.id === exam.id)) {
+          selectedOptions.push({ id: exam.id, label: exam.name });
+        }
+      }
       const payload = {
         caseId: initialCaseData.id,
         sessionId: liveSessionId,
@@ -1424,6 +1432,15 @@ export function SimulatorClient({
             role: m.role as "user" | "assistant",
             content: getChatMessageText(m),
           })),
+        selectedOptions,
+        caseData: {
+          id: initialCaseData.id,
+          title: initialCaseData.title,
+          specialty: initialCaseData.specialty ?? undefined,
+          description: initialCaseData.description,
+          patientPrompt: initialCaseData.patientPrompt,
+          difficulty: initialCaseData.difficulty,
+        },
         exams: selectedExams,
         reportText: composedReport,
         caseContext: initialCaseData.patientPrompt,
@@ -1505,7 +1522,11 @@ export function SimulatorClient({
     finalDiagnosis,
     helpRequested,
     initialCaseData.id,
+    initialCaseData.title,
+    initialCaseData.specialty,
+    initialCaseData.description,
     initialCaseData.patientPrompt,
+    initialCaseData.difficulty,
     isLab,
     messages,
     reportSections,
@@ -2101,13 +2122,19 @@ export function SimulatorClient({
             completing={reportLoading}
             completeError={reportError}
             onCompleteCase={() => void generateReportAndNavigate()}
-            onRecordOption={(optionId) => {
+            onRecordOption={(option) => {
               setExtraExecutedActionIds((prev) => {
-                if (prev.includes(optionId)) return prev;
-                const next = [...prev, optionId];
+                if (prev.includes(option.id)) return prev;
+                const next = [...prev, option.id];
                 extraExecutedActionIdsRef.current = next;
                 return next;
               });
+              if (!selectedOptionsRef.current.some((item) => item.id === option.id)) {
+                selectedOptionsRef.current = [
+                  ...selectedOptionsRef.current,
+                  { id: option.id, label: option.label, nodeId: option.nodeId },
+                ];
+              }
             }}
           />
         ) : (

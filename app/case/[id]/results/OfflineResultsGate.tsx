@@ -3,9 +3,7 @@
 import { useEffect, useState } from "react";
 import { EliteResultsClient } from "./EliteResultsClient";
 import { readOfflineReportCache } from "@/lib/reports/offline-report-cache";
-import { legalCompliancePercentFromAudit } from "@/lib/mappers/legal-audit-mapper";
-import { clinicalAccuracyPercentFromAudit } from "@/lib/mappers/clinical-audit-mapper";
-import { efficiencyPercentFromAudit } from "@/lib/mappers/economic-audit-mapper";
+import { buildResultsRadar } from "@/lib/reports/pillar-radar";
 import type { EliteReportData } from "@/lib/services/simulation-report-data";
 import type {
   ClinicalDeltaRow,
@@ -36,38 +34,20 @@ function eliteToClientProps(
     legalSources?: string[];
   },
 ) {
-  const radarData = [
-    {
-      metric: "Accuratezza clinica",
-      key: "clinicalAccuracy",
-      score:
-        clinicalAccuracyPercentFromAudit(data.clinicalAudit) ?? safeNum(data.scores.clinical),
+  const radarData = buildResultsRadar({
+    caseId: extras.currentCaseId,
+    ragAuthoritative: data.ragAuthoritative === true,
+    scores: {
+      clinical: safeNum(data.scores.clinical),
+      legal: safeNum(data.scores.legal),
+      exams: safeNum(data.scores.exams),
+      economy: safeNum(data.scores.economy),
+      empathy: safeNum(data.scores.empathy),
     },
-    {
-      metric: "Tutela medico-legale",
-      key: "legalComplianceGelliBianco",
-      score:
-        legalCompliancePercentFromAudit(data.legalAudit) ??
-        safeNum(data.scores.legal),
-    },
-    {
-      metric: "Appropriatezza esami",
-      key: "prescribingAppropriateness",
-      score:
-        efficiencyPercentFromAudit(data.economicAudit) ?? safeNum(data.scores.exams),
-    },
-    {
-      metric: "Sostenibilità economica",
-      key: "economicSustainability",
-      score:
-        efficiencyPercentFromAudit(data.economicAudit) ?? safeNum(data.scores.economy),
-    },
-    {
-      metric: "Comunicazione",
-      key: "empathy",
-      score: safeNum(data.scores.empathy),
-    },
-  ];
+    clinicalAudit: data.clinicalAudit,
+    legalAudit: data.legalAudit,
+    economicAudit: data.economicAudit,
+  });
 
   return {
     totalScore: safeNum(data.totalScore),
@@ -88,6 +68,7 @@ function eliteToClientProps(
     legalReport: data.legalAudit ?? null,
     clinicalAudit: data.clinicalAudit ?? null,
     economicAudit: data.economicAudit ?? null,
+    ragAuthoritative: data.ragAuthoritative === true,
   };
 }
 

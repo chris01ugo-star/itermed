@@ -46,7 +46,7 @@ type LaboratoryLisDashboardProps = {
   completing?: boolean;
   completeError?: string | null;
   onCompleteCase: () => void;
-  onRecordOption?: (optionId: string) => void;
+  onRecordOption?: (option: { id: string; label: string; nodeId: string }) => void;
 };
 
 type TubeVisual = {
@@ -262,7 +262,11 @@ export function LaboratoryLisDashboard({
     if (!choice || disabled || completing) return;
     setChosenIds((prev) => [...prev, optionId]);
     setNodeId(choice.next);
-    onRecordOption?.(optionId);
+    onRecordOption?.({
+      id: optionId,
+      label: choice.label,
+      nodeId: current?.id ?? nodeId,
+    });
   }
 
   const sourceText = `${title}\n${requestText}\n${labFlow.map((item) => item.prompt).join("\n")}`;

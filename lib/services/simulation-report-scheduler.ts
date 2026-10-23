@@ -18,6 +18,8 @@ type JobQueuePayload = {
   executedActionIds?: string[];
   helpRequested?: boolean;
   helpRequestCount?: number;
+  selectedOptions?: SimulationReportJobInput["selectedOptions"];
+  caseData?: SimulationReportJobInput["caseData"];
 };
 
 const globalForScheduler = globalThis as unknown as {
@@ -116,6 +118,8 @@ export async function ensureSimulationReportProcessing(
     executedActionIds: queue.executedActionIds,
     helpRequested: queue.helpRequested,
     helpRequestCount: queue.helpRequestCount,
+    selectedOptions: queue.selectedOptions,
+    caseData: queue.caseData,
   });
 }
 

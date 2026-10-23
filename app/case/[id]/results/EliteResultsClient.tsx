@@ -93,6 +93,8 @@ type EliteResultsClientProps = {
   economicAudit?: EconomicAuditResult | null;
   /** Diario clinico / relazione di dimissione scritta dallo studente. */
   clinicalSummary?: string | null;
+  /** When true, pillar scores and feedback come from the document-bound examiner. */
+  ragAuthoritative?: boolean;
 };
 
 const PILLARS: Array<{
@@ -178,17 +180,27 @@ function resolvePillarInsight(
   scoreBreakdown: ScoreBreakdown | null | undefined,
   empathyNote: string | null,
   auditNarratives?: { clinical?: string | null; economic?: string | null },
+  ragAuthoritative?: boolean,
 ): string | null {
-  // Tutela narrative is executiveSummary, rendered next to the score — not coaching dumps.
-  if (pillar.key === "legalComplianceGelliBianco") return null;
-  if (pillar.key === "clinicalAccuracy" && auditNarratives?.clinical) {
-    return auditNarratives.clinical;
-  }
-  if (
-    (pillar.key === "economicSustainability" || pillar.key === "prescribingAppropriateness") &&
-    auditNarratives?.economic
-  ) {
-    return auditNarratives.economic;
+  if (ragAuthoritative) {
+    if (pillar.key === "legalComplianceGelliBianco") {
+      return coachingFeedback?.tutelaLegale?.trim() || null;
+    }
+    if (pillar.key === "prescribingAppropriateness" || pillar.key === "economicSustainability") {
+      return coachingFeedback?.economicita?.trim() || null;
+    }
+  } else {
+    // Tutela narrative is executiveSummary, rendered next to the score — not coaching dumps.
+    if (pillar.key === "legalComplianceGelliBianco") return null;
+    if (pillar.key === "clinicalAccuracy" && auditNarratives?.clinical) {
+      return auditNarratives.clinical;
+    }
+    if (
+      (pillar.key === "economicSustainability" || pillar.key === "prescribingAppropriateness") &&
+      auditNarratives?.economic
+    ) {
+      return auditNarratives.economic;
+    }
   }
 
   if (pillar.coachKey) {
@@ -472,6 +484,7 @@ export function EliteResultsClient({
   clinicalAudit = null,
   economicAudit = null,
   clinicalSummary = null,
+  ragAuthoritative = false,
 }: EliteResultsClientProps) {
   const legalDto = coerceLegalReportDto(legalReport);
   const clinicalNarrative = clinicalNarrativeFromAudit(clinicalAudit);
@@ -479,6 +492,7 @@ export function EliteResultsClient({
   const isLab = isLabEvaluationCase({ specialty, caseId: currentCaseId });
   const resolvedRadarData = radarData.map((point) => {
     const scored = (() => {
+      if (ragAuthoritative) return point;
       if (point.key === "legalComplianceGelliBianco" && legalDto) {
         return { ...point, score: legalDto.compliancePercentage };
       }
@@ -764,16 +778,19 @@ export function EliteResultsClient({
                     scoreBreakdown,
                     empathyNote,
                     { clinical: clinicalNarrative, economic: economicNarrative },
+                    ragAuthoritative,
                   );
                   const isTutela = pillar.key === "legalComplianceGelliBianco";
-                  const auditSummary = isTutela
-                    ? legalDto?.executiveSummary?.trim()
-                    : pillar.key === "clinicalAccuracy"
-                      ? clinicalNarrative
-                      : pillar.key === "economicSustainability" ||
-                          pillar.key === "prescribingAppropriateness"
-                        ? economicNarrative
-                        : "";
+                  const auditSummary = ragAuthoritative
+                    ? ""
+                    : isTutela
+                      ? legalDto?.executiveSummary?.trim()
+                      : pillar.key === "clinicalAccuracy"
+                        ? clinicalNarrative
+                        : pillar.key === "economicSustainability" ||
+                            pillar.key === "prescribingAppropriateness"
+                          ? economicNarrative
+                          : "";
                   const flag = pillarFlag(score);
                   const Icon = pillar.icon;
                   const labCopy = isLab ? labPillarCopy(pillar.key) : null;
@@ -1040,8 +1057,9 @@ export function EliteResultsClient({
               <Accordion title="Coaching clinico" defaultOpen>
                 <dl className="space-y-3">
                   {COACH_ROWS.map(({ key, label }) => {
-                    const text =
-                      key === "accuratezza" && clinicalNarrative
+                    const text = ragAuthoritative
+                      ? coachingFeedback?.[key]
+                      : key === "accuratezza" && clinicalNarrative
                         ? clinicalNarrative
                         : key === "economicita" && economicNarrative
                           ? economicNarrative

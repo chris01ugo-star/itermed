@@ -1,5 +1,6 @@
 import type { CaseDifficulty, Prisma } from "@prisma/client";
 import type { RelevantGuidelines } from "@/lib/services/rag-service";
+import type { RagPillarTrace } from "@/lib/reports/pillar-radar";
 import type { EvaluationResult } from "@/lib/services/evaluation-service";
 import type { LegalAuditResult } from "@/lib/services/legal-audit-service";
 import type { EconomicAuditResult } from "@/lib/services/economic-audit-service";
@@ -17,6 +18,7 @@ import type { EmpathyBehavioralBreakdown, ScoreBreakdown } from "@/lib/services/
 import { legalCompliancePercentFromAudit } from "@/lib/mappers/legal-audit-mapper";
 import { clinicalAccuracyPercentFromAudit } from "@/lib/mappers/clinical-audit-mapper";
 import { efficiencyPercentFromAudit } from "@/lib/mappers/economic-audit-mapper";
+import { readRagAuthoritative } from "@/lib/reports/pillar-radar";
 import type { SessionPrescription } from "@/lib/simulator/prescription-trace";
 
 export type ClinicalCaseSnapshot = {
@@ -64,6 +66,8 @@ export function buildSessionReportData(params: {
   prescribedMedications?: SessionPrescription[];
   /** Diario clinico / relazione di dimissione persistita sulla sessione. */
   clinicalSummary?: string | null;
+  /** Document-bound 4-pillar examiner. When authoritative, its scores win over audits. */
+  ragPillars?: RagPillarTrace | null;
 }): Prisma.SessionReportUncheckedUpdateInput {
   const {
     userId,
@@ -84,6 +88,7 @@ export function buildSessionReportData(params: {
     relationalAudit,
     prescribedMedications = [],
     clinicalSummary,
+    ragPillars,
   } = params;
 
   const scores = evaluation.scores ?? {
@@ -132,23 +137,32 @@ export function buildSessionReportData(params: {
   const clinicalFromAudit = clinicalAccuracyPercentFromAudit(clinicalAudit);
   const efficiencyFromAudit = efficiencyPercentFromAudit(economicAudit);
 
+  const ragAuthoritative = ragPillars?.authoritative === true;
+
   return {
     userId,
     caseId,
-    clinicalAccuracy: clinicalFromAudit ?? scores.clinical,
-    legalComplianceGelliBianco:
-      legalAudit &&
-      legalAudit.status === "EVALUATED" &&
-      legalAudit.overallVerdict !== "NOT_EVALUABLE"
+    clinicalAccuracy: ragAuthoritative
+      ? Number(scores.clinical) || 0
+      : (clinicalFromAudit ?? scores.clinical),
+    legalComplianceGelliBianco: ragAuthoritative
+      ? Number(scores.legal) || 0
+      : legalAudit &&
+          legalAudit.status === "EVALUATED" &&
+          legalAudit.overallVerdict !== "NOT_EVALUABLE"
         ? Math.max(0, Math.min(100, Number(legalAudit.complianceScore) || 0))
         : Number(scores.legal) || 0,
     /** Exam appropriateness (0–100) — feeds the 15% weight of the /30 grade. */
-    prescribingAppropriateness: efficiencyFromAudit ?? scores.exams,
+    prescribingAppropriateness: ragAuthoritative
+      ? Number(scores.exams) || 0
+      : (efficiencyFromAudit ?? scores.exams),
     /**
      * Economic sustainability (0–100) — feeds the 10% weight of the /30 grade.
      * When the economic audit succeeds, the same efficiencyScore also replaces prescribing.
      */
-    economicSustainability: efficiencyFromAudit ?? scores.economy,
+    economicSustainability: ragAuthoritative
+      ? Number(scores.economy) || 0
+      : (efficiencyFromAudit ?? scores.economy),
     empathy: scores.empathy,
     totalScore,
     medicalSpecialtyIdSnapshot: clinicalCase?.medicalSpecialtyId ?? null,
@@ -233,6 +247,7 @@ export function buildSessionReportData(params: {
       ...(economicAudit ? { economicAudit } : {}),
       ...(clinicalAudit ? { clinicalAudit } : {}),
       ...(relationalAudit ? { relationalAudit } : {}),
+      ...(ragPillars ? { ragPillars } : {}),
     },
     notes: legalAudit
       ? `Audit legale: ${legalAudit.overallVerdict} (${legalAudit.complianceScore}%)`
@@ -270,6 +285,7 @@ export type EliteReportData = {
   clinicalAudit?: ClinicalAuditResult;
   economicAudit?: EconomicAuditResult;
   totalScore: number;
+  ragAuthoritative?: boolean;
 };
 
 export function buildReportDataFromSession(session: {
@@ -302,20 +318,29 @@ export function buildReportDataFromSession(session: {
     legalAudit?: LegalAuditResult;
     clinicalAudit?: ClinicalAuditResult;
     economicAudit?: EconomicAuditResult;
+    ragPillars?: { authoritative?: boolean };
   };
 
   const legalEvidenceSources = trace.evidence?.legalSources ?? [];
   const protocolEvidenceSources = trace.evidence?.protocolSources ?? [];
+  const ragAuthoritative = readRagAuthoritative(trace);
 
   return {
     sessionId: session.id,
     scores: {
-      clinical:
-        clinicalAccuracyPercentFromAudit(trace.clinicalAudit) ?? session.clinicalAccuracy,
-      legal: legalCompliancePercentFromAudit(trace.legalAudit) ?? session.legalComplianceGelliBianco,
-      exams: efficiencyPercentFromAudit(trace.economicAudit) ?? session.prescribingAppropriateness,
+      clinical: ragAuthoritative
+        ? session.clinicalAccuracy
+        : (clinicalAccuracyPercentFromAudit(trace.clinicalAudit) ?? session.clinicalAccuracy),
+      legal: ragAuthoritative
+        ? session.legalComplianceGelliBianco
+        : (legalCompliancePercentFromAudit(trace.legalAudit) ?? session.legalComplianceGelliBianco),
+      exams: ragAuthoritative
+        ? session.prescribingAppropriateness
+        : (efficiencyPercentFromAudit(trace.economicAudit) ?? session.prescribingAppropriateness),
       empathy: session.empathy,
-      economy: efficiencyPercentFromAudit(trace.economicAudit) ?? session.economicSustainability,
+      economy: ragAuthoritative
+        ? session.economicSustainability
+        : (efficiencyPercentFromAudit(trace.economicAudit) ?? session.economicSustainability),
     },
     feedback: trace.feedback,
     evidence: {
@@ -333,5 +358,6 @@ export function buildReportDataFromSession(session: {
     clinicalAudit: trace.clinicalAudit,
     economicAudit: trace.economicAudit,
     totalScore: session.totalScore,
+    ragAuthoritative,
   } satisfies EliteReportData;
 }
