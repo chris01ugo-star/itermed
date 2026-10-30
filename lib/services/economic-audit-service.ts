@@ -134,6 +134,7 @@ ${economicCorpus || "Nessuna linea guida specifica fornita. Valuta sulla base de
 
   const { object } = await generateObject({
     model: openai("gpt-4o"),
+    maxRetries: 3,
     temperature: 0,
     system: ECONOMIC_AUDIT_SYSTEM_PROMPT,
     prompt: userPrompt,

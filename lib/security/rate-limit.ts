@@ -12,6 +12,21 @@ export const RATE_LIMIT_MESSAGE =
 const WINDOW_MS = 60_000;
 const buckets = new Map<string, RateBucket>();
 
+/**
+ * Production caps (chat 10/min, report 3/min, edge IP 20/min) block rapid
+ * clinical playtests and case closure. In development the effective ceiling
+ * is at least this many requests per minute.
+ */
+export const DEV_RATE_LIMIT_PER_MINUTE = 100;
+
+/** Raises the configured cap in local development; production limits are unchanged. */
+export function resolveEffectiveRateLimit(limit: number): number {
+  if (process.env.NODE_ENV === "development") {
+    return Math.max(limit, DEV_RATE_LIMIT_PER_MINUTE);
+  }
+  return limit;
+}
+
 /** Cached Upstash limiters keyed by `namespace:limit` (different routes use different caps). */
 const upstashLimiters = new Map<string, Ratelimit>();
 let redisSingleton: Redis | null | undefined;
@@ -147,17 +162,18 @@ export async function checkRateLimit(
   request: Request,
   params: { namespace: string; limit: number; userId?: string | null },
 ): Promise<RateLimitCheckResult> {
+  const limit = resolveEffectiveRateLimit(params.limit);
   const identifier = getRateLimitIdentifier(request, params.userId);
   const memoryKey = `${params.namespace}:${identifier}`;
 
   const distributed = await checkUpstashRateLimit(
     params.namespace,
     identifier,
-    params.limit,
+    limit,
   );
   if (distributed) return distributed;
 
-  return checkInMemoryRateLimit(memoryKey, params.limit);
+  return checkInMemoryRateLimit(memoryKey, limit);
 }
 
 export function rateLimitExceededResponse(retryAfterSeconds = 60): Response {

@@ -431,6 +431,7 @@ NON restituire Trust, Anxiety, Defensiveness, né alcun punteggio CARE/RIAS/SPIK
 
   const { object } = await generateObject({
     model: openai("gpt-4o"),
+    maxRetries: 3,
     temperature: 0,
     system: RELATIONAL_AUDIT_SYSTEM_PROMPT,
     prompt: userPrompt,

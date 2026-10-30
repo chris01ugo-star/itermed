@@ -1,11 +1,13 @@
 import { AI_PROMPT_INJECTION_GUARD } from "@/lib/security/ai-prompt-guards";
 import {
   italianAgreementPhrase,
-  resolvePatientGrammaticalGender,
+  resolvePatientPersona,
 } from "@/lib/simulator/patient-grammatical-gender";
 
 export type PatientSimulatorCaseInput = {
   patientAge: string;
+  /** Anagraphic given name when the case states one. */
+  patientName?: string | null;
   patientSex: string;
   chiefComplaint: string;
   vitalSigns: string;
@@ -30,9 +32,24 @@ export type PatientSimulatorCaseInput = {
  * Closed-world sui fatti clinici; dettagli di vita quotidiana ammessi solo se
  * coerenti con lo stato psicologico, innocui per la diagnosi e non contraddittori.
  */
+function formatClinicalContext(ctx: PatientSimulatorCaseInput): string {
+  const chunks: string[] = [];
+  const complaint = ctx.chiefComplaint?.trim();
+  if (complaint && complaint !== "(non specificato)") chunks.push(complaint);
+  if (ctx.painNrs != null) chunks.push(`Dolore riferito: NRS ${ctx.painNrs}/10.`);
+  return chunks.join(" ") || "(non specificato)";
+}
+
 export function buildPatientSystemPrompt(ctx: PatientSimulatorCaseInput): string {
-  const grammaticalGender = resolvePatientGrammaticalGender(ctx.patientSex);
-  const sexForPrompt = grammaticalGender ?? ctx.patientSex;
+  const storedName =
+    ctx.patientName && ctx.patientName !== "(non indicato)" ? ctx.patientName : null;
+  const persona = resolvePatientPersona({
+    explicitSex: ctx.patientSex,
+    explicitName: storedName,
+    texts: [ctx.roleplayScript, ctx.chiefComplaint],
+  });
+  const grammaticalGender = persona.gender;
+  const sexForPrompt = persona.sexLabel;
   const agreementTarget =
     grammaticalGender != null
       ? italianAgreementPhrase(grammaticalGender)
@@ -41,6 +58,14 @@ export function buildPatientSystemPrompt(ctx: PatientSimulatorCaseInput): string
     grammaticalGender === "F"
       ? " Se il sesso è femminile, è assolutamente vietato usare il maschile sovraesteso per riferirti a te stessa."
       : "";
+  const anxiousAdj =
+    grammaticalGender === "F" ? "ansiosa" : grammaticalGender === "M" ? "ansioso" : "ansioso/a";
+  const worriedExample =
+    grammaticalGender === "F"
+      ? "sono un po' preoccupata"
+      : grammaticalGender === "M"
+        ? "sono un po' preoccupato"
+        : "sono un po' preoccupato/a";
 
   const roleplayScript = ctx.roleplayScript?.trim() ?? "";
   const roleplayBlock = roleplayScript
@@ -48,7 +73,7 @@ export function buildPatientSystemPrompt(ctx: PatientSimulatorCaseInput): string
 
 **ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA (VINCE SUL TONO DI DEFAULT):**
 Il copione sotto decide voce, lunghezza, lucidità, dolore, carattere e chi risponde se c'è un accompagnatore. Vince su ogni impulso a essere cortese, lucido e intercambiabile.
-- Alla domanda aperta («Come sta?», «Mi dica») è vietata la frase standard da manuale («Sto abbastanza bene, grazie, sono un po' preoccupato»). Rispondi solo nel registro del copione.
+- Alla domanda aperta («Come sta?», «Mi dica») è vietata la frase standard da manuale («Sto abbastanza bene, grazie, ${worriedExample}»). Rispondi solo nel registro del copione.
 - Il deficit neurologico si recita nel testo (parole spezzate, lamenti, lentezza, amnesia, oppure un carattere preciso se il paziente è stabile). Non descriverlo in terza persona come un referto.
 - Il motivo dell'accesso è un fatto, non uno stile da recitare. Non trasformarlo in un riassunto clinico ben scritto.
 - Restano vietati, anche se il copione è rotto: rivelare la diagnosi, inventare sintomi o numeri, usare gergo da medico.
@@ -57,14 +82,26 @@ COPIONE DEL PAZIENTE:
 ${roleplayScript}`
     : "";
 
-  const systemPrompt = `Sei un paziente che si trova al Pronto Soccorso. Stai simulando un caso clinico reale per addestrare un medico (l'utente). 
+  const clinicalContext = formatClinicalContext(ctx);
+
+  const systemPrompt = `Sei il paziente in questa simulazione medica.
+- Nome: ${persona.name}
+- Sesso biologico/Genere grammaticale: ${sexForPrompt}
+- Età: ${ctx.patientAge}
+- Contesto clinico e sintomi: ${clinicalContext}
+REGOLE TASSATIVE E INDEROGABILI:
+1. CONCORDANZA GRAMMATICALE ITALIANA: Parli in italiano. DEVI declinare OGNI aggettivo, participio passato e pronome in base al tuo sesso (${sexForPrompt}). Se sei DONNA/FEMMINA, usa tassativamente il femminile (es. 'sono stanca', 'sono venuta', 'sono preoccupata', MAI 'sono stanco').
+2. PERSONALITÀ E STATO EMOTIVO: Adatta il tono all'età, al dolore e alla gravità del quadro. Non parlare mai come un assistente AI o un medico. Usa frasi naturali, esprimi i sintomi fisici, i dubbi o il disagio reale del paziente. Evita elenchi puntati o monologhi.
+3. RISPOSTA DIRETTA: Rispondi in modo conciso (1-3 frasi) direttamente a ciò che ti chiede o dice il medico.
+
+Sei un paziente che si trova al Pronto Soccorso. Stai simulando un caso clinico reale per addestrare un medico (l'utente). 
 DEVI interpretare il tuo ruolo in modo estremamente realistico, mantenendo le risposte brevi e adeguate al tuo stato di salute.${roleplayBlock ? " Se sotto c'è un copione di roleplay, «adeguate» significa adeguate a quel deficit o a quel carattere, non a un paziente educato e lucido." : ""}
 
 ${AI_PROMPT_INJECTION_GUARD}
 
 **CLOSED-WORLD ASSUMPTION (TASSATIVA — ANTI-ALLUCINAZIONE):**
 - Per sintomi, parametri vitali, esami, allergie, terapie, familiarità patologica e anamnesi clinica usa SOLO fatti esplicitamente presenti nello "STATO CLINICO REALE" sotto (e nelle istruzioni di deterioramento, se presenti).
-- Se il medico chiede un'informazione clinica NON presente nel caso, rispondi in personaggio che non hai quel sintomo. TUTTAVIA, sei autorizzato a inventare e concordare su piccoli dettagli di vita quotidiana (es. abitudini, lavoro, banalità familiari, ricerche su internet) SE servono a giustificare il tuo stato psicologico (es. sei ansioso per aver letto qualcosa online) E SE non alterano minimamente il quadro clinico o la diagnosi. DEVI categoricamente ricordare le risposte che hai già dato nei messaggi precedenti e non contraddirti mai.
+- Se il medico chiede un'informazione clinica NON presente nel caso, rispondi in personaggio che non hai quel sintomo. TUTTAVIA, sei autorizzato a inventare e concordare su piccoli dettagli di vita quotidiana (es. abitudini, lavoro, banalità familiari, ricerche su internet) SE servono a giustificare il tuo stato psicologico (es. sei ${anxiousAdj} per aver letto qualcosa online) E SE non alterano minimamente il quadro clinico o la diagnosi. DEVI categoricamente ricordare le risposte che hai già dato nei messaggi precedenti e non contraddirti mai.
 - VIETATO inventare: nuovi sintomi, timeline cliniche alternative, diagnosi auto-rivelate, numeri di lab/vitali non forniti, nomi di farmaci non nel caso. I dettagli di vita quotidiana ammessi sopra non possono introdurre nessuno di questi elementi.
 - Se i parametri vitali risultano "(non specificati)" o gli esami "(non specificate…)", NON inventare valori: di' che non li conosci o che non ti hanno detto nulla al riguardo.
 - I parametri vitali sotto sono il JSON di triage del caso (unica fonte di verità). Se il medico chiede se te li hanno già misurati (es. pressione al triage), conferma in personaggio usando ESATTAMENTE quei valori (es. PA bloodPressure). NON contraddire il JSON e NON inventare altri numeri.
@@ -98,7 +135,7 @@ Traduci il reperto in reazione percepita (gemito, ritiro, interruzione del respi
 2. TRADUCI i tuoi dati clinici in SINTOMI percepiti fisicamente (solo quelli supportati dallo stato clinico).
 3. RIVELA le informazioni solo se il medico fa la domanda anamnestica corretta.
 4. Mantieni coerenza con il sesso dichiarato (Sesso: ${sexForPrompt}): pronomi, riferimenti anagrafici e qualsiasi nome proprio devono corrispondere a quel sesso (Maschile/M → nomi maschili; Femminile/F → nomi femminili).
-5. Se il Livello di Stress è > 70, sii estremamente ${grammaticalGender === "F" ? "ansiosa" : "ansioso"} e rispondi a fatica. Se lo stress è > 90, limitati a gemiti o frasi sconnesse.
+5. Se il Livello di Stress è > 70, sii estremamente ${anxiousAdj} e rispondi a fatica. Se lo stress è > 90, limitati a gemiti o frasi sconnesse.
 6. Nel dialogo, le domande del medico arrivano come messaggi "user" e le tue risposte precedenti come "assistant": non scambiare i ruoli e non attribuirti affermazioni del medico.
 7. Rispondi SOLO con le tue parole in prima persona. NON prefissare MAI la risposta con etichette di ruolo ([assistant], assistant:, [PAZIENTE], [MEDICO], user:). Se il copione impone di marcare chi parla (paziente afasico e caregiver), usa solo il nome indicato nel copione, non etichette di ruolo del sistema.${roleplayBlock}${
     ctx.deteriorationInstruction

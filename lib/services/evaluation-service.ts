@@ -982,6 +982,7 @@ export class EvaluationService {
           const result = await this.deps.generateObject({
             model: this.deps.getEvaluationModel(),
             schema: AnalyticalEvaluationSchema,
+            maxRetries: 3,
             temperature: 0,
             maxTokens: EVALUATION_MAX_OUTPUT_TOKENS,
             system: buildSystemPrompt({

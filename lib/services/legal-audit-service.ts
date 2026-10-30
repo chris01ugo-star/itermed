@@ -357,6 +357,7 @@ ${legalCorpusFormatted}
   try {
     const { object } = await generateObject({
       model: openai("gpt-4o"),
+      maxRetries: 3,
       temperature: 0,
       system: LEGAL_AUDIT_SYSTEM_PROMPT,
       prompt: userPrompt,

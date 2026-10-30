@@ -31,6 +31,7 @@ export async function generatePatientResponse(params: GeneratePatientResponsePar
   return withOpenAIRetry(async () =>
     streamText({
       model: openai(modelId),
+      maxRetries: 3,
       messages: [{ role: "system", content: systemPrompt }, ...params.messages],
       // Low temperature: clinical fidelity / anti-hallucination (closed-world case grounding).
       temperature: 0.25,

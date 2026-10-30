@@ -167,6 +167,7 @@ ${clinicalCorpus || "Utilizza come riferimento primario il Gold Path e le regole
 
   const { object } = await generateObject({
     model: openai("gpt-4o"),
+    maxRetries: 3,
     temperature: 0,
     system: CLINICAL_AUDIT_SYSTEM_PROMPT,
     prompt: userPrompt,

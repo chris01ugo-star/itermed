@@ -1,5 +1,5 @@
 import type { PatientSimulatorCaseInput } from "./patient-system-prompt";
-import { resolvePatientGrammaticalGender } from "@/lib/simulator/patient-grammatical-gender";
+import { resolvePatientPersona } from "@/lib/simulator/patient-grammatical-gender";
 import { serializeCanonicalVitalsJson } from "@/lib/clinical/case-vitals";
 import { serializeClinicalSignsJson } from "@/lib/clinical/clinical-signs";
 
@@ -151,6 +151,10 @@ export function buildPatientSimulatorCaseInput(params: {
     age?: unknown;
     sex?: unknown;
     gender?: unknown;
+    name?: unknown;
+    firstName?: unknown;
+    givenName?: unknown;
+    fullName?: unknown;
   } | undefined;
 
   const patientAge = firstNonEmpty(
@@ -167,7 +171,6 @@ export function buildPatientSimulatorCaseInput(params: {
   const patientSexRaw = clinicalCase
     ? firstNonEmpty(dbSex, bodySex)
     : firstNonEmpty(bodySex, dbSex);
-  const patientSexCanonical = resolvePatientGrammaticalGender(patientSexRaw);
   const chiefComplaint = firstNonEmpty(
     body.chiefComplaint ?? body.chief_complaint,
     clinicalCase?.description,
@@ -193,9 +196,32 @@ export function buildPatientSimulatorCaseInput(params: {
       ? str(clinicalCase.correctSolution)
       : "(non definita nel caso)";
 
+  const explicitName = firstNonEmpty(
+    body.patientName ?? body.patient_name,
+    demo?.name,
+    demo?.firstName,
+    demo?.givenName,
+    demo?.fullName,
+  );
+  // Sex is resolved before the prompt: a dedicated field wins; otherwise the
+  // anagraphic name or the case narrative decides grammatical gender.
+  const persona = resolvePatientPersona({
+    explicitSex: patientSexRaw,
+    explicitName,
+    texts: [
+      typeof body.casePrompt === "string" ? body.casePrompt : "",
+      typeof body.patientPrompt === "string" ? body.patientPrompt : "",
+      typeof body.title === "string" ? body.title : "",
+      typeof body.caseTitle === "string" ? body.caseTitle : "",
+      chiefComplaint,
+      clinicalCase?.description,
+    ],
+  });
+
   return {
     patientAge: patientAge || "(non specificata)",
-    patientSex: patientSexCanonical ?? (patientSexRaw || "(non specificato)"),
+    patientName: persona.name,
+    patientSex: persona.gender ?? (patientSexRaw || "(non specificato)"),
     chiefComplaint: chiefComplaint || "(non specificato)",
     vitalSigns,
     patientStress,

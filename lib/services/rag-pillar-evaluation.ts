@@ -182,6 +182,7 @@ export async function evaluateTraceAgainstDocuments(input: {
     generateObject({
       model: openai("gpt-4o"),
       schema: RagPillarEvaluationSchema,
+      maxRetries: 3,
       temperature: 0,
       maxTokens: 2500,
       system: buildRagExaminerSystemPrompt(retrievedContext),

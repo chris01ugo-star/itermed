@@ -109,3 +109,35 @@ describe("parsePainNrs", () => {
     assert.equal(input.painNrs, 9);
   });
 });
+
+describe("patient identity before the prompt", () => {
+  it("infers name and female gender when demographics omit sex", () => {
+    const input = buildPatientSimulatorCaseInput({
+      body: {
+        casePrompt: "Sei Anna, 71 anni. Da circa 6 ore senti il cuore che batte forte. Sei ipertesa.",
+      },
+      clinicalCase: {
+        description: "Donna, 71 anni, palpitazioni",
+        correctSolution: "FA-ARV",
+        baselineExamFindings: { demographics: { age: 71 } },
+      },
+      patientStress: 20,
+    });
+    assert.equal(input.patientName, "Anna");
+    assert.equal(input.patientSex, "F");
+  });
+
+  it("keeps an explicit sex field over the narrative", () => {
+    const input = buildPatientSimulatorCaseInput({
+      body: { casePrompt: "Sei Anna, 40 anni." },
+      clinicalCase: {
+        description: "Dolore toracico",
+        correctSolution: "STEMI",
+        baselineExamFindings: { demographics: { age: 40, sex: "M" } },
+      },
+      patientStress: 10,
+    });
+    assert.equal(input.patientSex, "M");
+    assert.equal(input.patientName, "Anna");
+  });
+});
