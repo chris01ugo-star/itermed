@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
+import { MUST_CHANGE_PASSWORD_PATH } from "@/lib/auth/must-change-password";
 import { useSearchParams } from "next/navigation";
 import { AuthShell } from "@/components/auth/AuthShell";
 import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
@@ -64,7 +65,10 @@ export function LoginForm({ googleEnabled = false }: LoginFormProps) {
       }
       return;
     }
-    window.location.href = callbackUrl;
+    const session = await getSession();
+    window.location.href = session?.user?.mustChangePassword
+      ? MUST_CHANGE_PASSWORD_PATH
+      : callbackUrl;
   }
 
   return (

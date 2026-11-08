@@ -106,7 +106,7 @@ export function CreateUserForm() {
       ) : null}
       {state.status === "ok" ? (
         <p className="text-sm text-emerald-700" role="status">
-          Account creato: {state.email}. Può accedere subito con email e password.
+          Account creato: {state.email}. Al primo accesso dovrà cambiare la password.
         </p>
       ) : null}
 
