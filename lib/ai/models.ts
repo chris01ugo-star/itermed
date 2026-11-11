@@ -1,4 +1,29 @@
-import { openai } from "@ai-sdk/openai";
+import { createOpenAI } from "@ai-sdk/openai";
+
+/**
+ * GPT-6 ignores a Chat Completions `system` role. The AI SDK still emits one
+ * for these model ids (it only rewrites `system` → `developer` for `o*` and
+ * `gpt-5*`). This provider keeps the top-level `system` prompt and sends it
+ * as `developer`.
+ */
+const gpt6 = createOpenAI({
+  fetch: async (input, init) => {
+    if (!init?.body || typeof init.body !== "string") {
+      return fetch(input, init);
+    }
+    try {
+      const body = JSON.parse(init.body) as { messages?: Array<{ role?: string }> };
+      if (Array.isArray(body.messages)) {
+        body.messages = body.messages.map((message) =>
+          message.role === "system" ? { ...message, role: "developer" } : message,
+        );
+      }
+      return fetch(input, { ...init, body: JSON.stringify(body) });
+    } catch {
+      return fetch(input, init);
+    }
+  },
+});
 
 /** High clinical and medico-legal reasoning. */
 export const MODEL_GPT_61_SOL = "gpt-6.1-sol";
@@ -28,9 +53,16 @@ export function reasoningEffortForModel(modelId: string): "none" | "low" {
  * `response_format.json_schema.strict: true` (and `strict: true` on tool calls).
  */
 export function openAIObjectModel(modelId: string) {
-  return openai(modelId, {
+  return gpt6(modelId, {
     structuredOutputs: true,
     reasoningEffort: reasoningEffortForModel(modelId) as "low",
+  });
+}
+
+/** Patient chat. Reasoning stays off so the first token is not delayed. */
+export function openAIChatModel(modelId: string) {
+  return gpt6(modelId, {
+    reasoningEffort: "none" as "low",
   });
 }
 

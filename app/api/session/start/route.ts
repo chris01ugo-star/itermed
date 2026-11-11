@@ -215,11 +215,8 @@ export async function POST(req: Request) {
         setTimeout(() => reject(new Error("ensureRegisteredCaseInDb timed out after 1500ms")), 1_500);
       }),
     ]);
-  } catch (err) {
-    console.error("[POST /api/session/start] ensureRegisteredCaseInDb skipped", {
-      caseId,
-      error: err instanceof Error ? err.message : String(err),
-    });
+  } catch {
+    // Disk registry still opens if the database mirror is slow.
   }
 
   let clinicalCase: {
@@ -297,11 +294,7 @@ export async function POST(req: Request) {
         sponsoredLimit,
         lifetimeCap,
       });
-    } catch (err) {
-      console.error("[POST /api/session/start] createSession failed", {
-        caseId: clinicalCase.id,
-        error: err instanceof Error ? err.message : String(err),
-      });
+    } catch {
       // Keep navigation unblocked: client can open play with registry/offline token.
       if (isRegisteredCaseId(clinicalCase.id) || (await getCaseById(clinicalCase.id))) {
         return createRegistryOfflineSessionResponse(clinicalCase.id, false);

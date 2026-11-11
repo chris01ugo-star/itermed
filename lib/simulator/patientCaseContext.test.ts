@@ -5,6 +5,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
   buildPatientSimulatorCaseInput,
+  formatAbnormalExamsFromBaseline,
   formatVitalSignsFromBaseline,
   parsePainNrs,
 } from "@/lib/simulator/patientCaseContext";
@@ -76,6 +77,44 @@ describe("patientCaseContext vitals SSOT", () => {
     });
     assert.match(input.clinicalSignsJson, /"signName":"Segno di Murphy"/);
     assert.match(input.clinicalSignsJson, /"isPositive":true/);
+  });
+});
+
+describe("patient physical context", () => {
+  it("keeps the physical exam and omits future lab and imaging presets", () => {
+    const text = formatAbnormalExamsFromBaseline({
+      abdomen: { palpation: "addome non dolente" },
+      advancedExams: {
+        notes: "biopsia positiva",
+        values: { egds: { finding: "atrofia villosa" }, "pet-tc": { finding: "negativa" } },
+      },
+    });
+    assert.match(text, /addome non dolente/);
+    assert.doesNotMatch(text, /Valori esami/);
+    assert.doesNotMatch(text, /egds/);
+    assert.doesNotMatch(text, /pet-tc/);
+    assert.doesNotMatch(text, /biopsia positiva/);
+  });
+
+  it("ignores a client exam dump when the case baseline is present", () => {
+    const input = buildPatientSimulatorCaseInput({
+      body: {
+        abnormalExams:
+          'Valori esami di laboratorio/strumentali (preset caso): {"egds":{"finding":"atrofia"}}',
+      },
+      clinicalCase: {
+        description: "Gonfiore",
+        correctSolution: "Celiachia",
+        baselineExamFindings: {
+          abdomen: { palpation: "addome non dolente" },
+          advancedExams: { values: { biopsia: { finding: "atrofia villosa" } } },
+        },
+      },
+      patientStress: 10,
+    });
+    assert.match(input.abnormalExams, /addome non dolente/);
+    assert.doesNotMatch(input.abnormalExams, /egds/);
+    assert.doesNotMatch(input.abnormalExams, /biopsia/);
   });
 });
 

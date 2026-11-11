@@ -24,7 +24,7 @@ export function formatVitalSignsFromBaseline(baseline: Record<string, unknown> |
   return serializeCanonicalVitalsJson(baseline);
 }
 
-/** Contesto clinico interno (obiettivo, esami preset) per il prompt — non va mostrato al medico in UI. */
+/** Sensazioni dell'esame obiettivo per il prompt. I preset di esami futuri restano fuori. */
 export function formatAbnormalExamsFromBaseline(baseline: Record<string, unknown> | null | undefined): string {
   if (!baseline || typeof baseline !== "object") return "";
   const chunks: string[] = [];
@@ -42,13 +42,21 @@ export function formatAbnormalExamsFromBaseline(baseline: Record<string, unknown
     chunks.push(`Esame obiettivo neuro: ${JSON.stringify(neuro)}`);
   }
 
-  const adv = baseline.advancedExams as { notes?: string; values?: Record<string, unknown> } | undefined;
-  if (adv?.notes && str(adv.notes)) chunks.push(`Note esami: ${str(adv.notes)}`);
-  if (adv?.values && typeof adv.values === "object" && Object.keys(adv.values).length) {
-    chunks.push(`Valori esami di laboratorio/strumentali (preset caso): ${JSON.stringify(adv.values)}`);
-  }
-
   return chunks.join("\n");
+}
+
+/** Drop future lab and imaging presets. The patient only knows what the body feels. */
+function stripFutureExamDump(text: string): string {
+  if (!text) return "";
+  return text
+    .split("\n")
+    .filter(
+      (line) =>
+        !line.startsWith("Valori esami di laboratorio/strumentali") &&
+        !line.startsWith("Note esami:"),
+    )
+    .join("\n")
+    .trim();
 }
 
 function asNrs(value: unknown): number | null {
@@ -184,12 +192,14 @@ export function buildPatientSimulatorCaseInput(params: {
     ? vitalFromBaseline || "(non specificati — NON inventare valori)"
     : vitalFromBody || vitalFromBaseline || "(non specificati — NON inventare valori)";
 
-  const abnormalFromBody = firstNonEmpty(body.abnormalExams ?? body.abnormal_exams);
+  const abnormalFromBody = stripFutureExamDump(
+    firstNonEmpty(body.abnormalExams ?? body.abnormal_exams),
+  );
   const abnormalFromBaseline = formatAbnormalExamsFromBaseline(baseline ?? undefined);
+  // Physical findings only. A client payload must not reintroduce future lab/PET JSON.
   const abnormalExams =
-    abnormalFromBody ||
-    abnormalFromBaseline ||
-    "(nessuna alterazione esplicitata nel caso — NON inventare esami o valori)";
+    (clinicalCase ? abnormalFromBaseline || abnormalFromBody : abnormalFromBody || abnormalFromBaseline) ||
+    "(nessuna sensazione fisica esplicitata oltre al copione — non inventare esami)";
 
   const trueDiagnosis =
     clinicalCase?.correctSolution && str(clinicalCase.correctSolution)
@@ -223,6 +233,7 @@ export function buildPatientSimulatorCaseInput(params: {
     patientName: persona.name,
     patientSex: persona.gender ?? (patientSexRaw || "(non specificato)"),
     chiefComplaint: chiefComplaint || "(non specificato)",
+    clinicalStory: firstNonEmpty(clinicalCase?.description, chiefComplaint) || "(non specificata)",
     vitalSigns,
     patientStress,
     // Never trust client-supplied trueDiagnosis / true_diagnosis (prompt injection / gold leak).

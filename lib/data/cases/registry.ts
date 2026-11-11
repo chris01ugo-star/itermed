@@ -1,6 +1,7 @@
 /**
  * Aequan Case Registry — single source of truth for Prassi Clinica / gold cases.
- * Knowledge-base cases (CARDIO/PNEUMO/GASTRO) are read from PostgreSQL.
+ * Knowledge-base cases are JSON under `knowledge_base/<specialty>/cases/<ID>.json`
+ * (tutorials: `knowledge_base/tutorials/<ID>.json`). PostgreSQL is a mirror.
  * Import this module (not individual specialty JSON files) from app routes & seeds.
  *
  * Process-level in-memory catalog (O(1) after first Prisma load) + React `cache()`
@@ -14,6 +15,7 @@ import { config, isUsableDatabase } from "@/lib/config";
 import { KnowledgeBaseCaseValidationError } from "@/lib/errors";
 import { prisma } from "@/lib/prisma";
 import { clinicalCaseFromKnowledgeBaseRow } from "@/lib/data/cases/kb-mapper";
+import { loadKnowledgeBaseCaseFromDisk } from "@/lib/data/cases/load-kb-case-file";
 import type { ClinicalCaseRow } from "@/components/dashboard/ClinicalCaseCard";
 import type { ClinicalCase, CaseCategory, PrassiDifficultyLabel } from "@/lib/data/cases/types";
 import {
@@ -131,12 +133,40 @@ async function loadKbCaseByIdFromDb(codeOrId: string): Promise<ClinicalCase | un
   }
 }
 
+/** Prisma `ClinicalCase.id` may be a cuid. Match the on-disk case by that row's title. */
+async function loadDiskCaseByClinicalIdentity(codeOrId: string): Promise<ClinicalCase | undefined> {
+  if (!isUsableDatabase(config.DATABASE_URL)) return undefined;
+  try {
+    const row = await prisma.clinicalCase.findUnique({
+      where: { id: codeOrId },
+      select: { title: true },
+    });
+    const title = row?.title?.trim();
+    if (!title || title === codeOrId) return undefined;
+    return await loadKnowledgeBaseCaseFromDisk(title);
+  } catch {
+    return undefined;
+  }
+}
+
 async function getCaseByIdImpl(codeOrId: string): Promise<ClinicalCase | undefined> {
   const authored = findAuthoredCase(codeOrId);
   if (authored) return authored;
 
   const cached = getCachedCaseById(codeOrId);
   if (cached) return cached;
+
+  const fromDisk = await loadKnowledgeBaseCaseFromDisk(codeOrId);
+  if (fromDisk) {
+    rememberKbCase(fromDisk);
+    return fromDisk;
+  }
+
+  const fromClinicalTitle = await loadDiskCaseByClinicalIdentity(codeOrId);
+  if (fromClinicalTitle) {
+    rememberKbCase(fromClinicalTitle);
+    return fromClinicalTitle;
+  }
 
   const fromDb = await loadKbCaseByIdFromDb(codeOrId);
   if (fromDb) return fromDb;

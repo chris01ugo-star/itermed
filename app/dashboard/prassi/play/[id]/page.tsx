@@ -17,7 +17,7 @@ import {
 } from "@/lib/cases/case-payload";
 import { ensureRegisteredCaseInDb, findClinicalCaseForSimulation } from "@/lib/cases/ensure-registered-case";
 import { withLabFlow } from "@/lib/simulator/load-lab-flow";
-import { decodeCaseParam, getCaseById, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
+import { decodeCaseParam, getCaseById } from "@/lib/data/cases/registry";
 import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
 
 type PlayPageProps = {
@@ -102,7 +102,6 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
         : props.searchParams;
 
     rawId = decodeCaseParam(params.id || "");
-    const idNormalized = normalizeCaseLookupKey(rawId);
     const hasDatabase = isUsableDatabase(config.DATABASE_URL);
     const liveSessionId = sanitizeLiveSessionId(searchParams?.sessionId);
 
@@ -122,12 +121,9 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
     const userId = user.id;
 
     // Best-effort materialize — never block the play UI on a slow/dead Neon pool.
-    void ensureRegisteredCaseInDb(rawId, userId).catch((err) => {
-      console.error("[PrassiPlayPage] ensureRegisteredCaseInDb failed", rawId, err);
-    });
+    void ensureRegisteredCaseInDb(rawId, userId).catch(() => undefined);
 
-    const canPlay = await userCanPlayCase(userId, rawId).catch(async (err) => {
-      console.error("[PrassiPlayPage] userCanPlayCase failed", idNormalized, err);
+    const canPlay = await userCanPlayCase(userId, rawId).catch(async () => {
       return Boolean((await getCaseById(rawId)) || (await getFallbackCase(rawId)));
     });
     if (!canPlay) {
@@ -137,6 +133,21 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
       });
       if (offline) return offline;
       return notFound();
+    }
+
+    const onDisk = await getCaseById(rawId).catch(() => undefined);
+    if (onDisk) {
+      return (
+        (await renderFallbackPlay(rawId, liveSessionId, {
+          persistReports: hasDatabase,
+          isAdmin: user.role === "ADMIN",
+        })) ?? (
+          <PlayLoadError
+            caseId={rawId}
+            message="Il caso è nel registro ma non può essere aperto."
+          />
+        )
+      );
     }
 
     type CaseRow = {
@@ -161,11 +172,7 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
         DB_LOOKUP_TIMEOUT_MS,
         "clinicalCase.findFirst",
       );
-    } catch (err) {
-      console.error("[PrassiPlayPage] DB case lookup failed — using registry fallback", {
-        caseId: idNormalized,
-        error: err instanceof Error ? err.message : String(err),
-      });
+    } catch {
       caseData = null;
     }
 
@@ -183,8 +190,7 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
           1_200,
           "clinicalCase.findFirst.retry",
         );
-      } catch (err) {
-        console.error("[PrassiPlayPage] ensure+retry failed", idNormalized, err);
+      } catch {
         caseData = null;
       }
     }
@@ -207,10 +213,7 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
       liveSessionId
         ? prisma.caseSession
             .findUnique({ where: { id: liveSessionId } })
-            .catch((err) => {
-              console.error("[PrassiPlayPage] session lookup failed", liveSessionId, err);
-              return null;
-            })
+            .catch(() => null)
         : Promise.resolve(null),
       getExamValuesCatalog().catch(() => EXAM_DEFAULT_VALUES),
       getCaseExamOverrides(caseData.id, caseData.baselineExamFindings).catch(() => ({})),
@@ -290,10 +293,6 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
     ) {
       throw err;
     }
-    console.error("[PrassiPlayPage] unhandled error — attempting fallback", {
-      caseId: rawId,
-      error: err instanceof Error ? err.message : String(err),
-    });
     const offline = await renderFallbackPlay(rawId, undefined, { persistReports: isUsableDatabase(config.DATABASE_URL) });
     if (offline) return offline;
     return (

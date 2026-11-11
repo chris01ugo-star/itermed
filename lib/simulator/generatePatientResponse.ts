@@ -1,7 +1,6 @@
-import { openai } from "@ai-sdk/openai";
 import { streamText } from "ai";
 import { withOpenAIRetry } from "@/lib/ai/openai-retry";
-import { MODEL_GPT_6_LUNA, type ChatModelId } from "@/lib/ai/models";
+import { MODEL_GPT_6_LUNA, openAIChatModel, type ChatModelId } from "@/lib/ai/models";
 import {
   buildPatientSystemPrompt,
   type PatientSimulatorCaseInput,
@@ -28,17 +27,26 @@ export type GeneratePatientResponseParams = {
 export async function generatePatientResponse(params: GeneratePatientResponseParams) {
   const systemPrompt = buildPatientSystemPrompt(params.caseData);
   const modelId = params.model ?? MODEL_GPT_6_LUNA;
+  // GPT-6 drops a `system` role inside `messages`. The top-level `system`
+  // argument is what the SDK maps to the developer instruction.
+  const dialogue = params.messages.filter(
+    (message): message is { role: "user" | "assistant"; content: string } =>
+      (message.role === "user" || message.role === "assistant") &&
+      typeof message.content === "string" &&
+      message.content.trim().length > 0,
+  );
 
   return withOpenAIRetry(async () =>
     streamText({
       // gpt-6-luna defaults to medium reasoning and blows the TTFB budget.
       // reasoningEffort is sent as Chat Completions reasoning_effort.
-      model: openai(modelId, { reasoningEffort: "none" as "low" }),
+      model: openAIChatModel(modelId),
       providerOptions: {
         openai: { reasoningEffort: "none" },
       },
+      system: systemPrompt,
       maxRetries: 3,
-      messages: [{ role: "system", content: systemPrompt }, ...params.messages],
+      messages: dialogue,
       onFinish: params.onFinish
         ? async (event) => {
             await params.onFinish?.({ text: event.text });

@@ -60,7 +60,8 @@ export const CASE_REGISTRY = AUTHORED_CASE_REGISTRY;
 /** @deprecated Prefer getCaseRegistry() — alias kept for earlier imports. */
 export const GOLD_STANDARD_CASES = CASE_REGISTRY;
 
-const KB_CASE_ID_RE = /^(cardio|pneumo|gastro|tutorial|neuro|inf|emerg|intmed|onco|psic|reuma)-\d{3}$/i;
+const KB_CASE_ID_RE =
+  /^(cardio|pneumo|gastro|tutorial|neuro|inf|emerg|intmed|onco|psic|reuma|geria|emat|labo)-\d{3}$/i;
 
 const DemographicsViewSchema = z
   .object({

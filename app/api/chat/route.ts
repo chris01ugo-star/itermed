@@ -21,9 +21,11 @@ import {
 import { enforceRateLimit } from "@/lib/security/rate-limit";
 import { AI_RATE_LIMITS, CHAT_MESSAGES_PER_MINUTE } from "@/lib/security/ai-rate-limits";
 import { applyPatientChatWindow } from "@/lib/simulator/chat-context-window";
-import { extractPatientPromptFromNode } from "@/lib/cases/case-payload";
+import { extractPatientPromptFromNode, usablePatientPrompt } from "@/lib/cases/case-payload";
 import { buildPatientSimulatorCaseInput } from "@/lib/simulator/patientCaseContext";
 import { generatePatientResponse } from "@/lib/simulator/generatePatientResponse";
+import { getCaseById } from "@/lib/data/cases/registry";
+import type { ClinicalCase, PatientProfile } from "@/lib/data/cases/types";
 import { persistChatTurn } from "@/lib/simulator/persist-chat-turn";
 import { isPrescriptionTrace } from "@/lib/simulator/prescription-trace";
 import {
@@ -83,24 +85,187 @@ function getLastUserMessage(messages: ChatTurn[]): string | undefined {
  * Authored simulator script. Prefer the DB case node, then the knowledge-base
  * payload. The client copy is only a fallback so a player cannot strip the roleplay.
  */
-async function loadServerRoleplayScript(caseId: string): Promise<string> {
-  const node = await prisma.caseNode.findFirst({
-    where: { caseId },
-    orderBy: { order: "asc" },
-    select: { content: true },
-  });
-  const fromNode = extractPatientPromptFromNode(node?.content, "");
-  if (fromNode) return fromNode;
+type ChatAnamnesisClue = { prompt: string; rationale: string };
 
-  const kb = await prisma.knowledgeBaseCase.findUnique({
-    where: { id: caseId },
-    select: { caseData: true },
+type ChatClinicalCase = {
+  description: string;
+  correctSolution: string | null;
+  baselineExamFindings: unknown;
+  examLatencies?: unknown;
+  goldStandardPath?: unknown;
+  patientDeteriorationThreshold?: number | null;
+  setting?: string | null;
+  condition?: string | null;
+  presentation?: string | null;
+  pastMedicalHistory?: string | null;
+  redHerrings?: string[];
+  anamnesisClues?: ChatAnamnesisClue[];
+  physicalExamSummary?: string | null;
+  patientProfile?: PatientProfile | null;
+  patientPrompt?: string | null;
+};
+
+function anamnesisCluesFrom(raw: unknown): ChatAnamnesisClue[] {
+  if (!Array.isArray(raw)) return [];
+  return raw.flatMap((item) => {
+    if (!item || typeof item !== "object") return [];
+    const row = item as { prompt?: unknown; rationale?: unknown };
+    const prompt = typeof row.prompt === "string" ? row.prompt.trim() : "";
+    const rationale = typeof row.rationale === "string" ? row.rationale.trim() : "";
+    if (!prompt && !rationale) return [];
+    return [{ prompt, rationale }];
   });
-  if (kb?.caseData && typeof kb.caseData === "object" && !Array.isArray(kb.caseData)) {
-    const prompt = (kb.caseData as { patientPrompt?: unknown }).patientPrompt;
-    if (typeof prompt === "string" && prompt.trim()) return prompt.trim();
+}
+
+function richFieldsFromCase(disk: ClinicalCase | undefined): Pick<
+  ChatClinicalCase,
+  | "setting"
+  | "condition"
+  | "presentation"
+  | "pastMedicalHistory"
+  | "redHerrings"
+  | "anamnesisClues"
+  | "physicalExamSummary"
+  | "patientProfile"
+  | "patientPrompt"
+> {
+  return {
+    setting: disk?.setting ?? null,
+    condition: disk?.condition ?? null,
+    presentation: disk?.presentation ?? null,
+    pastMedicalHistory: disk?.pastMedicalHistory ?? null,
+    redHerrings: disk?.redHerrings ?? [],
+    anamnesisClues: anamnesisCluesFrom(disk?.anamnesisQuestions),
+    physicalExamSummary: disk?.physicalExam?.summary ?? null,
+    patientProfile: disk?.patientProfile ?? null,
+    patientPrompt: usablePatientPrompt(disk?.patientPrompt),
+  };
+}
+
+async function loadServerRoleplayScript(caseId: string): Promise<string> {
+  try {
+    const fromFile = usablePatientPrompt((await getCaseById(caseId))?.patientPrompt);
+    if (fromFile) return fromFile;
+  } catch (err) {
+    chatLogger.warn("Roleplay script file lookup failed", { caseId, err });
+  }
+
+  try {
+    const node = await prisma.caseNode.findFirst({
+      where: { caseId },
+      orderBy: { order: "asc" },
+      select: { content: true },
+    });
+    const fromNode = extractPatientPromptFromNode(node?.content, "");
+    if (fromNode) return fromNode;
+
+    const kb = await prisma.knowledgeBaseCase.findUnique({
+      where: { id: caseId },
+      select: { caseData: true },
+    });
+    if (kb?.caseData && typeof kb.caseData === "object" && !Array.isArray(kb.caseData)) {
+      const prompt = usablePatientPrompt(
+        (kb.caseData as { patientPrompt?: unknown }).patientPrompt,
+      );
+      if (prompt) return prompt;
+    }
+  } catch (err) {
+    chatLogger.warn("Roleplay script DB lookup failed; trying case file", { caseId, err });
+  }
+
+  try {
+    const fromFile = usablePatientPrompt((await getCaseById(caseId))?.patientPrompt);
+    if (fromFile) return fromFile;
+  } catch (err) {
+    chatLogger.warn("Roleplay script file lookup failed", { caseId, err });
   }
   return "";
+}
+
+function chatCaseFromDisk(disk: ClinicalCase, includeSolution: boolean): ChatClinicalCase {
+  const rich = richFieldsFromCase(disk);
+  return {
+    description: disk.description,
+    correctSolution: includeSolution ? disk.correctSolution ?? null : null,
+    baselineExamFindings: disk.baselineExamFindings,
+    examLatencies: disk.examLatencies,
+    goldStandardPath: disk.goldStandardPath,
+    patientDeteriorationThreshold: disk.patientDeteriorationThreshold,
+    ...rich,
+  };
+}
+
+/** Prisma clinical row, then the knowledge-base JSON used by the play page. */
+async function loadClinicalCaseForChat(
+  caseId: string,
+  includeSolution: boolean,
+): Promise<ChatClinicalCase | null> {
+  try {
+    const diskFirst = await getCaseById(caseId);
+    if (diskFirst?.description?.trim()) return chatCaseFromDisk(diskFirst, includeSolution);
+  } catch (err) {
+    chatLogger.warn("clinical case file lookup failed", { caseId, err });
+  }
+
+  let row: {
+    description: string;
+    correctSolution: string | null;
+    pastMedicalHistory: string | null;
+    baselineExamFindings: unknown;
+    examLatencies: unknown;
+    goldStandardPath: unknown;
+    patientDeteriorationThreshold: number | null;
+  } | null = null;
+  try {
+    row = await prisma.clinicalCase.findUnique({
+      where: { id: caseId },
+      select: {
+        description: true,
+        correctSolution: true,
+        pastMedicalHistory: true,
+        baselineExamFindings: true,
+        examLatencies: true,
+        goldStandardPath: true,
+        patientDeteriorationThreshold: true,
+      },
+    });
+  } catch (err) {
+    chatLogger.warn("clinicalCase lookup failed; trying case file", { caseId, err });
+  }
+
+  let disk: ClinicalCase | undefined;
+  try {
+    disk = await getCaseById(caseId);
+  } catch (err) {
+    chatLogger.warn("clinical case file lookup failed", { caseId, err });
+  }
+
+  const description = disk?.description?.trim() || row?.description?.trim() || "";
+  if (!description) return null;
+  const rich = richFieldsFromCase(disk);
+  const baselineClues = anamnesisCluesFrom(
+    row?.baselineExamFindings &&
+      typeof row.baselineExamFindings === "object" &&
+      !Array.isArray(row.baselineExamFindings)
+      ? (row.baselineExamFindings as { anamnesisQuestions?: unknown }).anamnesisQuestions
+      : undefined,
+  );
+
+  return {
+    description,
+    correctSolution: includeSolution
+      ? row?.correctSolution ?? disk?.correctSolution ?? null
+      : null,
+    baselineExamFindings: disk?.baselineExamFindings ?? row?.baselineExamFindings,
+    examLatencies: row?.examLatencies ?? disk?.examLatencies,
+    goldStandardPath: row?.goldStandardPath ?? disk?.goldStandardPath,
+    patientDeteriorationThreshold:
+      row?.patientDeteriorationThreshold ?? disk?.patientDeteriorationThreshold ?? null,
+    ...rich,
+    pastMedicalHistory: rich.pastMedicalHistory || row?.pastMedicalHistory || null,
+    anamnesisClues: rich.anamnesisClues?.length ? rich.anamnesisClues : baselineClues,
+    patientPrompt: rich.patientPrompt || null,
+  };
 }
 
 function parseStringArray(raw: unknown): string[] {
@@ -299,14 +464,7 @@ export async function POST(req: Request) {
     }
   }
 
-  let clinicalCase: {
-    description: string;
-    correctSolution: string | null;
-    baselineExamFindings: unknown;
-    examLatencies?: unknown;
-    goldStandardPath?: unknown;
-    patientDeteriorationThreshold?: number | null;
-  } | null = null;
+  let clinicalCase: ChatClinicalCase | null = null;
 
   if (caseId && typeof caseId === "string" && caseId.trim()) {
     const resolvedCaseId = caseId.trim();
@@ -315,77 +473,35 @@ export async function POST(req: Request) {
 
     // Gold answer only for an owned live session — never expose/map otherwise.
     const authorizedLiveSession = Boolean(liveSessionId);
+    clinicalCase = await loadClinicalCaseForChat(resolvedCaseId, authorizedLiveSession);
 
-    if (authorizedLiveSession) {
-      const row = await prisma.clinicalCase.findUnique({
-        where: { id: resolvedCaseId },
-        select: {
-          description: true,
-          correctSolution: true,
-          baselineExamFindings: true,
-          examLatencies: true,
-          goldStandardPath: true,
-          patientDeteriorationThreshold: true,
-        },
+    if (clinicalCase && !authorizedLiveSession) {
+      const examLatencies = parseExamLatencies(clinicalCase.examLatencies);
+      const goldPath = parseGoldStandardPath(clinicalCase.goldStandardPath);
+      elapsedMinutes = computeElapsedMinutesFromExams(clientRequestedExams, examLatencies);
+      const inferredGold = inferCompletedGoldSteps({
+        goldStandardPath: goldPath,
+        requestedExamIds: clientRequestedExams,
+        clientCompletedSteps: clientGoldSteps,
+        lastUserMessage: getLastUserMessage(chatMessages),
       });
-      if (row) {
-        clinicalCase = {
-          description: row.description,
-          correctSolution: row.correctSolution ?? null,
-          baselineExamFindings: row.baselineExamFindings,
-          examLatencies: row.examLatencies,
-          goldStandardPath: row.goldStandardPath,
-          patientDeteriorationThreshold: row.patientDeteriorationThreshold,
-        };
-      }
-    } else {
-      const row = await prisma.clinicalCase.findUnique({
-        where: { id: resolvedCaseId },
-        select: {
-          description: true,
-          baselineExamFindings: true,
-          examLatencies: true,
-          goldStandardPath: true,
-          patientDeteriorationThreshold: true,
-        },
+      deteriorationInstruction = buildDeteriorationInstruction({
+        elapsedMinutes,
+        threshold: clinicalCase.patientDeteriorationThreshold,
+        goldStandardMet: isGoldStandardMet(goldPath, inferredGold),
       });
-      if (row) {
-        clinicalCase = {
-          description: row.description,
-          correctSolution: null,
-          baselineExamFindings: row.baselineExamFindings,
-          examLatencies: row.examLatencies,
-          goldStandardPath: row.goldStandardPath,
-          patientDeteriorationThreshold: row.patientDeteriorationThreshold,
-        };
-
-        const examLatencies = parseExamLatencies(row.examLatencies);
-        const goldPath = parseGoldStandardPath(row.goldStandardPath);
-        elapsedMinutes = computeElapsedMinutesFromExams(clientRequestedExams, examLatencies);
-        const inferredGold = inferCompletedGoldSteps({
-          goldStandardPath: goldPath,
-          requestedExamIds: clientRequestedExams,
-          clientCompletedSteps: clientGoldSteps,
-          lastUserMessage: getLastUserMessage(chatMessages),
-        });
-        deteriorationInstruction = buildDeteriorationInstruction({
-          elapsedMinutes,
-          threshold: row.patientDeteriorationThreshold,
-          goldStandardMet: isGoldStandardMet(goldPath, inferredGold),
-        });
-      }
     }
   }
 
   // Client-injected gold answers are never trusted — only DB correctSolution on owned sessions.
   // The roleplay script is the authored patientPrompt. A live variant replaces it;
   // otherwise the server copy wins over the browser body.
-  let roleplayScript = sessionVariantPrompt?.trim() ?? "";
+  let roleplayScript = usablePatientPrompt(sessionVariantPrompt);
   if (!roleplayScript && typeof caseId === "string" && caseId.trim()) {
     roleplayScript = await loadServerRoleplayScript(caseId.trim());
   }
-  if (!roleplayScript && typeof casePrompt === "string") {
-    roleplayScript = casePrompt.trim();
+  if (!roleplayScript) {
+    roleplayScript = usablePatientPrompt(casePrompt);
   }
 
   let caseData = buildPatientSimulatorCaseInput({
@@ -393,16 +509,27 @@ export async function POST(req: Request) {
     clinicalCase,
     patientStress: stressClamped,
   });
-  if (roleplayScript) {
-    caseData = { ...caseData, roleplayScript };
-  }
-
-  if (sessionVariantPrompt) {
-    caseData = {
-      ...caseData,
-      chiefComplaint: `${caseData.chiefComplaint}\n\nVariante di scenario (contesto aggiuntivo per la simulazione):\n${sessionVariantPrompt}`,
-    };
-  }
+  const clinicalStory = [
+    clinicalCase?.description?.trim() || caseData.chiefComplaint,
+    sessionVariantPrompt?.trim()
+      ? `Variante di scenario: ${sessionVariantPrompt.trim()}`
+      : "",
+  ]
+    .filter(Boolean)
+    .join("\n\n");
+  caseData = {
+    ...caseData,
+    roleplayScript: roleplayScript || clinicalCase?.patientPrompt || "",
+    clinicalStory,
+    setting: clinicalCase?.setting,
+    condition: clinicalCase?.condition,
+    presentation: clinicalCase?.presentation,
+    pastMedicalHistory: clinicalCase?.pastMedicalHistory,
+    redHerrings: clinicalCase?.redHerrings,
+    anamnesisClues: clinicalCase?.anamnesisClues,
+    physicalExamSummary: clinicalCase?.physicalExamSummary,
+    patientProfile: clinicalCase?.patientProfile,
+  };
 
   if (deteriorationInstruction) {
     caseData = {
@@ -414,7 +541,7 @@ export async function POST(req: Request) {
 
   const lastUserMessage = getLastUserMessage(chatMessages);
 
-  // Trailing dialogue only — system prompt is always prepended in generatePatientResponse.
+  // Trailing dialogue only — the persona is the streamText `system` argument, never a system message.
   const windowedMessages = applyPatientChatWindow(chatMessages);
 
   chatLogger.info("Patient chat stream started", {

@@ -167,6 +167,14 @@ export type ClinicalCase = {
   id: string;
   title: string;
   description: string;
+  /** Care setting from the knowledge-base case (`REPARTO`, `PRONTO_SOCCORSO`, …). */
+  setting?: string;
+  /** Underlying condition. Hidden medical label for symptom embodiment. */
+  condition?: string;
+  /** How the patient appears at the start of the encounter. */
+  presentation?: string;
+  /** Distractors the patient may have overheard. Not the diagnosis. */
+  redHerrings?: string[];
   /** Product IA section (Prassi Clinica, …). */
   category: CaseCategory;
   /** Specialty slug used by Prassi filters (`cardiologia`). */

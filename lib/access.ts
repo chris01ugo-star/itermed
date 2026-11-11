@@ -35,8 +35,7 @@ export async function userCanPlayCase(userId: string, caseId: string): Promise<b
       },
     });
     return n > 0;
-  } catch (err) {
-    console.error("[userCanPlayCase] prisma failed", caseId, err);
+  } catch {
     // Fail-open for authored registry cases if DB is unreachable.
     return isRegisteredCaseId(caseId) || isRegisteredCaseId(normalized);
   }
@@ -117,8 +116,7 @@ export async function verifyLiveSessionOwner(
       select: { userId: true },
     });
     return row?.userId === userId;
-  } catch (err) {
-    console.error("[verifyLiveSessionOwner] prisma failed", err);
+  } catch {
     return false;
   }
 }
@@ -171,8 +169,7 @@ export async function authorizeOwnedLiveSession(params: {
       return { ok: false, status: 403, error: "Forbidden", code: "FORBIDDEN_CASE" };
     }
     return { ok: true, liveSessionId, caseId: row.caseId };
-  } catch (err) {
-    console.error("[authorizeOwnedLiveSession] prisma failed", err);
+  } catch {
     return { ok: false, status: 403, error: "Forbidden", code: "FORBIDDEN_SESSION" };
   }
 }

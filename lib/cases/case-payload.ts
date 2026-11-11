@@ -1,7 +1,18 @@
 type CaseNodeContent = { casePrompt?: string };
 
-const DEFAULT_PATIENT_PROMPT =
-  "Paziente in simulazione. Rispondi come paziente, senza diagnosi e senza valori vitali a voce.";
+/** Generic seed text. It is not a persona and must not block a real script. */
+export function isPlaceholderPatientPrompt(value: unknown): boolean {
+  if (typeof value !== "string") return false;
+  const text = value.trim().toLowerCase();
+  return text.startsWith("paziente in simulazione.");
+}
+
+/** Trim a patient script. Placeholder and blank values become "". */
+export function usablePatientPrompt(value: unknown): string {
+  if (typeof value !== "string") return "";
+  const text = value.trim();
+  return text && !isPlaceholderPatientPrompt(text) ? text : "";
+}
 
 /**
  * Keys that encode gold-path, scoring, or evaluation ground truth.
@@ -39,18 +50,13 @@ const STRESS_PROFILE_ALLOWED_KEYS = new Set([
 ]);
 
 /** Safely extract the virtual-patient prompt from a CaseNode.content JSON blob. */
-export function extractPatientPromptFromNode(
-  content: unknown,
-  fallback: string = DEFAULT_PATIENT_PROMPT,
-): string {
-  if (!content || typeof content !== "object" || Array.isArray(content)) {
-    return fallback;
-  }
-  const prompt = (content as CaseNodeContent).casePrompt;
-  if (typeof prompt === "string" && prompt.trim()) {
-    return prompt.trim();
-  }
-  return fallback;
+export function extractPatientPromptFromNode(content: unknown, fallback: string = ""): string {
+  const fromNode =
+    content && typeof content === "object" && !Array.isArray(content)
+      ? usablePatientPrompt((content as CaseNodeContent).casePrompt)
+      : "";
+  if (fromNode) return fromNode;
+  return usablePatientPrompt(fallback);
 }
 
 /** Coerce baselineExamFindings JSON into a plain object (never throws). */
@@ -203,7 +209,7 @@ export function buildSimulatorCasePayload(
     specialty: params.specialty ?? null,
     difficulty: params.difficulty,
     estimatedDurationMinutes: params.estimatedDurationMinutes ?? null,
-    patientPrompt: params.patientPrompt || DEFAULT_PATIENT_PROMPT,
+    patientPrompt: usablePatientPrompt(params.patientPrompt),
     demographics,
     baselineExamFindings: baseline,
     timeLimitMinutes: params.timeLimitMinutes ?? null,
