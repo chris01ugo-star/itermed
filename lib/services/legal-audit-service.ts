@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { generateObject } from "ai";
-import { openai } from "@ai-sdk/openai";
+import { MODEL_GPT_61_SOL, openAIObjectCall } from "@/lib/ai/models";
+import { asOpenAIStrictSchema } from "@/lib/ai/strict-schema";
 
 export const LegalFaultCategorySchema = z.enum([
   "OTTIMALE",
@@ -356,12 +357,11 @@ ${legalCorpusFormatted}
 
   try {
     const { object } = await generateObject({
-      model: openai("gpt-4o"),
+      ...openAIObjectCall(MODEL_GPT_61_SOL),
       maxRetries: 3,
-      temperature: 0,
       system: LEGAL_AUDIT_SYSTEM_PROMPT,
       prompt: userPrompt,
-      schema: LegalAuditResultSchema,
+      schema: asOpenAIStrictSchema(LegalAuditResultSchema),
       abortSignal: AbortSignal.timeout(LEGAL_AUDIT_LLM_TIMEOUT_MS),
     });
     return withGuidelineCitations(

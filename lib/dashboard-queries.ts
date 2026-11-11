@@ -14,7 +14,7 @@ import {
 export type { CaseDifficulty, CaseFilterParams };
 export { DIFFICULTY_LABELS, displaySpecialtyName, parseCaseDifficulty };
 
-const DB_LOOKUP_TIMEOUT_MS = 4_000;
+const DB_LOOKUP_TIMEOUT_MS = 15_000;
 
 function withTimeout<T>(promise: Promise<T>, ms: number, label: string): Promise<T> {
   return new Promise<T>((resolve, reject) => {

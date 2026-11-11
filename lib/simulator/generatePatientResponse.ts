@@ -1,6 +1,7 @@
 import { openai } from "@ai-sdk/openai";
 import { streamText } from "ai";
 import { withOpenAIRetry } from "@/lib/ai/openai-retry";
+import { MODEL_GPT_6_LUNA, type ChatModelId } from "@/lib/ai/models";
 import {
   buildPatientSystemPrompt,
   type PatientSimulatorCaseInput,
@@ -13,8 +14,8 @@ type ChatTurn = { role: "user" | "assistant" | "system"; content: string };
 export type GeneratePatientResponseParams = {
   caseData: PatientSimulatorCaseInput;
   messages: ChatTurn[];
-  /** OpenAI model for patient chat — always gpt-4o-mini (all plans). gpt-4o is evaluation/RAG only. */
-  model?: "gpt-4o-mini";
+  /** OpenAI model for patient chat — always gpt-6-luna (all plans). */
+  model?: ChatModelId;
   /** Runs after the stream completes — safe for async DB persistence. */
   onFinish?: (event: { text: string }) => void | Promise<void>;
 };
@@ -26,16 +27,18 @@ export type GeneratePatientResponseParams = {
  */
 export async function generatePatientResponse(params: GeneratePatientResponseParams) {
   const systemPrompt = buildPatientSystemPrompt(params.caseData);
-  const modelId = params.model ?? "gpt-4o-mini";
+  const modelId = params.model ?? MODEL_GPT_6_LUNA;
 
   return withOpenAIRetry(async () =>
     streamText({
-      model: openai(modelId),
+      // gpt-6-luna defaults to medium reasoning and blows the TTFB budget.
+      // reasoningEffort is sent as Chat Completions reasoning_effort.
+      model: openai(modelId, { reasoningEffort: "none" as "low" }),
+      providerOptions: {
+        openai: { reasoningEffort: "none" },
+      },
       maxRetries: 3,
       messages: [{ role: "system", content: systemPrompt }, ...params.messages],
-      // Low temperature: clinical fidelity / anti-hallucination (closed-world case grounding).
-      temperature: 0.25,
-      maxTokens: 450,
       onFinish: params.onFinish
         ? async (event) => {
             await params.onFinish?.({ text: event.text });

@@ -1,4 +1,3 @@
-import { openai } from "@ai-sdk/openai";
 import { generateObject, type LanguageModel } from "ai";
 import type { CaseDifficulty } from "@prisma/client";
 import { z } from "zod";
@@ -31,9 +30,10 @@ import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { getCaseById } from "@/lib/data/cases/registry";
 import { getCachedCaseById } from "@/lib/data/cases/registry-store";
 import { AI_PROMPT_INJECTION_GUARD } from "@/lib/security/ai-prompt-guards";
-import { EVALUATION_MAX_OUTPUT_TOKENS } from "@/lib/security/ai-rate-limits";
 import { fenceContext, truncateForLlmContext } from "@/lib/security/prompt-context";
 import { withOpenAIRetry } from "@/lib/ai/openai-retry";
+import { MODEL_GPT_61_TERRA, openAIObjectCall, openAIObjectModel } from "@/lib/ai/models";
+import { asOpenAIStrictSchema } from "@/lib/ai/strict-schema";
 import { parseGoldStandardPath } from "@/lib/cases/simulation-time";
 import { resolveSsnTariffEuro } from "@/lib/services/exam-ssn-tariff-resolver";
 
@@ -58,7 +58,7 @@ const empathyChecklistItemSchema = z.object({
 });
 
 /**
- * Schema for GPT-4o structured outputs (OpenAI strict mode).
+ * Schema for gpt-6.1-terra structured outputs (OpenAI strict mode).
  * Must stay free of z.preprocess / ZodEffects — those drop keys from JSON Schema
  * `required` and cause the OpenAI tool call to fail before generation.
  * Secondary narrative fields are `.nullable()` (not `.optional()`) so keys stay
@@ -976,15 +976,14 @@ export class EvaluationService {
       let lastGenerateError: unknown = null;
       let usedAiAnalytical = false;
 
-      // One retry: GPT-4o tool calls occasionally fail Zod once then succeed.
+      // One retry: structured-output calls occasionally fail Zod once then succeed.
       for (let attempt = 1; attempt <= 2; attempt += 1) {
         try {
           const result = await this.deps.generateObject({
+            ...openAIObjectCall(MODEL_GPT_61_TERRA),
             model: this.deps.getEvaluationModel(),
-            schema: AnalyticalEvaluationSchema,
+            schema: asOpenAIStrictSchema(AnalyticalEvaluationSchema),
             maxRetries: 3,
-            temperature: 0,
-            maxTokens: EVALUATION_MAX_OUTPUT_TOKENS,
             system: buildSystemPrompt({
               guidelines: input.guidelines,
               difficulty: input.difficulty,
@@ -1130,7 +1129,7 @@ export function createEvaluationService(
 
   return new EvaluationService({
     generateObject: generateWithRetry,
-    getEvaluationModel: overrides.getEvaluationModel ?? (() => openai("gpt-4o")),
+    getEvaluationModel: overrides.getEvaluationModel ?? (() => openAIObjectModel(MODEL_GPT_61_TERRA)),
     logger: overrides.logger ?? createLogger("evaluation-service"),
   });
 }

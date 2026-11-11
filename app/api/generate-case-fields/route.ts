@@ -1,17 +1,18 @@
-import { openai } from "@ai-sdk/openai";
 import { generateObject } from "ai";
+import type { NextRequest } from "next/server";
 import { z } from "zod";
-import { getSessionUserId } from "@/lib/api-session";
-import { requireTeacherApi } from "@/lib/cases/require-teacher-api";
+import { getEdgeSessionUser, requireTeacherApiEdge } from "@/lib/api-session-edge";
 import { createLogger } from "@/lib/logger";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
 import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
 import { AI_PROMPT_INJECTION_GUARD } from "@/lib/security/ai-prompt-guards";
 import { withOpenAIRetry } from "@/lib/ai/openai-retry";
+import { MODEL_GPT_6_LUNA, openAIObjectCall } from "@/lib/ai/models";
+import { asOpenAIStrictSchema } from "@/lib/ai/strict-schema";
 
-export const runtime = "nodejs";
-export const maxDuration = 60;
+export const runtime = "edge";
+export const maxDuration = 300;
 
 const logger = createLogger("generate-case-fields");
 
@@ -45,11 +46,12 @@ type RequestBody = {
   caseDescription?: unknown;
 };
 
-export async function POST(req: Request) {
-  const denied = await requireTeacherApi();
+export async function POST(req: NextRequest) {
+  const denied = await requireTeacherApiEdge(req);
   if (denied) return denied;
 
-  const userId = await getSessionUserId();
+  const user = await getEdgeSessionUser(req);
+  const userId = user?.id;
   if (!userId) {
     return Response.json({ error: "Unauthorized", code: "UNAUTHORIZED" }, { status: 401 });
   }
@@ -86,9 +88,8 @@ export async function POST(req: Request) {
   try {
     const { object } = await withOpenAIRetry(() =>
       generateObject({
-        model: openai("gpt-4o-mini"),
-        schema: GeneratedCaseFieldsSchema,
-        temperature: 0.35,
+        ...openAIObjectCall(MODEL_GPT_6_LUNA),
+        schema: asOpenAIStrictSchema(GeneratedCaseFieldsSchema),
         system: `Sei un medico primario esperto che progetta casi clinici per un simulatore formativo medico-legale (AEQUAN).
 Dato un breve testo riassuntivo, genera un profilo di caso completo, coerente e realistico in italiano.
 

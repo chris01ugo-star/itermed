@@ -9,6 +9,8 @@
  */
 import { openai } from "@ai-sdk/openai";
 import { embed, generateObject } from "ai";
+import { MODEL_GPT_6_LUNA, openAIObjectCall } from "@/lib/ai/models";
+import { asOpenAIStrictSchema } from "@/lib/ai/strict-schema";
 import { config as loadEnv } from "dotenv";
 import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
@@ -723,9 +725,8 @@ async function generateNarrative(params: {
   ragHits: RagHit[];
 }): Promise<GeneratedCaseNarrative> {
   const { object } = await generateObject({
-    model: openai("gpt-4o-mini"),
-    schema: GeneratedCaseNarrativeSchema,
-    temperature: 0.4,
+    ...openAIObjectCall(MODEL_GPT_6_LUNA),
+    schema: asOpenAIStrictSchema(GeneratedCaseNarrativeSchema),
     system: `Sei un cardiologo ESC e un medico-legale (L. 24/2017 Gelli-Bianco) che progetta casi per un simulatore formativo italiano (AEQUAN).
 Scrivi in italiano un caso realistico e internamente coerente.
 

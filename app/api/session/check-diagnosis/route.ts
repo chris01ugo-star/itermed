@@ -1,4 +1,3 @@
-import { openai } from "@ai-sdk/openai";
 import { generateObject } from "ai";
 import { z } from "zod";
 import { prisma } from "../../../../lib/prisma";
@@ -8,8 +7,11 @@ import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
 import { withOpenAIRetry } from "@/lib/ai/openai-retry";
+import { MODEL_GPT_6_LUNA, openAIObjectCall } from "@/lib/ai/models";
+import { asOpenAIStrictSchema } from "@/lib/ai/strict-schema";
 
 export const runtime = "nodejs";
+export const maxDuration = 300;
 
 const bodySchema = z.object({
   caseId: z.string().min(1),
@@ -146,9 +148,9 @@ Regole:
 
   const { object } = await withOpenAIRetry(() =>
     generateObject({
-      model: openai("gpt-4o-mini"),
+      ...openAIObjectCall(MODEL_GPT_6_LUNA),
       system,
-      schema: verdictSchema,
+      schema: asOpenAIStrictSchema(verdictSchema),
       prompt: `
 CASO:
 Titolo: ${clinicalCase.title}

@@ -1,10 +1,10 @@
-import { generateText } from "ai";
-import { openai } from "@ai-sdk/openai";
-import { getSessionUserId } from "@/lib/api-session";
-import { requireTeacherApi } from "@/lib/cases/require-teacher-api";
+import { generateObject } from "ai";
+import { z } from "zod";
+import type { NextRequest } from "next/server";
+import { getEdgeSessionUser, requireTeacherApiEdge } from "@/lib/api-session-edge";
 import { EXAM_DEFAULT_VALUES } from "@/lib/exam-default-values";
 import { createLogger } from "@/lib/logger";
-import { mergeExamProfile, parseLlmExamJson } from "@/lib/merge-exam-profile";
+import { mergeExamProfile } from "@/lib/merge-exam-profile";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
@@ -12,6 +12,11 @@ import { AI_PROMPT_INJECTION_GUARD } from "@/lib/security/ai-prompt-guards";
 import { generateCaseMetadataAndObjective } from "@/lib/simulator/generate-case-metadata";
 import { fenceContext } from "@/lib/security/prompt-context";
 import { withOpenAIRetry } from "@/lib/ai/openai-retry";
+import { MODEL_GPT_6_LUNA, openAIObjectCall } from "@/lib/ai/models";
+import { asOpenAIStrictSchema } from "@/lib/ai/strict-schema";
+
+export const runtime = "edge";
+export const maxDuration = 300;
 
 const generateExamsLogger = createLogger("generate-exams");
 
@@ -25,6 +30,19 @@ type GenerateExamsBody = {
 };
 
 const MIN_CASE_DESCRIPTION_LEN = 25;
+
+const examProfileSchema = z
+  .object({
+    exams: z.array(
+      z
+        .object({
+          examId: z.string(),
+          value: z.string(),
+        })
+        .strict(),
+    ),
+  })
+  .strict();
 
 function filterExamKeysToDictionary(
   map: Record<string, string>,
@@ -73,13 +91,8 @@ Istruzioni:
 - Se la modalità è "diagnosi-guidata" senza descrizione narrativa: completa solo esami secondari coerenti; non includere chiavi per esami che restano nella norma.
 - NON includere chiavi per esami che restano nella norma: il sistema applicherà i valori predefiniti.
 - Ogni valore deve essere una stringa concisa con unità o referto sintetico da laboratorio/strumentale.
-
-Rispondi ESCLUSIVAMENTE con un oggetto JSON valido:
-{
-  "exam_id": "valore o referto con unità",
-  ...
-}
-Non aggiungere markdown, spiegazioni o testo fuori dal JSON.`;
+- Restituisci solo gli esami alterati o non neutri, come coppie examId/value. examId deve essere uno degli identificativi del catalogo.
+- Non includere esami che restano nella norma.`;
 
   const userPrompt = hasCaseBrief
     ? [
@@ -92,7 +105,7 @@ Non aggiungere markdown, spiegazioni o testo fuori dal JSON.`;
           ? fenceContext("AUTHOR_DIAGNOSIS_NOTE", diagnosis)
           : fenceContext("AUTHOR_DIAGNOSIS_NOTE", "Nessuna nota aggiuntiva"),
         fenceContext("AUTHOR_ABNORMAL_EXAMS", abnormalExams_JSON),
-        "Genera solo l'oggetto JSON richiesto. Usa gli stessi exam_id del dizionario interno del simulatore (es. troponina-hs, pcr-pct).",
+        "Genera solo gli esami richiesti dallo schema. Usa gli stessi exam_id del dizionario interno del simulatore (es. troponina-hs, pcr-pct).",
       ].join("\n\n")
     : [
         fenceContext("AUTHOR_DIAGNOSIS", diagnosis),
@@ -101,32 +114,22 @@ Non aggiungere markdown, spiegazioni o testo fuori dal JSON.`;
           `Paziente: ${age || "N/D"} anni, ${sex || "N/D"}`,
         ),
         fenceContext("AUTHOR_ABNORMAL_EXAMS", abnormalExams_JSON),
-        "Genera solo l'oggetto JSON richiesto per eventuali esami secondari coerenti.",
+        "Genera solo gli esami secondari coerenti richiesti dallo schema.",
       ].join("\n\n");
 
   const result = await withOpenAIRetry(() =>
-    generateText({
-      model: openai("gpt-4o-mini"),
-      messages: [
-        { role: "system", content: systemPrompt },
-        {
-          role: "user",
-          content: userPrompt,
-        },
-      ],
-      temperature: 0.4,
-      maxTokens: 1200,
+    generateObject({
+      ...openAIObjectCall(MODEL_GPT_6_LUNA),
+      schema: asOpenAIStrictSchema(examProfileSchema),
+      system: systemPrompt,
+      prompt: userPrompt,
     }),
   );
 
-  const llmText = result.text;
-
-  let llmMap: Record<string, string> = {};
-  try {
-    llmMap = filterExamKeysToDictionary(parseLlmExamJson(llmText), EXAM_DEFAULT_VALUES);
-  } catch {
-    throw new Error("EXAM_JSON_PARSE");
-  }
+  const llmMap = filterExamKeysToDictionary(
+    Object.fromEntries(result.object.exams.map((row) => [row.examId, row.value])),
+    EXAM_DEFAULT_VALUES,
+  );
 
   const abnormalMap: Record<string, string> = {};
   for (const row of abnormalExams) {
@@ -155,11 +158,12 @@ function normalizeBody(body: GenerateExamsBody) {
   };
 }
 
-export async function POST(req: Request) {
-  const denied = await requireTeacherApi();
+export async function POST(req: NextRequest) {
+  const denied = await requireTeacherApiEdge(req);
   if (denied) return denied;
 
-  const userId = await getSessionUserId();
+  const user = await getEdgeSessionUser(req);
+  const userId = user?.id;
   if (!userId) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -211,15 +215,7 @@ export async function POST(req: Request) {
   const [examSettled, metaSettled] = await Promise.allSettled([examPromise, metaPromise]);
 
   if (examSettled.status === "rejected") {
-    const reason = examSettled.reason;
-    const msg = reason instanceof Error ? reason.message : String(reason);
-    if (msg === "EXAM_JSON_PARSE") {
-      return Response.json(
-        { error: "Risposta AI esami non è JSON valido. Riprova." },
-        { status: 422 },
-      );
-    }
-    generateExamsLogger.error("Exam profile generation failed", { error: reason });
+    generateExamsLogger.error("Exam profile generation failed", { error: examSettled.reason });
     return Response.json(
       { error: "Errore nella chiamata al modello linguistico (esami)." },
       { status: 502 },

@@ -1,4 +1,3 @@
-import { openai } from "@ai-sdk/openai";
 import { generateObject } from "ai";
 import { z } from "zod";
 import { prisma } from "../../../lib/prisma";
@@ -8,6 +7,8 @@ import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
 import { withOpenAIRetry } from "@/lib/ai/openai-retry";
+import { MODEL_GPT_6_LUNA, openAIObjectCall } from "@/lib/ai/models";
+import { asOpenAIStrictSchema } from "@/lib/ai/strict-schema";
 import { getCaseById, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
 import { extractCanonicalVitalsJson, formatBloodPressureFinding } from "@/lib/clinical/case-vitals";
 import {
@@ -21,6 +22,8 @@ import {
   derivePhysicalExamFromSummary,
   type KillipClass,
 } from "@/lib/clinical/physical-exam-from-summary";
+
+export const maxDuration = 300;
 
 const bodySchema = z.object({
   /** Optional: live Prisma session. Offline `registry_*` tokens are ignored. */
@@ -416,9 +419,9 @@ Devi restituire SOLO un JSON con i campi:
 
   const { object } = await withOpenAIRetry(() =>
     generateObject({
-      model: openai("gpt-4o-mini"),
+      ...openAIObjectCall(MODEL_GPT_6_LUNA),
       system: systemPrompt,
-      schema: examResultSchema,
+      schema: asOpenAIStrictSchema(examResultSchema),
       prompt: `
 Contesto clinico/paziente:
 ${sanitizedPatientPrompt}

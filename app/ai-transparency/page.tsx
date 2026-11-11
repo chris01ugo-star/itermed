@@ -34,12 +34,16 @@ export default function AiTransparencyPage() {
       <LegalSection title="2. Modelli e fornitori utilizzati">
         <ul className="list-disc space-y-1.5 pl-5">
           <li>
-            <strong>Chat paziente / esami / strumenti di sessione</strong>: OpenAI{" "}
-            <span className="font-mono text-xs">gpt-4o-mini</span> (tramite Vercel AI SDK).
+            <strong>Chat paziente, esami e strumenti di sessione</strong>: OpenAI{" "}
+            <span className="font-mono text-xs">gpt-6-luna</span> (tramite Vercel AI SDK).
           </li>
           <li>
-            <strong>Valutazione / report di simulazione</strong>: OpenAI{" "}
-            <span className="font-mono text-xs">gpt-4o</span>.
+            <strong>Valutazione e scoring sui documenti</strong>: OpenAI{" "}
+            <span className="font-mono text-xs">gpt-6.1-terra</span>.
+          </li>
+          <li>
+            <strong>Audit clinico e medico-legale</strong>: OpenAI{" "}
+            <span className="font-mono text-xs">gpt-6.1-sol</span>.
           </li>
           <li>
             <strong>Embedding per RAG (linee guida)</strong>: OpenAI{" "}

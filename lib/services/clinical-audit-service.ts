@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { generateObject } from "ai";
-import { openai } from "@ai-sdk/openai";
+import { MODEL_GPT_61_SOL, openAIObjectCall } from "@/lib/ai/models";
+import { asOpenAIStrictSchema } from "@/lib/ai/strict-schema";
 
 export const ClinicalAuditResultSchema = z.object({
   status: z.enum(["EVALUATED", "NOT_EVALUABLE"]),
@@ -166,12 +167,11 @@ ${clinicalCorpus || "Utilizza come riferimento primario il Gold Path e le regole
 `;
 
   const { object } = await generateObject({
-    model: openai("gpt-4o"),
+    ...openAIObjectCall(MODEL_GPT_61_SOL),
     maxRetries: 3,
-    temperature: 0,
     system: CLINICAL_AUDIT_SYSTEM_PROMPT,
     prompt: userPrompt,
-    schema: ClinicalAuditResultSchema,
+    schema: asOpenAIStrictSchema(ClinicalAuditResultSchema),
   });
 
   return object;

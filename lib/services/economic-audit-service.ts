@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { generateObject } from "ai";
-import { openai } from "@ai-sdk/openai";
+import { MODEL_GPT_6_LUNA, openAIObjectCall } from "@/lib/ai/models";
+import { asOpenAIStrictSchema } from "@/lib/ai/strict-schema";
 
 export const EconomicAuditResultSchema = z.object({
   status: z.enum(["EVALUATED", "NOT_EVALUABLE"]),
@@ -133,12 +134,11 @@ ${economicCorpus || "Nessuna linea guida specifica fornita. Valuta sulla base de
 `;
 
   const { object } = await generateObject({
-    model: openai("gpt-4o"),
+    ...openAIObjectCall(MODEL_GPT_6_LUNA),
     maxRetries: 3,
-    temperature: 0,
     system: ECONOMIC_AUDIT_SYSTEM_PROMPT,
     prompt: userPrompt,
-    schema: EconomicAuditResultSchema,
+    schema: asOpenAIStrictSchema(EconomicAuditResultSchema),
   });
 
   // Enforce server-side euro totals and rebind SSN tariffs (no LLM zero/hallucination).

@@ -1,5 +1,6 @@
-import { openai } from "@ai-sdk/openai";
 import { generateObject } from "ai";
+import { MODEL_GPT_61_TERRA, openAIObjectCall } from "@/lib/ai/models";
+import { asOpenAIStrictSchema } from "@/lib/ai/strict-schema";
 import { z } from "zod";
 import { withOpenAIRetry } from "@/lib/ai/openai-retry";
 import { createLogger } from "@/lib/logger";
@@ -180,11 +181,9 @@ export async function evaluateTraceAgainstDocuments(input: {
 
   const result = await withOpenAIRetry(() =>
     generateObject({
-      model: openai("gpt-4o"),
-      schema: RagPillarEvaluationSchema,
+      ...openAIObjectCall(MODEL_GPT_61_TERRA),
+      schema: asOpenAIStrictSchema(RagPillarEvaluationSchema),
       maxRetries: 3,
-      temperature: 0,
-      maxTokens: 2500,
       system: buildRagExaminerSystemPrompt(retrievedContext),
       prompt: buildUserPrompt({
         caseData: input.caseData,

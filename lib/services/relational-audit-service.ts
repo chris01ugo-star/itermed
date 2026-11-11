@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { generateObject } from "ai";
-import { openai } from "@ai-sdk/openai";
+import { MODEL_GPT_6_LUNA, openAIObjectCall } from "@/lib/ai/models";
+import { asOpenAIStrictSchema } from "@/lib/ai/strict-schema";
 import type { PatientProfile } from "@/lib/data/cases/types";
 import {
   classifyDoctorIntentLexical,
@@ -430,12 +431,11 @@ NON restituire Trust, Anxiety, Defensiveness, né alcun punteggio CARE/RIAS/SPIK
 `;
 
   const { object } = await generateObject({
-    model: openai("gpt-4o"),
+    ...openAIObjectCall(MODEL_GPT_6_LUNA),
     maxRetries: 3,
-    temperature: 0,
     system: RELATIONAL_AUDIT_SYSTEM_PROMPT,
     prompt: userPrompt,
-    schema: DoctorIntentExtractionSchema,
+    schema: asOpenAIStrictSchema(DoctorIntentExtractionSchema),
   });
 
   return object.turns.map((turn) => ({

@@ -1,4 +1,3 @@
-import { openai } from "@ai-sdk/openai";
 import { generateObject } from "ai";
 import { z } from "zod";
 import { prisma } from "../../../../lib/prisma";
@@ -10,8 +9,11 @@ import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { fenceContext } from "@/lib/security/prompt-context";
 import { AI_PROMPT_INJECTION_GUARD } from "@/lib/security/ai-prompt-guards";
 import { withOpenAIRetry } from "@/lib/ai/openai-retry";
+import { MODEL_GPT_6_LUNA, openAIObjectCall } from "@/lib/ai/models";
+import { asOpenAIStrictSchema } from "@/lib/ai/strict-schema";
 
 export const runtime = "nodejs";
+export const maxDuration = 300;
 
 const bodySchema = z.object({
   sessionId: z.string().min(1),
@@ -114,9 +116,9 @@ ${complication === "anaphylaxis" ? "Shock anafilattico/improvvisa reazione aller
 
   const { object } = await withOpenAIRetry(() =>
     generateObject({
-      model: openai("gpt-4o-mini"),
+      ...openAIObjectCall(MODEL_GPT_6_LUNA),
       system,
-      schema: emergencySchema,
+      schema: asOpenAIStrictSchema(emergencySchema),
       prompt,
     }),
   );

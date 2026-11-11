@@ -24,8 +24,9 @@ import {
   UNAUTHORIZED_PILOT_EMAIL_CODE,
 } from "@/lib/pilot-whitelist";
 
-/** Patient chat always uses gpt-4o-mini. gpt-4o is reserved for evaluation/RAG. */
-export type ChatModelId = "gpt-4o-mini";
+import { MODEL_GPT_6_LUNA, type ChatModelId } from "@/lib/ai/models";
+
+export type { ChatModelId };
 
 export type GateResult =
   | { allowed: true }
@@ -226,16 +227,16 @@ export function assertCanSendChatMessage(
   return { allowed: true };
 }
 
-/** Patient chat model — always gpt-4o-mini for every plan. */
+/** Patient chat model — always gpt-6-luna for every plan. */
 export function resolveChatModel(_profile?: UserBillingProfile): ChatModelId {
-  return "gpt-4o-mini";
+  return MODEL_GPT_6_LUNA;
 }
 
 export function assertAllowedChatModel(
   _profile: UserBillingProfile,
   _requestedModel: unknown,
 ): GateResult {
-  // Client-requested model is ignored — chat is always gpt-4o-mini (resolveChatModel).
+  // Client-requested model is ignored — chat is always gpt-6-luna (resolveChatModel).
   return { allowed: true };
 }
 

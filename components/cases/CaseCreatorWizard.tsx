@@ -373,7 +373,7 @@ export function CaseCreatorWizard({ canPublishGlobal = false }: CaseCreatorWizar
           />
           <div className="flex flex-wrap items-center justify-between gap-3">
             <p className="text-[11px] text-slate-500">
-              Modello: gpt-4o-mini · disponibile per tutti gli utenti
+              Modello: gpt-6-luna · disponibile per tutti gli utenti
             </p>
             <Button
               type="button"

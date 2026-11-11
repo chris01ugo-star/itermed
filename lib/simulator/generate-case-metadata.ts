@@ -1,5 +1,7 @@
-import { generateText } from "ai";
-import { openai } from "@ai-sdk/openai";
+import { generateObject } from "ai";
+import { z } from "zod";
+import { MODEL_GPT_6_LUNA, openAIObjectCall } from "@/lib/ai/models";
+import { asOpenAIStrictSchema } from "@/lib/ai/strict-schema";
 
 export type AiGeneratedCaseProfile = {
   title: string;
@@ -107,6 +109,43 @@ export function parseCaseAndObjectiveJson(raw: string): {
   return { caseProfile, objective };
 }
 
+const objectiveSchema = z
+  .object({
+    vitals_fc: z.string(),
+    vitals_pa: z.string(),
+    vitals_spo2: z.string(),
+    vitals_temp: z.string(),
+    vitals_fr: z.string(),
+    thorax_cardiac: z.string(),
+    thorax_lung: z.string(),
+    abdomen_inspection: z.string(),
+    abdomen_palpation: z.string(),
+    abdomen_percussion: z.string(),
+    neuro_pupils: z.string(),
+    neuro_gcs: z.string(),
+    neuro_deficits: z.string(),
+  })
+  .strict();
+
+const caseAndObjectiveSchema = z
+  .object({
+    case: z
+      .object({
+        title: z.string(),
+        specialty: z.string(),
+        age: z.string(),
+        sex: z.enum(["M", "F"]),
+        context: z.string(),
+        description: z.string(),
+        pastHistory: z.string(),
+        correctSolution: z.string(),
+        difficulty: z.enum(["EASY", "MEDIUM", "HARD"]),
+      })
+      .strict(),
+    objective: objectiveSchema,
+  })
+  .strict();
+
 type MetadataInput = {
   caseDescription: string;
   diagnosis: string;
@@ -119,39 +158,11 @@ export async function generateCaseMetadataAndObjective(
 ): Promise<{ caseProfile: AiGeneratedCaseProfile; objective: AiGeneratedObjective } | null> {
   const { caseDescription, diagnosis, age, sex } = input;
 
-  const systemPrompt = `Sei un medico primario esperto. In base al contesto clinico fornito, devi produrre SOLO un oggetto JSON valido (nessun markdown, nessun testo fuori dal JSON) con questa struttura esatta:
-
-{
-  "case": {
-    "title": "titolo breve del caso per il simulatore (max ~80 caratteri)",
-    "specialty": "es. Emergenza, Cardiologia, Medicina interna",
-    "age": "età come stringa numerica, es. 62",
-    "sex": "M oppure F",
-    "context": "una riga: contesto di accesso (es. PS, guardia medica)",
-    "description": "2-5 frasi: motivo di accesso, sintomi chiave, obiettivo formativo implicito",
-    "pastHistory": "comorbilità rilevanti o 'Nessuna comorbilità significativa' se assenti",
-    "correctSolution": "diagnosi attesa e linee guida essenziali di gestione (per l'autore del caso)",
-    "difficulty": "EASY o MEDIUM o HARD in base alla complessità clinica e medico-legale"
-  },
-  "objective": {
-    "vitals_fc": "frequenza cardiaca con unità se serve",
-    "vitals_pa": "pressione arteriosa es. 130/80 mmHg",
-    "vitals_spo2": "saturazione con %",
-    "vitals_temp": "temperatura °C",
-    "vitals_fr": "frequenza respiratoria",
-    "thorax_cardiac": "breve auscultazione / toni / soffi",
-    "thorax_lung": "MV, rumori aggiunti, versamento, ecc.",
-    "abdomen_inspection": "ispezione addominale",
-    "abdomen_palpation": "palpazione",
-    "abdomen_percussion": "percussione",
-    "neuro_pupils": "pupille",
-    "neuro_gcs": "GCS o stato di coscienza",
-    "neuro_deficits": "deficit focali o 'Non evidenziati' se assenti"
-  }
-}
+  const systemPrompt = `Sei un medico primario esperto. In base al contesto clinico fornito, compila il profilo del caso e l'esame obiettivo.
 
 Regole:
 - Tutti i campi sono stringhe in italiano, sintetici ma clinici.
+- sex è solo "M" o "F". difficulty è solo EASY, MEDIUM o HARD.
 - Coerenza interna tra parametri vitali, torace, addome, neuro e il quadro descritto.
 - COERENZA NOME–SESSO (TASSATIVA): se sex="M" (Sesso: Maschile) ogni nome proprio nel title/description/context/pastHistory deve essere maschile; se sex="F" (Sesso: Femminile) solo nomi femminili. Mai nomi maschili con sex F (es. vietato "Luca Rossi" + F) e viceversa.
 - Title: "Uomo …" solo con sex M; "Donna …" solo con sex F.
@@ -171,17 +182,17 @@ ${diagnosis || "(non fornita)"}
 
 Dati anagrafici già noti nel modulo (integrali se coerenti, altrimenti correggi solo se il contesto è chiaro): età: ${age || "non specificata"}, sesso: ${sex || "non specificato"}.
 
-Genera l'oggetto JSON richiesto.`;
+Genera il profilo caso e l'esame obiettivo richiesti dallo schema.`;
 
-  const result = await generateText({
-    model: openai("gpt-4o-mini"),
-    messages: [
-      { role: "system", content: systemPrompt },
-      { role: "user", content: userContent },
-    ],
-    temperature: 0.35,
+  const { object } = await generateObject({
+    ...openAIObjectCall(MODEL_GPT_6_LUNA),
+    schema: asOpenAIStrictSchema(caseAndObjectiveSchema),
+    system: systemPrompt,
+    prompt: userContent,
   });
 
-  const parsed = parseCaseAndObjectiveJson(result.text);
-  return parsed;
+  return {
+    caseProfile: object.case,
+    objective: object.objective,
+  };
 }

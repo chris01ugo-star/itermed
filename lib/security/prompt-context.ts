@@ -2,7 +2,7 @@
  * Prompt-context fencing & truncation helpers (OWASP LLM01 / token containment).
  */
 
-/** Soft cap for combined RAG text passed to gpt-4o evaluation (~6–8k chars). */
+/** Soft cap for combined RAG text passed to gpt-6.1-terra evaluation (~6–8k chars). */
 export const RAG_COMBINED_TEXT_MAX_CHARS = 7000;
 
 /** Fence untrusted / retrieved content outside the system prompt. */

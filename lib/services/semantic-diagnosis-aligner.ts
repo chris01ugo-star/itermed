@@ -1,9 +1,10 @@
-import { openai } from "@ai-sdk/openai";
 import { generateObject } from "ai";
 import { z } from "zod";
 import { normalizeStepId } from "@/lib/cases/simulation-time";
 import type { SessionMilestoneSnapshot } from "@/lib/simulator/milestone-tracker";
 import { withOpenAIRetry } from "@/lib/ai/openai-retry";
+import { MODEL_GPT_6_LUNA, openAIObjectCall } from "@/lib/ai/models";
+import { asOpenAIStrictSchema } from "@/lib/ai/strict-schema";
 
 export const semanticVerdictSchema = z.object({
   isEquivalent: z.boolean(),
@@ -261,9 +262,8 @@ export async function evaluateSemanticDiagnosisLLM(params: {
 
   const { object } = await withOpenAIRetry(() =>
     generate({
-      model: openai("gpt-4o-mini"),
-      schema: semanticVerdictSchema,
-      temperature: 0,
+      ...openAIObjectCall(MODEL_GPT_6_LUNA),
+      schema: asOpenAIStrictSchema(semanticVerdictSchema),
       system: `
 Sei un arbitro semantico clinico. Rispondi SOLO JSON.
 Regola: se lo studente identifica correttamente la patologia e il distretto d'organo bersaglio,
