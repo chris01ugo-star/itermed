@@ -42,6 +42,57 @@ export function italianAgreementPhrase(gender: PatientGrammaticalGender): string
     : "maschile (es. sono andato, sono stanco, sono preoccupato)";
 }
 
+function applyStemCase(sample: string, replacement: string): string {
+  if (sample.length > 0 && sample === sample.toUpperCase()) return replacement.toUpperCase();
+  if (sample[0] === sample[0]?.toUpperCase()) {
+    return replacement.charAt(0).toUpperCase() + replacement.slice(1);
+  }
+  return replacement;
+}
+
+/** Masculine stem (`stato`, `allergico`) → feminine participle/adjective. */
+function feminineFromMasculineStem(stem: string): string {
+  if (/e$/i.test(stem)) return stem;
+  if (/co$/i.test(stem)) return applyStemCase(stem, `${stem.slice(0, -2)}ca`);
+  if (/go$/i.test(stem)) return applyStemCase(stem, `${stem.slice(0, -2)}ga`);
+  if (/o$/i.test(stem)) return applyStemCase(stem, `${stem.slice(0, -1)}a`);
+  return stem;
+}
+
+/** Feminine stem (`stata`, `allergica`) → masculine participle/adjective. */
+function masculineFromFeminineStem(stem: string): string {
+  if (/e$/i.test(stem)) return stem;
+  if (/ca$/i.test(stem)) return applyStemCase(stem, `${stem.slice(0, -2)}co`);
+  if (/ga$/i.test(stem)) return applyStemCase(stem, `${stem.slice(0, -2)}go`);
+  if (/a$/i.test(stem)) return applyStemCase(stem, `${stem.slice(0, -1)}o`);
+  return stem;
+}
+
+/**
+ * Resolves bureaucratic gender slashes (`stato/a`, `operato/a`, `allergico/a`)
+ * before they reach the patient model. Numeric ratios (`9/10`, `140/90`) stay intact.
+ */
+export function sanitizeGenderSlashes(text: string, sex: "M" | "F"): string {
+  if (!text) return text;
+  return text.replace(
+    /\b([A-Za-zÀ-ÿ]{2,})\/([aAoO])\b/g,
+    (_full, stem: string, suffix: string) => {
+      const mark = suffix.toLowerCase();
+      if (mark === "a") {
+        return sex === "M" ? stem : feminineFromMasculineStem(stem);
+      }
+      return sex === "F" ? stem : masculineFromFeminineStem(stem);
+    },
+  );
+}
+
+export function grammaticalAnchorFor(sex: "M" | "F"): string {
+  if (sex === "F") {
+    return "DONNA (Femminile Obbligatorio: usa SEMPRE 'sono stata', 'sono andata', 'mi sento stanca', MAI il maschile e MAI forme con slash come stato/a)";
+  }
+  return "UOMO (Maschile Obbligatorio: usa SEMPRE 'sono stato', 'sono andato', 'mi sento stanco', MAI il femminile e MAI forme con slash come stato/a)";
+}
+
 export function patientSexLabel(gender: PatientGrammaticalGender | null): string {
   if (gender === "F") return "DONNA/FEMMINA";
   if (gender === "M") return "UOMO/MASCHIO";

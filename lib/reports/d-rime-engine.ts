@@ -64,6 +64,8 @@ export type DRimeResult = {
   trajectory: DRimeTrajectoryStep[];
   relationalInsights: string[];
   framework: "d-rime";
+  /** Set when comfort without action is penalized in an emergency setting. */
+  emergencyCommunicationFail?: string | null;
 };
 
 const D_RIME_REFS = {
@@ -460,7 +462,78 @@ export type EvaluateTrajectoryOptions = {
   therapyDecisionRequired?: boolean;
   goldStandardPath?: string[] | null;
   prescribedMedicationCount?: number;
+  /** Title + description. Acute pathology here switches empathy to an emergency setting. */
+  caseText?: string | null;
+  /** Case stress at t0 (0–100). At or above 80 is a red-code setting. */
+  initialPatientStress?: number | null;
+  /** Hyper reactivity is an acute emergency even when the numeric stress is lower. */
+  reactivityType?: "hyper" | "hypo" | "standard" | null;
+  /** Force the emergency communication rule on or off. */
+  emergencySetting?: boolean;
 };
+
+/** Doctor turns before a diagnosis or a therapy decision. Ten turns is the emergency delay. */
+export const EMERGENCY_COMFORT_TURN_LIMIT = 10;
+
+/** Empathy ceiling when reassurance replaces a timely diagnosis or therapy in an acute emergency. */
+export const EMERGENCY_EMPATHY_CAP = 50;
+
+export const EMERGENCY_COMMUNICATION_REASON =
+  "Comunicazione Inadeguata al Setting di Emergenza";
+
+const DIAGNOSIS_OR_THERAPY_RE =
+  /diagnos|sospett|si tratta di|quadro di|prescriv|terapia|farmaco|adrenalina|ossigeno|defibrill|rianim|posolog/i;
+
+export function isEmergencySetting(params: {
+  initialPatientStress?: number | null;
+  reactivityType?: "hyper" | "hypo" | "standard" | null;
+  emergencySetting?: boolean;
+}): boolean {
+  if (params.emergencySetting === true) return true;
+  if (params.emergencySetting === false) return false;
+  if (params.reactivityType === "hyper") return true;
+  const stress = Number(params.initialPatientStress);
+  return Number.isFinite(stress) && stress >= 80;
+}
+
+/** Doctor turns before the first diagnosis or therapy decision. */
+export function countTurnsBeforeDiagnosisOrTherapy(
+  chatHistory: Array<{ role: string; content: string }> | null | undefined,
+): number {
+  let turns = 0;
+  for (const message of chatHistory ?? []) {
+    if (message.role !== "user") continue;
+    const content = typeof message.content === "string" ? message.content.trim() : "";
+    if (!content) continue;
+    if (DIAGNOSIS_OR_THERAPY_RE.test(content) || THERAPY_TALK_RE.test(content)) return turns;
+    turns += 1;
+  }
+  return turns;
+}
+
+/**
+ * Acute emergency (initial stress ≥ 80 or hyper reactivity): empathy is the timely
+ * diagnosis or therapy. Ten turns without either hold the score at 50/100.
+ */
+export function applyEmergencySettingEmpathyPenalty(params: {
+  score: number;
+  chatHistory?: Array<{ role: string; content: string }> | null;
+  initialPatientStress?: number | null;
+  reactivityType?: "hyper" | "hypo" | "standard" | null;
+  emergencySetting?: boolean;
+}): { score: number; penalized: boolean; reason: string | null } {
+  const idleTurns = countTurnsBeforeDiagnosisOrTherapy(params.chatHistory);
+  const emergency = isEmergencySetting(params);
+  const base = Number.isFinite(params.score) ? Math.max(0, Math.min(100, params.score)) : 0;
+  if (!emergency || idleTurns < EMERGENCY_COMFORT_TURN_LIMIT) {
+    return { score: base, penalized: false, reason: null };
+  }
+  return {
+    score: Math.min(base, EMERGENCY_EMPATHY_CAP),
+    penalized: true,
+    reason: `${EMERGENCY_COMMUNICATION_REASON}: ${idleTurns} turni senza diagnosi né terapia su un paziente in emergenza acuta. L'empatia è la presa in carico tempestiva, non la sola rassicurazione. Tetto ${EMERGENCY_EMPATHY_CAP}/100.`,
+  };
+}
 
 export function resolveTherapyDecisionRequired(
   options?: EvaluateTrajectoryOptions | null,
@@ -568,6 +641,17 @@ export function evaluateInteractionTrajectory(
     structuralCap: structural,
   });
 
+  const emergencyEmpathy = applyEmergencySettingEmpathyPenalty({
+    score,
+    chatHistory: chat,
+    initialPatientStress: options?.initialPatientStress,
+    reactivityType: options?.reactivityType,
+    emergencySetting: options?.emergencySetting,
+  });
+  if (emergencyEmpathy.penalized && emergencyEmpathy.reason) {
+    insights.unshift(emergencyEmpathy.reason);
+  }
+
   const trajectory: DRimeTrajectoryStep[] = [
     {
       turnIndex: -1,
@@ -586,9 +670,10 @@ export function evaluateInteractionTrajectory(
   ];
 
   return {
-    score,
-    qualitativeLabel: qualitativeLabel(score, patientProfile),
+    score: emergencyEmpathy.score,
+    qualitativeLabel: qualitativeLabel(emergencyEmpathy.score, patientProfile),
     expertAnalysis: insights.join(" "),
+    emergencyCommunicationFail: emergencyEmpathy.reason,
     spikesEmpathyScore: frameworks.spikes,
     riasAlignmentScore: frameworks.rias,
     careTrustScore: frameworks.care,

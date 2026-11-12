@@ -1,5 +1,10 @@
 import type { PatientSimulatorCaseInput } from "./patient-system-prompt";
-import { resolvePatientPersona } from "@/lib/simulator/patient-grammatical-gender";
+import {
+  grammaticalAnchorFor,
+  resolvePatientPersona,
+  sanitizeGenderSlashes,
+} from "@/lib/simulator/patient-grammatical-gender";
+import { extractPatientAllergies } from "@/lib/services/evaluation-allergies";
 import { serializeCanonicalVitalsJson } from "@/lib/clinical/case-vitals";
 import { serializeClinicalSignsJson } from "@/lib/clinical/clinical-signs";
 
@@ -241,5 +246,150 @@ export function buildPatientSimulatorCaseInput(params: {
     abnormalExams,
     clinicalSignsJson: serializeClinicalSignsJson(baseline ?? undefined),
     painNrs: parsePainNrs(baseline, chiefComplaint),
+    knownAllergies: extractPatientAllergies(baseline),
+  };
+}
+
+export type AnamnesisFactSource = {
+  prompt?: string | null;
+  rationale?: string | null;
+  expectedKeywords?: string[] | null;
+};
+
+export type StructuredAnamnesisTruth = {
+  biologicalSex: "M" | "F";
+  grammaticalAnchor: string;
+  surgeriesAndProcedures: string;
+  chronicConditionsAndHistory: string;
+  allergies: string;
+  homeMedicationsOrHabits: string;
+  mandatoryAnamnesisFacts: string[];
+};
+
+const SURGERY_CUE =
+  /\b(operat[oaie]|intervento|interventi|chirurgic\w*|appendicectom\w*|colecistectom\w*|bypass|protes\w*|isterectom\w*|prostatectom\w*|angioplast\w*|stent|pacemaker|biopsia|trapiant\w*|resezion\w*|amputaz\w*|cesareo|laparoscop\w*|toracotom\w*|sternotom\w*|cateterismo)\b/i;
+const SURGERY_DENIAL =
+  /\b(non\s+(?:è\s+|e'\s+)?(?:mai\s+)?(?:stato|stata|stati|state)\s+operat|nessun\w*\s+intervent|mai\s+operat|non\s+ha\s+subit\w*\s+intervent|non\s+è\s+stato\s+sottopost|neg\w*\s+intervent)\b/i;
+const HABIT_CUE =
+  /\b(farmac\w*|terapia|assume|prende|pillol\w*|fumo|fuma|sigarett\w*|alcol|vino|familiar\w*|padre|madre|fratell\w*|sorell\w*)\b/i;
+const ALLERGY_MENTION = /allergic[oa]\s+a[l']?\s+([^.;]+)/gi;
+const ALLERGY_DENIAL = /\bnessuna\s+allerg|non\s+(?:è\s+)?allergic|nega\s+allerg/i;
+
+function splitFacts(text: string): string[] {
+  return text
+    .split(/\n+|(?<=[.!?;])\s+/)
+    .map((part) => part.replace(/\s+/g, " ").trim())
+    .filter((part) => part.length >= 12);
+}
+
+function uniqueFacts(facts: string[], limit = 12): string[] {
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const fact of facts) {
+    const key = fact.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(fact);
+    if (out.length >= limit) break;
+  }
+  return out;
+}
+
+function noSurgeryLine(sex: "M" | "F"): string {
+  const been = sex === "F" ? "sei stata operata" : "sei stato operato";
+  return `Nessun intervento chirurgico riportato in anamnesi: se il medico chiede se ${been}, rispondi di no. Non inventare interventi.`;
+}
+
+/**
+ * Deterministic anamnesis the patient model must not contradict.
+ * Gender slashes are resolved before the facts are returned.
+ */
+export function extractStructuredAnamnesisTruth(input: {
+  sex: "M" | "F" | null;
+  pastMedicalHistory?: string | null;
+  presentation?: string | null;
+  script?: string | null;
+  description?: string | null;
+  anamnesisQuestions?: AnamnesisFactSource[] | null;
+  knownAllergies?: string[] | null;
+  baselineExamFindings?: unknown;
+}): StructuredAnamnesisTruth | null {
+  const sex = input.sex;
+  if (!sex) return null;
+
+  const clean = (value: string | null | undefined) =>
+    sanitizeGenderSlashes(value ?? "", sex);
+
+  const history = clean(input.pastMedicalHistory);
+  const corpus = [
+    history,
+    clean(input.presentation),
+    clean(input.script),
+    clean(input.description),
+    ...(input.anamnesisQuestions ?? []).flatMap((item) => [
+      clean(item.prompt),
+      clean(item.rationale),
+      ...(item.expectedKeywords ?? []).map((keyword) => clean(keyword)),
+    ]),
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  const sentences = splitFacts(corpus);
+  const surgeries = uniqueFacts(
+    sentences.filter((sentence) => SURGERY_CUE.test(sentence) && !SURGERY_DENIAL.test(sentence)),
+    6,
+  );
+
+  const historySentences = uniqueFacts(splitFacts(history), 12);
+  const habits = uniqueFacts(
+    sentences.filter((sentence) => HABIT_CUE.test(sentence)),
+    8,
+  );
+
+  const fromBaseline = [
+    ...(input.knownAllergies ?? []),
+    ...extractPatientAllergies(input.baselineExamFindings),
+  ].map((item) => clean(item).trim());
+  const fromText: string[] = [];
+  if (!ALLERGY_DENIAL.test(corpus)) {
+    for (const match of corpus.matchAll(ALLERGY_MENTION)) {
+      const label = match[1]?.trim();
+      if (label) fromText.push(label);
+    }
+  }
+  const allergies = uniqueFacts(
+    [...fromBaseline, ...fromText].filter((item) => item.length > 1 && !ALLERGY_DENIAL.test(item)),
+    8,
+  );
+
+  const mandatory = (input.anamnesisQuestions ?? []).flatMap((item) => {
+    const prompt = clean(item.prompt).trim();
+    const rationale = clean(item.rationale).trim();
+    if (!prompt && !rationale) return [];
+    const keywords = (item.expectedKeywords ?? [])
+      .map((keyword) => clean(keyword).trim())
+      .filter(Boolean);
+    const keywordNote = keywords.length > 0 ? ` Parole del caso: ${keywords.join(", ")}.` : "";
+    return [
+      `Se il medico indaga su [${prompt || rationale}], DEVI riferire coerentemente: ${rationale || prompt}.${keywordNote}`,
+    ];
+  });
+
+  return {
+    biologicalSex: sex,
+    grammaticalAnchor: grammaticalAnchorFor(sex),
+    surgeriesAndProcedures:
+      surgeries.length > 0 ? surgeries.join(" ") : noSurgeryLine(sex),
+    chronicConditionsAndHistory:
+      historySentences.length > 0
+        ? historySentences.join(" ")
+        : "Nessuna anamnesi patologica remota riportata nel caso. Non inventare malattie pregresse.",
+    allergies: allergies.length > 0 ? allergies.join("; ") : "Nessuna allergia nota",
+    homeMedicationsOrHabits:
+      habits.length > 0
+        ? habits.join(" ")
+        : "Nessun farmaco domiciliare, abitudine o familiarità esplicitata nello storico. Non inventarne.",
+    mandatoryAnamnesisFacts: mandatory,
   };
 }

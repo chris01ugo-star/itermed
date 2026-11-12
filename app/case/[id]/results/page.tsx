@@ -18,6 +18,7 @@ import type { EconomicAuditResult } from "@/lib/services/economic-audit-service"
 import type { KillerSwitchTrace } from "@/lib/services/simulation-report-data";
 import { buildResultsRadar, readRagAuthoritative } from "@/lib/reports/pillar-radar";
 import type {
+  BlockingFail,
   EmpathyBehavioralBreakdown,
   ScoreBreakdown,
 } from "@/lib/services/evaluation-scoring";
@@ -50,6 +51,8 @@ type SessionTrace = {
   };
   killerSwitch?: KillerSwitchTrace;
   fatalErrors?: FatalError[];
+  failedByCap?: boolean;
+  blockingFails?: BlockingFail[];
   empathyBreakdown?: EmpathyBehavioralBreakdown | null;
   scoreBreakdown?: ScoreBreakdown | null;
   legalAudit?: LegalAuditResult;
@@ -142,6 +145,8 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
     const trace = (session.rawTrace ?? {}) as SessionTrace;
 
     const killerSwitch = trace.killerSwitch;
+    const failedByCap = trace.failedByCap === true;
+    const blockingFails = Array.isArray(trace.blockingFails) ? trace.blockingFails : [];
     const fatalErrors = normalizeFatalErrorsForUi(
       trace.fatalErrors ?? trace.analytical?.fatalErrors,
     );
@@ -206,6 +211,8 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
             economicAnalysis={economicAnalysis ?? undefined}
             coachingFeedback={trace.analytical?.coachingFeedback}
             killerSwitch={killerSwitch}
+            failedByCap={failedByCap}
+            blockingFails={blockingFails}
             fatalErrors={fatalErrors}
             empathyBreakdown={trace.empathyBreakdown ?? trace.scoreBreakdown?.empathy ?? null}
             scoreBreakdown={trace.scoreBreakdown ?? null}

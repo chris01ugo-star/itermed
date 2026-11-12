@@ -1,5 +1,5 @@
 import { normalizeStepId } from "@/lib/cases/simulation-time";
-import { resolveCanonicalExam } from "@/lib/simulator/exam-canonical-registry";
+import { isInvasiveExam, resolveCanonicalExam } from "@/lib/simulator/exam-canonical-registry";
 
 /** Per-case stress configuration stored in `baselineExamFindings.stressProfile`. */
 export interface StressProfile {
@@ -37,6 +37,14 @@ export type StressEngineInput = {
   wrongDiagnosis?: boolean;
   /** Heuristic: therapy/exam clinically inappropriate for this case */
   riskyPrescription?: boolean;
+  painNrs?: number | null;
+  spo2?: number | null;
+  systolic?: number | null;
+  description?: string;
+  /** Exams already ordered. A relieving exam lifts the pathological floor. */
+  requestedExamIds?: string[];
+  /** Physical maneuver that hurts if done without warning. */
+  painfulManeuver?: boolean;
 };
 
 const EMPATHY_PATTERNS = [
@@ -76,17 +84,6 @@ function clampStress(value: number): number {
   return Math.max(0, Math.min(100, Math.round(value)));
 }
 
-function reactivityMultiplier(type: StressProfile["reactivityType"]): number {
-  switch (type) {
-    case "hyper":
-      return 3;
-    case "hypo":
-      return 0.15;
-    default:
-      return 1;
-  }
-}
-
 export function classifyMessageTone(message?: string, llmEmpathyDetected?: boolean): MessageTone {
   if (llmEmpathyDetected) return "empathetic";
   if (!message?.trim()) return "neutral";
@@ -97,29 +94,99 @@ export function classifyMessageTone(message?: string, llmEmpathyDetected?: boole
   return "neutral";
 }
 
-function toneDelta(tone: MessageTone): number {
-  switch (tone) {
-    case "empathetic":
-      return -9;
-    case "aggressive":
-      return 16;
-    case "cold":
-      return 8;
-    default:
-      return 0;
+const EXPLAINS =
+  /spieg|significa|in parole semplici|serve a|perch[eé]|vuol dire|le faccio|adesso (le |facciamo|controlliamo)|consiste nel|è un (prelievo|controllo|esame)/i;
+const VALIDATION =
+  /capisco|comprendo|deve essere (difficile|spaventoso|doloroso)|è normale (avere paura|essere preoccupat)|mi dispiace|la ascolto|ha ragione a preoccuparsi/i;
+const CONSENT =
+  /posso (visitarla|procedere|farle)|è d'accordo|le va bene|consente|autorizza|prima di (farle|procedere|iniziare)|se per lei va bene|le chiedo il permesso/i;
+const REASSURE =
+  /ci pensiamo|siamo qui|la teniamo (d'occhio|sotto controllo)|non la lasciamo|passo passo|insieme|la aiut/i;
+const WARM = /buongiorno|buonasera|come si sente|mi racconti|mi dica pure|la ascolto|si accomodi/i;
+const MINIMIZE =
+  /non è niente|è solo (ansia|stress|psicologic)|esagera|non fa (così )?male|si lament|è nella (sua|tua) testa|ipocondri/i;
+const BLAME =
+  /\b(sbrigati|muoviti|basta|zitto|non mi interessa|idiota|stupido)\b|\bè colpa (sua|tua)\b|\bdoveva\b|\bperché non ha\b/i;
+const JARGON =
+  /\b(troponin\w*|coronarograf\w*|ischemi\w*|fibrillazion\w*|dispnea|scompenso|creatinin\w*|emogas|procalcitonin\w*|neutropeni\w*|trombolisi|cateterismo)\b/i;
+const INVASIVE_WORDS =
+  /cateter|puntura|biopsia|endoscop|rettale|intub|drenaggio|rachicentesi|emogas|\bago\b/i;
+const ACUTE_TEXT =
+  /shock|ipotens|sopor|coma|gcs\s*[0-8]|stemi|infarto|dispnea improvvisa|emorrag|sepsi|anafil|dolore toracico/i;
+
+type DoctorSignal = { relief: number; penalty: number };
+
+function analyzeDoctorMessage(message: string | undefined, llmEmpathy?: boolean): DoctorSignal {
+  const text = message?.trim() ?? "";
+  if (!text && !llmEmpathy) return { relief: 0, penalty: 0 };
+
+  let relief = 0;
+  let penalty = 0;
+  if (llmEmpathy || VALIDATION.test(text) || EMPATHY_PATTERNS.some((pattern) => pattern.test(text))) {
+    relief += 8;
   }
+  if (EXPLAINS.test(text)) relief += 6;
+  if (CONSENT.test(text)) relief += 7;
+  if (REASSURE.test(text)) relief += 5;
+  if (WARM.test(text)) relief += 4;
+  if (relief > 16) relief = 16;
+
+  if (MINIMIZE.test(text)) penalty += 14;
+  if (BLAME.test(text) || AGGRESSIVE_PATTERNS.some((pattern) => pattern.test(text))) penalty += 16;
+  const questions = text ? text.split("?").length - 1 : 0;
+  if (questions >= 3 && relief < 6) penalty += 8;
+  if (JARGON.test(text) && !EXPLAINS.test(text)) penalty += 6;
+  if (INVASIVE_WORDS.test(text) && !EXPLAINS.test(text) && !CONSENT.test(text)) penalty += 12;
+  if (text && relief === 0 && (COLD_PATTERNS.some((pattern) => pattern.test(text)) || text.length < 8)) {
+    penalty += 6;
+  }
+  return { relief, penalty };
 }
 
-function empathyReduction(profile: StressProfile, tone: MessageTone, llmEmpathy?: boolean): number {
-  if (tone !== "empathetic" && !llmEmpathy) return 0;
-  switch (profile.reactivityType) {
-    case "hyper":
-      return -16;
-    case "hypo":
-      return -4;
-    default:
-      return -10;
-  }
+function reliefFactor(type: StressProfile["reactivityType"]): number {
+  if (type === "hyper") return 0.85;
+  if (type === "hypo") return 0.4;
+  return 1;
+}
+
+function penaltyFactor(type: StressProfile["reactivityType"]): number {
+  if (type === "hyper") return 1.7;
+  if (type === "hypo") return 0.55;
+  return 1;
+}
+
+/** Words calm less as stress approaches the pathological floor. */
+function diminishingRelief(current: number, floor: number): number {
+  if (current <= floor + 4) return 0.15;
+  if (current <= floor + 12) return 0.4;
+  if (current <= floor + 25) return 0.7;
+  return 1;
+}
+
+export function pathologicalStressFloor(params: {
+  profile: StressProfile;
+  painNrs?: number | null;
+  spo2?: number | null;
+  systolic?: number | null;
+  description?: string;
+  treated?: boolean;
+}): number {
+  if (params.treated) return 0;
+  const text = params.description ?? "";
+  const pain = params.painNrs ?? 0;
+  const spo2 = params.spo2 != null && params.spo2 > 0 ? params.spo2 : null;
+  const shock =
+    /shock|ipotens|sopor|coma/i.test(text) ||
+    (params.systolic != null && params.systolic > 0 && params.systolic < 90);
+  const severe = pain >= 9 || (spo2 != null && spo2 < 90) || shock;
+  const acute = pain >= 7 || (spo2 != null && spo2 < 92) || shock || ACUTE_TEXT.test(text);
+  if (severe) return 45;
+  if (acute) return params.profile.reactivityType === "hypo" ? 40 : 35;
+  return 0;
+}
+
+function spo2FromUnknown(value: number | null | undefined): number | null {
+  return value != null && Number.isFinite(value) && value > 0 ? value : null;
 }
 
 function matchesMilestoneKey(key: string, message: string, examId?: string, examName?: string): boolean {
@@ -389,6 +456,12 @@ export function computePatientStress(input: StressEngineInput): number {
     turnsWithoutLifesaving = 0,
     wrongDiagnosis,
     riskyPrescription,
+    painNrs,
+    spo2,
+    systolic,
+    description,
+    requestedExamIds = [],
+    painfulManeuver,
   } = input;
 
   const completed = milestoneSet([
@@ -398,12 +471,26 @@ export function computePatientStress(input: StressEngineInput): number {
     ),
   ]);
 
-  let next = input.currentStress > 0 ? input.currentStress : profile.initialStress;
+  const treated =
+    isLifesavingMet(profile, completed) ||
+    requestedExamIds.some((examId) => isRelievingExam(examId, undefined, profile, goldStandardPath)) ||
+    (newExamId != null && isRelievingExam(newExamId, newExamName, profile, goldStandardPath));
+  const floor = pathologicalStressFloor({
+    profile,
+    painNrs,
+    spo2: spo2FromUnknown(spo2),
+    systolic,
+    description,
+    treated,
+  });
 
-  const tone = classifyMessageTone(lastUserMessage, llmEmpathyDetected);
-  const toneImpact = Math.round(toneDelta(tone) * reactivityMultiplier(profile.reactivityType));
-  next += toneImpact;
-  next += empathyReduction(profile, tone, llmEmpathyDetected);
+  let next = input.currentStress > 0 ? input.currentStress : profile.initialStress;
+  const signal = analyzeDoctorMessage(lastUserMessage, llmEmpathyDetected);
+  const relief = Math.round(
+    signal.relief * reliefFactor(profile.reactivityType) * diminishingRelief(next, floor),
+  );
+  const penalty = Math.round(signal.penalty * penaltyFactor(profile.reactivityType));
+  next = next - relief + penalty;
 
   if (profile.reactivityType === "hypo" && turnsWithoutLifesaving > 0 && !isLifesavingMet(profile, completed)) {
     next += Math.round(5 * turnsWithoutLifesaving);
@@ -414,9 +501,15 @@ export function computePatientStress(input: StressEngineInput): number {
       next += 25;
     } else if (isRelievingExam(newExamId, newExamName, profile, goldStandardPath)) {
       next -= 12;
-    } else if (/cateter|emogas|puncion/i.test(`${newExamId} ${newExamName ?? ""}`)) {
-      next += 8;
+    } else if (/cateter|emogas|puncion/i.test(`${newExamId} ${newExamName ?? ""}`) || isInvasiveExam(newExamId, newExamName)) {
+      const explained = EXPLAINS.test(lastUserMessage ?? "") || CONSENT.test(lastUserMessage ?? "");
+      next += explained ? 3 : 10;
     }
+  }
+
+  if (painfulManeuver) {
+    const explained = EXPLAINS.test(lastUserMessage ?? "") || CONSENT.test(lastUserMessage ?? "");
+    next += explained ? 2 : Math.round(8 * penaltyFactor(profile.reactivityType));
   }
 
   next = applyCriticalMilestoneDeltas(next, profile, lastUserMessage ?? "", completed, newExamId, newExamName);
@@ -425,17 +518,73 @@ export function computePatientStress(input: StressEngineInput): number {
     next += profile.reactivityType === "hyper" ? 28 : 18;
   }
 
+  if (floor > 0) next = Math.max(next, floor);
   return clampStress(next);
 }
 
-/** Clinical inertia: stress/urgency rises per simulated minute without adequate care. */
+export type TemporalDriftOptions = {
+  /** Acute illness still without a gold-standard or life-saving action. */
+  acuteUntreated?: boolean;
+  /** Stable patient with no acute driver: passive climb stays near zero. */
+  allianceStable?: boolean;
+  /** Pathological floor the drift may climb toward, never past, when untreated. */
+  floor?: number;
+};
+
+/**
+ * Simulated-minute drift. Untreated acute cases use `timeDecayRate`.
+ * A stable or allied patient does not climb to 100 just because time passes.
+ * Omitting `options` keeps the legacy full-rate drift.
+ */
 export function computeTemporalStressDrift(
   current: number,
   profile: StressProfile,
   elapsedMinutes = 1,
+  options?: TemporalDriftOptions,
 ): number {
-  const drift = profile.timeDecayRate * Math.max(0, elapsedMinutes);
-  return clampStress(current + drift);
+  const minutes = Math.max(0, elapsedMinutes);
+  let rate = profile.timeDecayRate;
+  if (options?.acuteUntreated) {
+    rate = profile.reactivityType === "hypo" ? Math.max(rate, 2.5) : rate;
+  } else if (options) {
+    if (options.allianceStable || profile.reactivityType === "standard") rate = 0.05;
+    else if (profile.reactivityType === "hyper") rate = Math.min(0.4, rate * 0.15);
+    else rate = Math.min(0.25, rate * 0.08);
+  }
+  let next = current + rate * minutes;
+  const floor = options?.floor ?? 0;
+  if (options?.acuteUntreated && floor > 0 && next < floor) {
+    next = Math.min(floor, current + Math.max(rate, 1) * minutes);
+  }
+  return clampStress(next);
+}
+
+export function isAcuteUntreated(params: {
+  profile: StressProfile;
+  description?: string;
+  painNrs?: number | null;
+  spo2?: number | null;
+  systolic?: number | null;
+  completedMilestoneKeys?: string[];
+  requestedExamIds?: string[];
+  goldStandardPath?: string[];
+}): boolean {
+  const completed = milestoneSet(params.completedMilestoneKeys);
+  const treated =
+    isLifesavingMet(params.profile, completed) ||
+    (params.requestedExamIds ?? []).some((examId) =>
+      isRelievingExam(examId, undefined, params.profile, params.goldStandardPath),
+    );
+  return (
+    pathologicalStressFloor({
+      profile: params.profile,
+      painNrs: params.painNrs,
+      spo2: params.spo2,
+      systolic: params.systolic,
+      description: params.description,
+      treated,
+    }) > 0
+  );
 }
 
 /** @deprecated Use {@link computeTemporalStressDrift}. */

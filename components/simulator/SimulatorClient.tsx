@@ -82,8 +82,12 @@ import {
 } from "@/lib/clinical/case-vitals";
 import {
   computePatientStress,
+  computeTemporalStressDrift,
+  isAcuteUntreated,
+  pathologicalStressFloor,
   resolveCaseStressProfile,
 } from "@/lib/simulator/patient-stress-engine";
+import { parsePainNrs } from "@/lib/simulator/patientCaseContext";
 import { isInvasiveExam } from "@/lib/simulator/exam-canonical-registry";
 import {
   clearPinnedLiveSessionId,
@@ -667,21 +671,58 @@ export function SimulatorClient({
     setClockMinutes((m) => m + deltaMinutes);
   }, []);
 
-  const bumpPatientStress = useCallback((delta: number) => {
-    if (delta <= 0) return;
-    setPatientStress((s) => Math.min(100, s + delta));
+  const readStressTurn = useCallback(() => {
+    const baseline = initialCaseData.baselineExamFindings as Record<string, unknown> | undefined;
+    const profile = resolveCaseStressProfile({
+      description: initialCaseData.description,
+      baselineExamFindings: baseline,
+      goldStandardPath: initialCaseData.goldStandardPath ?? undefined,
+    });
+    const vitals =
+      baseline?.vitals && typeof baseline.vitals === "object"
+        ? (baseline.vitals as Record<string, unknown>)
+        : undefined;
+    const spo2 = Number(vitals?.spo2);
+    const systolic = Number(String(vitals?.bloodPressure ?? "").split("/")[0]);
+    return {
+      profile,
+      painNrs: parsePainNrs(baseline, initialCaseData.description),
+      spo2: Number.isFinite(spo2) && spo2 > 0 ? spo2 : null,
+      systolic: Number.isFinite(systolic) && systolic > 0 ? systolic : null,
+      description: initialCaseData.description,
+      goldStandardPath: initialCaseData.goldStandardPath ?? undefined,
+      requestedExamIds: selectedExamIdsRef.current,
+    };
+  }, [
+    initialCaseData.baselineExamFindings,
+    initialCaseData.description,
+    initialCaseData.goldStandardPath,
+  ]);
+
+  const commitPatientStress = useCallback((next: number) => {
+    const clamped = Math.max(0, Math.min(100, Math.round(next)));
+    patientStressRef.current = clamped;
+    setPatientStress(clamped);
   }, []);
 
-  // Timer clinico: +1 minuto simulato ogni 20s reali mentre il caso è in corso.
-  // Stress comportamentale sale lentamente (inerzia), non perché i vitali siano "stress-driven".
+  // Timer clinico: +1 minuto simulato ogni 20s reali.
+  // Lo stress segue timeDecayRate solo se la condizione acuta non è ancora trattata.
   useEffect(() => {
     if (!disclaimerAccepted || gameStatus !== "playing" || isPaused) return;
     const id = window.setInterval(() => {
       setClockMinutes((m) => m + 1);
-      bumpPatientStress(1);
+      const turn = readStressTurn();
+      const acute = isAcuteUntreated(turn);
+      const floor = pathologicalStressFloor({ ...turn, treated: !acute });
+      const next = computeTemporalStressDrift(patientStressRef.current, turn.profile, 1, {
+        acuteUntreated: acute,
+        allianceStable: !acute,
+        floor,
+      });
+      commitPatientStress(next);
     }, 20_000);
     return () => window.clearInterval(id);
-  }, [disclaimerAccepted, gameStatus, isPaused, bumpPatientStress]);
+  }, [disclaimerAccepted, gameStatus, isPaused, readStressTurn, commitPatientStress]);
 
   // Wall-clock MM:SS — increments every real second during active play.
   useEffect(() => {
@@ -691,15 +732,6 @@ export function SimulatorClient({
     }, 1_000);
     return () => window.clearInterval(id);
   }, [disclaimerAccepted, gameStatus, isPaused]);
-
-  // Pressione temporale aggiuntiva (più lenta) — solo stress comportamentale.
-  useEffect(() => {
-    if (!disclaimerAccepted || gameStatus !== "playing" || isPaused) return;
-    const id = window.setInterval(() => {
-      bumpPatientStress(1);
-    }, 60_000);
-    return () => window.clearInterval(id);
-  }, [disclaimerAccepted, gameStatus, isPaused, bumpPatientStress]);
 
   const demoChat = initialCaseData.demographics ?? {};
   const patientAgeForChat = demoChat.age ?? 58;
@@ -778,10 +810,6 @@ export function SimulatorClient({
         content: typeof m.content === "string" ? m.content : "",
       })),
     }),
-    onFinish: () => {
-      // Dopo ogni risposta paziente: micro-incremento stress (ansia / tempo clinico).
-      bumpPatientStress(1);
-    },
     onError: () => {
       setMessages((prev) => {
         const last = prev[prev.length - 1];
@@ -1086,26 +1114,14 @@ export function SimulatorClient({
           ];
         });
 
-        const profile = resolveCaseStressProfile({
-          description: initialCaseData.description,
-          baselineExamFindings: initialCaseData.baselineExamFindings as
-            | Record<string, unknown>
-            | undefined,
-          goldStandardPath: initialCaseData.goldStandardPath ?? undefined,
-        });
+        const turn = readStressTurn();
         const nextStress = computePatientStress({
           currentStress: patientStressRef.current,
-          profile,
+          ...turn,
           lastUserMessage: `${trace} ${route} ${posology}`,
-          goldStandardPath: initialCaseData.goldStandardPath ?? undefined,
           riskyPrescription: false,
         });
-        if (nextStress !== patientStressRef.current) {
-          patientStressRef.current = nextStress;
-          setPatientStress(nextStress);
-        } else {
-          bumpPatientStress(1);
-        }
+        commitPatientStress(nextStress);
         advanceClock(1);
         setIsPrescriptionPadOpen(false);
       } catch (err) {
@@ -1116,7 +1132,7 @@ export function SimulatorClient({
     },
     [
       advanceClock,
-      bumpPatientStress,
+      commitPatientStress,
       ensureSessionId,
       initialCaseData.baselineExamFindings,
       initialCaseData.description,
@@ -1124,6 +1140,7 @@ export function SimulatorClient({
       initialCaseData.id,
       isPaused,
       markUserActivity,
+      readStressTurn,
       setMessages,
     ],
   );
@@ -1287,9 +1304,13 @@ export function SimulatorClient({
     if (!trimmed || isChatLoading) return;
 
     markUserActivity();
-    const stressForRequest = Math.min(100, patientStress + 1);
-    setPatientStress(stressForRequest);
-    patientStressRef.current = stressForRequest;
+    const turn = readStressTurn();
+    const stressForRequest = computePatientStress({
+      currentStress: patientStressRef.current,
+      ...turn,
+      lastUserMessage: trimmed,
+    });
+    commitPatientStress(stressForRequest);
     advanceClock(1);
 
     // Capture text before clearing; ensure live session when possible (soft-fail OK).
@@ -1573,8 +1594,24 @@ export function SimulatorClient({
         numericValue: payload.result.numericValue,
       },
     }));
-    // Esame obiettivo non invasivo: micro-stress, niente crash SpO₂.
-    bumpPatientStress(1);
+    const lastUserTurn = [...messages].reverse().find((m) => m.role === "user");
+    const lastDoctorLine = lastUserTurn ? getChatMessageText(lastUserTurn) : "";
+    const maneuver = `${payload.id} ${payload.label} ${lastDoctorLine}`;
+    const painful = /murphy|rettale|dolor/i.test(maneuver);
+    const invasive = isInvasiveExam(payload.id, payload.label);
+    if (invasive || painful) {
+      const turn = readStressTurn();
+      commitPatientStress(
+        computePatientStress({
+          currentStress: patientStressRef.current,
+          ...turn,
+          lastUserMessage: lastDoctorLine,
+          newExamId: payload.id,
+          newExamName: payload.label,
+          painfulManeuver: painful,
+        }),
+      );
+    }
     advanceClock(1);
   };
 
@@ -1605,32 +1642,19 @@ export function SimulatorClient({
         charged.add(examId);
         const examName = availableExams.find((e) => e.id === examId)?.name;
         const invasive = isInvasiveExam(examId, examName);
-        const profile = resolveCaseStressProfile({
-          description: initialCaseData.description,
-          baselineExamFindings: initialCaseData.baselineExamFindings as
-            | Record<string, unknown>
-            | undefined,
-          goldStandardPath: initialCaseData.goldStandardPath ?? undefined,
-        });
+        const lastUserTurn = [...messages].reverse().find((m) => m.role === "user");
+        const lastDoctorLine = lastUserTurn ? getChatMessageText(lastUserTurn) : "";
+        const painful = /murphy|rettale|dolor/i.test(`${examId} ${examName ?? ""} ${lastDoctorLine}`);
+        const turn = readStressTurn();
         const nextStress = computePatientStress({
           currentStress: patientStressRef.current,
-          profile,
+          ...turn,
+          lastUserMessage: lastDoctorLine,
           newExamId: examId,
           newExamName: examName,
-          goldStandardPath: initialCaseData.goldStandardPath ?? undefined,
-          riskyPrescription: false,
+          painfulManeuver: painful,
         });
-        // Prefer engine delta; invasive always costs more arousal, EO-like labs stay mild.
-        if (invasive) {
-          const next = Math.max(nextStress, Math.min(100, patientStressRef.current + 6));
-          patientStressRef.current = next;
-          setPatientStress(next);
-        } else if (nextStress < patientStressRef.current) {
-          patientStressRef.current = nextStress;
-          setPatientStress(nextStress); // relieving exam (ECG, O₂-linked path, etc.)
-        } else {
-          bumpPatientStress(1);
-        }
+        commitPatientStress(nextStress);
         advanceClock(invasive ? 3 : 1);
         flashTimePenaltyFeedback();
       }
@@ -1740,7 +1764,15 @@ export function SimulatorClient({
         }
 
         setGameStatus("wrong_diagnosis");
-        bumpPatientStress(20);
+        const turn = readStressTurn();
+        commitPatientStress(
+          computePatientStress({
+            currentStress: patientStressRef.current,
+            ...turn,
+            wrongDiagnosis: true,
+            lastUserMessage: diagnosisText,
+          }),
+        );
         if (sid) {
           await fetch("/api/session/outcome", {
             method: "POST",

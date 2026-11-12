@@ -42,6 +42,7 @@ const SSM_SPECIALTIES: Array<{ name: string; description: string }> = [
   { name: "Pneumologia", description: "Dispnea, BPCO riacutizzata e insufficienza respiratoria." },
   { name: "Psichiatria", description: "Agitazione, rischio suicidario e urgenze psichiatriche." },
   { name: "Radiologia", description: "Appropriatezza imaging e interpretazione di base." },
+  { name: "Reumatologia", description: "Artriti, connettiviti e urgenze reumatologiche." },
   { name: "Urologia", description: "Colica renale, ritenzione e urgenze urologiche." },
 ];
 

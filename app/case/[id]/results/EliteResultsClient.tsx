@@ -34,6 +34,7 @@ import {
   type EmpathyBehavioralBreakdown,
   type ScoreBreakdown,
   type ScoreMotivation,
+  type BlockingFail,
 } from "@/lib/services/evaluation-scoring";
 import type { KillerSwitchTrace } from "@/lib/services/simulation-report-data";
 import type { TherapyEvaluation } from "@/lib/services/evaluation-medications";
@@ -85,6 +86,8 @@ type EliteResultsClientProps = {
   economicAnalysis?: EconomicAnalysis;
   coachingFeedback?: CoachingFeedback;
   killerSwitch?: KillerSwitchTrace;
+  failedByCap?: boolean;
+  blockingFails?: BlockingFail[];
   fatalErrors?: FatalErrorUi[];
   empathyBreakdown?: EmpathyBehavioralBreakdown | null;
   scoreBreakdown?: ScoreBreakdown | null;
@@ -477,6 +480,8 @@ export function EliteResultsClient({
   economicAnalysis,
   coachingFeedback,
   killerSwitch,
+  failedByCap = false,
+  blockingFails = [],
   fatalErrors = [],
   empathyBreakdown = null,
   scoreBreakdown = null,
@@ -744,6 +749,29 @@ export function EliteResultsClient({
                     ))}
                   </ul>
                 ) : null}
+              </div>
+            </div>
+          </section>
+        ) : null}
+
+        {failedByCap && blockingFails.length > 0 ? (
+          <section className="border-b border-[#FFC0CD] bg-[#FFEBEF] px-5 py-4 sm:px-7">
+            <div className="flex items-start gap-2.5">
+              <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#E11D48]" />
+              <div className="min-w-0 space-y-1.5">
+                <p className="text-xs font-extrabold uppercase tracking-wider text-[#E11D48]">
+                  Sbarramento non compensativo · tetto 17,9/30
+                </p>
+                <p className="text-xs leading-relaxed text-[#E11D48]">
+                  Il voto finale non supera 17,9/30. Un referto invalido o una tutela legale sotto 40/100 porta Esami ed Economia a un massimo di 15/100. Una clinica sotto 40/100 blocca il totale anche con empatia o economia a 100.
+                </p>
+                <ul className="space-y-1 pt-1">
+                  {blockingFails.map((fail) => (
+                    <li key={fail.pillar} className="text-xs leading-relaxed text-[#E11D48]">
+                      · {fail.reason}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </section>

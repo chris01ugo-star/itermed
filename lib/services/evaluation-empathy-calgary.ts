@@ -146,6 +146,8 @@ export function computeCalgaryCambridgeEmpathy(params: {
   classifiedIntents?: import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] | null;
   goldStandardPath?: string[] | null;
   prescribedMedicationCount?: number;
+  /** Case stress at t0. At or above 70, empathy is scored as an emergency takeover. */
+  initialPatientStress?: number | null;
 }): CalgaryEmpathyResult {
   const questions = resolveAnamnesisQuestions(params.caseId, params.anamnesisQuestions);
   const profile = resolvePatientProfile(params.caseId, params.patientProfile);
@@ -154,6 +156,8 @@ export function computeCalgaryCambridgeEmpathy(params: {
     classifiedIntents: params.classifiedIntents,
     goldStandardPath: params.goldStandardPath ?? registered?.goldStandardPath,
     prescribedMedicationCount: params.prescribedMedicationCount,
+    caseText: `${params.caseTitle ?? ""} ${params.caseContext ?? ""}`,
+    initialPatientStress: params.initialPatientStress,
   });
   const mode = resolveClinicalUrgencyMode({
     caseId: params.caseId,

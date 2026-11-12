@@ -35,35 +35,6 @@ export const SIMILARITY_THRESHOLD_PROTOCOL = 0.35;
 /** @deprecated Prefer {@link SIMILARITY_THRESHOLD_PROTOCOL}. */
 const MIN_PINECONE_SIMILARITY = SIMILARITY_THRESHOLD_PROTOCOL;
 
-const PROTOCOL_TAG_HINTS = [
-  "protocollo",
-  "protocolli",
-  "linee guida",
-  "linee-guida",
-  "lineeguida",
-];
-
-const LEGAL_TAG_HINTS = [
-  "legale",
-  "gelli-bianco",
-  "gelli bianco",
-  "decreto",
-  "normativa",
-  "regolamento",
-  "tutela",
-  "medico-legale",
-  "medico legale",
-  "responsabilit",
-  "consenso",
-  "privacy",
-  "codice deontologico",
-];
-
-const PROTOCOL_PINECONE_TAGS = ["protocollo", "protocolli", "linee guida", "linee-guida"];
-
-const ECONOMIC_TAG_HINTS = ["economico", "tariffario", "ssn", "pillaro-economic", "nomenclatore"];
-const ECONOMIC_PINECONE_TAGS = ["economico", "tariffario", "ssn", "pillaro-economic"];
-
 export type GuidelineChunk = {
   content: string;
   /** Source document title (fonte). */
@@ -156,6 +127,8 @@ type PineconeMetadata = {
   documentId?: string;
   medicalSpecialtyId?: string;
   specialty?: string;
+  /** LEGAL | CLINICAL | ECONOMIC, written at ingest. Sole pillar discriminator. */
+  pillar?: string;
   /** Extended citation metadata (ingested or legacy aliases). */
   section?: string;
   sez?: string;
@@ -265,18 +238,46 @@ function normalizeSecondarySpecialties(values?: string[]): string[] {
   return values.map((value) => value.trim()).filter(Boolean);
 }
 
+/**
+ * Cartelle `knowledge_base/<slug>` → nome riga `MedicalSpecialty`.
+ * Lo slug con underscore non coincide con il display name salvato in Pinecone.
+ */
+const SPECIALTY_SLUG_TO_DISPLAY: Record<string, string> = {
+  medicina_urgenza: "Medicina d'Emergenza-Urgenza",
+  emergenza_urgenza: "Medicina d'Emergenza-Urgenza",
+  medicina_interna: "Medicina Interna",
+  malattie_infettive: "Malattie Infettive",
+  medicina_laboratorio: "Medicina di Laboratorio",
+  reumatologia: "Reumatologia",
+};
+
+function expandSpecialtyLabels(raw: string | undefined): string[] {
+  const trimmed = raw?.trim() ?? "";
+  if (!trimmed) return [];
+  const slug = trimmed.toLowerCase().replace(/[\s-]+/g, "_");
+  const display = SPECIALTY_SLUG_TO_DISPLAY[slug];
+  return display && display !== trimmed ? [trimmed, display] : [trimmed];
+}
+
+function scopedSpecialtyLabels(specialtyName?: string, secondarySpecialties?: string[]): string[] {
+  return [
+    ...expandSpecialtyLabels(specialtyName),
+    ...normalizeSecondarySpecialties(secondarySpecialties).flatMap((value) => expandSpecialtyLabels(value)),
+  ];
+}
+
 function buildPineconeSpecialtyFilter(
   specialtyId?: string,
   specialtyName?: string,
   secondarySpecialties?: string[],
 ): Record<string, unknown> | undefined {
-  const label = specialtyName?.trim();
-  const secondary = normalizeSecondarySpecialties(secondarySpecialties);
-  if (!specialtyId && !label && secondary.length === 0) return undefined;
+  const labels = scopedSpecialtyLabels(specialtyName, secondarySpecialties);
+  if (!specialtyId && labels.length === 0) return undefined;
 
-  const byName = label
-    ? pineconeSpecialtyInFilter(label, secondary)
-    : { specialty: { $in: specialtyScopeValues("", secondary) } };
+  const byName =
+    labels.length > 0
+      ? pineconeSpecialtyInFilter(labels[0] ?? "", labels.slice(1))
+      : { specialty: { $in: specialtyScopeValues("") } };
 
   if (!specialtyId) return byName;
 
@@ -289,11 +290,12 @@ function allowedSpecialtyLabels(
   specialtyName?: string,
   secondarySpecialties?: string[],
 ): Set<string> {
-  return new Set(
-    specialtyScopeValues(specialtyName ?? "", normalizeSecondarySpecialties(secondarySpecialties)).map(
-      (value) => value.toLowerCase(),
-    ),
-  );
+  const labels = scopedSpecialtyLabels(specialtyName, secondarySpecialties);
+  const scoped =
+    labels.length > 0
+      ? specialtyScopeValues(labels[0] ?? "", labels.slice(1))
+      : specialtyScopeValues("");
+  return new Set(scoped.map((value) => value.toLowerCase()));
 }
 
 function isForeignSpecialtyChunk(
@@ -311,9 +313,24 @@ function isForeignSpecialtyChunk(
   );
 }
 
-function isEconomicGuideline(tags: string[]): boolean {
-  const normalized = tags.map(normalizeTag);
-  return normalized.some((tag) => ECONOMIC_TAG_HINTS.some((hint) => tag.includes(hint)));
+type GuidelinePillar = "LEGAL" | "CLINICAL" | "ECONOMIC";
+
+function metadataPillar(metadata: PineconeMetadata): GuidelinePillar | null {
+  const raw = typeof metadata.pillar === "string" ? metadata.pillar.trim().toUpperCase() : "";
+  if (raw === "LEGAL" || raw === "CLINICAL" || raw === "ECONOMIC") return raw;
+  return null;
+}
+
+function isLegalGuideline(metadata: PineconeMetadata): boolean {
+  return metadataPillar(metadata) === "LEGAL";
+}
+
+function isClinicalGuideline(metadata: PineconeMetadata): boolean {
+  return metadataPillar(metadata) === "CLINICAL";
+}
+
+function isEconomicGuideline(metadata: PineconeMetadata): boolean {
+  return metadataPillar(metadata) === "ECONOMIC";
 }
 
 function mergePineconeFilters(
@@ -351,25 +368,6 @@ function chunkText(text: string, size = CHUNK_SIZE, overlap = CHUNK_OVERLAP): st
 
 function normalizeTag(tag: string): string {
   return tag.toLowerCase().trim();
-}
-
-function isLegalGuideline(tags: string[]): boolean {
-  const normalized = tags.map(normalizeTag);
-  const hasLegalHint = normalized.some((tag) =>
-    LEGAL_TAG_HINTS.some((hint) => tag.includes(hint)),
-  );
-  if (hasLegalHint) return true;
-
-  const isProtocolOnly =
-    normalized.length > 0 &&
-    normalized.every((tag) => PROTOCOL_TAG_HINTS.some((hint) => tag.includes(hint)));
-
-  return !isProtocolOnly;
-}
-
-function isProtocolGuideline(tags: string[]): boolean {
-  const normalized = tags.map(normalizeTag);
-  return normalized.some((tag) => PROTOCOL_TAG_HINTS.some((hint) => tag.includes(hint)));
 }
 
 function buildSpecialtyTagHints(specialtyName?: string): string[] {
@@ -684,11 +682,12 @@ export class RagService {
       secondarySpecialties,
     );
     const allowed = allowedSpecialtyLabels(specialtyName, secondarySpecialties);
+    const legalFilter = mergePineconeFilters({ pillar: { $eq: "LEGAL" } }, specialtyFilter);
     const response = await index.namespace("guidelines").query({
       topK: Math.max(limit * 3, 18),
       vector: embedding,
       includeMetadata: true,
-      ...(specialtyFilter ? { filter: specialtyFilter } : {}),
+      ...(legalFilter ? { filter: legalFilter } : {}),
     });
 
     const ranked: Array<GuidelineChunk & { score: number }> = [];
@@ -704,7 +703,7 @@ export class RagService {
 
       const title = typeof metadata.title === "string" ? metadata.title : "Documento legale";
       const tags = parseMetadataTags(metadata);
-      if (!isLegalGuideline(tags)) continue;
+      if (!isLegalGuideline(metadata)) continue;
 
       const citation = mapPineconeChunkCitation(
         typeof match.id === "string" ? match.id : undefined,
@@ -747,14 +746,14 @@ export class RagService {
     );
     const allowed = allowedSpecialtyLabels(specialtyName, secondarySpecialties);
     const protocolFilter = mergePineconeFilters(
-      { tags: { $in: PROTOCOL_PINECONE_TAGS } },
+      { pillar: { $eq: "CLINICAL" } },
       specialtyFilter,
     );
 
     // When specialtyId is set, skip the soft tag-hint query — ID filter is authoritative.
     const tagHintFilter =
       !specialtyId && specialtyHints.length > 0
-        ? mergePineconeFilters({ tags: { $in: specialtyHints } }, specialtyFilter)
+        ? mergePineconeFilters({ pillar: { $eq: "CLINICAL" } }, { tags: { $in: specialtyHints } }, specialtyFilter)
         : undefined;
 
     const queries = [
@@ -789,6 +788,7 @@ export class RagService {
         if (!content) continue;
 
         if (isForeignSpecialtyChunk(metadata, allowed, specialtyId)) continue;
+        if (!isClinicalGuideline(metadata)) continue;
 
         const title = typeof metadata.title === "string" ? metadata.title : "Protocollo clinico";
         const tags = parseMetadataTags(metadata);
@@ -809,7 +809,7 @@ export class RagService {
           score:
             pineconeScore +
             (chunkMatchesSpecialty(tags, specialtyHints) ? 2 : 0) +
-            (isProtocolGuideline(tags) ? 1 : 0),
+            (isClinicalGuideline(metadata) ? 1 : 0),
         });
       }
     }
@@ -826,7 +826,7 @@ export class RagService {
     const docs = await prisma.guidelineDocument.findMany({
       where: {
         isActive: true,
-        tags: { hasSome: LEGAL_TAG_HINTS },
+        title: { startsWith: "[LEGAL]" },
         ...buildPostgresSpecialtyFilter(specialtyId),
       },
       select: { id: true, title: true, tags: true, text: true },
@@ -864,13 +864,8 @@ export class RagService {
     const docs = await prisma.guidelineDocument.findMany({
       where: {
         isActive: true,
+        title: { startsWith: "[CLINICAL]" },
         ...buildPostgresSpecialtyFilter(specialtyId),
-        // With specialtyId the FK is the primary scope; tags only refine when no ID is known.
-        ...(specialtyId
-          ? {}
-          : specialtyHints.length > 0
-            ? { tags: { hasSome: specialtyHints } }
-            : { tags: { hasSome: PROTOCOL_PINECONE_TAGS } }),
       },
       select: { id: true, title: true, tags: true, text: true },
       take: 10,
@@ -907,7 +902,7 @@ export class RagService {
 
     const allowed = allowedSpecialtyLabels(specialtyName, secondarySpecialties);
     const filter = mergePineconeFilters(
-      { tags: { $in: ECONOMIC_PINECONE_TAGS } },
+      { pillar: { $eq: "ECONOMIC" } },
       buildPineconeSpecialtyFilter(specialtyId, specialtyName, secondarySpecialties),
     );
     const response = await index.namespace("guidelines").query({
@@ -929,7 +924,7 @@ export class RagService {
 
       const title = typeof metadata.title === "string" ? metadata.title : "Tariffario SSN";
       const tags = parseMetadataTags(metadata);
-      if (!isEconomicGuideline(tags)) continue;
+      if (!isEconomicGuideline(metadata)) continue;
 
       ranked.push({
         content,
@@ -961,7 +956,7 @@ export class RagService {
     const docs = await prisma.guidelineDocument.findMany({
       where: {
         isActive: true,
-        tags: { hasSome: ECONOMIC_TAG_HINTS },
+        title: { startsWith: "[ECONOMIC]" },
         ...buildPostgresSpecialtyFilter(specialtyId),
       },
       select: { id: true, title: true, tags: true, text: true },

@@ -4,13 +4,17 @@ import type { DimensionScores, ScoreBreakdown } from "@/lib/services/evaluation-
 import type { MilestoneScoreBreakdown } from "@/lib/services/evaluation-milestone-scoring";
 import {
   MACRO_AREA_WEIGHTS,
+  applyNonCompensatoryCap,
   collectCaseFatalErrors,
   computeTotalScoreTrentesimi,
   dimensionContributionTrentesimi,
+  fatalErrorsIncludeInvalidReport,
   normalizeExamSlug,
+  type BlockingFail,
   type CaseFatalExamRef,
 } from "@/lib/services/evaluation-scoring";
 import { detectAllergyFatalPrescriptions } from "@/lib/services/evaluation-allergies";
+import { classifyIncongruentExamPenalty } from "@/lib/services/exam-incongruence-penalty";
 
 const KILLER_SWITCH_CAP = 17.9;
 
@@ -107,15 +111,25 @@ export function detectFatalErrors(
   }
 
   for (const action of analytical.inappropriateActions ?? []) {
-    // High bar: severe contraindicated act (allergy / wrong fibrinolytic, etc.).
-    if (action?.performed && (action.penaltyWeight ?? 0) >= 40) {
-      const desc = action.description ?? "";
-      if (
-        FATAL_LIFE_SAVING_ACTION_PATTERN.test(desc) ||
-        FATAL_ALLERGY_DRUG_ACTION_PATTERN.test(desc)
-      ) {
-        push(`Azione inappropriata: ${desc || "n/d"}`, action.feedback ?? "");
-      }
+    if (!action?.performed) continue;
+    const desc = action.description ?? "";
+    const tier = classifyIncongruentExamPenalty({
+      isFatal: (action.penaltyWeight ?? 0) >= 40,
+      name: desc,
+      description: `${action.feedback ?? ""} ${action.evidenceCitation ?? ""}`,
+    });
+    if (tier.triggersKillerSwitch) {
+      push(
+        `Azione letale eseguita: ${desc || "esame controindicato"}`,
+        action.evidenceCitation || action.feedback || tier.rationale,
+      );
+      continue;
+    }
+    if (
+      (action.penaltyWeight ?? 0) >= 40 &&
+      (FATAL_LIFE_SAVING_ACTION_PATTERN.test(desc) || FATAL_ALLERGY_DRUG_ACTION_PATTERN.test(desc))
+    ) {
+      push(`Azione inappropriata: ${desc || "n/d"}`, action.evidenceCitation || action.feedback || "");
     }
   }
 
@@ -335,21 +349,28 @@ export function computeFinalTrentesimiWithKillerSwitch(
   rawTotal: number;
   finalTotal: number;
   killerSwitchApplied: boolean;
+  /** Pillar sbarramento: clinical or legal under 40/100 holds the total at 17.9. */
+  failedByCap: boolean;
+  blockingFails: BlockingFail[];
   /** @deprecated Kept for callers — identical to scoresForPersist (cap-only, no pillar wipe). */
   adjustedScoresForTotal: DimensionScores;
-  /** Authentic dimension scores for SessionReport columns / UI radar. */
+  /** Dimension scores after rule 1 clamps (invalid report or legal fail). */
   scoresForPersist: DimensionScores;
 } {
-  const scoresForPersist = { ...scores };
-  // Cap-only: never zero legal/empathy for the total math — partials stay authentic in DB/UI.
+  // Unconstrained weighted sum, before pillar clamps, so the trace can show the raw math.
   const rawTotal = computeTotalScoreTrentesimi(scores);
-  const finalTotal = applyKillerSwitch(rawTotal, fatalErrors);
+  const afterKiller = applyKillerSwitch(rawTotal, fatalErrors);
+  const graded = applyNonCompensatoryCap(afterKiller, scores, {
+    invalidClinicalReport: fatalErrorsIncludeInvalidReport(fatalErrors),
+  });
   return {
     rawTotal,
-    finalTotal,
+    finalTotal: graded.total,
     killerSwitchApplied: fatalErrors.length > 0,
-    adjustedScoresForTotal: scoresForPersist,
-    scoresForPersist,
+    failedByCap: graded.failedByCap,
+    blockingFails: graded.blockingFails,
+    adjustedScoresForTotal: graded.scores,
+    scoresForPersist: graded.scores,
   };
 }
 

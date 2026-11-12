@@ -62,7 +62,7 @@ export type CaseExamDefinition = {
    * La regex legacy in `evaluation-killer-switch` resta il fallback se il flag manca.
    */
   isFatal?: boolean;
-  /** True → −25% appropriatezza prescrittiva se richiesto. */
+  /** True → esame incongruente: penalità 5/15/40 in base a waste€ e isFatal. */
   inappropriate?: boolean;
   inappropriatePenaltyPercent?: number;
   wasteRationale?: string;

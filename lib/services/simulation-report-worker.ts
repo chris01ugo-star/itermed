@@ -8,9 +8,13 @@ import { readSecondarySpecialties } from "@/lib/services/specialty-scope";
 import { getExamValuesCatalog } from "@/lib/exam-values-service";
 import {
   extractMandatoryFirstLevelExams,
+  fatalErrorsIncludeInvalidReport,
+  INVALID_CLINICAL_REPORT,
   normalizeExamSlug,
   resolveExamBudgetEuro,
   resolveExamCostsFromCatalog,
+  writtenReportForEvaluation,
+  type BlockingFail,
   type DimensionScores,
 } from "@/lib/services/evaluation-scoring";
 import {
@@ -67,6 +71,8 @@ import {
 } from "@/lib/services/rag-pillar-evaluation";
 import type { ClinicalCase } from "@/lib/data/cases/types";
 import { estimateAgeFromTitle, patientDisplayName } from "@/lib/prassi/demo-vitals";
+import { applyEmergencySettingEmpathyPenalty } from "@/lib/reports/d-rime-engine";
+import { resolveCaseStressProfile } from "@/lib/simulator/patient-stress-engine";
 
 function mapLegalChunksForAudit(
   chunks: GuidelineChunk[] | null | undefined,
@@ -628,6 +634,11 @@ function applyKillerSwitchToEvaluation(
     }
   }
 
+  for (const examKiller of evaluation.scoreBreakdown?.exams?.killerSwitchExams ?? []) {
+    if (fatalErrors.some((error) => error.description === examKiller.description)) continue;
+    fatalErrors.push(examKiller);
+  }
+
   const allergyHits = detectAllergyFatalPrescriptions({
     baselineExamFindings: caseContext?.baselineExamFindings,
     prescriptions: caseContext?.prescribedMedications,
@@ -882,10 +893,18 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
             )
           : null;
 
+    const writtenReport = writtenReportForEvaluation(input.normalizedReportText);
+    if (writtenReport.invalid) {
+      log.info("Report validity gate", {
+        flag: "[REFERTO_INVALIDO]",
+        reason: writtenReport.reason,
+      });
+    }
+
     const evaluation = await evaluationService.evaluateSimulation({
       chatHistory: chatHistoryForAudit,
       exams: Array.isArray(input.exams) ? input.exams : [],
-      reportText: input.normalizedReportText ?? "",
+      reportText: writtenReport.payload,
       caseId: input.caseId,
       caseTitle: registeredCase?.title,
       caseContext: input.caseContext,
@@ -931,6 +950,18 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
         ...executedActionIds,
       ].join("\n"),
     });
+
+    if (
+      writtenReport.invalid &&
+      !fatalErrorsIncludeInvalidReport(fatalErrors)
+    ) {
+      fatalErrors.push({
+        description: INVALID_CLINICAL_REPORT,
+        rationale:
+          writtenReport.reason ??
+          "Referto clinico assente, ripetuto o invalido. Validità clinica azzerata.",
+      });
+    }
 
     let scoresForGrade = sanitizeDimensionScores(scoresForPersist);
     let finalTotalTrentesimi = Number.isFinite(finalTotalInitial) ? finalTotalInitial : 0;
@@ -1274,6 +1305,62 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       },
     });
 
+    const stressProfile = resolveCaseStressProfile({
+      description: `${traceCase.description ?? ""} ${input.caseContext ?? ""}`,
+      baselineExamFindings:
+        clinicalCase?.baselineExamFindings &&
+        typeof clinicalCase.baselineExamFindings === "object" &&
+        !Array.isArray(clinicalCase.baselineExamFindings)
+          ? (clinicalCase.baselineExamFindings as Record<string, unknown>)
+          : null,
+      goldStandardPath,
+    });
+    const emergencyEmpathy = applyEmergencySettingEmpathyPenalty({
+      score: scoresForGrade.empathy,
+      chatHistory: traceChat,
+      initialPatientStress: stressProfile.initialStress,
+      reactivityType: stressProfile.reactivityType,
+    });
+    if (emergencyEmpathy.penalized) {
+      scoresForGrade = { ...scoresForGrade, empathy: emergencyEmpathy.score };
+      const priorNote = evaluationForPersist.feedback?.empathyNote ?? "";
+      const reason = emergencyEmpathy.reason ?? "";
+      evaluationForPersist = {
+        ...evaluationForPersist,
+        scores: { ...(evaluationForPersist.scores ?? scoresForGrade), empathy: emergencyEmpathy.score },
+        feedback: {
+          ...evaluationForPersist.feedback,
+          empathyNote: priorNote.includes("Comunicazione Inadeguata al Setting di Emergenza")
+            ? priorNote
+            : `${reason} ${priorNote}`.trim(),
+        },
+      };
+      log.info("Emergency empathy penalty", {
+        idleReason: reason,
+        empathy: emergencyEmpathy.score,
+      });
+    }
+
+    const graded = computeFinalTrentesimiWithKillerSwitch(scoresForGrade, fatalErrors);
+    scoresForGrade = graded.scoresForPersist;
+    evaluationForPersist = {
+      ...evaluationForPersist,
+      scores: scoresForGrade,
+    };
+    rawTotalTrentesimi = graded.rawTotal;
+    totalScore = graded.finalTotal;
+    finalTotalTrentesimi = graded.finalTotal;
+    killerSwitchApplied = Boolean(graded.killerSwitchApplied) || killerSwitchApplied;
+    const failedByCap = graded.failedByCap;
+    const blockingFails: BlockingFail[] = graded.blockingFails;
+
+    log.info("Non-compensatory grading", {
+      failedByCap,
+      blockingFails: blockingFails.map((fail) => fail.pillar),
+      rawTotalTrentesimi,
+      finalTotalTrentesimi,
+    });
+
     const persistStartedAt = Date.now();
     await prisma.sessionReport.update({
       where: { id: input.reportId },
@@ -1299,6 +1386,8 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
             finalTotalTrentesimi: Number.isFinite(finalTotalTrentesimi) ? finalTotalTrentesimi : 0,
             cap: KILLER_SWITCH_CAP,
           },
+          failedByCap,
+          blockingFails,
           legalAudit: legalAuditResult,
           economicAudit: economicAuditResult,
           clinicalAudit: clinicalAuditResult,
@@ -1313,6 +1402,8 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     log.info("Simulation report completed", {
       totalScore,
       killerSwitchApplied,
+      failedByCap,
+      blockingFailCount: blockingFails.length,
       fatalErrorCount: fatalErrors.length,
       prefetchDurationMs,
       evaluationDurationMs,

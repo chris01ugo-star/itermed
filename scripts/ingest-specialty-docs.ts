@@ -3,6 +3,7 @@
  *
  * Expected layout:
  *   knowledge_base/<specialty>/legal|economic|clinical/*.{pdf,md,txt,json,csv}
+ *   Un pilastro assente (es. cardiologia/economic) produce un warning e non blocca gli altri.
  *   knowledge_base/generale/legal|economic/*  (corpus legale/economico condiviso)
  *   knowledge_base/empatia/                    (protocolli di comunicazione)
  *

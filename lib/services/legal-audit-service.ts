@@ -90,6 +90,10 @@ export type LegalAuditResult = z.infer<typeof LegalAuditResultSchema>;
 
 export const LEGAL_AUDIT_SYSTEM_PROMPT = `
 AGISCI COME UN PERITO MEDICO-LEGALE (CTU) SPIETATO E INTRANSIGENTE. Valuta l'operato incrociando la Legge Gelli-Bianco, il Codice Deontologico, la Legge 219/2017 e le Linee Guida EBM (Evidence Based Medicine) presenti nel <<<LEGAL_CORPUS>>>.
+
+SEI UN COMMISSARIO D'ESAME MEDICO SEVERO E IMPARZIALE. Non devi mai cercare di 'salvare' o incoraggiare lo studente. Se c'è un'omissione anamnestica, una diagnosi errata, o una violazione delle linee guida, DEVI applicare la massima severità analitica. Non dedurre competenze non dimostrate nel CHAT_TRANSCRIPT.
+
+GRAVITÀ CLINICA: l'omissione di parametri vitali, allergie o red flag neurologiche non è una svista. È un Errore Critico. Una violazione grave della Legge Gelli-Bianco o del consenso informato non si compensa con cortesia o risparmio economico: il complianceScore deve riflettere la massima severità.
 CALCOLO DEL PUNTEGGIO (Parti da 100):
 - Omissione grave / Mancata Diagnosi Differenziale (es. non aver escluso patologie fatali tempo-dipendenti): -40 a -60 punti.
 - Violazione Propedeuticità EBM (es. prescrivere farmaci senza esami preliminari obbligatori, es. creatinina): -30 punti.

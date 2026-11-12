@@ -27,6 +27,7 @@ import { generatePatientResponse } from "@/lib/simulator/generatePatientResponse
 import { getCaseById } from "@/lib/data/cases/registry";
 import type { ClinicalCase, PatientProfile } from "@/lib/data/cases/types";
 import { persistChatTurn } from "@/lib/simulator/persist-chat-turn";
+import { resolveCaseStressProfile } from "@/lib/simulator/patient-stress-engine";
 import { isPrescriptionTrace } from "@/lib/simulator/prescription-trace";
 import {
   buildDeteriorationInstruction,
@@ -85,7 +86,22 @@ function getLastUserMessage(messages: ChatTurn[]): string | undefined {
  * Authored simulator script. Prefer the DB case node, then the knowledge-base
  * payload. The client copy is only a fallback so a player cannot strip the roleplay.
  */
-type ChatAnamnesisClue = { prompt: string; rationale: string };
+type ChatAnamnesisClue = { prompt: string; rationale: string; expectedKeywords?: string[] };
+
+function anamnesisCluesFrom(raw: unknown): ChatAnamnesisClue[] {
+  if (!Array.isArray(raw)) return [];
+  return raw.flatMap((item) => {
+    if (!item || typeof item !== "object") return [];
+    const row = item as { prompt?: unknown; rationale?: unknown; expectedKeywords?: unknown };
+    const prompt = typeof row.prompt === "string" ? row.prompt.trim() : "";
+    const rationale = typeof row.rationale === "string" ? row.rationale.trim() : "";
+    const expectedKeywords = Array.isArray(row.expectedKeywords)
+      ? row.expectedKeywords.filter((keyword): keyword is string => typeof keyword === "string" && keyword.trim().length > 0)
+      : [];
+    if (!prompt && !rationale && expectedKeywords.length === 0) return [];
+    return [{ prompt, rationale, ...(expectedKeywords.length > 0 ? { expectedKeywords } : {}) }];
+  });
+}
 
 type ChatClinicalCase = {
   description: string;
@@ -104,18 +120,6 @@ type ChatClinicalCase = {
   patientProfile?: PatientProfile | null;
   patientPrompt?: string | null;
 };
-
-function anamnesisCluesFrom(raw: unknown): ChatAnamnesisClue[] {
-  if (!Array.isArray(raw)) return [];
-  return raw.flatMap((item) => {
-    if (!item || typeof item !== "object") return [];
-    const row = item as { prompt?: unknown; rationale?: unknown };
-    const prompt = typeof row.prompt === "string" ? row.prompt.trim() : "";
-    const rationale = typeof row.rationale === "string" ? row.rationale.trim() : "";
-    if (!prompt && !rationale) return [];
-    return [{ prompt, rationale }];
-  });
-}
 
 function richFieldsFromCase(disk: ClinicalCase | undefined): Pick<
   ChatClinicalCase,
@@ -538,6 +542,19 @@ export async function POST(req: Request) {
       patientStress: Math.max(caseData.patientStress, 85),
     };
   }
+
+  const stressProfile = resolveCaseStressProfile({
+    description: clinicalCase?.description ?? caseData.chiefComplaint,
+    baselineExamFindings:
+      clinicalCase?.baselineExamFindings && typeof clinicalCase.baselineExamFindings === "object"
+        ? (clinicalCase.baselineExamFindings as Record<string, unknown>)
+        : undefined,
+    goldStandardPath: parseGoldStandardPath(clinicalCase?.goldStandardPath),
+  });
+  caseData = {
+    ...caseData,
+    stressReactivity: stressProfile.reactivityType,
+  };
 
   const lastUserMessage = getLastUserMessage(chatMessages);
 

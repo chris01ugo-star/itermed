@@ -14,7 +14,12 @@ import type {
   LegalProtectionStatus,
 } from "@/lib/services/evaluation-report-types";
 import type { ChatMessage, ExamPayload } from "@/lib/services/evaluation-service";
-import type { EmpathyBehavioralBreakdown, ScoreBreakdown } from "@/lib/services/evaluation-scoring";
+import {
+  COMPENSATORY_PILLAR_CEILING,
+  type BlockingFail,
+  type EmpathyBehavioralBreakdown,
+  type ScoreBreakdown,
+} from "@/lib/services/evaluation-scoring";
 import { legalCompliancePercentFromAudit } from "@/lib/mappers/legal-audit-mapper";
 import { clinicalAccuracyPercentFromAudit } from "@/lib/mappers/clinical-audit-mapper";
 import { efficiencyPercentFromAudit } from "@/lib/mappers/economic-audit-mapper";
@@ -46,7 +51,7 @@ export function buildSessionReportData(params: {
   normalizedReportText: string;
   evaluation: EvaluationResult;
   guidelines: RelevantGuidelines;
-  /** Final grade on 0–30 trentesimi scale (Killer-Switch may cap at 17.9). */
+  /** Final grade on 0–30 trentesimi scale. Killer-Switch and pillar sbarramento may cap at 17.9. */
   totalScore: number;
   completedAt: Date;
   /** Wall / clinical simulation minutes (from CaseSession when available). */
@@ -54,6 +59,9 @@ export function buildSessionReportData(params: {
   /** Deterministic fatal errors detected post-evaluation (always persisted). */
   fatalErrors?: FatalError[];
   killerSwitch?: KillerSwitchTrace;
+  /** Non-compensatory pillar fails. The /30 total cannot rise above 17.9 while any is present. */
+  failedByCap?: boolean;
+  blockingFails?: BlockingFail[];
   /** Dedicated LLM legal audit (Gelli-Bianco corpus-bound). */
   legalAudit?: LegalAuditResult;
   /** Dedicated LLM economic / prescribing appropriateness audit. */
@@ -82,6 +90,8 @@ export function buildSessionReportData(params: {
     simulationElapsedMinutes,
     fatalErrors = [],
     killerSwitch,
+    failedByCap = false,
+    blockingFails = [],
     legalAudit,
     economicAudit,
     clinicalAudit,
@@ -139,30 +149,49 @@ export function buildSessionReportData(params: {
 
   const ragAuthoritative = ragPillars?.authoritative === true;
 
+  let clinicalAccuracy = ragAuthoritative
+    ? Number(scores.clinical) || 0
+    : (clinicalFromAudit ?? scores.clinical);
+  let legalComplianceGelliBianco = ragAuthoritative
+    ? Number(scores.legal) || 0
+    : legalAudit &&
+        legalAudit.status === "EVALUATED" &&
+        legalAudit.overallVerdict !== "NOT_EVALUABLE"
+      ? Math.max(0, Math.min(100, Number(legalAudit.complianceScore) || 0))
+      : Number(scores.legal) || 0;
+  /** Exam appropriateness (0–100) — feeds the 15% weight of the /30 grade. */
+  let prescribingAppropriateness = ragAuthoritative
+    ? Number(scores.exams) || 0
+    : (efficiencyFromAudit ?? scores.exams);
+  /**
+   * Economic sustainability (0–100) — feeds the 10% weight of the /30 grade.
+   * When the economic audit succeeds, the same efficiencyScore also replaces prescribing.
+   */
+  let economicSustainability = ragAuthoritative
+    ? Number(scores.economy) || 0
+    : (efficiencyFromAudit ?? scores.economy);
+
+  const reportBlocked = blockingFails.some((fail) => fail.pillar === "report");
+  const legalBlocked = blockingFails.some((fail) => fail.pillar === "legal");
+  if (reportBlocked) clinicalAccuracy = 0;
+  if (reportBlocked || legalBlocked) {
+    prescribingAppropriateness = Math.min(
+      Number(prescribingAppropriateness) || 0,
+      COMPENSATORY_PILLAR_CEILING,
+    );
+    economicSustainability = Math.min(
+      Number(economicSustainability) || 0,
+      COMPENSATORY_PILLAR_CEILING,
+    );
+  }
+
   return {
     userId,
     caseId,
-    clinicalAccuracy: ragAuthoritative
-      ? Number(scores.clinical) || 0
-      : (clinicalFromAudit ?? scores.clinical),
-    legalComplianceGelliBianco: ragAuthoritative
-      ? Number(scores.legal) || 0
-      : legalAudit &&
-          legalAudit.status === "EVALUATED" &&
-          legalAudit.overallVerdict !== "NOT_EVALUABLE"
-        ? Math.max(0, Math.min(100, Number(legalAudit.complianceScore) || 0))
-        : Number(scores.legal) || 0,
-    /** Exam appropriateness (0–100) — feeds the 15% weight of the /30 grade. */
-    prescribingAppropriateness: ragAuthoritative
-      ? Number(scores.exams) || 0
-      : (efficiencyFromAudit ?? scores.exams),
-    /**
-     * Economic sustainability (0–100) — feeds the 10% weight of the /30 grade.
-     * When the economic audit succeeds, the same efficiencyScore also replaces prescribing.
-     */
-    economicSustainability: ragAuthoritative
-      ? Number(scores.economy) || 0
-      : (efficiencyFromAudit ?? scores.economy),
+    clinicalAccuracy,
+    legalComplianceGelliBianco,
+    prescribingAppropriateness,
+    economicSustainability,
     empathy: scores.empathy,
     totalScore,
     medicalSpecialtyIdSnapshot: clinicalCase?.medicalSpecialtyId ?? null,
@@ -202,6 +231,9 @@ export function buildSessionReportData(params: {
       /** Full deterministic Killer-Switch audit trail for coaching / appeals. */
       fatalErrors: Array.isArray(fatalErrors) ? fatalErrors : [],
       killerSwitch: killerSwitchTrace,
+      /** Pillar sbarramento: clinical or legal under 40/100. Partials stay authentic. */
+      failedByCap: failedByCap === true,
+      blockingFails: Array.isArray(blockingFails) ? blockingFails : [],
       scoreBreakdown: evaluation.scoreBreakdown ?? null,
       /** Explicit empathy behavioral contract for report UI. */
       empathyBreakdown: evaluation.scoreBreakdown?.empathy ?? null,

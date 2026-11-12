@@ -458,6 +458,8 @@ export async function runRelationalAudit(params: {
   goldStandardPath?: string[] | null;
   prescribedMedicationCount?: number;
   therapyDecisionRequired?: boolean;
+  caseText?: string | null;
+  initialPatientStress?: number | null;
 }): Promise<RelationalAuditResult> {
   const { chatHistory, patientProfile } = params;
 
@@ -490,6 +492,8 @@ export async function runRelationalAudit(params: {
       goldStandardPath: params.goldStandardPath,
       prescribedMedicationCount: params.prescribedMedicationCount,
       therapyDecisionRequired: params.therapyDecisionRequired,
+      caseText: params.caseText,
+      initialPatientStress: params.initialPatientStress,
     },
   );
 

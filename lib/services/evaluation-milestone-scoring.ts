@@ -2,15 +2,16 @@ import { normalizeStepId } from "@/lib/cases/simulation-time";
 import type { SessionMilestoneSnapshot } from "@/lib/simulator/milestone-tracker";
 import type { InappropriateActionItem } from "@/lib/services/evaluation-scoring";
 import {
-  INCONGRUENT_EXAM_PENALTY_PERCENT,
   LEGAL_SOURCE_REFS,
   motivation,
   type DimensionScores,
   type ScoreBreakdown,
   type ScoreMotivation,
 } from "@/lib/services/evaluation-scoring";
-
-const INAPPROPRIATE_EXAM_PENALTY_PERCENT = INCONGRUENT_EXAM_PENALTY_PERCENT;
+import {
+  EXAM_PENALTY_COSTLY_PERCENT,
+  classifyIncongruentExamPenalty,
+} from "@/lib/services/exam-incongruence-penalty";
 
 const BASELINE_CLINICAL_MILESTONES = [
   "anamnesi_completa",
@@ -189,9 +190,17 @@ export function computeClinicalAppropriatenessScore(params: {
   let score =
     params.exams.length > 0 ? (appropriateCount / examCount) * 100 : 0;
 
-  const penaltyPercent =
-    (performedInappropriate.length + tier3WithoutIndication) * INAPPROPRIATE_EXAM_PENALTY_PERCENT;
-  score = clampScore(score - tier3WithoutIndication * INAPPROPRIATE_EXAM_PENALTY_PERCENT);
+  const inappropriatePenalty = performedInappropriate.reduce(
+    (sum, action) =>
+      sum +
+      classifyIncongruentExamPenalty({
+        name: action.description,
+        description: `${action.feedback} ${action.evidenceCitation ?? ""}`,
+      }).percent,
+    0,
+  );
+  const tier3Penalty = tier3WithoutIndication * EXAM_PENALTY_COSTLY_PERCENT;
+  score = clampScore(score - tier3Penalty);
 
   const motivations: ScoreMotivation[] = [
     motivation(
@@ -208,10 +217,10 @@ export function computeClinicalAppropriatenessScore(params: {
     motivations.push(
       motivation(
         "negative",
-        `${performedInappropriate.length} esami incongruenti (−${INAPPROPRIATE_EXAM_PENALTY_PERCENT}% cad.)`,
+        `${performedInappropriate.length} esami incongruenti (−${inappropriatePenalty}% complessivi, fasce 5/15/40)`,
         {
           id: "ms_exam_incong",
-          scoreImpact: -(performedInappropriate.length * INAPPROPRIATE_EXAM_PENALTY_PERCENT),
+          scoreImpact: -inappropriatePenalty,
           sourceRef: LEGAL_SOURCE_REFS.protocollo,
         },
       ),
@@ -224,7 +233,7 @@ export function computeClinicalAppropriatenessScore(params: {
         `${tier3WithoutIndication} esami III livello senza anamnesi/EO preliminare`,
         {
           id: "ms_exam_t3",
-          scoreImpact: -(tier3WithoutIndication * INAPPROPRIATE_EXAM_PENALTY_PERCENT),
+          scoreImpact: -tier3Penalty,
           sourceRef: LEGAL_SOURCE_REFS.protocollo,
         },
       ),
@@ -232,6 +241,7 @@ export function computeClinicalAppropriatenessScore(params: {
   }
 
   const final = clampScore(score);
+  const penaltyPercent = inappropriatePenalty + tier3Penalty;
 
   return {
     score: final,

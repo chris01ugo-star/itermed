@@ -349,6 +349,10 @@ async function listRootDocuments(dir: string): Promise<string[]> {
 const SPECIALTY_NAME_BY_SLUG: Record<string, string> = {
   medicina_urgenza: "Medicina d'Emergenza-Urgenza",
   emergenza_urgenza: "Medicina d'Emergenza-Urgenza",
+  medicina_interna: "Medicina Interna",
+  malattie_infettive: "Malattie Infettive",
+  medicina_laboratorio: "Medicina di Laboratorio",
+  reumatologia: "Reumatologia",
 };
 
 export async function resolveMedicalSpecialty(specialtySlug: string): Promise<{
@@ -742,12 +746,13 @@ export async function ingestSpecialtyFromDisk(input: IngestDiskInput): Promise<I
       .map((name) => join(knowledgeRoot, name))
       .filter((dir) => existsSync(dir));
     if (dirs.length === 0) {
-      if (universal) continue;
-      throw new Error(
-        `Pilastro mancante: ${join(knowledgeRoot, pillarCfg.folder)}\n` +
-          `Atteso: knowledge_base/${specialtySlug}/{legal,economic,clinical}/` +
-          (pillarCfg.folder === "clinical" ? " (vale anche clinic/)." : ""),
-      );
+      const warning =
+        `Pilastro mancante: ${join(knowledgeRoot, pillarCfg.folder)}. ` +
+        `L'ingestion di ${specialtySlug} prosegue sulle cartelle presenti` +
+        (pillarCfg.folder === "clinical" ? " (clinical/ oppure clinic/)." : ".");
+      console.warn(warning);
+      logger.warn(warning);
+      continue;
     }
     for (const dir of dirs) pillarDirs.push({ pillarCfg, dir });
   }
@@ -767,10 +772,11 @@ export async function ingestSpecialtyFromDisk(input: IngestDiskInput): Promise<I
     }
   }
 
-  if (universal && allFiles.length === 0 && pillarDirs.length === 0) {
+  if (allFiles.length === 0) {
     throw new Error(
       `Nessun documento in knowledge_base/${specialtySlug}. ` +
-        `Attesi file in legal/, economic/, clinical/ oppure direttamente nella cartella.`,
+        `Attesi file in legal/, economic/, clinical/ oppure clinic/` +
+        (universal ? " oppure direttamente nella cartella." : "."),
     );
   }
 

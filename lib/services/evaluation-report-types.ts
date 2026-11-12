@@ -21,12 +21,15 @@ export const ClinicalDeltaRowSchema = z.object({
   userAction: z.string().max(280).nullable(),
   status: z.enum(["MET", "MISSED", "DELAYED"]),
   penaltyOrBonusReason: z.string().max(480).nullable(),
+  /** Turno #N o esame che fonda MET/MISSED/DELAYED. Obbligatorio sui malus. */
+  evidenceCitation: z.string().max(240).nullable(),
 });
 
 export const EconomicExpenseSchema = z.object({
   examName: z.string().max(160),
   cost: z.number().min(0).nullable(),
   reason: z.string().max(400).nullable(),
+  evidenceCitation: z.string().max(240).nullable(),
 });
 
 export const EconomicAnalysisSchema = z.object({
@@ -54,6 +57,7 @@ export type ClinicalDeltaRow = {
   userAction: string;
   status: "MET" | "MISSED" | "DELAYED";
   penaltyOrBonusReason: string;
+  evidenceCitation: string;
 };
 export type EconomicAnalysis = {
   targetBudget: number;

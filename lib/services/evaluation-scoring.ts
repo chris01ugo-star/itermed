@@ -36,6 +36,7 @@ import {
   type TherapyEvaluation,
 } from "@/lib/services/evaluation-medications";
 import { detectAllergyFatalPrescriptions } from "@/lib/services/evaluation-allergies";
+import { classifyIncongruentExamPenalty } from "@/lib/services/exam-incongruence-penalty";
 
 export {
   EMPATHY_RAG_REFS,
@@ -64,6 +65,8 @@ export type InappropriateActionItem = {
   performed: boolean;
   penaltyWeight: number;
   feedback: string;
+  /** Turno #N o esame citato dal valutatore. */
+  evidenceCitation?: string;
 };
 
 export type EmpathyChecklistItem = {
@@ -227,6 +230,8 @@ export type ScoreBreakdown = {
     overPrescriptionCount?: number;
     goldHits?: number;
     goldExpected?: number;
+    /** Esami invasivi controindicati: il worker li passa al killer switch. */
+    killerSwitchExams?: Array<{ description: string; rationale: string }>;
   };
   economy: {
     budgetEuro: number;
@@ -307,7 +312,6 @@ export const EMPATHY_PROFESSIONAL_BASELINE = 0;
 /** @deprecated */
 export const EMPATHY_EMPTY_CHECKLIST_BASELINE = 0;
 
-export const INCONGRUENT_EXAM_PENALTY_PERCENT = 25;
 export const CLINICAL_ANAMNESIS_SEVERITY_CAP = 15;
 export const ANAMNESIS_COVERAGE_THRESHOLD = 0.2;
 export const LEGAL_NON_CONFORME_SCORE = 0;
@@ -633,7 +637,13 @@ export function collectCaseFatalErrors(params: {
   }
 
   for (const exam of params.inappropriateExams ?? []) {
-    if (exam?.isFatal !== true || !wasExecuted(exam)) continue;
+    if (!wasExecuted(exam)) continue;
+    const tier = classifyIncongruentExamPenalty({
+      isFatal: exam.isFatal,
+      name: exam.name ?? exam.examId,
+      description: `${exam.finding ?? ""} ${exam.examId}`,
+    });
+    if (!tier.triggersKillerSwitch) continue;
     const label = exam.name?.trim() || exam.examId;
     errors.push({
       description: `Azione letale eseguita: ${label}`,
@@ -1175,13 +1185,14 @@ function withTherapeuticBlend(
 
 /**
  * Appropriatezza prescrittiva proporzionale al Gold Standard.
- * Esame in GS → punti; incongruente → −25%; nessun +100 base.
+ * Incongruente: −5% basso costo, −15% costoso, −40% invasivo controindicato.
  */
 export function computeAppropriatenessScore(
   inappropriateActions: InappropriateActionItem[] | null | undefined,
   options?: {
     orderedExams?: Array<{ id?: string; name?: string; cost?: number }> | null;
     goldStandardPath?: string[] | null;
+    inappropriateExams?: CaseExamDefinition[] | null;
   },
 ): {
   score: number;
@@ -1227,47 +1238,73 @@ export function computeAppropriatenessScore(
     if (goldExams.length === 0) return false;
     return !examMatchesGold(exam, goldExams);
   });
+  const caseInappropriate = options?.inappropriateExams ?? [];
+
+  const penaltyFor = (name: string, description: string, cost?: number | null) => {
+    const hay = normalizeExamSlug(`${name} ${description}`);
+    const def = caseInappropriate.find((exam) => {
+      const id = normalizeExamSlug(exam.examId);
+      const label = normalizeExamSlug(exam.name ?? "");
+      return (id.length >= 3 && hay.includes(id)) || (label.length >= 4 && hay.includes(label));
+    });
+    return classifyIncongruentExamPenalty({
+      wasteEuro: cost ?? def?.priceEuro,
+      isFatal: def?.isFatal,
+      name,
+      description: `${description} ${def?.finding ?? ""} ${def?.wasteRationale ?? ""}`,
+    });
+  };
 
   let penaltySum = 0;
   let overCount = 0;
+  const killerSwitchExams: Array<{ description: string; rationale: string }> = [];
+  const rememberKiller = (label: string, citation: string, rationale: string) => {
+    killerSwitchExams.push({
+      description: `Azione letale eseguita: ${label}`,
+      rationale: citation ? `${rationale} Evidenza: ${citation}.` : rationale,
+    });
+  };
 
   for (const a of performed) {
-    const pen = Math.max(
-      INCONGRUENT_EXAM_PENALTY_PERCENT,
-      Math.min(30, Math.max(0, a.penaltyWeight || 0)),
-    );
-    // Avoid double-count if already counted as over-prescribed by name
-    const alreadyOver = overPrescribed.some((exam) =>
+    const matched = ordered.find((exam) =>
       descriptionMatchesGold(a.description, [
         normalizeExamSlug(exam.id ?? ""),
         normalizeExamSlug(exam.name ?? ""),
       ].filter(Boolean)),
     );
+    const alreadyOver = overPrescribed.some((exam) => exam === matched);
     if (alreadyOver) continue;
-    penaltySum += pen;
+    const decision = penaltyFor(a.description, `${a.feedback} ${a.evidenceCitation ?? ""}`, matched?.cost);
+    const citation = a.evidenceCitation?.trim() || matched?.id || matched?.name || "";
+    penaltySum += decision.percent;
+    if (decision.triggersKillerSwitch) rememberKiller(a.description, citation, decision.rationale);
     motivations.push(
       motivation(
         "negative",
-        `Esame incongruente/superfluo — «${a.description.slice(0, 72)}»`,
+        `Esame incongruente (${decision.tier}, −${decision.percent}%) — «${a.description.slice(0, 72)}»${citation ? ` — evidenza: ${citation}` : ""}`,
         {
           id: `exam_incong_${normalizeExamSlug(a.description).slice(0, 20)}`,
-          scoreImpact: -pen,
-          sourceRef: "Rif. Linee guida prescrittive / Protocollo clinico",
+          scoreImpact: -decision.percent,
+          sourceRef: citation || "Rif. Linee guida prescrittive / Protocollo clinico",
         },
       ),
     );
   }
 
   for (const exam of overPrescribed) {
-    penaltySum += INCONGRUENT_EXAM_PENALTY_PERCENT;
+    const label = exam.name || exam.id || "esame";
+    const decision = penaltyFor(label, exam.id ?? "", exam.cost);
+    const citation = exam.id || exam.name || "";
+    penaltySum += decision.percent;
     overCount += 1;
+    if (decision.triggersKillerSwitch) rememberKiller(label, citation, decision.rationale);
     motivations.push(
       motivation(
         "negative",
-        `Esame incongruente/superfluo fuori Gold Standard — «${(exam.name || exam.id || "esame").slice(0, 72)}»`,
+        `Esame fuori Gold Standard (${decision.tier}, −${decision.percent}%, waste €${Number(exam.cost ?? 0).toFixed(2)}) — «${label.slice(0, 72)}» — evidenza: ${citation}`,
         {
           id: `exam_over_${normalizeExamSlug(exam.id || exam.name || "x").slice(0, 20)}`,
-          scoreImpact: -INCONGRUENT_EXAM_PENALTY_PERCENT,
+          scoreImpact: -decision.percent,
           sourceRef: LEGAL_SOURCE_REFS.nomenclatore,
         },
       ),
@@ -1277,7 +1314,7 @@ export function computeAppropriatenessScore(
   // Fallback when no gold exams: derive from absence of incongruent only (proportional inverse)
   if (goldExams.length === 0) {
     const incongruentCount = performed.length;
-    score = clampScore(100 - incongruentCount * INCONGRUENT_EXAM_PENALTY_PERCENT);
+    score = clampScore(100 - penaltySum);
     if (incongruentCount === 0) {
       motivations.push(
         motivation(
@@ -1331,6 +1368,7 @@ export function computeAppropriatenessScore(
       overPrescriptionCount: overCount,
       goldHits,
       goldExpected: goldExams.length,
+      killerSwitchExams,
     },
   };
 }
@@ -1664,6 +1702,7 @@ export function deriveDimensionScores(params: {
   const exams = computeAppropriatenessScore(params.inappropriateActions, {
     orderedExams: params.orderedExams,
     goldStandardPath: params.goldStandardPath,
+    inappropriateExams: params.inappropriateExams,
   });
   const economy = computeEconomicSustainabilityScore(params.totalCostEuro, params.budgetEuro, {
     examsAppropriatenessScore: exams.score,
@@ -1910,4 +1949,178 @@ export function computeTotalScoreTrentesimi(scores: DimensionScores): number {
     dimensionContributionTrentesimi(scores?.economy ?? 0, w.economicSustainability);
   if (!Number.isFinite(total)) return 0;
   return Math.min(30, Math.max(0, Math.round(total * 10) / 10));
+}
+
+/** Pillar score below this (0–100) is a licensing-exam fail. It does not average away. */
+export const PILLAR_INSUFFICIENCY_THRESHOLD = 40;
+
+/** Same ceiling as the killer switch: a failed pillar cannot be compensated above a fail. */
+export const NON_COMPENSATORY_CAP = 17.9;
+
+/** Exams and economy cannot stay at 100 when the report is void or legal protection has failed. */
+export const COMPENSATORY_PILLAR_CEILING = 15;
+
+export const INVALID_CLINICAL_REPORT = "INVALID_CLINICAL_REPORT";
+export const REFERTO_INVALIDO_FLAG = "[REFERTO_INVALIDO]";
+export const WRITTEN_REPORT_MIN_CHARS = 15;
+const REPEATED_REPORT_CHAR_RE = /(.)\1{5,}/;
+
+export type BlockingFail = {
+  pillar: "clinical" | "legal" | "report";
+  score: number;
+  threshold: number;
+  cap: number;
+  reason: string;
+};
+
+/** Deterministic written-report gate. A payload that already carries [REFERTO_INVALIDO] stays invalid. */
+export function inspectWrittenReport(text: string | null | undefined): {
+  invalid: boolean;
+  reason: string | null;
+} {
+  const raw = text ?? "";
+  const flagged = raw.includes(REFERTO_INVALIDO_FLAG);
+  const body = raw.split(REFERTO_INVALIDO_FLAG).join("").trim();
+  if (body.length < WRITTEN_REPORT_MIN_CHARS) {
+    return {
+      invalid: true,
+      reason: "Referto assente o più corto di 15 caratteri.",
+    };
+  }
+  if (REPEATED_REPORT_CHAR_RE.test(body)) {
+    return {
+      invalid: true,
+      reason: "Referto composto da caratteri ripetuti.",
+    };
+  }
+  if (flagged) {
+    return {
+      invalid: true,
+      reason: "Referto segnalato invalido dal controllo deterministico.",
+    };
+  }
+  return { invalid: false, reason: null };
+}
+
+/** Payload placed in WRITTEN_REPORT. An invalid body is prefixed once with [REFERTO_INVALIDO]. */
+export function writtenReportForEvaluation(text: string | null | undefined): {
+  invalid: boolean;
+  reason: string | null;
+  payload: string;
+} {
+  const gate = inspectWrittenReport(text);
+  const body = (text ?? "").split(REFERTO_INVALIDO_FLAG).join("").trim();
+  if (!gate.invalid) {
+    return { invalid: false, reason: null, payload: body };
+  }
+  const visible = body.length > 0 ? body : "Nessun referto scritto inserito dal medico.";
+  return {
+    invalid: true,
+    reason: gate.reason,
+    payload: `${REFERTO_INVALIDO_FLAG}\n${visible}`,
+  };
+}
+
+export function fatalErrorsIncludeInvalidReport(
+  errors: Array<{ description?: string | null; rationale?: string | null }> | null | undefined,
+): boolean {
+  return (errors ?? []).some((error) =>
+    `${error?.description ?? ""}\n${error?.rationale ?? ""}`.includes(INVALID_CLINICAL_REPORT),
+  );
+}
+
+function pillarPercent(value: number | null | undefined): number {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return 0;
+  return Math.max(0, Math.min(100, n));
+}
+
+/**
+ * Non-compensatory grading.
+ * Rule 1 — invalid report or legal < 40: total ≤ 17.9 and exams/economy ≤ 15.
+ * Rule 2 — clinical < 40: total ≤ 17.9. Empathy and economy at 100 do not lift it.
+ * An invalid report also zeros clinical validity.
+ */
+export function collectBlockingFails(
+  scores: {
+    clinical?: number | null;
+    legal?: number | null;
+  },
+  options?: { invalidClinicalReport?: boolean },
+): BlockingFail[] {
+  const fails: BlockingFail[] = [];
+  const clinical = options?.invalidClinicalReport ? 0 : pillarPercent(scores.clinical);
+  const legal = pillarPercent(scores.legal);
+  if (options?.invalidClinicalReport) {
+    fails.push({
+      pillar: "report",
+      score: 0,
+      threshold: WRITTEN_REPORT_MIN_CHARS,
+      cap: NON_COMPENSATORY_CAP,
+      reason: `${INVALID_CLINICAL_REPORT}: referto assente, ripetuto o invalido. Validità clinica azzerata. Esami ed Economia sono limitati a ${COMPENSATORY_PILLAR_CEILING}/100 e il voto finale non supera ${NON_COMPENSATORY_CAP}/30.`,
+    });
+  }
+  if (legal < PILLAR_INSUFFICIENCY_THRESHOLD) {
+    fails.push({
+      pillar: "legal",
+      score: legal,
+      threshold: PILLAR_INSUFFICIENCY_THRESHOLD,
+      cap: NON_COMPENSATORY_CAP,
+      reason: `Tutela legale ${legal}/100, sotto la soglia di insufficienza (${PILLAR_INSUFFICIENCY_THRESHOLD}/100). Esami ed Economia sono limitati a ${COMPENSATORY_PILLAR_CEILING}/100 e il voto finale non supera ${NON_COMPENSATORY_CAP}/30.`,
+    });
+  }
+  if (clinical < PILLAR_INSUFFICIENCY_THRESHOLD) {
+    fails.push({
+      pillar: "clinical",
+      score: clinical,
+      threshold: PILLAR_INSUFFICIENCY_THRESHOLD,
+      cap: NON_COMPENSATORY_CAP,
+      reason: `Accuratezza clinica ${clinical}/100, sotto la soglia di insufficienza (${PILLAR_INSUFFICIENCY_THRESHOLD}/100). Il voto finale non può superare ${NON_COMPENSATORY_CAP}/30: un 100 in empatia o in economia non compensa.`,
+    });
+  }
+  return fails;
+}
+
+export function applyNonCompensatoryScores(
+  scores: DimensionScores,
+  options?: { invalidClinicalReport?: boolean },
+): { scores: DimensionScores; blockingFails: BlockingFail[]; failedByCap: boolean } {
+  const invalid = options?.invalidClinicalReport === true;
+  const next: DimensionScores = { ...scores };
+  if (invalid) next.clinical = 0;
+  const blockingFails = collectBlockingFails(next, { invalidClinicalReport: invalid });
+  const clampEconomyPillars = invalid || blockingFails.some((fail) => fail.pillar === "legal");
+  if (clampEconomyPillars) {
+    next.exams = Math.min(pillarPercent(next.exams), COMPENSATORY_PILLAR_CEILING);
+    next.economy = Math.min(pillarPercent(next.economy), COMPENSATORY_PILLAR_CEILING);
+  }
+  return {
+    scores: next,
+    blockingFails,
+    failedByCap: blockingFails.length > 0,
+  };
+}
+
+export function applyNonCompensatoryCap(
+  total: number,
+  scores: DimensionScores,
+  options?: { invalidClinicalReport?: boolean },
+): {
+  total: number;
+  failedByCap: boolean;
+  blockingFails: BlockingFail[];
+  scores: DimensionScores;
+} {
+  const graded = applyNonCompensatoryScores(scores, options);
+  const safeTotal = Number.isFinite(total) ? total : 0;
+  if (!graded.failedByCap) {
+    return { total: safeTotal, failedByCap: false, blockingFails: [], scores: graded.scores };
+  }
+  const constrained = computeTotalScoreTrentesimi(graded.scores);
+  return {
+    total: Math.min(safeTotal, constrained, NON_COMPENSATORY_CAP),
+    failedByCap: true,
+    blockingFails: graded.blockingFails,
+    scores: graded.scores,
+  };
 }

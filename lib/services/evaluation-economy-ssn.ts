@@ -9,6 +9,7 @@ import { getCachedCaseById } from "@/lib/data/cases/registry-store";
 import { EXAM_DEFAULT_VALUES, type ExamClinicalMeta } from "@/lib/exam-default-values";
 import { summarizeMedicationEconomics } from "@/lib/services/evaluation-medications";
 import { resolveSsnTariffEuro } from "@/lib/services/exam-ssn-tariff-resolver";
+import { classifyIncongruentExamPenalty } from "@/lib/services/exam-incongruence-penalty";
 
 export type EconomyScoreMotivation = {
   id: string;
@@ -527,16 +528,23 @@ export function computeEconomySsnScore(params: {
   }
 
   if (wasteEuro > 0 || inappropriate.length > 0) {
-    const wastePenalty = Math.min(
-      45,
-      Math.round(wasteEuro / 4) + inappropriate.length * 12,
-    );
+    let wastePenalty = 0;
+    for (const item of inappropriate) {
+      const def = inappropriateDefs.find((exam) => exam.examId === item.examId);
+      const decision = classifyIncongruentExamPenalty({
+        wasteEuro: item.costEuro,
+        isFatal: def?.isFatal,
+        name: item.name,
+        description: `${def?.finding ?? ""} ${def?.wasteRationale ?? ""}`,
+      });
+      wastePenalty += decision.percent;
+    }
     score -= wastePenalty;
     appropriatenessCouplingApplied = true;
     motivations.push({
       id: "eco_waste",
       type: "negative",
-      text: `Spreco / medicina difensiva: ${inappropriate.length} voci tra esami e farmaci (€${wasteEuro.toFixed(2)})`,
+      text: `Spreco / medicina difensiva: ${inappropriate.length} voci (€${wasteEuro.toFixed(2)}), penalità a fasce −${wastePenalty}% (5% basso costo, 15% costoso, 40% controindicato)`,
       sourceRef: pickEconomySourceRef({
         examId: inappropriate[0]?.examId ?? "n/d",
         ragRefs,
