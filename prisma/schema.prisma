@@ -282,6 +282,8 @@ model SessionReport {
   completedAt DateTime?
 
   createdAt DateTime @default(now())
+  /// Touched on every progress write. A PROCESSING row older than 4 minutes can be reclaimed.
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@index([userId])
   @@index([caseId])

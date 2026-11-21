@@ -13,10 +13,14 @@ const WINDOW_MS = 60_000;
 const buckets = new Map<string, RateBucket>();
 
 /**
- * Production caps (chat 10/min, report 3/min, edge IP 20/min) block rapid
- * clinical playtests and case closure. In development the effective ceiling
- * is at least this many requests per minute.
+ * Production caps (chat 10/min, report generation 3/min, edge IP 120/min).
+ * AI cost stays on the per-user route limits. The Edge IP ceiling is loose so
+ * a shared NAT does not lock a whole clinic. Report-status polling uses its
+ * own bucket at the same ceiling and does not consume the general API budget.
+ * In development the effective ceiling is at least this many requests per minute.
  */
+export const EDGE_API_IP_LIMIT_PER_MINUTE = 120;
+export const EDGE_REPORT_STATUS_LIMIT_PER_MINUTE = 120;
 export const DEV_RATE_LIMIT_PER_MINUTE = 100;
 
 /** Raises the configured cap in local development; production limits are unchanged. */

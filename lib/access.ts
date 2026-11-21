@@ -6,7 +6,7 @@ import {
   gateToResponse,
   hasActiveSubscription,
 } from "./billing/access-gate";
-import { getUserBillingProfile } from "./billing/user-billing";
+import { getUserBillingProfile, type UserBillingProfile } from "./billing/user-billing";
 import { countSimulationsStartedAllTime } from "@/lib/billing/daily-sim-quota";
 import { getCaseById } from "@/lib/data/cases/registry";
 import {
@@ -42,7 +42,11 @@ export async function userCanPlayCase(userId: string, caseId: string): Promise<b
 }
 
 /** Returns a billing-aware HTTP response when case access is denied; null if allowed. */
-export async function assertUserCanPlayCase(userId: string, caseId: string): Promise<Response | null> {
+export async function assertUserCanPlayCase(
+  userId: string,
+  caseId: string,
+  options?: { profile?: UserBillingProfile | null },
+): Promise<Response | null> {
   if (isDevAuthBypass()) return null;
 
   if (isRegisteredCaseId(caseId) || (await getCaseById(caseId))) {
@@ -69,7 +73,8 @@ export async function assertUserCanPlayCase(userId: string, caseId: string): Pro
 
   if (!clinicalCase.caseBundleId) return null;
 
-  const profile = await getUserBillingProfile(userId);
+  const profile =
+    options && "profile" in options ? options.profile : await getUserBillingProfile(userId);
   if (!profile) {
     return new Response(
       JSON.stringify({
@@ -177,6 +182,55 @@ export async function authorizeOwnedLiveSession(params: {
 export type SimulationAccessResult =
   | { ok: true; liveSessionId?: string; caseId?: string }
   | { ok: false; status: 400 | 403; error: string; code: string };
+
+/**
+ * Same IDOR rules as `authorizeSimulationAction`, using a CaseSession row the
+ * caller already loaded. Avoids a second read on the chat hot path.
+ */
+export function accessFromLoadedSession(params: {
+  userId: string;
+  rawSessionId: string;
+  expectedCaseId?: string | null;
+  session: { userId: string; caseId: string } | null;
+}): SimulationAccessResult {
+  if (isDevAuthBypass()) {
+    return {
+      ok: true,
+      liveSessionId: sanitizeLiveSessionId(params.rawSessionId),
+      caseId: params.expectedCaseId?.trim() || params.session?.caseId || undefined,
+    };
+  }
+
+  const rawSession = params.rawSessionId.trim();
+  const liveSessionId = sanitizeLiveSessionId(rawSession);
+  const caseIdRaw = params.expectedCaseId?.trim() || undefined;
+
+  if (rawSession && !liveSessionId && !isOfflineSessionId(rawSession)) {
+    return { ok: false, status: 403, error: "Forbidden", code: "FORBIDDEN_SESSION" };
+  }
+
+  if (liveSessionId) {
+    const row = params.session;
+    if (!row || row.userId !== params.userId) {
+      return { ok: false, status: 403, error: "Forbidden", code: "FORBIDDEN_SESSION" };
+    }
+    if (caseIdRaw && !caseIdsReferToSameCase(caseIdRaw, row.caseId)) {
+      return { ok: false, status: 403, error: "Forbidden", code: "FORBIDDEN_CASE" };
+    }
+    return { ok: true, liveSessionId, caseId: row.caseId };
+  }
+
+  if (caseIdRaw) {
+    return { ok: true, caseId: caseIdRaw };
+  }
+
+  return {
+    ok: false,
+    status: 400,
+    error: "sessionId or caseId required",
+    code: "SESSION_OR_CASE_REQUIRED",
+  };
+}
 
 /**
  * Authorize examine / report / chat against an optional live session and/or case.

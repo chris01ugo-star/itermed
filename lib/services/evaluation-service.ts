@@ -531,6 +531,13 @@ export type EvaluateSimulationInput = {
   helpRequestCount?: number;
   /** D-RIME intent labels from the relational LLM (FSM owns T/A/D). */
   classifiedIntents?: import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] | null;
+  /**
+   * Same labels, resolved only after the evaluation LLM returns.
+   * Lets intent extraction run in parallel with this call without changing scores.
+   */
+  classifiedIntentsPromise?: Promise<
+    import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] | null
+  >;
   /** Clock simulato (`CaseSession.elapsedMinutes`), confrontato con `timeLimitMinutes`. */
   elapsedMinutes?: number | null;
   timeLimitMinutes?: number | null;
@@ -1121,6 +1128,10 @@ export class EvaluationService {
         input.sessionMilestones ?? [],
       );
 
+      const classifiedIntents = input.classifiedIntentsPromise
+        ? await input.classifiedIntentsPromise
+        : input.classifiedIntents;
+
       const deterministic = buildDeterministicEvaluation(guardedAnalytical, {
         exams: input.exams,
         examBudgetEuro,
@@ -1137,7 +1148,7 @@ export class EvaluationService {
         requestedExamIds: input.requestedExamIds,
         legalChunks: input.guidelines?.legal?.chunks,
         legalSources: input.guidelines?.legal?.sources,
-        classifiedIntents: input.classifiedIntents,
+        classifiedIntents,
         baselineExamFindings: input.baselineExamFindings,
         prescribedMedications: input.prescribedMedications,
         elapsedMinutes: input.elapsedMinutes,

@@ -201,7 +201,11 @@ type ReportStatusPayload = {
   error?: string;
 };
 
-const REPORT_POLL_INTERVAL_MS = 500;
+const REPORT_POLL_INTERVAL_MS = 2_000;
+const REPORT_POLL_INTERVAL_SLOW_MS = 3_500;
+const REPORT_POLL_BACKOFF_AFTER = 10;
+const REPORT_POLL_MAX_CONSECUTIVE_ERRORS = 5;
+const REPORT_POLL_RETRY_AFTER_FALLBACK_MS = 4_000;
 const REPORT_POLL_TIMEOUT_MS = 3 * 60 * 1000;
 /** Canonical gold / ESC action id for informed consent (must match registry paths). */
 const CONSENT_INFORMED_ACTION_ID = "consenso-informato";
@@ -231,6 +235,44 @@ type PollReportResult = {
   reportData: SimulationReportData;
 };
 
+/** Transient status read. `delayMs` overrides the normal poll gap (429 Retry-After). */
+class PollRetryError extends Error {
+  constructor(
+    message: string,
+    readonly delayMs?: number,
+  ) {
+    super(message);
+    this.name = "PollRetryError";
+  }
+}
+
+function pollDelayMs(completedPolls: number): number {
+  return completedPolls >= REPORT_POLL_BACKOFF_AFTER
+    ? REPORT_POLL_INTERVAL_SLOW_MS
+    : REPORT_POLL_INTERVAL_MS;
+}
+
+function retryAfterMs(header: string | null): number {
+  if (!header?.trim()) return REPORT_POLL_RETRY_AFTER_FALLBACK_MS;
+  const seconds = Number(header);
+  if (Number.isFinite(seconds) && seconds >= 0) {
+    return Math.min(Math.round(seconds * 1000), 60_000);
+  }
+  const when = Date.parse(header);
+  if (Number.isFinite(when)) {
+    return Math.min(Math.max(0, when - Date.now()), 60_000);
+  }
+  return REPORT_POLL_RETRY_AFTER_FALLBACK_MS;
+}
+
+function isAbortError(error: unknown): boolean {
+  return error instanceof Error && error.name === "AbortError";
+}
+
+function isFatalPollStatus(status: number): boolean {
+  return status === 401 || status === 403 || status === 404;
+}
+
 async function pollReportUntilComplete(
   reportId: string,
   onProgress: (progress: number, message: string) => void,
@@ -249,13 +291,36 @@ async function pollReportUntilComplete(
       );
     }
 
-    const res = await fetch(
-      `/api/simulation/report/status?reportId=${encodeURIComponent(reportId)}`,
-      { signal: options?.signal },
-    );
+    let res: Response;
+    try {
+      res = await fetch(
+        `/api/simulation/report/status?reportId=${encodeURIComponent(reportId)}`,
+        { signal: options?.signal },
+      );
+    } catch (error) {
+      if (isAbortError(error) || options?.signal?.aborted) {
+        throw new Error("Generazione report annullata.");
+      }
+      throw new PollRetryError(
+        error instanceof Error ? error.message : "Errore di rete durante il recupero del report.",
+      );
+    }
+
     const data = (await res.json().catch(() => null)) as ReportStatusPayload | null;
-    if (!res.ok || !data) {
+
+    if (isFatalPollStatus(res.status)) {
       throw new Error(data?.error ?? "Errore nel recupero dello stato del report.");
+    }
+
+    if (res.status === 429) {
+      throw new PollRetryError(
+        data?.error ?? "Troppe richieste di stato. Nuovo tentativo.",
+        retryAfterMs(res.headers.get("Retry-After")),
+      );
+    }
+
+    if (!res.ok || !data) {
+      throw new PollRetryError(data?.error ?? `Errore temporaneo (${res.status || "rete"}).`);
     }
 
     onProgress(data.progress, data.progressMessage);
@@ -276,30 +341,62 @@ async function pollReportUntilComplete(
     return null;
   };
 
-  const immediate = await pollOnce();
-  if (immediate) {
-    return immediate;
-  }
-
   return new Promise((resolve, reject) => {
-    const interval = setInterval(() => {
-      void pollOnce()
-        .then((result) => {
-          if (result) {
-            clearInterval(interval);
-            resolve(result);
-          }
-        })
-        .catch((error: unknown) => {
-          clearInterval(interval);
-          reject(error);
-        });
-    }, REPORT_POLL_INTERVAL_MS);
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let stopped = false;
+    let consecutiveErrors = 0;
+    let completedPolls = 0;
+
+    const stop = () => {
+      stopped = true;
+      if (timer !== undefined) clearTimeout(timer);
+    };
+
+    const schedule = (delayMs: number) => {
+      if (stopped) return;
+      timer = setTimeout(() => {
+        void tick();
+      }, delayMs);
+    };
+
+    const tick = async () => {
+      if (stopped) return;
+      try {
+        const result = await pollOnce();
+        if (stopped) return;
+        consecutiveErrors = 0;
+        if (result) {
+          stop();
+          resolve(result);
+          return;
+        }
+        completedPolls += 1;
+        schedule(pollDelayMs(completedPolls));
+      } catch (error) {
+        if (stopped) return;
+        if (!(error instanceof PollRetryError)) {
+          stop();
+          reject(error instanceof Error ? error : new Error("Errore nel recupero dello stato del report."));
+          return;
+        }
+        consecutiveErrors += 1;
+        if (consecutiveErrors >= REPORT_POLL_MAX_CONSECUTIVE_ERRORS) {
+          stop();
+          reject(new Error(error.message));
+          return;
+        }
+        completedPolls += 1;
+        schedule(error.delayMs ?? pollDelayMs(completedPolls));
+      }
+    };
 
     options?.signal?.addEventListener("abort", () => {
-      clearInterval(interval);
+      if (stopped) return;
+      stop();
       reject(new Error("Generazione report annullata."));
     });
+
+    void tick();
   });
 }
 

@@ -33,6 +33,11 @@ describe("patient system prompt", () => {
     assert.doesNotMatch(prompt, /CLOSED-WORLD/);
     assert.doesNotMatch(prompt, /DIRETTIVA DI SICUREZZA/);
     assert.ok(prompt.indexOf("Dolore al petto da un'ora") > prompt.indexOf("ADESSO SEI SOLO QUESTO PAZIENTE"));
+    const groundTruth = prompt.indexOf("<GROUND_TRUTH_CONSTRAINTS>");
+    assert.ok(groundTruth >= 0);
+    assert.equal(prompt.indexOf("<GROUND_TRUTH_CONSTRAINTS>", groundTruth + 1), -1);
+    assert.ok(prompt.indexOf("FASCIA STRESS") > prompt.indexOf("ADESSO SEI SOLO QUESTO PAZIENTE"));
+    assert.ok(prompt.indexOf("Parametri attuali:") > prompt.indexOf("ADESSO SEI SOLO QUESTO PAZIENTE"));
   });
 
   it("turns a third-person ward story into lived experience and keeps the script", () => {

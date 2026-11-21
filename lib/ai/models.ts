@@ -6,19 +6,37 @@ import { createOpenAI } from "@ai-sdk/openai";
  * `gpt-5*`). This provider keeps the top-level `system` prompt and sends it
  * as `developer`.
  */
+type Gpt6RequestBody = {
+  messages?: Array<{ role?: string }>;
+  max_tokens?: number;
+  max_completion_tokens?: number;
+};
+
+/**
+ * GPT-6 Chat Completions rejects `max_tokens` (HTTP 400). AI SDK v4 only
+ * rewrites it to `max_completion_tokens` for `o*` and `gpt-5*`, so do it here.
+ */
+export function rewriteGpt6ChatBody(body: Gpt6RequestBody): Gpt6RequestBody {
+  if (Array.isArray(body.messages)) {
+    body.messages = body.messages.map((message) =>
+      message.role === "system" ? { ...message, role: "developer" } : message,
+    );
+  }
+  if (typeof body.max_tokens === "number" && body.max_completion_tokens == null) {
+    body.max_completion_tokens = body.max_tokens;
+  }
+  delete body.max_tokens;
+  return body;
+}
+
 const gpt6 = createOpenAI({
   fetch: async (input, init) => {
     if (!init?.body || typeof init.body !== "string") {
       return fetch(input, init);
     }
     try {
-      const body = JSON.parse(init.body) as { messages?: Array<{ role?: string }> };
-      if (Array.isArray(body.messages)) {
-        body.messages = body.messages.map((message) =>
-          message.role === "system" ? { ...message, role: "developer" } : message,
-        );
-      }
-      return fetch(input, { ...init, body: JSON.stringify(body) });
+      const body = JSON.parse(init.body) as Gpt6RequestBody;
+      return fetch(input, { ...init, body: JSON.stringify(rewriteGpt6ChatBody(body)) });
     } catch {
       return fetch(input, init);
     }

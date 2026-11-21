@@ -544,29 +544,37 @@ export class RagService {
     try {
       const embedding = await this.embedQuery(query);
       if (embedding) {
-        legalChunks = await this.retrieveLegalFromPinecone(
-          query,
-          embedding,
-          specialtyHints,
-          specialtyId,
-          specialtyName,
-          secondarySpecialties,
-        );
-        protocolChunks = await this.retrieveProtocolFromPinecone(
-          embedding,
-          specialtyHints,
-          specialtyId,
-          specialtyName,
-          secondarySpecialties,
-        );
-        economicChunks = await this.retrieveEconomicFromPinecone(
-          query,
-          embedding,
-          specialtyHints,
-          specialtyId,
-          specialtyName,
-          secondarySpecialties,
-        );
+        const [legalResult, protocolResult, economicResult] = await Promise.allSettled([
+          this.retrieveLegalFromPinecone(
+            query,
+            embedding,
+            specialtyHints,
+            specialtyId,
+            specialtyName,
+            secondarySpecialties,
+          ),
+          this.retrieveProtocolFromPinecone(
+            embedding,
+            specialtyHints,
+            specialtyId,
+            specialtyName,
+            secondarySpecialties,
+          ),
+          this.retrieveEconomicFromPinecone(
+            query,
+            embedding,
+            specialtyHints,
+            specialtyId,
+            specialtyName,
+            secondarySpecialties,
+          ),
+        ]);
+        if (legalResult.status === "fulfilled") legalChunks = legalResult.value;
+        else log.warn("Pinecone legal retrieval failed", { error: legalResult.reason });
+        if (protocolResult.status === "fulfilled") protocolChunks = protocolResult.value;
+        else log.warn("Pinecone protocol retrieval failed", { error: protocolResult.reason });
+        if (economicResult.status === "fulfilled") economicChunks = economicResult.value;
+        else log.warn("Pinecone economic retrieval failed", { error: economicResult.reason });
         if (legalChunks.length > 0) legalSource = "pinecone";
         if (protocolChunks.length > 0) protocolSource = "pinecone";
         if (economicChunks.length > 0) economicSource = "pinecone";
@@ -575,39 +583,51 @@ export class RagService {
       log.warn("Pinecone retrieval failed, falling back to PostgreSQL", { error });
     }
 
+    const postgresFallbacks: Array<Promise<void>> = [];
     if (legalChunks.length === 0) {
-      try {
-        legalChunks = await this.retrieveLegalFromPostgres(query, specialtyHints, specialtyId);
-        if (legalChunks.length > 0) legalSource = "postgres";
-      } catch (error) {
-        log.warn("PostgreSQL legal retrieval failed", { error });
-      }
+      postgresFallbacks.push(
+        this.retrieveLegalFromPostgres(query, specialtyHints, specialtyId)
+          .then((chunks) => {
+            if (chunks.length > 0) {
+              legalChunks = chunks;
+              legalSource = "postgres";
+            }
+          })
+          .catch((error) => {
+            log.warn("PostgreSQL legal retrieval failed", { error });
+          }),
+      );
     }
-
     if (protocolChunks.length === 0) {
-      try {
-        protocolChunks = await this.retrieveProtocolFromPostgres(
-          query,
-          specialtyHints,
-          specialtyId,
-        );
-        if (protocolChunks.length > 0) protocolSource = "postgres";
-      } catch (error) {
-        log.warn("PostgreSQL protocol retrieval failed", { error });
-      }
+      postgresFallbacks.push(
+        this.retrieveProtocolFromPostgres(query, specialtyHints, specialtyId)
+          .then((chunks) => {
+            if (chunks.length > 0) {
+              protocolChunks = chunks;
+              protocolSource = "postgres";
+            }
+          })
+          .catch((error) => {
+            log.warn("PostgreSQL protocol retrieval failed", { error });
+          }),
+      );
     }
-
     if (economicChunks.length === 0) {
-      try {
-        economicChunks = await this.retrieveEconomicFromPostgres(
-          query,
-          specialtyHints,
-          specialtyId,
-        );
-        if (economicChunks.length > 0) economicSource = "postgres";
-      } catch (error) {
-        log.warn("PostgreSQL economic retrieval failed", { error });
-      }
+      postgresFallbacks.push(
+        this.retrieveEconomicFromPostgres(query, specialtyHints, specialtyId)
+          .then((chunks) => {
+            if (chunks.length > 0) {
+              economicChunks = chunks;
+              economicSource = "postgres";
+            }
+          })
+          .catch((error) => {
+            log.warn("PostgreSQL economic retrieval failed", { error });
+          }),
+      );
+    }
+    if (postgresFallbacks.length > 0) {
+      await Promise.all(postgresFallbacks);
     }
 
     if (legalChunks.length === 0 && protocolChunks.length === 0 && economicChunks.length === 0) {

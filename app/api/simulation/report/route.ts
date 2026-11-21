@@ -252,15 +252,15 @@ export async function POST(req: Request) {
       persistCaseId,
     });
 
-    const runJob = () => scheduleSimulationReportJob(jobInput);
-
-    // Primary: Next.js after() keeps work alive after the 202 response in production.
-    after(async () => {
-      runJob();
-    });
-
-    // Dev safety net: schedule immediately on the Node process (idempotent).
-    runJob();
+    // One starter. On Vercel, `after` keeps the isolate alive until the job
+    // promise settles. Local `next dev` drops `after`, so run on the Node process.
+    if (process.env.VERCEL) {
+      after(async () => {
+        await scheduleSimulationReportJob(jobInput);
+      });
+    } else {
+      void scheduleSimulationReportJob(jobInput);
+    }
 
     return jsonResponse(
       {

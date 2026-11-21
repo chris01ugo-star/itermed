@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth-options";
 import { isPlatformAdminEmail } from "@/lib/auth/platform-admins";
 import { hasUnlimitedCaseAccess } from "@/lib/billing/unlimited-case-access";
-import { config } from "@/lib/config";
+import { config, isUsableDatabase } from "@/lib/config";
 import { getBetaEmailAllowlistFromEnv, isBetaAuthorized } from "@/lib/beta/access";
 import { ACCOUNT_DISABLED_CODE } from "@/lib/billing/simulation-entitlement";
 import { prisma } from "@/lib/prisma";
@@ -36,8 +36,49 @@ export function getDevMockUser(): SessionUser {
   return DEV_MOCK_USER;
 }
 
+const globalForDevMock = globalThis as { devMockUserEnsure?: Promise<void> };
+
+/**
+ * One-shot upsert so local CaseSession rows satisfy the user FK.
+ * No-op outside the dev bypass, or when the database URL is a placeholder.
+ */
+export function ensureDevMockUser(): Promise<void> {
+  if (!isDevAuthBypass()) return Promise.resolve();
+  if (!isUsableDatabase(config.DATABASE_URL)) return Promise.resolve();
+  if (!globalForDevMock.devMockUserEnsure) {
+    globalForDevMock.devMockUserEnsure = prisma.user
+      .upsert({
+        where: { id: DEV_MOCK_USER.id },
+        create: {
+          id: DEV_MOCK_USER.id,
+          email: DEV_MOCK_USER.email ?? "test@itermed.com",
+          name: DEV_MOCK_USER.name,
+          role: "ADMIN",
+          planType: "BETA_TESTER",
+          isActive: true,
+        },
+        update: {
+          role: "ADMIN",
+          planType: "BETA_TESTER",
+          isActive: true,
+          name: DEV_MOCK_USER.name,
+        },
+      })
+      .then(() => undefined)
+      .catch((error: unknown) => {
+        globalForDevMock.devMockUserEnsure = undefined;
+        console.warn(
+          "[dev-auth] mock user upsert skipped",
+          error instanceof Error ? error.message : error,
+        );
+      });
+  }
+  return globalForDevMock.devMockUserEnsure;
+}
+
 export async function requireAdmin(): Promise<SessionUser> {
   if (isDevAuthBypass()) {
+    await ensureDevMockUser();
     return getDevMockUser();
   }
 
@@ -61,6 +102,7 @@ export async function requireAdmin(): Promise<SessionUser> {
 /** Only Dario / Chris (hard-coded platform operators). */
 export async function requirePlatformAdmin(): Promise<SessionUser> {
   if (isDevAuthBypass()) {
+    await ensureDevMockUser();
     return getDevMockUser();
   }
 
@@ -73,6 +115,7 @@ export async function requirePlatformAdmin(): Promise<SessionUser> {
 
 export async function requireUser(): Promise<SessionUser> {
   if (isDevAuthBypass()) {
+    await ensureDevMockUser();
     return getDevMockUser();
   }
 

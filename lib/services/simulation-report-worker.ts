@@ -62,7 +62,6 @@ import {
   type SessionPrescription,
 } from "@/lib/simulator/prescription-trace";
 import { getCaseById } from "@/lib/data/cases/registry";
-import type { RagPillarTrace } from "@/lib/reports/pillar-radar";
 import {
   buildDocumentSearchQuery,
   evaluateTraceAgainstDocuments,
@@ -668,6 +667,42 @@ function applyKillerSwitchToEvaluation(
   };
 }
 
+/** A PROCESSING row with no progress write for this long may be claimed again. */
+export const REPORT_PROCESSING_STALE_MS = 4 * 60 * 1000;
+
+export function shouldResumeReportJob(
+  status: string,
+  updatedAt: Date | null | undefined,
+  now = Date.now(),
+): boolean {
+  if (status === "PENDING") return true;
+  if (status !== "PROCESSING" || !updatedAt) return false;
+  return now - updatedAt.getTime() > REPORT_PROCESSING_STALE_MS;
+}
+
+/**
+ * Atomically move PENDING (or a PROCESSING row stale for 4 minutes) to PROCESSING.
+ * Returns false when another worker owns the row, or it is already COMPLETED/FAILED.
+ */
+export async function claimSimulationReportJob(reportId: string): Promise<boolean> {
+  const staleBefore = new Date(Date.now() - REPORT_PROCESSING_STALE_MS);
+  const claimed = await prisma.sessionReport.updateMany({
+    where: {
+      id: reportId,
+      OR: [
+        { status: "PENDING" },
+        { status: "PROCESSING", updatedAt: { lt: staleBefore } },
+      ],
+    },
+    data: {
+      status: "PROCESSING",
+      progress: 15,
+      progressMessage: "Preparazione analisi caso...",
+    },
+  });
+  return claimed.count > 0;
+}
+
 export async function processSimulationReportJob(input: SimulationReportJobInput): Promise<void> {
   const log = createLogger("simulation-report-worker").child({
     reportId: input.reportId,
@@ -675,16 +710,16 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     userId: input.userId,
   });
   const jobStartedAt = Date.now();
+  let claimed = false;
 
   try {
-    await prisma.sessionReport.update({
-      where: { id: input.reportId },
-      data: {
-        status: "PROCESSING",
-        progress: 20,
-        progressMessage: "Preparazione analisi caso...",
-      },
-    });
+    claimed = await claimSimulationReportJob(input.reportId);
+    if (!claimed) {
+      log.info("Report claim skipped — row is active, completed, or failed", {
+        reportId: input.reportId,
+      });
+      return;
+    }
 
     const allowed = await userCanPlayCase(input.userId, input.caseId);
     if (!allowed) {
@@ -733,6 +768,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       .filter((tag): tag is string => Boolean(tag))
       .slice(0, 8);
 
+    const ragStartedAt = Date.now();
     const [guidelines, examCatalog] = await Promise.all([
       ragService.getRelevantGuidelines({
         finalDiagnosis: input.caseData?.title || clinicalCase?.title || input.finalDiagnosis,
@@ -746,6 +782,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       getExamValuesCatalog(),
     ]);
     const prefetchDurationMs = Date.now() - prefetchStartedAt;
+    const ragDurationMs = Date.now() - ragStartedAt;
 
     await prisma.sessionReport.update({
       where: { id: input.reportId },
@@ -763,6 +800,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
 
     log.info("Parallel prefetch completed", {
       prefetchDurationMs,
+      ragDurationMs,
       legalSource: guidelines?.legal?.source ?? "none",
       protocolSource: guidelines?.protocol?.source ?? "none",
       specialtyId: specialtyId ?? null,
@@ -775,12 +813,11 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     await prisma.sessionReport.update({
       where: { id: input.reportId },
       data: {
-        progress: 70,
-        progressMessage: "Generazione report...",
+        progress: 48,
+        progressMessage: "Preparazione del tracciato clinico...",
       },
     });
 
-    const evaluationStartedAt = Date.now();
     const sessionMilestones = input.liveSessionId
       ? await fetchSessionMilestones(input.liveSessionId)
       : [];
@@ -788,6 +825,12 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     const goldStandardPath = parseGoldStandardPath(clinicalCase?.goldStandardPath);
     const registeredCase = await getCaseById(input.caseId);
 
+    let sessionClock: {
+      elapsedMinutes: number;
+      createdAt: Date;
+      failedDiagnosisAttempts: number;
+      patientStress: number;
+    } | null = null;
     let sessionRequestedExamIds = asStringArray(input.requestedExamIds);
     let sessionPrescriptions: SessionPrescription[] = [];
     let trustedChatHistory: Array<{ role: "user" | "assistant"; content: string }> = [];
@@ -801,8 +844,13 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
             prescribedMedications: true,
             chatHistory: true,
             clinicalSummary: true,
+            elapsedMinutes: true,
+            createdAt: true,
+            failedDiagnosisAttempts: true,
+            patientStress: true,
           },
         });
+        sessionClock = liveSession;
         if (Array.isArray(liveSession?.requestedExamIds)) {
           sessionRequestedExamIds = [
             ...new Set([
@@ -860,29 +908,8 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       caseTitle: registeredCase?.title,
       caseContext: input.caseContext,
     });
-    let classifiedIntents: import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[] = [];
-    try {
-      classifiedIntents = await extractDoctorIntents({
-        chatHistory: chatHistoryForAudit,
-        patientProfile: relationalPatientProfile,
-      });
-      log.info("D-RIME intents extracted", {
-        turnCount: classifiedIntents.length,
-        intentCount: classifiedIntents.reduce((n, t) => n + t.intents.length, 0),
-      });
-    } catch (error) {
-      log.warn("D-RIME intent extraction failed — FSM will use lexical fallback", {
-        error: error instanceof Error ? error.message : String(error),
-      });
-    }
-
     const completedAt = new Date();
-    const liveSession = input.liveSessionId
-      ? await prisma.caseSession.findUnique({
-          where: { id: input.liveSessionId },
-          select: { elapsedMinutes: true, createdAt: true, failedDiagnosisAttempts: true, patientStress: true },
-        })
-      : null;
+    const liveSession = sessionClock;
     const simulationElapsedMinutes =
       liveSession && liveSession.elapsedMinutes > 0
         ? liveSession.elapsedMinutes
@@ -901,34 +928,236 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       });
     }
 
-    const evaluation = await evaluationService.evaluateSimulation({
+    const examActions = (Array.isArray(input.exams) ? input.exams : []).map((exam) => ({
+      id: exam.id,
+      type: "ACTION" as const,
+      name: exam.name,
+    }));
+    const legalChunksForAudit = mapLegalChunksForAudit(guidelines.legal?.chunks);
+    const simulationLog = {
       chatHistory: chatHistoryForAudit,
-      exams: Array.isArray(input.exams) ? input.exams : [],
-      reportText: writtenReport.payload,
-      caseId: input.caseId,
-      caseTitle: registeredCase?.title,
-      caseContext: input.caseContext,
-      finalDiagnosis: input.finalDiagnosis,
-      guidelines,
-      difficulty: caseDifficulty,
-      specialty: specialtyName,
-      examBudgetEuro,
-      baselineExamFindings: clinicalCase?.baselineExamFindings ?? {},
+      requestedExams: Array.isArray(input.exams) ? input.exams : [],
+      performedActions: withInformedConsentAction(examActions, consentCollected),
+      ...(sessionClinicalSummary ? { clinicalSummary: sessionClinicalSummary } : {}),
+      ...(input.finalDiagnosis ? { finalDiagnosis: input.finalDiagnosis } : {}),
+    };
+    const referenceGuidelines = resolveReferenceGuidelines({
+      referenceGuidelines: registeredCase?.referenceGuidelines,
+      ragSourceRefs: registeredCase?.legalConformity?.ragReferences?.map(
+        (reference) => reference.sourceRef,
+      ),
+      specialty: registeredCase?.specialty ?? specialtyName,
+    });
+    const goldPathExams = buildGoldPathExamsForAudit({
+      registeredCase,
+      goldStandardPath,
       examCatalog: examCatalog ?? {},
-      goldStandardPath: goldStandardPath.length > 0 ? goldStandardPath : undefined,
-      sessionMilestones: Array.isArray(sessionMilestones) ? sessionMilestones : [],
+    });
+    const requestedExamsForAudit = buildRequestedExamsForAudit({
+      exams: Array.isArray(input.exams) ? input.exams : [],
+      requestedExamIds: sessionRequestedExamIds,
+      goldPathExams,
+      examCatalog: examCatalog ?? {},
+    });
+    const economicGuidelineChunks = [
+      ...mapProtocolChunksForEconomicAudit(guidelines.economic?.chunks),
+      ...mapProtocolChunksForEconomicAudit(guidelines.protocol?.chunks),
+    ];
+    const clinicalContext = [
+      registeredCase?.title ? `Caso: ${registeredCase.title}` : null,
+      specialtyName ? `Specialità: ${specialtyName}` : null,
+      input.caseContext?.trim() || null,
+      input.finalDiagnosis?.trim() ? `Diagnosi finale: ${input.finalDiagnosis.trim()}` : null,
+      input.normalizedReportText?.trim()
+        ? `Referto:\n${input.normalizedReportText.trim().slice(0, 2500)}`
+        : null,
+    ]
+      .filter(Boolean)
+      .join("\n\n");
+    const clinicalGuidelineChunks = economicGuidelineChunks;
+    const clinicalAuditInputs = buildClinicalAuditInputs({
+      registeredCase,
+      goldStandardPath,
+      finalDiagnosis: input.finalDiagnosis,
+      reportText: input.normalizedReportText,
       executedActionIds,
       requestedExamIds: sessionRequestedExamIds,
-      prescribedMedications: sessionPrescriptions,
-      helpRequested,
-      helpRequestCount,
-      classifiedIntents,
-      elapsedMinutes: simulationElapsedMinutes,
-      timeLimitMinutes: registeredCase?.timeLimitMinutes,
-      failedDiagnosisAttempts: liveSession?.failedDiagnosisAttempts ?? 0,
-      finalPatientStress: liveSession?.patientStress ?? null,
+      exams: Array.isArray(input.exams) ? input.exams : [],
+      prismaCorrectSolution: clinicalCase?.correctSolution,
     });
-    const evaluationDurationMs = Date.now() - evaluationStartedAt;
+    const clientChat = Array.isArray(input.evaluationChatHistory)
+      ? input.evaluationChatHistory.filter(
+          (turn) =>
+            (turn.role === "user" || turn.role === "assistant") &&
+            typeof turn.content === "string" &&
+            turn.content.trim().length > 0,
+        )
+      : [];
+    const traceChat = clientChat.length > 0 ? clientChat : chatHistoryForAudit;
+    const traceOptions: SelectedReportOption[] =
+      Array.isArray(input.selectedOptions) && input.selectedOptions.length > 0
+        ? input.selectedOptions
+        : (Array.isArray(input.exams) ? input.exams : []).map((exam) => ({
+            id: exam.id,
+            label: exam.name,
+          }));
+    const traceCase: ReportCaseData = {
+      id: input.caseData?.id || input.caseId,
+      title: input.caseData?.title || clinicalCase?.title || registeredCase?.title,
+      specialty: input.caseData?.specialty || specialtyName || registeredCase?.specialty || undefined,
+      description: input.caseData?.description || clinicalCase?.description || registeredCase?.description,
+      patientPrompt: input.caseData?.patientPrompt || input.caseContext,
+      difficulty: input.caseData?.difficulty || clinicalCase?.difficulty,
+    };
+
+    let completedBranches = 0;
+    let progressWrite: Promise<void> = Promise.resolve();
+    const noteBranch = (message: string) => {
+      completedBranches += 1;
+      const progress = Math.min(94, 58 + completedBranches * 6);
+      const branch = message;
+      progressWrite = progressWrite
+        .then(() =>
+          prisma.sessionReport.update({
+            where: { id: input.reportId },
+            data: { progress, progressMessage: branch },
+          }),
+        )
+        .then(() => undefined)
+        .catch((error: unknown) => {
+          log.warn("Progress update failed", { error, message: branch });
+        });
+    };
+
+    await prisma.sessionReport.update({
+      where: { id: input.reportId },
+      data: {
+        progress: 58,
+        progressMessage: "Analisi clinica, legale ed economica in parallelo...",
+      },
+    });
+
+    const classifiedIntentsPromise = extractDoctorIntents({
+      chatHistory: chatHistoryForAudit,
+      patientProfile: relationalPatientProfile,
+    })
+      .then((turns) => {
+        log.info("D-RIME intents extracted", {
+          turnCount: turns.length,
+          intentCount: turns.reduce((n, turn) => n + turn.intents.length, 0),
+        });
+        noteBranch("Intenti del medico classificati...");
+        return turns;
+      })
+      .catch((error: unknown) => {
+        log.warn("D-RIME intent extraction failed — FSM will use lexical fallback", {
+          error: error instanceof Error ? error.message : String(error),
+        });
+        noteBranch("Intenti del medico non disponibili, proseguo...");
+        return [] as import("@/lib/reports/d-rime-engine").ClassifiedDoctorTurn[];
+      });
+
+    const llmBatchStartedAt = Date.now();
+    const [
+      classifiedIntents,
+      evaluation,
+      legalAuditResult,
+      economicAuditResult,
+      clinicalAuditResult,
+      ragPillars,
+    ] = await Promise.all([
+      classifiedIntentsPromise,
+      evaluationService
+        .evaluateSimulation({
+          chatHistory: chatHistoryForAudit,
+          exams: Array.isArray(input.exams) ? input.exams : [],
+          reportText: writtenReport.payload,
+          caseId: input.caseId,
+          caseTitle: registeredCase?.title,
+          caseContext: input.caseContext,
+          finalDiagnosis: input.finalDiagnosis,
+          guidelines,
+          difficulty: caseDifficulty,
+          specialty: specialtyName,
+          examBudgetEuro,
+          baselineExamFindings: clinicalCase?.baselineExamFindings ?? {},
+          examCatalog: examCatalog ?? {},
+          goldStandardPath: goldStandardPath.length > 0 ? goldStandardPath : undefined,
+          sessionMilestones: Array.isArray(sessionMilestones) ? sessionMilestones : [],
+          executedActionIds,
+          requestedExamIds: sessionRequestedExamIds,
+          prescribedMedications: sessionPrescriptions,
+          helpRequested,
+          helpRequestCount,
+          classifiedIntentsPromise,
+          elapsedMinutes: simulationElapsedMinutes,
+          timeLimitMinutes: registeredCase?.timeLimitMinutes,
+          failedDiagnosisAttempts: liveSession?.failedDiagnosisAttempts ?? 0,
+          finalPatientStress: liveSession?.patientStress ?? null,
+        })
+        .then((result) => {
+          noteBranch("Valutazione analitica completata...");
+          return result;
+        }),
+      safeRunLegalAudit({
+        simulationLog,
+        legalChunks: legalChunksForAudit,
+        referenceGuidelines,
+        log,
+      }).then((result) => {
+        noteBranch("Audit medico-legale completato...");
+        return result;
+      }),
+      safeRunEconomicAudit({
+        requestedExams: requestedExamsForAudit,
+        goldPathExams,
+        clinicalContext: clinicalContext || "Contesto clinico non disponibile.",
+        economicGuidelineChunks,
+        log,
+      }).then((result) => {
+        noteBranch("Audit economico completato...");
+        return result;
+      }),
+      safeRunClinicalAudit({
+        ...clinicalAuditInputs,
+        elapsedMinutes:
+          typeof simulationElapsedMinutes === "number" && simulationElapsedMinutes > 0
+            ? simulationElapsedMinutes
+            : 0,
+        clinicalGuidelineChunks,
+        log,
+      }).then((result) => {
+        noteBranch("Audit clinico completato...");
+        return result;
+      }),
+      evaluateTraceAgainstDocuments({
+        caseData: traceCase,
+        selectedOptions: traceOptions,
+        chatHistory: traceChat,
+        exams: Array.isArray(input.exams) ? input.exams : [],
+        reportText: input.normalizedReportText,
+        guidelines,
+        specialty: traceCase.specialty,
+        caseId: traceCase.id,
+      })
+        .then((result) => {
+          noteBranch("Valutazione sui documenti completata...");
+          return result;
+        })
+        .catch((error: unknown) => {
+          log.warn("RAG pillar evaluation failed — keeping prior dimension scores", {
+            error: error instanceof Error ? error.message : String(error),
+          });
+          noteBranch("Valutazione sui documenti non disponibile...");
+          return null;
+        }),
+    ]);
+    const evaluationDurationMs = Date.now() - llmBatchStartedAt;
+    await progressWrite;
+    log.info("Parallel LLM batch completed", {
+      llmBatchDurationMs: evaluationDurationMs,
+      ragDurationMs,
+    });
 
     // --- Killer-Switch (deterministic, post-AI) ---
     const {
@@ -977,49 +1206,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       cap: KILLER_SWITCH_CAP,
     });
 
-    await prisma.sessionReport.update({
-      where: { id: input.reportId },
-      data: {
-        progress: 85,
-        progressMessage: "Audit medico-legale (Gelli-Bianco)...",
-      },
-    });
-
-    // Legal RAG chunks already filtered at SIMILARITY_THRESHOLD_LEGAL (0.70) in rag-service.
-    let legalAuditResult: LegalAuditResult;
-    let legalChunks: ReturnType<typeof mapLegalChunksForAudit> = [];
-    try {
-      legalChunks = mapLegalChunksForAudit(guidelines.legal?.chunks);
-      const examActions = (Array.isArray(input.exams) ? input.exams : []).map((exam) => ({
-        id: exam.id,
-        type: "ACTION" as const,
-        name: exam.name,
-      }));
-      const simulationLog = {
-        chatHistory: chatHistoryForAudit,
-        requestedExams: Array.isArray(input.exams) ? input.exams : [],
-        performedActions: withInformedConsentAction(examActions, consentCollected),
-        ...(sessionClinicalSummary ? { clinicalSummary: sessionClinicalSummary } : {}),
-        ...(input.finalDiagnosis ? { finalDiagnosis: input.finalDiagnosis } : {}),
-      };
-      legalAuditResult = await safeRunLegalAudit({
-        simulationLog,
-        legalChunks,
-        referenceGuidelines: resolveReferenceGuidelines({
-          referenceGuidelines: registeredCase?.referenceGuidelines,
-          ragSourceRefs: registeredCase?.legalConformity?.ragReferences?.map(
-            (reference) => reference.sourceRef,
-          ),
-          specialty: registeredCase?.specialty ?? specialtyName,
-        }),
-        log,
-      });
-    } catch (error) {
-      log.warn("Legal audit block failed — continuing report with technical fallback", {
-        error: error instanceof Error ? error.message : String(error),
-      });
-      legalAuditResult = createLegalAuditTechnicalFallback();
-    }
+    const legalChunks = legalChunksForAudit;
 
     if (legalAuditResult.status === "EVALUATED" && legalAuditResult.overallVerdict !== "NOT_EVALUABLE") {
       scoresForGrade = sanitizeDimensionScores({
@@ -1050,55 +1237,6 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       retrievalSource: guidelines.legal?.source ?? "none",
     });
 
-    await prisma.sessionReport.update({
-      where: { id: input.reportId },
-      data: {
-        progress: 88,
-        progressMessage: "Audit appropriatezza prescrittiva / economia SSN...",
-      },
-    });
-
-    const goldPathExams = buildGoldPathExamsForAudit({
-      registeredCase,
-      goldStandardPath,
-      examCatalog: examCatalog ?? {},
-    });
-    const requestedExamsForAudit = buildRequestedExamsForAudit({
-      exams: Array.isArray(evaluation.resolvedExams) && evaluation.resolvedExams.length > 0
-        ? evaluation.resolvedExams
-        : Array.isArray(input.exams)
-          ? input.exams
-          : [],
-      requestedExamIds: sessionRequestedExamIds,
-      goldPathExams,
-      examCatalog: examCatalog ?? {},
-    });
-    const economicGuidelineChunks = [
-      ...mapProtocolChunksForEconomicAudit(guidelines.economic?.chunks),
-      ...mapProtocolChunksForEconomicAudit(guidelines.protocol?.chunks),
-    ];
-    const clinicalContext = [
-      registeredCase?.title ? `Caso: ${registeredCase.title}` : null,
-      specialtyName ? `Specialità: ${specialtyName}` : null,
-      input.caseContext?.trim() || null,
-      input.finalDiagnosis?.trim()
-        ? `Diagnosi finale: ${input.finalDiagnosis.trim()}`
-        : null,
-      input.normalizedReportText?.trim()
-        ? `Referto:\n${input.normalizedReportText.trim().slice(0, 2500)}`
-        : null,
-    ]
-      .filter(Boolean)
-      .join("\n\n");
-
-    const economicAuditResult = await safeRunEconomicAudit({
-      requestedExams: requestedExamsForAudit,
-      goldPathExams,
-      clinicalContext: clinicalContext || "Contesto clinico non disponibile.",
-      economicGuidelineChunks,
-      log,
-    });
-
     log.info("Economic audit completed", {
       status: economicAuditResult.status,
       overallVerdict: economicAuditResult.overallVerdict,
@@ -1108,36 +1246,6 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       protocolChunkCount: economicGuidelineChunks.length,
       totalSpentEuro: economicAuditResult.financialSummary.totalSpentEuro,
       idealCostEuro: economicAuditResult.financialSummary.idealCostEuro,
-    });
-
-    await prisma.sessionReport.update({
-      where: { id: input.reportId },
-      data: {
-        progress: 92,
-        progressMessage: "Audit accuratezza diagnostico-terapeutica...",
-      },
-    });
-
-    // Protocol RAG chunks already filtered at SIMILARITY_THRESHOLD_PROTOCOL (0.35).
-    const clinicalGuidelineChunks = economicGuidelineChunks;
-    const clinicalAuditInputs = buildClinicalAuditInputs({
-      registeredCase,
-      goldStandardPath,
-      finalDiagnosis: input.finalDiagnosis,
-      reportText: input.normalizedReportText,
-      executedActionIds,
-      requestedExamIds: sessionRequestedExamIds,
-      exams: Array.isArray(input.exams) ? input.exams : [],
-      prismaCorrectSolution: clinicalCase?.correctSolution,
-    });
-    const clinicalAuditResult = await safeRunClinicalAudit({
-      ...clinicalAuditInputs,
-      elapsedMinutes:
-        typeof simulationElapsedMinutes === "number" && simulationElapsedMinutes > 0
-          ? simulationElapsedMinutes
-          : 0,
-      clinicalGuidelineChunks,
-      log,
     });
 
     log.info("Clinical audit completed", {
@@ -1182,14 +1290,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       };
     }
 
-    await prisma.sessionReport.update({
-      where: { id: input.reportId },
-      data: {
-        progress: 94,
-        progressMessage: "Audit relazionale (RIAS / CARE / SPIKES)...",
-      },
-    });
-
+    const relationalStartedAt = Date.now();
     const chatHistory = chatHistoryForAudit;
     const patientProfile = relationalPatientProfile;
     const relationalAuditResult = await safeRunRelationalAudit({
@@ -1203,6 +1304,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     });
 
     log.info("Relational audit completed", {
+      relationalDurationMs: Date.now() - relationalStartedAt,
       status: relationalAuditResult.status,
       overallVerdict: relationalAuditResult.overallVerdict,
       careEmpathyScore: relationalAuditResult.careEmpathyScore,
@@ -1210,51 +1312,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       isBadNewsCase: Boolean(patientProfile.isBadNewsCase),
     });
 
-    await prisma.sessionReport.update({
-      where: { id: input.reportId },
-      data: {
-        progress: 95,
-        progressMessage: "Valutazione sui documenti ufficiali...",
-      },
-    });
-
-    const clientChat = Array.isArray(input.evaluationChatHistory)
-      ? input.evaluationChatHistory.filter(
-          (turn) =>
-            (turn.role === "user" || turn.role === "assistant") &&
-            typeof turn.content === "string" &&
-            turn.content.trim().length > 0,
-        )
-      : [];
-    const traceChat = clientChat.length > 0 ? clientChat : chatHistoryForAudit;
-    const traceOptions: SelectedReportOption[] =
-      Array.isArray(input.selectedOptions) && input.selectedOptions.length > 0
-        ? input.selectedOptions
-        : (Array.isArray(input.exams) ? input.exams : []).map((exam) => ({
-            id: exam.id,
-            label: exam.name,
-          }));
-    const traceCase: ReportCaseData = {
-      id: input.caseData?.id || input.caseId,
-      title: input.caseData?.title || clinicalCase?.title || registeredCase?.title,
-      specialty: input.caseData?.specialty || specialtyName || registeredCase?.specialty || undefined,
-      description: input.caseData?.description || clinicalCase?.description || registeredCase?.description,
-      patientPrompt: input.caseData?.patientPrompt || input.caseContext,
-      difficulty: input.caseData?.difficulty || clinicalCase?.difficulty,
-    };
-
-    let ragPillars: RagPillarTrace | null = null;
-    try {
-      ragPillars = await evaluateTraceAgainstDocuments({
-        caseData: traceCase,
-        selectedOptions: traceOptions,
-        chatHistory: traceChat,
-        exams: Array.isArray(input.exams) ? input.exams : [],
-        reportText: input.normalizedReportText,
-        guidelines,
-        specialty: traceCase.specialty,
-        caseId: traceCase.id,
-      });
+    if (ragPillars) {
       scoresForGrade = sanitizeDimensionScores({
         clinical: ragPillars.clinica.score,
         legal: ragPillars.legale.score,
@@ -1289,10 +1347,6 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
           empathyNote: ragPillars.empatia.feedback,
         },
       };
-    } catch (error) {
-      log.warn("RAG pillar evaluation failed — keeping prior dimension scores", {
-        error: error instanceof Error ? error.message : String(error),
-      });
     }
 
     await prisma.sessionReport.update({
@@ -1406,6 +1460,8 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       blockingFailCount: blockingFails.length,
       fatalErrorCount: fatalErrors.length,
       prefetchDurationMs,
+      ragDurationMs,
+      llmBatchDurationMs: evaluationDurationMs,
       evaluationDurationMs,
       persistDurationMs,
       totalDurationMs: Date.now() - jobStartedAt,
@@ -1425,9 +1481,11 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       durationMs: Date.now() - jobStartedAt,
     });
 
+    if (!claimed) return;
+
     await prisma.sessionReport
-      .update({
-        where: { id: input.reportId },
+      .updateMany({
+        where: { id: input.reportId, status: "PROCESSING" },
         data: {
           status: "FAILED",
           progressMessage: "Errore durante la generazione.",

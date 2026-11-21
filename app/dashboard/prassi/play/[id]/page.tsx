@@ -25,7 +25,7 @@ type PlayPageProps = {
   searchParams?: Promise<{ sessionId?: string }> | { sessionId?: string };
 };
 
-const DB_LOOKUP_TIMEOUT_MS = 1_200;
+const DB_LOOKUP_TIMEOUT_MS = 6_000;
 
 function withTimeout<T>(promise: Promise<T>, ms: number, label: string): Promise<T> {
   return new Promise<T>((resolve, reject) => {
@@ -184,10 +184,10 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
       if (offline) return offline;
 
       try {
-        await withTimeout(ensureRegisteredCaseInDb(rawId, userId), 1_200, "ensureRegisteredCaseInDb");
+        await withTimeout(ensureRegisteredCaseInDb(rawId, userId), DB_LOOKUP_TIMEOUT_MS, "ensureRegisteredCaseInDb");
         caseData = await withTimeout(
           findClinicalCaseForSimulation(rawId),
-          1_200,
+          DB_LOOKUP_TIMEOUT_MS,
           "clinicalCase.findFirst.retry",
         );
       } catch {

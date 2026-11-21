@@ -2,6 +2,7 @@ import { z } from "zod";
 import { generateObject } from "ai";
 import { MODEL_GPT_61_SOL, openAIObjectCall } from "@/lib/ai/models";
 import { asOpenAIStrictSchema } from "@/lib/ai/strict-schema";
+import { formatAuditChatTranscript } from "@/lib/services/audit-chat-transcript";
 
 export const LegalFaultCategorySchema = z.enum([
   "OTTIMALE",
@@ -337,6 +338,7 @@ export async function runLegalAudit(params: {
     .join("\n---\n");
 
   const dischargeNote = params.simulationLog.clinicalSummary?.trim() ?? "";
+  const chatTranscript = formatAuditChatTranscript(params.simulationLog.chatHistory);
   const guidelinesBlock = referenceGuidelines.map((line) => `- ${line}`).join("\n");
   const userPrompt = `
 Compila comparativeAnalysis (almeno 4 righe se il log lo consente) con faultCategory e temporalRelevance, executiveSummary (2–3 frasi), cognitiveBiases (errori cognitivi rilevati, max 5), guidelineCitations e complianceScore partendo da 100 con le penalità CTU. Analizza l'ordine temporale del log.
@@ -350,9 +352,21 @@ ${guidelinesBlock}
 ${dischargeNote || "(non compilata)"}
 <<<END_RELAZIONE_DI_DIMISSIONE>>>
 
-<<<SIMULATION_LOG>>>
-${JSON.stringify(params.simulationLog, null, 2)}
-<<<END_SIMULATION_LOG>>>
+<<<CHAT_HISTORY>>>
+${chatTranscript}
+<<<END_CHAT_HISTORY>>>
+
+<<<REQUESTED_EXAMS>>>
+${JSON.stringify(params.simulationLog.requestedExams ?? [])}
+<<<END_REQUESTED_EXAMS>>>
+
+<<<PERFORMED_ACTIONS>>>
+${JSON.stringify(params.simulationLog.performedActions ?? [])}
+<<<END_PERFORMED_ACTIONS>>>
+
+<<<FINAL_DIAGNOSIS>>>
+${params.simulationLog.finalDiagnosis ?? ""}
+<<<END_FINAL_DIAGNOSIS>>>
 
 <<<LEGAL_CORPUS>>>
 ${legalCorpusFormatted}

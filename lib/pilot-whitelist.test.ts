@@ -58,14 +58,14 @@ describe("isBetaAuthorized", () => {
     );
   });
 
-  it("does not authorize a BETA_TESTER plan that is off the whitelist", () => {
+  it("authorizes a BETA_TESTER plan set by an admin even off the whitelist", () => {
     assert.equal(
       isBetaAuthorized({
         role: "STUDENT",
         planType: "BETA_TESTER",
         email: "random.student@unito.it",
       }),
-      false,
+      true,
     );
   });
 

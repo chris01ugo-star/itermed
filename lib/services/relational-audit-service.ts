@@ -2,6 +2,7 @@ import { z } from "zod";
 import { generateObject } from "ai";
 import { MODEL_GPT_6_LUNA, openAIObjectCall } from "@/lib/ai/models";
 import { asOpenAIStrictSchema } from "@/lib/ai/strict-schema";
+import { formatAuditChatTranscript } from "@/lib/services/audit-chat-transcript";
 import type { PatientProfile } from "@/lib/data/cases/types";
 import {
   classifyDoctorIntentLexical,
@@ -423,10 +424,10 @@ ${JSON.stringify(params.patientProfile || {}, null, 2)}
 <<<END_PATIENT_PROFILE>>>
 
 <<<CHAT_HISTORY>>>
-${JSON.stringify(params.chatHistory, null, 2)}
+${formatAuditChatTranscript(params.chatHistory)}
 <<<END_CHAT_HISTORY>>>
 
-Classifica ogni turno del medico (role=user) in ordine (turnIndex 0-based sui soli turni medico).
+Classifica ogni riga [MEDICO] in ordine (turnIndex 0-based sui soli turni medico).
 NON restituire Trust, Anxiety, Defensiveness, né alcun punteggio CARE/RIAS/SPIKES.
 `;
 

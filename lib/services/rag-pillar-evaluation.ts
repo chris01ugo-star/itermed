@@ -7,6 +7,7 @@ import { createLogger } from "@/lib/logger";
 import type { RagPillarTrace } from "@/lib/reports/pillar-radar";
 import { isLabEvaluationCase } from "@/lib/reports/lab-evaluation-labels";
 import type { RelevantGuidelines } from "@/lib/services/rag-service";
+import { formatAuditChatTranscript } from "@/lib/services/audit-chat-transcript";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { fenceContext, truncateForLlmContext } from "@/lib/security/prompt-context";
 
@@ -140,10 +141,12 @@ function buildUserPrompt(input: {
     label: sanitizeForExternalAI(option.label).slice(0, 400),
     ...(option.nodeId ? { nodeId: option.nodeId.slice(0, 200) } : {}),
   }));
-  const chat = input.chatHistory.slice(-48).map((turn) => ({
-    role: turn.role,
-    content: sanitizeForExternalAI(turn.content).slice(0, 1500),
-  }));
+  const chat = formatAuditChatTranscript(
+    input.chatHistory.slice(-48).map((turn) => ({
+      role: turn.role,
+      content: sanitizeForExternalAI(turn.content).slice(0, 1500),
+    })),
+  );
   const exams = input.exams.slice(0, 40).map((exam) => ({
     id: exam.id.slice(0, 120),
     name: sanitizeForExternalAI(exam.name).slice(0, 200),
@@ -154,7 +157,7 @@ function buildUserPrompt(input: {
     "Valuta il tracciato seguente. Restituisci solo i 4 pilastri (clinica, economia, legale, empatia), ciascuno con score 0-100 e feedback analitico citando l'azione dell'utente e il documento nel contesto.",
     fenceContext("CASE_DATA", JSON.stringify(casePayload)),
     fenceContext("SELECTED_OPTIONS", JSON.stringify(options)),
-    fenceContext("CHAT_HISTORY", JSON.stringify(chat)),
+    fenceContext("CHAT_HISTORY", chat),
     fenceContext("EXAMS", JSON.stringify(exams)),
     fenceContext(
       "REPORT_TEXT",

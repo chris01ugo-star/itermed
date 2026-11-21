@@ -1,4 +1,4 @@
-import { getDevMockUser, isDevAuthBypass } from "./require-user";
+import { ensureDevMockUser, getDevMockUser, isDevAuthBypass } from "./require-user";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./auth-options";
 
@@ -36,6 +36,7 @@ export async function getSessionUserId(): Promise<string | null> {
 export async function getSessionUser(): Promise<ApiSessionUser | null> {
   if (isDevAuthBypass()) {
     const mock = getDevMockUser();
+    await ensureDevMockUser();
     return { id: mock.id, role: mock.role, email: mock.email };
   }
 

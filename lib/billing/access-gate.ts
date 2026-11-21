@@ -4,10 +4,10 @@ import {
   isSubscriptionPlan,
 } from "@/lib/billing/plans";
 import type { UserBillingProfile } from "@/lib/billing/user-billing";
+import { getBetaEmailAllowlistFromEnv, isBetaAuthorized } from "@/lib/beta/access";
 import {
   hasUnlimitedCaseAccess,
   hasActiveSponsoredCaseGrant,
-  isSponsoredFreeCaseEmail,
 } from "@/lib/billing/unlimited-case-access";
 import { canHonorDailyLimitBypass } from "@/lib/security/dev-only-gates";
 import { PATIENT_MAX_TURNS } from "@/lib/simulator/chat-context-window";
@@ -18,7 +18,6 @@ import {
   resolveSimulationEntitlement,
 } from "@/lib/billing/simulation-entitlement";
 import {
-  isPilotAllowedEmail,
   PILOT_ACCESS_DENIED_MESSAGE,
   PILOT_CAP_CODE,
   UNAUTHORIZED_PILOT_EMAIL_CODE,
@@ -137,12 +136,15 @@ export function assertCanStartSimulation(
     return { allowed: true };
   }
 
-  const email = profile.email;
-  const sponsored = isSponsoredFreeCaseEmail(email);
   const hasAdminGrant = entitlement.source === "override";
-  const invited = (profile.planType ?? "").trim().toUpperCase() === "INVITED";
+  const betaAuthorized = isBetaAuthorized({
+    role: profile.role,
+    planType: profile.planType,
+    email: profile.email,
+    allowlist: getBetaEmailAllowlistFromEnv(),
+  });
 
-  if (!sponsored && !isPilotAllowedEmail(email) && !hasAdminGrant && !invited) {
+  if (!hasAdminGrant && !betaAuthorized) {
     return {
       allowed: false,
       code: UNAUTHORIZED_PILOT_EMAIL_CODE,

@@ -212,7 +212,7 @@ export async function POST(req: Request) {
     await Promise.race([
       ensureRegisteredCaseInDb(rawCaseId, userId),
       new Promise<never>((_, reject) => {
-        setTimeout(() => reject(new Error("ensureRegisteredCaseInDb timed out after 1500ms")), 1_500);
+        setTimeout(() => reject(new Error("ensureRegisteredCaseInDb timed out after 6000ms")), 6_000);
       }),
     ]);
   } catch {
@@ -233,7 +233,7 @@ export async function POST(req: Request) {
     clinicalCase = await Promise.race([
       findClinicalCaseForSimulation(rawCaseId),
       new Promise<null>((_, reject) => {
-        setTimeout(() => reject(new Error("clinicalCase.findUnique timed out after 1500ms")), 1_500);
+        setTimeout(() => reject(new Error("clinicalCase.findUnique timed out after 6000ms")), 6_000);
       }),
     ]);
   } catch {

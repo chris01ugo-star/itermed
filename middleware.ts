@@ -2,7 +2,11 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { getBetaEmailAllowlistFromEnv, isBetaAuthorized } from "@/lib/beta/access";
-import { enforceRateLimit } from "@/lib/security/rate-limit";
+import {
+  EDGE_API_IP_LIMIT_PER_MINUTE,
+  EDGE_REPORT_STATUS_LIMIT_PER_MINUTE,
+  enforceRateLimit,
+} from "@/lib/security/rate-limit";
 
 /**
  * Same rule as `requireUser` / the login page: in development the bypass is on
@@ -14,8 +18,14 @@ function isDevAuthBypassEnabled(): boolean {
   return process.env.DEV_AUTH_BYPASS !== "false";
 }
 
-/** Global Edge cap: 20 requests / minute / client IP for every `/api/*` route. */
-const API_IP_RATE_LIMIT = 20;
+/** Global Edge cap per client IP. AI routes keep tighter per-user limits. */
+const API_IP_RATE_LIMIT = EDGE_API_IP_LIMIT_PER_MINUTE;
+
+/**
+ * Status polling is an authenticated read. Own bucket so it does not share
+ * the general API budget with chat, exams, and report generation.
+ */
+const REPORT_STATUS_RATE_LIMIT = EDGE_REPORT_STATUS_LIMIT_PER_MINUTE;
 
 /** Sign-in UI and NextAuth handlers must never be redirected to themselves. */
 function isPublicAuthPath(pathname: string): boolean {
@@ -36,18 +46,27 @@ function isProtectedPath(pathname: string): boolean {
   );
 }
 
+function isReportStatusPoll(pathname: string): boolean {
+  return (
+    pathname === "/api/simulation/report/status" ||
+    pathname.startsWith("/api/simulation/report/status/")
+  );
+}
+
 /**
- * Blocks `/api/*` at the Edge (before Node/OpenAI) when an IP exceeds 20 req/min.
+ * Blocks `/api/*` at the Edge (before Node/OpenAI) when an IP exceeds the cap.
  * Identifier is IP-only — `userId` is omitted so spam cannot share another user's quota.
+ * Report-status polls use a dedicated bucket and do not consume the general one.
  */
 async function enforceApiIpRateLimit(req: NextRequest): Promise<NextResponse | Response | null> {
   if (!req.nextUrl.pathname.startsWith("/api/")) {
     return null;
   }
 
+  const statusPoll = isReportStatusPoll(req.nextUrl.pathname);
   const limited = await enforceRateLimit(req, {
-    namespace: "edge-api-ip",
-    limit: API_IP_RATE_LIMIT,
+    namespace: statusPoll ? "edge-api-report-status" : "edge-api-ip",
+    limit: statusPoll ? REPORT_STATUS_RATE_LIMIT : API_IP_RATE_LIMIT,
   });
 
   if (!limited) return null;

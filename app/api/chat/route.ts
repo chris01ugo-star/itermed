@@ -1,5 +1,10 @@
+import { after } from "next/server";
 import { getSessionUserId, unauthorizedJson } from "@/lib/api-session";
-import { assertUserCanPlayCase, authorizeSimulationAction } from "@/lib/access";
+import {
+  accessFromLoadedSession,
+  assertUserCanPlayCase,
+  userCanPlayCase,
+} from "@/lib/access";
 import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
 import {
   assertAllowedChatModel,
@@ -23,9 +28,14 @@ import { AI_RATE_LIMITS, CHAT_MESSAGES_PER_MINUTE } from "@/lib/security/ai-rate
 import { applyPatientChatWindow } from "@/lib/simulator/chat-context-window";
 import { extractPatientPromptFromNode, usablePatientPrompt } from "@/lib/cases/case-payload";
 import { buildPatientSimulatorCaseInput } from "@/lib/simulator/patientCaseContext";
-import { generatePatientResponse } from "@/lib/simulator/generatePatientResponse";
+import {
+  generatePatientResponse,
+  logOpenAIStreamError,
+} from "@/lib/simulator/generatePatientResponse";
 import { getCaseById } from "@/lib/data/cases/registry";
 import type { ClinicalCase, PatientProfile } from "@/lib/data/cases/types";
+import { flattenCatalogExams } from "@/lib/exam-catalog-structure";
+import { isDevAuthBypass } from "@/lib/require-user";
 import { persistChatTurn } from "@/lib/simulator/persist-chat-turn";
 import { resolveCaseStressProfile } from "@/lib/simulator/patient-stress-engine";
 import { isPrescriptionTrace } from "@/lib/simulator/prescription-trace";
@@ -146,12 +156,20 @@ function richFieldsFromCase(disk: ClinicalCase | undefined): Pick<
   };
 }
 
-async function loadServerRoleplayScript(caseId: string): Promise<string> {
-  try {
-    const fromFile = usablePatientPrompt((await getCaseById(caseId))?.patientPrompt);
+async function loadServerRoleplayScript(
+  caseId: string,
+  preloadedDisk?: ClinicalCase | null,
+): Promise<string> {
+  if (preloadedDisk !== undefined) {
+    const fromFile = usablePatientPrompt(preloadedDisk?.patientPrompt);
     if (fromFile) return fromFile;
-  } catch (err) {
-    chatLogger.warn("Roleplay script file lookup failed", { caseId, err });
+  } else {
+    try {
+      const fromFile = usablePatientPrompt((await getCaseById(caseId))?.patientPrompt);
+      if (fromFile) return fromFile;
+    } catch (err) {
+      chatLogger.warn("Roleplay script file lookup failed", { caseId, err });
+    }
   }
 
   try {
@@ -176,6 +194,8 @@ async function loadServerRoleplayScript(caseId: string): Promise<string> {
   } catch (err) {
     chatLogger.warn("Roleplay script DB lookup failed; trying case file", { caseId, err });
   }
+
+  if (preloadedDisk !== undefined) return "";
 
   try {
     const fromFile = usablePatientPrompt((await getCaseById(caseId))?.patientPrompt);
@@ -203,13 +223,17 @@ function chatCaseFromDisk(disk: ClinicalCase, includeSolution: boolean): ChatCli
 async function loadClinicalCaseForChat(
   caseId: string,
   includeSolution: boolean,
+  preloadedDisk?: ClinicalCase | null,
 ): Promise<ChatClinicalCase | null> {
-  try {
-    const diskFirst = await getCaseById(caseId);
-    if (diskFirst?.description?.trim()) return chatCaseFromDisk(diskFirst, includeSolution);
-  } catch (err) {
-    chatLogger.warn("clinical case file lookup failed", { caseId, err });
+  let diskFirst = preloadedDisk ?? undefined;
+  if (preloadedDisk === undefined) {
+    try {
+      diskFirst = await getCaseById(caseId);
+    } catch (err) {
+      chatLogger.warn("clinical case file lookup failed", { caseId, err });
+    }
   }
+  if (diskFirst?.description?.trim()) return chatCaseFromDisk(diskFirst, includeSolution);
 
   let row: {
     description: string;
@@ -237,11 +261,13 @@ async function loadClinicalCaseForChat(
     chatLogger.warn("clinicalCase lookup failed; trying case file", { caseId, err });
   }
 
-  let disk: ClinicalCase | undefined;
-  try {
-    disk = await getCaseById(caseId);
-  } catch (err) {
-    chatLogger.warn("clinical case file lookup failed", { caseId, err });
+  let disk = diskFirst;
+  if (preloadedDisk === undefined) {
+    try {
+      disk = await getCaseById(caseId);
+    } catch (err) {
+      chatLogger.warn("clinical case file lookup failed", { caseId, err });
+    }
   }
 
   const description = disk?.description?.trim() || row?.description?.trim() || "";
@@ -272,6 +298,75 @@ async function loadClinicalCaseForChat(
   };
 }
 
+type ChatCasePack = {
+  clinicalCase: ChatClinicalCase | null;
+  roleplayScript: string;
+  fromDisk: boolean;
+};
+
+type LoadedChatSession = {
+  id: string;
+  userId: string;
+  caseId: string;
+  variantPrompt: string | null;
+  requestedExamIds: unknown;
+  completedGoldSteps: unknown;
+  case: {
+    examLatencies: unknown;
+    goldStandardPath: unknown;
+    patientDeteriorationThreshold: number | null;
+  } | null;
+};
+
+let examNameById: Map<string, string> | null = null;
+
+function labelsForExamIds(ids: string[]): string[] {
+  if (!examNameById) {
+    examNameById = new Map(flattenCatalogExams().map((exam) => [exam.id, exam.name]));
+  }
+  return ids.map((id) => examNameById?.get(id) ?? id.replace(/-/g, " "));
+}
+
+/** One case-file read shared by the clinical row and the roleplay script. */
+async function loadChatCasePack(caseId: string, includeSolution: boolean): Promise<ChatCasePack> {
+  let disk: ClinicalCase | undefined;
+  try {
+    disk = await getCaseById(caseId);
+  } catch (err) {
+    chatLogger.warn("clinical case file lookup failed", { caseId, err });
+  }
+  const [clinicalCase, roleplayScript] = await Promise.all([
+    loadClinicalCaseForChat(caseId, includeSolution, disk ?? null),
+    loadServerRoleplayScript(caseId, disk ?? null),
+  ]);
+  return {
+    clinicalCase,
+    roleplayScript,
+    fromDisk: Boolean(disk?.description?.trim()),
+  };
+}
+
+async function loadChatSession(sessionId: string): Promise<LoadedChatSession | null> {
+  return prisma.caseSession.findUnique({
+    where: { id: sessionId },
+    select: {
+      id: true,
+      userId: true,
+      caseId: true,
+      variantPrompt: true,
+      requestedExamIds: true,
+      completedGoldSteps: true,
+      case: {
+        select: {
+          examLatencies: true,
+          goldStandardPath: true,
+          patientDeteriorationThreshold: true,
+        },
+      },
+    },
+  });
+}
+
 function parseStringArray(raw: unknown): string[] {
   if (!Array.isArray(raw)) return [];
   return raw.filter((v): v is string => typeof v === "string" && v.trim().length > 0);
@@ -294,21 +389,13 @@ export async function POST(req: Request) {
   const userId = await getSessionUserId();
   if (!userId) return unauthorizedJson();
 
-  // Anti-abuse: max 10 chat messages / authenticated user / minute (Upstash or in-memory).
-  const rateLimited = await enforceRateLimit(req, {
+  // Overlaps the body parse. The limit is still applied before any model call.
+  const rateLimitPromise = enforceRateLimit(req, {
     namespace: "api-chat",
     limit: CHAT_MESSAGES_PER_MINUTE ?? AI_RATE_LIMITS.chat,
     userId,
   });
-  if (rateLimited) return rateLimited;
-
-  const billingProfile = await getUserBillingProfile(userId);
-  if (!billingProfile) {
-    return new Response(JSON.stringify({ error: "User not found" }), {
-      status: 404,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
+  const billingPromise = getUserBillingProfile(userId);
 
   let body: ChatBody;
   try {
@@ -356,6 +443,60 @@ export async function POST(req: Request) {
   // Sanitize early so downstream gold-inference never sees raw injection text.
   const chatMessages = sanitizeUserMessagesForAI(chatMessagesPreview);
 
+  const rawSessionId = typeof sessionId === "string" ? sessionId : "";
+  const resolvedCaseId = typeof caseId === "string" ? caseId.trim() : "";
+  const liveCandidate = sanitizeLiveSessionId(rawSessionId);
+  const clientRequestedExams = parseStringArray(requestedExamIds);
+  const clientGoldSteps = parseStringArray(completedGoldSteps);
+
+  const sessionPromise = liveCandidate ? loadChatSession(liveCandidate) : Promise.resolve(null);
+  const casePackPromise = resolvedCaseId
+    ? loadChatCasePack(resolvedCaseId, Boolean(liveCandidate))
+    : Promise.resolve(null);
+  const quotaPromise = liveCandidate
+    ? Promise.resolve(null)
+    : Promise.all([
+        countSimulationsStartedToday(userId),
+        countSimulationsStartedAllTime(userId),
+      ]);
+  const playGatePromise = (async (): Promise<Response | null> => {
+    const pack = await casePackPromise;
+    if (!resolvedCaseId || isDevAuthBypass() || pack?.fromDisk) return null;
+    const profile = await billingPromise;
+    if (!liveCandidate) {
+      const canPlay = await userCanPlayCase(userId, resolvedCaseId);
+      if (!canPlay) {
+        return new Response(JSON.stringify({ error: "Forbidden", code: "FORBIDDEN_CASE" }), {
+          status: 403,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+    }
+    return assertUserCanPlayCase(userId, resolvedCaseId, { profile });
+  })();
+
+  const [rateLimited, billingProfile, session, casePack, quota, playDenied] = await Promise.all([
+    rateLimitPromise,
+    billingPromise,
+    sessionPromise,
+    casePackPromise,
+    quotaPromise,
+    playGatePromise,
+  ]).catch((error: unknown) => {
+    chatLogger.error("Patient chat pre-stream failed", {
+      message: error instanceof Error ? error.message : String(error),
+    });
+    throw error;
+  });
+
+  if (rateLimited) return rateLimited;
+  if (!billingProfile) {
+    return new Response(JSON.stringify({ error: "User not found" }), {
+      status: 404,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   const maxUserMessagesOverride = resolveMaxUserMessagesOverride(body);
   const clinicalUserMessageLimit = resolveClinicalUserMessageLimit(maxUserMessagesOverride);
 
@@ -378,10 +519,11 @@ export async function POST(req: Request) {
 
   const chatModel = resolveChatModel(billingProfile);
 
-  const access = await authorizeSimulationAction({
+  const access = accessFromLoadedSession({
     userId,
-    sessionId: typeof sessionId === "string" ? sessionId : null,
-    caseId: typeof caseId === "string" ? caseId : null,
+    rawSessionId,
+    expectedCaseId: resolvedCaseId || null,
+    session,
   });
   if (!access.ok) {
     return new Response(JSON.stringify({ error: access.error, code: access.code }), {
@@ -390,122 +532,118 @@ export async function POST(req: Request) {
     });
   }
   const liveSessionId = sanitizeLiveSessionId(access.liveSessionId) ?? null;
-  const clientRequestedExams = parseStringArray(requestedExamIds);
-  const clientGoldSteps = parseStringArray(completedGoldSteps);
-
-  let sessionVariantPrompt: string | null = null;
-  let elapsedMinutes = 0;
-  let deteriorationInstruction: string | null = null;
 
   if (!liveSessionId) {
-    // No live session yet — apply the same soft daily gate as session start.
-    const usedToday = await countSimulationsStartedToday(userId);
-    const lifetimeUsed = await countSimulationsStartedAllTime(userId);
+    const [usedToday, lifetimeUsed] = quota ?? [0, 0];
     const simGate = assertCanStartSimulation(billingProfile, { usedToday, lifetimeUsed });
-    if (!simGate.allowed) {
-      return gateToResponse(simGate);
-    }
+    if (!simGate.allowed) return gateToResponse(simGate);
   }
 
-  if (liveSessionId) {
-    const session = await prisma.caseSession.findUnique({
-      where: { id: liveSessionId },
-      include: {
-        case: {
-          select: {
-            examLatencies: true,
-            goldStandardPath: true,
-            patientDeteriorationThreshold: true,
-          },
-        },
-      },
+  if (playDenied) return playDenied;
+
+  let sessionVariantPrompt: string | null = session?.variantPrompt ?? null;
+  let elapsedMinutes = 0;
+  let deteriorationInstruction: string | null = null;
+  let mergedExamIds = clientRequestedExams;
+  let sessionStateData: {
+    elapsedMinutes: number;
+    requestedExamIds: string[];
+    completedGoldSteps: string[];
+    patientStress: number;
+  } | null = null;
+
+  if (liveSessionId && session?.case) {
+    const examLatencies = parseExamLatencies(session.case.examLatencies);
+    const goldPath = parseGoldStandardPath(session.case.goldStandardPath);
+    const sessionRequestedExamIds = Array.isArray(session.requestedExamIds)
+      ? session.requestedExamIds.filter((id): id is string => typeof id === "string")
+      : [];
+    const sessionCompletedGoldSteps = Array.isArray(session.completedGoldSteps)
+      ? session.completedGoldSteps.filter((id): id is string => typeof id === "string")
+      : [];
+    mergedExamIds = [...new Set([...sessionRequestedExamIds, ...clientRequestedExams])];
+    elapsedMinutes = computeElapsedMinutesFromExams(mergedExamIds, examLatencies);
+    const inferredGold = inferCompletedGoldSteps({
+      goldStandardPath: goldPath,
+      requestedExamIds: mergedExamIds,
+      clientCompletedSteps: [...sessionCompletedGoldSteps, ...clientGoldSteps],
+      lastUserMessage: getLastUserMessage(chatMessages),
     });
-
-    if (session?.variantPrompt) {
-      sessionVariantPrompt = session.variantPrompt;
-    }
-
-    if (session?.case) {
-      const examLatencies = parseExamLatencies(session.case.examLatencies);
-      const goldPath = parseGoldStandardPath(session.case.goldStandardPath);
-      const sessionRequestedExamIds = Array.isArray(session.requestedExamIds)
-        ? session.requestedExamIds
-        : [];
-      const sessionCompletedGoldSteps = Array.isArray(session.completedGoldSteps)
-        ? session.completedGoldSteps
-        : [];
-      const mergedExamIds = [
-        ...new Set([...sessionRequestedExamIds, ...clientRequestedExams]),
-      ];
-
-      elapsedMinutes = computeElapsedMinutesFromExams(mergedExamIds, examLatencies);
-
-      const lastUserMessageForGold = getLastUserMessage(chatMessages);
-
-      const inferredGold = inferCompletedGoldSteps({
-        goldStandardPath: goldPath,
-        requestedExamIds: mergedExamIds,
-        clientCompletedSteps: [...sessionCompletedGoldSteps, ...clientGoldSteps],
-        lastUserMessage: lastUserMessageForGold,
-      });
-
-      const goldMet = isGoldStandardMet(goldPath, inferredGold);
-      deteriorationInstruction = buildDeteriorationInstruction({
-        elapsedMinutes,
-        threshold: session.case.patientDeteriorationThreshold,
-        goldStandardMet: goldMet,
-      });
-
-      await prisma.caseSession.update({
-        where: { id: liveSessionId },
-        data: {
-          elapsedMinutes,
-          requestedExamIds: mergedExamIds,
-          completedGoldSteps: inferredGold,
-          patientStress: stressClamped,
-        },
-      });
-    }
+    deteriorationInstruction = buildDeteriorationInstruction({
+      elapsedMinutes,
+      threshold: session.case.patientDeteriorationThreshold,
+      goldStandardMet: isGoldStandardMet(goldPath, inferredGold),
+    });
+    sessionStateData = {
+      elapsedMinutes,
+      requestedExamIds: mergedExamIds,
+      completedGoldSteps: inferredGold,
+      patientStress: stressClamped,
+    };
   }
 
-  let clinicalCase: ChatClinicalCase | null = null;
-
-  if (caseId && typeof caseId === "string" && caseId.trim()) {
-    const resolvedCaseId = caseId.trim();
-    const accessDenied = await assertUserCanPlayCase(userId, resolvedCaseId);
-    if (accessDenied) return accessDenied;
-
-    // Gold answer only for an owned live session — never expose/map otherwise.
-    const authorizedLiveSession = Boolean(liveSessionId);
-    clinicalCase = await loadClinicalCaseForChat(resolvedCaseId, authorizedLiveSession);
-
-    if (clinicalCase && !authorizedLiveSession) {
-      const examLatencies = parseExamLatencies(clinicalCase.examLatencies);
-      const goldPath = parseGoldStandardPath(clinicalCase.goldStandardPath);
-      elapsedMinutes = computeElapsedMinutesFromExams(clientRequestedExams, examLatencies);
-      const inferredGold = inferCompletedGoldSteps({
-        goldStandardPath: goldPath,
-        requestedExamIds: clientRequestedExams,
-        clientCompletedSteps: clientGoldSteps,
-        lastUserMessage: getLastUserMessage(chatMessages),
-      });
-      deteriorationInstruction = buildDeteriorationInstruction({
-        elapsedMinutes,
-        threshold: clinicalCase.patientDeteriorationThreshold,
-        goldStandardMet: isGoldStandardMet(goldPath, inferredGold),
-      });
-    }
+  const clinicalCase = casePack?.clinicalCase ?? null;
+  const authorizedLiveSession = Boolean(liveSessionId);
+  if (clinicalCase && !authorizedLiveSession) {
+    const examLatencies = parseExamLatencies(clinicalCase.examLatencies);
+    const goldPath = parseGoldStandardPath(clinicalCase.goldStandardPath);
+    elapsedMinutes = computeElapsedMinutesFromExams(clientRequestedExams, examLatencies);
+    mergedExamIds = clientRequestedExams;
+    const inferredGold = inferCompletedGoldSteps({
+      goldStandardPath: goldPath,
+      requestedExamIds: clientRequestedExams,
+      clientCompletedSteps: clientGoldSteps,
+      lastUserMessage: getLastUserMessage(chatMessages),
+    });
+    deteriorationInstruction = buildDeteriorationInstruction({
+      elapsedMinutes,
+      threshold: clinicalCase.patientDeteriorationThreshold,
+      goldStandardMet: isGoldStandardMet(goldPath, inferredGold),
+    });
   }
 
-  // Client-injected gold answers are never trusted — only DB correctSolution on owned sessions.
-  // The roleplay script is the authored patientPrompt. A live variant replaces it;
-  // otherwise the server copy wins over the browser body.
   let roleplayScript = usablePatientPrompt(sessionVariantPrompt);
-  if (!roleplayScript && typeof caseId === "string" && caseId.trim()) {
-    roleplayScript = await loadServerRoleplayScript(caseId.trim());
+  if (!roleplayScript && casePack?.roleplayScript) {
+    roleplayScript = casePack.roleplayScript;
   }
   if (!roleplayScript) {
     roleplayScript = usablePatientPrompt(casePrompt);
+  }
+
+  let sessionStateSaved = sessionStateData == null;
+  const sessionStateWrite =
+    liveSessionId && sessionStateData
+      ? prisma.caseSession
+          .update({ where: { id: liveSessionId }, data: sessionStateData })
+          .then(() => {
+            sessionStateSaved = true;
+          })
+          .catch(async (error: unknown) => {
+            chatLogger.error("Session state persistence failed", { error, sessionId: liveSessionId });
+            try {
+              await prisma.caseSession.update({
+                where: { id: liveSessionId },
+                data: sessionStateData,
+              });
+              sessionStateSaved = true;
+            } catch (retryError) {
+              sessionStateSaved = false;
+              chatLogger.error("Session state retry failed", {
+                error: retryError,
+                sessionId: liveSessionId,
+              });
+            }
+          })
+      : Promise.resolve();
+  if (liveSessionId && sessionStateData && process.env.VERCEL) {
+    try {
+      after(() => sessionStateWrite);
+    } catch (error) {
+      chatLogger.error("after() unavailable; session state write already started", {
+        error,
+        sessionId: liveSessionId,
+      });
+    }
   }
 
   let caseData = buildPatientSimulatorCaseInput({
@@ -524,6 +662,8 @@ export async function POST(req: Request) {
   caseData = {
     ...caseData,
     roleplayScript: roleplayScript || clinicalCase?.patientPrompt || "",
+    elapsedMinutes,
+    completedExamLabels: labelsForExamIds(mergedExamIds),
     clinicalStory,
     setting: clinicalCase?.setting,
     condition: clinicalCase?.condition,
@@ -581,6 +721,13 @@ export async function POST(req: Request) {
     onFinish: liveSessionId
       ? async ({ text }) => {
           try {
+            await sessionStateWrite;
+            if (!sessionStateSaved && sessionStateData) {
+              await prisma.caseSession.update({
+                where: { id: liveSessionId },
+                data: sessionStateData,
+              });
+            }
             await persistChatTurn({
               sessionId: liveSessionId,
               userMessage: lastUserMessage,
@@ -596,5 +743,11 @@ export async function POST(req: Request) {
       : undefined,
   });
 
-  return stream.toDataStreamResponse();
+  return stream.toDataStreamResponse({
+    getErrorMessage: (error) => {
+      const described = logOpenAIStreamError(error);
+      const status = described.status != null ? `HTTP ${described.status}` : "HTTP n/d";
+      return `${status}: ${described.message}`;
+    },
+  });
 }

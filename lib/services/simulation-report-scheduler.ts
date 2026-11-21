@@ -2,8 +2,11 @@ import { createLogger } from "@/lib/logger";
 import { prisma } from "@/lib/prisma";
 import {
   processSimulationReportJob,
+  shouldResumeReportJob,
   type SimulationReportJobInput,
 } from "@/lib/services/simulation-report-worker";
+
+export { shouldResumeReportJob };
 
 const schedulerLogger = createLogger("simulation-report-scheduler");
 
@@ -33,13 +36,17 @@ export function buildJobQueueRawTrace(payload: JobQueuePayload) {
   return { jobQueue: payload };
 }
 
-export function scheduleSimulationReportJob(input: SimulationReportJobInput): void {
-  if (activeJobs.has(input.reportId)) {
+export function scheduleSimulationReportJob(
+  input: SimulationReportJobInput,
+  options?: { reclaim?: boolean },
+): Promise<void> {
+  const existing = activeJobs.get(input.reportId);
+  if (existing && !options?.reclaim) {
     schedulerLogger.info("Report job already running — skip duplicate schedule", {
       reportId: input.reportId,
       caseId: input.caseId,
     });
-    return;
+    return existing;
   }
 
   schedulerLogger.info("Scheduling simulation report job", {
@@ -48,7 +55,8 @@ export function scheduleSimulationReportJob(input: SimulationReportJobInput): vo
     userId: input.userId,
   });
 
-  const job = processSimulationReportJob(input)
+  let job!: Promise<void>;
+  job = processSimulationReportJob(input)
     .catch((error) => {
       schedulerLogger.error("Unhandled simulation report job rejection", {
         reportId: input.reportId,
@@ -56,13 +64,16 @@ export function scheduleSimulationReportJob(input: SimulationReportJobInput): vo
       });
     })
     .finally(() => {
-      activeJobs.delete(input.reportId);
+      if (activeJobs.get(input.reportId) === job) {
+        activeJobs.delete(input.reportId);
+      }
       schedulerLogger.info("Simulation report job slot released", {
         reportId: input.reportId,
       });
     });
 
   activeJobs.set(input.reportId, job);
+  return job;
 }
 
 /** Re-attach processing when background work was dropped (common in local Next.js dev). */
@@ -70,10 +81,6 @@ export async function ensureSimulationReportProcessing(
   reportId: string,
   userId: string,
 ): Promise<void> {
-  if (activeJobs.has(reportId)) {
-    return;
-  }
-
   const report = await prisma.sessionReport.findUnique({
     where: { id: reportId },
     select: {
@@ -81,6 +88,7 @@ export async function ensureSimulationReportProcessing(
       userId: true,
       caseId: true,
       status: true,
+      updatedAt: true,
       rawTrace: true,
     },
   });
@@ -89,7 +97,13 @@ export async function ensureSimulationReportProcessing(
     return;
   }
 
-  if (report.status === "COMPLETED" || report.status === "FAILED") {
+  if (!shouldResumeReportJob(report.status, report.updatedAt)) {
+    return;
+  }
+
+  // Same-isolate dedup only while the row is still PENDING. A stale PROCESSING
+  // row must be reclaimable even if this process still holds a hung promise.
+  if (report.status === "PENDING" && activeJobs.has(reportId)) {
     return;
   }
 
@@ -104,23 +118,26 @@ export async function ensureSimulationReportProcessing(
     status: report.status,
   });
 
-  scheduleSimulationReportJob({
-    reportId: report.id,
-    userId: report.userId,
-    caseId: report.caseId,
-    liveSessionId: queue.liveSessionId,
-    evaluationChatHistory: queue.evaluationChatHistory,
-    exams: queue.exams,
-    normalizedReportText: queue.normalizedReportText,
-    caseContext: queue.caseContext,
-    finalDiagnosis: queue.finalDiagnosis,
-    requestedExamIds: queue.requestedExamIds,
-    executedActionIds: queue.executedActionIds,
-    helpRequested: queue.helpRequested,
-    helpRequestCount: queue.helpRequestCount,
-    selectedOptions: queue.selectedOptions,
-    caseData: queue.caseData,
-  });
+  void scheduleSimulationReportJob(
+    {
+      reportId: report.id,
+      userId: report.userId,
+      caseId: report.caseId,
+      liveSessionId: queue.liveSessionId,
+      evaluationChatHistory: queue.evaluationChatHistory,
+      exams: queue.exams,
+      normalizedReportText: queue.normalizedReportText,
+      caseContext: queue.caseContext,
+      finalDiagnosis: queue.finalDiagnosis,
+      requestedExamIds: queue.requestedExamIds,
+      executedActionIds: queue.executedActionIds,
+      helpRequested: queue.helpRequested,
+      helpRequestCount: queue.helpRequestCount,
+      selectedOptions: queue.selectedOptions,
+      caseData: queue.caseData,
+    },
+    { reclaim: report.status === "PROCESSING" },
+  );
 }
 
 export function isSimulationReportJobActive(reportId: string): boolean {
