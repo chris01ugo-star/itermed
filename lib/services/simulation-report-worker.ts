@@ -4,7 +4,12 @@ import { prisma } from "@/lib/prisma";
 import { evaluationService } from "@/lib/services/evaluation-service";
 import type { AnalyticalEvaluation, EvaluationResult } from "@/lib/services/evaluation-service";
 import { ragService } from "@/lib/services/rag-service";
-import { readSecondarySpecialties } from "@/lib/services/specialty-scope";
+import {
+  canonicalSpecialtyName,
+  isUniversalSpecialty,
+  readSecondarySpecialties,
+  specialtyNameFromCaseId,
+} from "@/lib/services/specialty-scope";
 import { getExamValuesCatalog } from "@/lib/exam-values-service";
 import {
   extractMandatoryFirstLevelExams,
@@ -728,6 +733,12 @@ export async function claimSimulationReportJob(reportId: string): Promise<boolea
   return claimed.count > 0;
 }
 
+function readCaseSpecialty(source: unknown): string | undefined {
+  if (!source || typeof source !== "object") return undefined;
+  const value = (source as Record<string, unknown>).specialty;
+  return typeof value === "string" && value.trim() ? value.trim() : undefined;
+}
+
 export async function processSimulationReportJob(input: SimulationReportJobInput): Promise<void> {
   const log = createLogger("simulation-report-worker").child({
     reportId: input.reportId,
@@ -769,19 +780,44 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       },
     });
 
-    const specialtyId =
+    const kbRow = await prisma.knowledgeBaseCase.findUnique({
+      where: { id: input.caseId },
+      select: { caseData: true },
+    });
+    const registeredCase = await getCaseById(input.caseId);
+    const rawSpecialty =
+      clinicalCase?.medicalSpecialty?.name?.trim() ||
+      clinicalCase?.specialty?.trim() ||
+      input.caseData?.specialty?.trim() ||
+      readCaseSpecialty(kbRow?.caseData) ||
+      registeredCase?.specialty?.trim() ||
+      "";
+    let specialtyName =
+      canonicalSpecialtyName(rawSpecialty) ??
+      (rawSpecialty || undefined) ??
+      specialtyNameFromCaseId(input.caseId);
+    let specialtyId =
       clinicalCase?.medicalSpecialtyId ?? clinicalCase?.medicalSpecialty?.id ?? undefined;
-    const specialtyName =
-      clinicalCase?.medicalSpecialty?.name ?? clinicalCase?.specialty ?? undefined;
-    const secondaryFromRow = clinicalCase?.secondarySpecialties ?? [];
-    let secondarySpecialties = secondaryFromRow;
-    if (secondarySpecialties.length === 0) {
-      const kbRow = await prisma.knowledgeBaseCase.findUnique({
-        where: { id: input.caseId },
-        select: { caseData: true },
+    if (!specialtyId && specialtyName && !isUniversalSpecialty(specialtyName)) {
+      const specialtyRow = await prisma.medicalSpecialty.findFirst({
+        where: { name: specialtyName },
+        select: { id: true, name: true },
       });
+      if (specialtyRow) {
+        specialtyId = specialtyRow.id;
+        specialtyName = specialtyRow.name;
+      }
+    }
+    let secondarySpecialties = clinicalCase?.secondarySpecialties ?? [];
+    if (secondarySpecialties.length === 0) {
       secondarySpecialties = readSecondarySpecialties(kbRow?.caseData);
     }
+    if (secondarySpecialties.length === 0) {
+      secondarySpecialties = readSecondarySpecialties(registeredCase);
+    }
+    secondarySpecialties = secondarySpecialties
+      .map((value) => canonicalSpecialtyName(value) ?? value.trim())
+      .filter((value, index, all) => Boolean(value) && all.indexOf(value) === index);
 
     const documentQuery = buildDocumentSearchQuery({
       title: input.caseData?.title || clinicalCase?.title,
@@ -848,7 +884,6 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       : [];
 
     const goldStandardPath = parseGoldStandardPath(clinicalCase?.goldStandardPath);
-    const registeredCase = await getCaseById(input.caseId);
 
     let sessionClock: {
       elapsedMinutes: number;

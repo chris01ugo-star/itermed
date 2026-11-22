@@ -9,7 +9,10 @@ import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { truncateForLlmContext } from "@/lib/security/prompt-context";
 import { embedQueryTextCached } from "@/lib/ai/embedding-cache";
 import {
+  canonicalSpecialtyName,
   EMPATHY_SPECIALTY,
+  isPlaceholderGuidelineLabel,
+  isUniversalSpecialty,
   pineconeSpecialtyInFilter,
   specialtyScopeValues,
   UNIVERSAL_SPECIALTY,
@@ -22,10 +25,10 @@ const CHUNK_SIZE = 1000;
 const CHUNK_OVERLAP = 200;
 
 /**
- * Legal RAG: stricter cosine similarity for normative / medico-legal chunks.
- * Matches below this threshold are discarded (soft-fail when none remain).
+ * Legal RAG cosine floor for `text-embedding-3-small` on clinical-legal queries.
+ * 0.70 dropped indexed statute PDFs; 0.40 keeps them without loosening clinical/economic (0.35).
  */
-export const SIMILARITY_THRESHOLD_LEGAL = 0.70;
+export const SIMILARITY_THRESHOLD_LEGAL = 0.40;
 
 /**
  * Clinical protocol / general guideline retrieval threshold (unchanged baseline).
@@ -223,14 +226,20 @@ function formatChunkCitationHeader(chunk: GuidelineChunk): string {
  * When a case has a specialty, retrieve that specialty, any secondary
  * specialties, plus the shared `generale` and `empatia` corpora.
  * Postgres keeps null `medicalSpecialtyId` as the transversal row.
+ * A known specialty name still scopes the query when the case has no id.
  */
-function buildPostgresSpecialtyFilter(specialtyId?: string): {
-  OR: Array<{ medicalSpecialtyId: string | null }>;
-} | Record<string, never> {
-  if (!specialtyId) return {};
-  return {
-    OR: [{ medicalSpecialtyId: specialtyId }, { medicalSpecialtyId: null }],
-  };
+function buildPostgresSpecialtyFilter(
+  specialtyId?: string,
+  specialtyName?: string,
+): { OR: Array<Record<string, unknown>> } | Record<string, never> {
+  const canonical = canonicalSpecialtyName(specialtyName);
+  const named = canonical && !isUniversalSpecialty(canonical) ? canonical : undefined;
+  if (!specialtyId && !named) return {};
+
+  const OR: Array<Record<string, unknown>> = [{ medicalSpecialtyId: null }];
+  if (specialtyId) OR.unshift({ medicalSpecialtyId: specialtyId });
+  if (named) OR.unshift({ medicalSpecialty: { is: { name: named } } });
+  return { OR };
 }
 
 function normalizeSecondarySpecialties(values?: string[]): string[] {
@@ -240,23 +249,15 @@ function normalizeSecondarySpecialties(values?: string[]): string[] {
 
 /**
  * Cartelle `knowledge_base/<slug>` → nome riga `MedicalSpecialty`.
- * Lo slug con underscore non coincide con il display name salvato in Pinecone.
+ * Matching is case-insensitive and keeps the exact display name
+ * (`medicina d'emergenza-urgenza` → `Medicina d'Emergenza-Urgenza`).
  */
-const SPECIALTY_SLUG_TO_DISPLAY: Record<string, string> = {
-  medicina_urgenza: "Medicina d'Emergenza-Urgenza",
-  emergenza_urgenza: "Medicina d'Emergenza-Urgenza",
-  medicina_interna: "Medicina Interna",
-  malattie_infettive: "Malattie Infettive",
-  medicina_laboratorio: "Medicina di Laboratorio",
-  reumatologia: "Reumatologia",
-};
-
 function expandSpecialtyLabels(raw: string | undefined): string[] {
   const trimmed = raw?.trim() ?? "";
   if (!trimmed) return [];
-  const slug = trimmed.toLowerCase().replace(/[\s-]+/g, "_");
-  const display = SPECIALTY_SLUG_TO_DISPLAY[slug];
-  return display && display !== trimmed ? [trimmed, display] : [trimmed];
+  const display = canonicalSpecialtyName(trimmed);
+  if (!display || display === trimmed) return [trimmed];
+  return [display, trimmed];
 }
 
 function scopedSpecialtyLabels(specialtyName?: string, secondarySpecialties?: string[]): string[] {
@@ -331,6 +332,28 @@ function isClinicalGuideline(metadata: PineconeMetadata): boolean {
 
 function isEconomicGuideline(metadata: PineconeMetadata): boolean {
   return metadataPillar(metadata) === "ECONOMIC";
+}
+
+/**
+ * Seed rows written before the `[PILLAR]` title prefix. Classified only when
+ * the title, tags, or source name say which pillar they belong to.
+ */
+function inferUnprefixedPillar(
+  title: string,
+  tags: string[],
+  sourceName: string | null,
+): GuidelinePillar | null {
+  const blob = `${title} ${tags.join(" ")} ${sourceName ?? ""}`.toLowerCase();
+  if (/\b(gelli|consenso|deontolog|normativ|legale|responsabilit\p{L}*|legge)\b/u.test(blob)) {
+    return "LEGAL";
+  }
+  if (/\b(economic\p{L}*|tariff\p{L}*|nomenclat\p{L}*|aifa|appropriatezza|prontuario|ssn)\b/u.test(blob)) {
+    return "ECONOMIC";
+  }
+  if (/\b(linee guida|protocollo|guideline|esc|sepsi|stroke|clinico|sintesi)\b/u.test(blob)) {
+    return "CLINICAL";
+  }
+  return null;
 }
 
 function mergePineconeFilters(
@@ -524,11 +547,14 @@ export class RagService {
    * Builds a semantic query and retrieves the most relevant legal and protocol chunks.
    */
   async getRelevantGuidelines(params: GetRelevantGuidelinesParams): Promise<RelevantGuidelines> {
-    const query = buildRagQuery(params);
     const specialtyId = params.specialtyId?.trim() || undefined;
-    const specialtyName = params.specialtyName?.trim() || undefined;
-    const secondarySpecialties = normalizeSecondarySpecialties(params.secondarySpecialties);
-    const specialtyHints = buildSpecialtyTagHints(params.specialtyName);
+    const specialtyName =
+      canonicalSpecialtyName(params.specialtyName) ?? (params.specialtyName?.trim() || undefined);
+    const secondarySpecialties = normalizeSecondarySpecialties(params.secondarySpecialties).map(
+      (value) => canonicalSpecialtyName(value) ?? value,
+    );
+    const query = buildRagQuery({ ...params, specialtyName, secondarySpecialties });
+    const specialtyHints = buildSpecialtyTagHints(specialtyName);
     const log = this.deps.logger.child({
       specialtyId,
       specialtyName: params.specialtyName,
@@ -586,7 +612,7 @@ export class RagService {
     const postgresFallbacks: Array<Promise<void>> = [];
     if (legalChunks.length === 0) {
       postgresFallbacks.push(
-        this.retrieveLegalFromPostgres(query, specialtyHints, specialtyId)
+        this.retrieveLegalFromPostgres(query, specialtyHints, specialtyId, specialtyName)
           .then((chunks) => {
             if (chunks.length > 0) {
               legalChunks = chunks;
@@ -600,7 +626,7 @@ export class RagService {
     }
     if (protocolChunks.length === 0) {
       postgresFallbacks.push(
-        this.retrieveProtocolFromPostgres(query, specialtyHints, specialtyId)
+        this.retrieveProtocolFromPostgres(query, specialtyHints, specialtyId, specialtyName)
           .then((chunks) => {
             if (chunks.length > 0) {
               protocolChunks = chunks;
@@ -614,7 +640,7 @@ export class RagService {
     }
     if (economicChunks.length === 0) {
       postgresFallbacks.push(
-        this.retrieveEconomicFromPostgres(query, specialtyHints, specialtyId)
+        this.retrieveEconomicFromPostgres(query, specialtyHints, specialtyId, specialtyName)
           .then((chunks) => {
             if (chunks.length > 0) {
               economicChunks = chunks;
@@ -724,6 +750,7 @@ export class RagService {
       const title = typeof metadata.title === "string" ? metadata.title : "Documento legale";
       const tags = parseMetadataTags(metadata);
       if (!isLegalGuideline(metadata)) continue;
+      if (isPlaceholderGuidelineLabel(title, metadata.sourceName, metadata.source)) continue;
 
       const citation = mapPineconeChunkCitation(
         typeof match.id === "string" ? match.id : undefined,
@@ -812,6 +839,7 @@ export class RagService {
 
         const title = typeof metadata.title === "string" ? metadata.title : "Protocollo clinico";
         const tags = parseMetadataTags(metadata);
+        if (isPlaceholderGuidelineLabel(title, metadata.sourceName, metadata.source)) continue;
         const citation = mapPineconeChunkCitation(
           typeof match.id === "string" ? match.id : undefined,
           metadata,
@@ -837,21 +865,58 @@ export class RagService {
     return rankChunksByRelevance(ranked, limit, specialtyHints);
   }
 
+  private async loadFallbackDocuments(
+    pillar: GuidelinePillar,
+    specialtyId?: string,
+    specialtyName?: string,
+    takePrefixed = 15,
+  ): Promise<
+    Array<{ id: string; title: string; tags: string[]; text: string; sourceName: string | null }>
+  > {
+    const specialtyWhere = buildPostgresSpecialtyFilter(specialtyId, specialtyName);
+    const select = { id: true, title: true, tags: true, text: true, sourceName: true } as const;
+    const prefix = `[${pillar}]`;
+    const [prefixed, seeds] = await Promise.all([
+      prisma.guidelineDocument.findMany({
+        where: {
+          isActive: true,
+          title: { startsWith: prefix },
+          ...specialtyWhere,
+        },
+        select,
+        take: takePrefixed,
+      }),
+      prisma.guidelineDocument.findMany({
+        where: {
+          isActive: true,
+          AND: [
+            { NOT: { title: { startsWith: "[LEGAL]" } } },
+            { NOT: { title: { startsWith: "[CLINICAL]" } } },
+            { NOT: { title: { startsWith: "[ECONOMIC]" } } },
+          ],
+          ...specialtyWhere,
+        },
+        select,
+        take: 24,
+      }),
+    ]);
+
+    const relevantSeeds = seeds.filter(
+      (doc) => inferUnprefixedPillar(doc.title, doc.tags, doc.sourceName) === pillar,
+    );
+    return [...prefixed, ...relevantSeeds].filter(
+      (doc) => !isPlaceholderGuidelineLabel(doc.title, doc.sourceName),
+    );
+  }
+
   private async retrieveLegalFromPostgres(
     query: string,
     specialtyHints: string[],
     specialtyId?: string,
+    specialtyName?: string,
     limit = LEGAL_TOP_K,
   ): Promise<GuidelineChunk[]> {
-    const docs = await prisma.guidelineDocument.findMany({
-      where: {
-        isActive: true,
-        title: { startsWith: "[LEGAL]" },
-        ...buildPostgresSpecialtyFilter(specialtyId),
-      },
-      select: { id: true, title: true, tags: true, text: true },
-      take: 15,
-    });
+    const docs = await this.loadFallbackDocuments("LEGAL", specialtyId, specialtyName, 15);
     const ranked: Array<GuidelineChunk & { score: number }> = [];
 
     for (const doc of docs) {
@@ -865,6 +930,7 @@ export class RagService {
           documentId: doc.id,
           chunkId: `${doc.id}-${chunkIndex}`,
           kind: "legal",
+          sourceName: doc.sourceName ?? undefined,
           ...citation,
           score: scoreChunkWithSpecialty(query, `${doc.title} ${content}`, doc.tags, specialtyHints),
         });
@@ -879,29 +945,26 @@ export class RagService {
     query: string,
     specialtyHints: string[],
     specialtyId?: string,
+    specialtyName?: string,
     limit = PROTOCOL_TOP_K,
   ): Promise<GuidelineChunk[]> {
-    const docs = await prisma.guidelineDocument.findMany({
-      where: {
-        isActive: true,
-        title: { startsWith: "[CLINICAL]" },
-        ...buildPostgresSpecialtyFilter(specialtyId),
-      },
-      select: { id: true, title: true, tags: true, text: true },
-      take: 10,
-    });
+    const docs = await this.loadFallbackDocuments("CLINICAL", specialtyId, specialtyName, 10);
     const ranked: Array<GuidelineChunk & { score: number }> = [];
 
     for (const doc of docs) {
+      let chunkIndex = 0;
       for (const content of chunkText(doc.text)) {
         ranked.push({
           content,
           title: doc.title,
           tags: doc.tags,
           documentId: doc.id,
+          chunkId: `${doc.id}-${chunkIndex}`,
+          sourceName: doc.sourceName ?? undefined,
           kind: "protocol",
           score: scoreChunkWithSpecialty(query, `${doc.title} ${content}`, doc.tags, specialtyHints),
         });
+        chunkIndex += 1;
       }
     }
 
@@ -945,6 +1008,7 @@ export class RagService {
       const title = typeof metadata.title === "string" ? metadata.title : "Tariffario SSN";
       const tags = parseMetadataTags(metadata);
       if (!isEconomicGuideline(metadata)) continue;
+      if (isPlaceholderGuidelineLabel(title, metadata.sourceName, metadata.source)) continue;
 
       ranked.push({
         content,
@@ -971,29 +1035,26 @@ export class RagService {
     query: string,
     specialtyHints: string[],
     specialtyId?: string,
+    specialtyName?: string,
     limit = ECONOMIC_TOP_K,
   ): Promise<GuidelineChunk[]> {
-    const docs = await prisma.guidelineDocument.findMany({
-      where: {
-        isActive: true,
-        title: { startsWith: "[ECONOMIC]" },
-        ...buildPostgresSpecialtyFilter(specialtyId),
-      },
-      select: { id: true, title: true, tags: true, text: true },
-      take: 10,
-    });
+    const docs = await this.loadFallbackDocuments("ECONOMIC", specialtyId, specialtyName, 10);
     const ranked: Array<GuidelineChunk & { score: number }> = [];
 
     for (const doc of docs) {
+      let chunkIndex = 0;
       for (const content of chunkText(doc.text)) {
         ranked.push({
           content,
           title: doc.title,
           tags: doc.tags,
           documentId: doc.id,
+          chunkId: `${doc.id}-${chunkIndex}`,
+          sourceName: doc.sourceName ?? undefined,
           kind: "economic",
           score: scoreChunkWithSpecialty(query, `${doc.title} ${content}`, doc.tags, specialtyHints),
         });
+        chunkIndex += 1;
       }
     }
 

@@ -2,20 +2,79 @@
  * Specialty document ingest: sanitize → chunk → embed → Pinecone + Prisma.
  * Used by `/api/admin/ingest` and the CLI wrapper `scripts/ingest-specialty-docs.ts`.
  */
-import { openai } from "@ai-sdk/openai";
+import { createOpenAI } from "@ai-sdk/openai";
 import { embedMany } from "ai";
+import { Pinecone } from "@pinecone-database/pinecone";
 import { existsSync } from "node:fs";
 import { readdir, readFile } from "node:fs/promises";
 import { basename, extname, join, relative, resolve } from "node:path";
 import { extractText } from "unpdf";
-import { config } from "@/lib/config";
 import { createLogger } from "@/lib/logger";
-import { getPineconeIndex } from "@/lib/pinecone";
 import { prisma } from "@/lib/prisma";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
-import { isUniversalSpecialty } from "@/lib/services/specialty-scope";
+import {
+  canonicalSpecialtyName,
+  isPlaceholderFilename,
+  isUniversalSpecialty,
+} from "@/lib/services/specialty-scope";
 
 const logger = createLogger("ingestion-service");
+
+const TRANSIENT_DB_ERROR =
+  /P1001|P1017|P2024|Server has closed the connection|ConnectionReset|ECONNRESET|closed the connection/i;
+
+function readIngestRuntimeEnv(): { openaiKey: string; pineconeKey: string; pineconeIndex: string } {
+  return {
+    openaiKey: (process.env.OPENAI_API_KEY ?? process.env.OPENAI_KEY ?? "").trim(),
+    pineconeKey: (process.env.PINECONE_API_KEY ?? "").trim(),
+    pineconeIndex: (process.env.PINECONE_INDEX ?? "").trim(),
+  };
+}
+
+let pineconeClient: Pinecone | null = null;
+let pineconeClientKey = "";
+
+/** Pinecone client built from the env present at call time, not at module import. */
+function runtimePineconeIndex() {
+  const { pineconeKey, pineconeIndex } = readIngestRuntimeEnv();
+  if (!pineconeKey || !pineconeIndex) return null;
+  if (!pineconeClient || pineconeClientKey !== pineconeKey) {
+    pineconeClient = new Pinecone({ apiKey: pineconeKey });
+    pineconeClientKey = pineconeKey;
+  }
+  return pineconeClient.index(pineconeIndex);
+}
+
+function runtimeEmbeddingModel() {
+  const { openaiKey } = readIngestRuntimeEnv();
+  if (!openaiKey) {
+    throw new Error("OPENAI_API_KEY mancante. Impostalo in .env o .env.local prima dell'ingestione.");
+  }
+  return createOpenAI({ apiKey: openaiKey }).embedding("text-embedding-3-small");
+}
+
+/** Retry transient Neon / Prisma disconnects. Backoff is 1s then 2s. */
+export async function withDbRetry<T>(operation: () => Promise<T>): Promise<T> {
+  let lastError: unknown;
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      return await operation();
+    } catch (error) {
+      lastError = error;
+      const message = error instanceof Error ? error.message : String(error);
+      const code =
+        typeof error === "object" && error && "code" in error
+          ? String((error as { code?: unknown }).code ?? "")
+          : "";
+      const transient = TRANSIENT_DB_ERROR.test(message) || TRANSIENT_DB_ERROR.test(code);
+      if (!transient || attempt === 3) throw error;
+      const waitMs = attempt * 1000;
+      logger.warn("DB retry", { attempt, waitMs, code, message: message.slice(0, 180) });
+      await new Promise((resolveWait) => setTimeout(resolveWait, waitMs));
+    }
+  }
+  throw lastError;
+}
 
 export const PINECONE_GUIDELINES_NAMESPACE = "guidelines";
 export const INGEST_CHUNK_SIZE = 1000;
@@ -28,7 +87,7 @@ const SUPPORTED_EXTENSIONS = new Set([".pdf", ".md", ".txt", ".json", ".csv"]);
 const MAX_REMOTE_BYTES = 25 * 1024 * 1024;
 
 /** Keep in sync with `lib/services/rag-service.ts`. */
-export const SIMILARITY_THRESHOLD_LEGAL = 0.7;
+export const SIMILARITY_THRESHOLD_LEGAL = 0.4;
 export const SIMILARITY_THRESHOLD_PROTOCOL = 0.35;
 export const SIMILARITY_THRESHOLD_ECONOMIC = SIMILARITY_THRESHOLD_PROTOCOL;
 
@@ -322,6 +381,7 @@ export async function listDocuments(dir: string): Promise<string[]> {
     }
     if (!entry.isFile()) continue;
     if (!SUPPORTED_EXTENSIONS.has(extname(entry.name).toLowerCase())) continue;
+    if (isPlaceholderFilename(entry.name)) continue;
     files.push(full);
   }
 
@@ -336,6 +396,7 @@ async function listRootDocuments(dir: string): Promise<string[]> {
   for (const entry of entries) {
     if (!entry.isFile()) continue;
     if (!SUPPORTED_EXTENSIONS.has(extname(entry.name).toLowerCase())) continue;
+    if (isPlaceholderFilename(entry.name)) continue;
     files.push(join(dir, entry.name));
   }
   return files.sort();
@@ -359,9 +420,17 @@ export async function resolveMedicalSpecialty(specialtySlug: string): Promise<{
   id: string;
   name: string;
 }> {
-  const specialties = await prisma.medicalSpecialty.findMany({
-    select: { id: true, name: true },
-  });
+  const specialties = await withDbRetry(() =>
+    prisma.medicalSpecialty.findMany({
+      select: { id: true, name: true },
+    }),
+  );
+
+  const canonical = canonicalSpecialtyName(specialtySlug);
+  if (canonical && !isUniversalSpecialty(canonical)) {
+    const exact = specialties.find((specialty) => specialty.name === canonical);
+    if (exact) return exact;
+  }
 
   const slugKey = specialtySlug.trim().toLowerCase().replace(/[\s-]+/g, "_");
   const aliasedName = SPECIALTY_NAME_BY_SLUG[slugKey];
@@ -397,6 +466,19 @@ type IngestSpecialtyRef = {
   metadataSpecialty: string;
 };
 
+export async function ensureCanonicalMedicalSpecialty(specialtySlug: string): Promise<void> {
+  if (isUniversalSpecialty(specialtySlug)) return;
+  const name = canonicalSpecialtyName(specialtySlug);
+  if (!name || isUniversalSpecialty(name)) return;
+  await withDbRetry(() =>
+    prisma.medicalSpecialty.upsert({
+      where: { name },
+      create: { name },
+      update: {},
+    }),
+  );
+}
+
 /**
  * `generale` and `empatia` are shared corpora. They are not MedicalSpecialty
  * rows: Pinecone metadata.specialty is the slug itself and the Prisma link
@@ -406,6 +488,7 @@ export async function resolveIngestSpecialty(specialtySlug: string): Promise<Ing
   if (isUniversalSpecialty(specialtySlug)) {
     return { id: null, metadataSpecialty: specialtySlug.trim().toLowerCase() };
   }
+  await ensureCanonicalMedicalSpecialty(specialtySlug);
   const specialty = await resolveMedicalSpecialty(specialtySlug);
   return { id: specialty.id, metadataSpecialty: specialty.name };
 }
@@ -416,7 +499,7 @@ async function embedManyWithRetry(values: string[]): Promise<number[][]> {
   for (let attempt = 1; attempt <= 3; attempt += 1) {
     try {
       const { embeddings } = await embedMany({
-        model: openai.embedding("text-embedding-3-small"),
+        model: runtimeEmbeddingModel(),
         values,
       });
       return embeddings;
@@ -447,7 +530,7 @@ async function embedChunks(chunks: string[]): Promise<number[][]> {
 }
 
 async function deleteVectors(vectorIds: string[]): Promise<void> {
-  const index = getPineconeIndex();
+  const index = runtimePineconeIndex();
   if (!index || vectorIds.length === 0) return;
 
   for (let i = 0; i < vectorIds.length; i += DELETE_BATCH) {
@@ -460,7 +543,7 @@ async function deleteVectors(vectorIds: string[]): Promise<void> {
 }
 
 async function upsertVectors(records: PineconeRecord[]): Promise<void> {
-  const index = getPineconeIndex();
+  const index = runtimePineconeIndex();
   if (!index) {
     throw new Error(
       "Pinecone non configurato. Imposta PINECONE_API_KEY e PINECONE_INDEX prima dell'ingestione.",
@@ -492,13 +575,15 @@ async function removeExistingSource(params: {
   medicalSpecialtyId: string | null;
   update: boolean;
 }): Promise<{ action: IngestAction; existingChunks: number }> {
-  const existing = await prisma.guidelineDocument.findFirst({
-    where: {
-      sourceName: params.sourceName,
-      medicalSpecialtyId: params.medicalSpecialtyId,
-    },
-    select: { id: true, vectorIds: true, title: true, chunkCount: true },
-  });
+  const existing = await withDbRetry(() =>
+    prisma.guidelineDocument.findFirst({
+      where: {
+        sourceName: params.sourceName,
+        medicalSpecialtyId: params.medicalSpecialtyId,
+      },
+      select: { id: true, vectorIds: true, title: true, chunkCount: true },
+    }),
+  );
 
   if (!existing) return { action: "create", existingChunks: 0 };
 
@@ -512,7 +597,7 @@ async function removeExistingSource(params: {
 
   const ids = Array.isArray(existing.vectorIds) ? (existing.vectorIds as string[]) : [];
   await deleteVectors(ids);
-  await prisma.guidelineDocument.delete({ where: { id: existing.id } });
+  await withDbRetry(() => prisma.guidelineDocument.delete({ where: { id: existing.id } }));
   logger.info("Removed obsolete vectors", { title: existing.title, vectors: ids.length });
   return { action: "replaced", existingChunks: existing.chunkCount };
 }
@@ -541,6 +626,11 @@ async function persistDocument(params: {
   const sourceTitle =
     params.filename.replace(/\.[^.]+$/, "") || basename(params.sourceName).replace(/\.[^.]+$/, "");
 
+  if (isPlaceholderFilename(params.filename) || isPlaceholderFilename(params.sourceName)) {
+    logger.info("Skip placeholder document", { sourceName: params.sourceName });
+    return { sourceName: params.sourceName, chunks: 0, action: "skip" };
+  }
+
   if (params.dryRun) {
     const chunks = prepareChunks(params.rawText);
     return { sourceName: params.sourceName, chunks: chunks.length, action: "create" };
@@ -567,7 +657,7 @@ async function persistDocument(params: {
     return { sourceName: params.sourceName, chunks: 0, action: "skip" };
   }
 
-  if (!config.isPineconeConfigured || !getPineconeIndex()) {
+  if (!runtimePineconeIndex()) {
     throw new Error("Pinecone non configurato (PINECONE_API_KEY + PINECONE_INDEX).");
   }
 
@@ -612,20 +702,22 @@ async function persistDocument(params: {
     await upsertVectors(batchRecords);
   }
 
-  await prisma.guidelineDocument.create({
-    data: {
-      id: docId,
-      title: `[${params.pillarCfg.pillar}] ${sourceTitle}`,
-      tags,
-      sourceType: params.sourceType || params.pillarCfg.sourceTypeDefault,
-      sourceName: params.sourceName,
-      text: rawText,
-      chunkCount: chunks.length,
-      vectorIds,
-      isActive: true,
-      medicalSpecialtyId: params.specialtyId,
-    },
-  });
+  await withDbRetry(() =>
+    prisma.guidelineDocument.create({
+      data: {
+        id: docId,
+        title: `[${params.pillarCfg.pillar}] ${sourceTitle}`,
+        tags,
+        sourceType: params.sourceType || params.pillarCfg.sourceTypeDefault,
+        sourceName: params.sourceName,
+        text: rawText,
+        chunkCount: chunks.length,
+        vectorIds,
+        isActive: true,
+        medicalSpecialtyId: params.specialtyId,
+      },
+    }),
+  );
 
   logger.info("Indexed document", {
     pillar: params.pillarCfg.pillar,
@@ -724,6 +816,21 @@ export async function ingestDocumentFromUrl(input: IngestUrlInput): Promise<Inge
   });
 }
 
+async function loadIndexedSourceNames(specialtySlug: string): Promise<Set<string>> {
+  const prefix = `knowledge_base/${specialtySlug}/`;
+  const rows = await withDbRetry(() =>
+    prisma.guidelineDocument.findMany({
+      where: { sourceName: { startsWith: prefix } },
+      select: { sourceName: true },
+    }),
+  );
+  return new Set(
+    rows
+      .map((row) => row.sourceName)
+      .filter((sourceName): sourceName is string => Boolean(sourceName)),
+  );
+}
+
 export async function ingestSpecialtyFromDisk(input: IngestDiskInput): Promise<IngestRunResult> {
   const specialtySlug = input.specialty.trim().toLowerCase();
   const knowledgeRoot = resolve(process.cwd(), "knowledge_base", specialtySlug);
@@ -791,36 +898,44 @@ export async function ingestSpecialtyFromDisk(input: IngestDiskInput): Promise<I
     stats,
   };
 
-  if (input.dryRun) {
-    for (let i = 0; i < allFiles.length; i += 1) {
-      const { pillarCfg, filePath } = allFiles[i];
-      const relativeSource = relative(knowledgeRoot, filePath).replace(/\\/g, "/");
-      await input.onProgress?.(
-        Math.round(((i + 1) / Math.max(allFiles.length, 1)) * 100),
-        `Dry-run ${relativeSource}`,
-      );
-      const buffer = await readFile(filePath);
-      const { text } = await extractTextFromBufferAsync(buffer, basename(filePath));
-      const chunks = text.length >= 20 ? chunkText(text).length : 0;
-      stats[pillarCfg.pillar].files += 1;
-      stats[pillarCfg.pillar].chunks += chunks;
-      if (chunks === 0) stats[pillarCfg.pillar].skipped += 1;
-      report.documents += 1;
-      report.chunks += chunks;
-      if (chunks === 0) report.skipped += 1;
+  const dryRun = Boolean(input.dryRun);
+  const update = Boolean(input.update);
+  let indexedSources = new Set<string>();
+  if (!update) {
+    try {
+      indexedSources = await loadIndexedSourceNames(specialtySlug);
+    } catch (error) {
+      if (!dryRun) throw error;
+      const message = error instanceof Error ? error.message : String(error);
+      logger.warn("Dry-run without indexed-source lookup", { specialty: specialtySlug, message });
     }
-    return report;
   }
 
-  const specialty = await resolveIngestSpecialty(specialtySlug);
-  if (specialty.id) report.specialtyId = specialty.id;
+  const specialty = dryRun ? null : await resolveIngestSpecialty(specialtySlug);
+  if (specialty?.id) report.specialtyId = specialty.id;
 
   for (let i = 0; i < allFiles.length; i += 1) {
     const { pillarCfg, filePath } = allFiles[i];
     const relativeSource = relative(knowledgeRoot, filePath).replace(/\\/g, "/");
     const sourceName = `knowledge_base/${specialtySlug}/${relativeSource}`;
+    const progress = Math.round(((i + 1) / Math.max(allFiles.length, 1)) * 100);
+    stats[pillarCfg.pillar].files += 1;
+    report.documents += 1;
+
+    if (!update && indexedSources.has(sourceName)) {
+      stats[pillarCfg.pillar].skipped += 1;
+      report.skipped += 1;
+      await input.onProgress?.(progress, `already indexed ${relativeSource}`);
+      continue;
+    }
+
+    if (dryRun) {
+      await input.onProgress?.(progress, `to ingest ${relativeSource}`);
+      continue;
+    }
+
     await input.onProgress?.(
-      Math.min(95, Math.round(((i + 1) / Math.max(allFiles.length, 1)) * 90) + 5),
+      Math.min(95, progress),
       `Ingestione ${relativeSource}`,
     );
 
@@ -829,18 +944,16 @@ export async function ingestSpecialtyFromDisk(input: IngestDiskInput): Promise<I
       const { text, sourceType } = await extractTextFromBufferAsync(buffer, basename(filePath));
       const result = await persistDocument({
         specialtySlug,
-        specialtyId: specialty.id,
-        metadataSpecialty: specialty.metadataSpecialty,
+        specialtyId: specialty?.id ?? null,
+        metadataSpecialty: specialty?.metadataSpecialty ?? specialtySlug,
         pillarCfg,
         filename: basename(filePath),
         sourceName,
         rawText: text,
         sourceType,
-        update: Boolean(input.update),
+        update,
       });
 
-      stats[pillarCfg.pillar].files += 1;
-      report.documents += 1;
       if (result.action === "skip") {
         stats[pillarCfg.pillar].skipped += 1;
         report.skipped += 1;
