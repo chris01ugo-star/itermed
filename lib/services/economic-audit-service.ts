@@ -79,11 +79,24 @@ export async function runEconomicAudit(params: {
     title: string;
     text: string;
   }>;
+  prescriptions?: Array<{
+    commercialName: string;
+    activeIngredient?: string;
+    route: string;
+    posology: string;
+    price: number;
+  }>;
 }): Promise<EconomicAuditResult> {
-  const { requestedExams, goldPathExams, clinicalContext, economicGuidelineChunks } = params;
+  const { requestedExams, goldPathExams, clinicalContext, economicGuidelineChunks, prescriptions = [] } =
+    params;
 
   // 1. Calcolo Deterministico Matematico Server-Side
-  const totalSpentEuro = requestedExams.reduce((acc, e) => acc + (e.costEuro || 0), 0);
+  const prescriptionSpendEuro = prescriptions.reduce(
+    (acc, rx) => acc + (Number.isFinite(rx.price) ? rx.price : 0),
+    0,
+  );
+  const totalSpentEuro =
+    requestedExams.reduce((acc, e) => acc + (e.costEuro || 0), 0) + prescriptionSpendEuro;
   const idealCostEuro = goldPathExams.reduce((acc, e) => acc + (e.costEuro || 0), 0);
   const deltaEuro = Number((totalSpentEuro - idealCostEuro).toFixed(2));
 
@@ -95,9 +108,9 @@ export async function runEconomicAudit(params: {
       executiveSummary:
         "Nessun esame prescritto: omissione totale del percorso diagnostico standard e sostenibilità non sostenibile.",
       financialSummary: {
-        totalSpentEuro: 0,
+        totalSpentEuro: Number(prescriptionSpendEuro.toFixed(2)),
         idealCostEuro,
-        deltaEuro: Number((-idealCostEuro).toFixed(2)),
+        deltaEuro: Number((prescriptionSpendEuro - idealCostEuro).toFixed(2)),
         inappropriateSpendEuro: 0,
       },
       inappropriateExams: [],
@@ -127,6 +140,10 @@ ${JSON.stringify(requestedExams, null, 2)}
 <<<GOLD_PATH_EXAMS>>>
 ${JSON.stringify(goldPathExams, null, 2)}
 <<<END_GOLD_PATH_EXAMS>>>
+
+<<<PRESCRIPTIONS>>>
+${JSON.stringify(prescriptions, null, 2)}
+<<<END_PRESCRIPTIONS>>>
 
 <<<ECONOMIC_CORPUS>>>
 ${economicCorpus || "Nessuna linea guida specifica fornita. Valuta sulla base del Gold Path."}

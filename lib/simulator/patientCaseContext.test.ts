@@ -179,4 +179,29 @@ describe("patient identity before the prompt", () => {
     assert.equal(input.patientSex, "M");
     assert.equal(input.patientName, "Anna");
   });
+
+  it("ignores a client age of 58 when the server case states 41", () => {
+    const input = buildPatientSimulatorCaseInput({
+      body: {
+        patientAge: 58,
+        patientSex: "M",
+        patientName: "Mario",
+        casePrompt: "Sono Fabio, ho 41 anni. Sono stanco.",
+      },
+      clinicalCase: {
+        id: "EMAT-012",
+        title: "Paziente di 41 anni con astenia",
+        description: "Uomo di 41 anni ricoverato per astenia.",
+        correctSolution: "Genetica da non mandare al paziente",
+        baselineExamFindings: { demographics: { age: 41, sex: "M", name: "Fabio" } },
+        patientPrompt: "Sono Fabio, ho 41 anni. Sono stanco.",
+        pastMedicalHistory: "Uomo di 41 anni. Nessuna patologia cronica nota.",
+      },
+      patientStress: 10,
+    });
+    assert.equal(input.patientAge, "41");
+    assert.equal(input.patientName, "Fabio");
+    assert.equal(input.patientSex, "M");
+    assert.doesNotMatch(input.clinicalStory ?? "", /58/);
+  });
 });

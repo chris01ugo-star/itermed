@@ -127,6 +127,7 @@ function buildUserPrompt(input: {
   chatHistory: RagTraceChatMessage[];
   exams: Array<{ id: string; name: string; cost: number }>;
   reportText?: string;
+  simulationTrace?: string;
 }): string {
   const casePayload = {
     id: input.caseData.id ?? "",
@@ -163,6 +164,10 @@ function buildUserPrompt(input: {
       "REPORT_TEXT",
       sanitizeForExternalAI(input.reportText ?? "").slice(0, 4000) || "Nessun referto.",
     ),
+    fenceContext(
+      "SIMULATION_TRACE",
+      sanitizeForExternalAI(input.simulationTrace ?? "").slice(0, 6000) || "Traccia non disponibile.",
+    ),
   ].join("\n\n");
 }
 
@@ -172,6 +177,7 @@ export async function evaluateTraceAgainstDocuments(input: {
   chatHistory: RagTraceChatMessage[];
   exams?: Array<{ id: string; name: string; cost: number }>;
   reportText?: string;
+  simulationTrace?: string;
   guidelines: RelevantGuidelines;
   specialty?: string | null;
   caseId?: string | null;
@@ -194,13 +200,14 @@ export async function evaluateTraceAgainstDocuments(input: {
         chatHistory: input.chatHistory,
         exams: input.exams ?? [],
         reportText: input.reportText,
+        simulationTrace: input.simulationTrace,
       }),
     }),
   );
 
   const object = result.object;
   const trace: RagPillarTrace = {
-    authoritative: true,
+    authoritative: false,
     isLab,
     retrievedQuery: input.guidelines.query,
     sourceTitles: sourceTitles(input.guidelines),

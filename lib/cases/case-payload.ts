@@ -1,4 +1,11 @@
+import {
+  resolvePatientProfile,
+  type ResolvedPatientProfile,
+} from "@/lib/cases/resolve-patient-profile";
+
 type CaseNodeContent = { casePrompt?: string };
+
+export type { ResolvedPatientProfile };
 
 /** Generic seed text. It is not a persona and must not block a real script. */
 export function isPlaceholderPatientPrompt(value: unknown): boolean {
@@ -170,6 +177,18 @@ export type SimulatorPlayCasePayload = {
   };
   baselineExamFindings: Record<string, unknown>;
   timeLimitMinutes: number | null;
+  /** Anagraphic and triage text shared with the patient prompt. No gold path. */
+  resolvedProfile: Pick<
+    ResolvedPatientProfile,
+    | "name"
+    | "age"
+    | "sex"
+    | "displayTitle"
+    | "triageAnamnesis"
+    | "clinicalHistory"
+    | "allergiesSummary"
+    | "setting"
+  >;
 };
 
 export type BuildSimulatorCasePayloadInput = {
@@ -190,6 +209,12 @@ export type BuildSimulatorCasePayloadInput = {
   goldStandardPath?: unknown;
   patientDeteriorationThreshold?: number | null;
   correctSolution?: unknown;
+  /** Narrative fields used only to build the safe profile. Never copied raw if they spoil. */
+  pastMedicalHistory?: string | null;
+  presentation?: string | null;
+  setting?: string | null;
+  diagnosis?: string | null;
+  condition?: string | null;
 };
 
 /**
@@ -200,19 +225,46 @@ export function buildSimulatorCasePayload(
   params: BuildSimulatorCasePayloadInput,
 ): SimulatorPlayCasePayload {
   const baseline = sanitizeBaselineForClient(params.baselineExamFindings);
+  const profile = resolvePatientProfile({
+    id: params.id,
+    title: params.title,
+    description: params.description,
+    patientPrompt: usablePatientPrompt(params.patientPrompt),
+    pastMedicalHistory: params.pastMedicalHistory,
+    presentation: params.presentation,
+    setting: params.setting,
+    baselineExamFindings: params.baselineExamFindings,
+    correctSolution: typeof params.correctSolution === "string" ? params.correctSolution : null,
+    diagnosis: params.diagnosis,
+    condition: params.condition,
+  });
   const demographics = extractDemographics(baseline);
 
   const payload: SimulatorPlayCasePayload = {
     id: params.id,
-    title: params.title,
-    description: params.description,
+    title: profile.displayTitle,
+    description: profile.triageAnamnesis,
     specialty: params.specialty ?? null,
     difficulty: params.difficulty,
     estimatedDurationMinutes: params.estimatedDurationMinutes ?? null,
     patientPrompt: usablePatientPrompt(params.patientPrompt),
-    demographics,
+    demographics: {
+      age: profile.age ?? demographics.age,
+      sex: profile.sex ?? demographics.sex,
+      context: demographics.context,
+    },
     baselineExamFindings: baseline,
     timeLimitMinutes: params.timeLimitMinutes ?? null,
+    resolvedProfile: {
+      name: profile.name,
+      age: profile.age,
+      sex: profile.sex,
+      displayTitle: profile.displayTitle,
+      triageAnamnesis: profile.triageAnamnesis,
+      clinicalHistory: profile.clinicalHistory,
+      allergiesSummary: profile.allergiesSummary,
+      setting: profile.setting,
+    },
   };
 
   return payload;

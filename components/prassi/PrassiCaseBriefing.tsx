@@ -12,7 +12,7 @@ import {
 import { StartCaseButtons } from "@/components/cases/StartCaseButtons";
 import type { ClinicalCaseRow } from "@/components/dashboard/ClinicalCaseCard";
 import { DIFFICULTY_LABELS, displaySpecialtyName } from "@/lib/dashboard-case-utils";
-import { patientDisplayName, estimateAgeFromTitle } from "@/lib/prassi/demo-vitals";
+import { resolvePatientProfile } from "@/lib/cases/resolve-patient-profile";
 import type { PrassiPastel } from "@/lib/ui/prassi-pastels";
 import { specialtyPastel } from "@/lib/ui/prassi-pastels";
 import { specialtyAppearance } from "@/lib/ui/specialty-appearance";
@@ -37,8 +37,13 @@ function BriefingBody({
   const SpecialtyIcon = specialtyLook.icon;
   const difficulty = DIFFICULTY_LABELS[caseRow.difficulty] ?? caseRow.difficulty;
   const vitals = caseRow.vitals;
-  const name = patientDisplayName(caseRow.id, caseRow.title, caseRow.sex);
-  const age = caseRow.age ?? estimateAgeFromTitle(caseRow.title);
+  const profile = resolvePatientProfile({
+    id: caseRow.id,
+    title: caseRow.title,
+    baselineExamFindings: { demographics: { age: caseRow.age, sex: caseRow.sex } },
+  });
+  const name = profile.name;
+  const ageLabel = profile.age != null ? `${profile.age} anni` : "età non indicata";
 
   return (
     <div className="flex flex-col">
@@ -53,9 +58,9 @@ function BriefingBody({
             </p>
             <h2 className="font-display text-xl font-bold tracking-tight text-text-primary md:text-[1.35rem]">
               {name}
-              <span className="font-semibold text-slate-500"> · {age} anni</span>
+              <span className="font-semibold text-slate-500"> · {ageLabel}</span>
             </h2>
-            <p className="text-sm leading-relaxed text-slate-600">{caseRow.title}</p>
+            <p className="text-sm leading-relaxed text-slate-600">{profile.displayTitle}</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <span
@@ -116,15 +121,6 @@ function BriefingBody({
           </div>
         </div>
 
-        <div className="rounded-xl border border-border border-l-[3px] border-l-brand-primary bg-ui-bg/40 px-4 py-3.5">
-          <p className="text-xs font-semibold text-brand-primary">Cosa farai in sessione</p>
-          <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-slate-600">
-            <li>Dialoghi con il paziente e raccogli l&apos;anamnesi.</li>
-            <li>Richiedi esami e imaging rispettando budget e linee guida.</li>
-            <li>Chiudi il caso: ricevi score e coaching sui cinque pilastri.</li>
-          </ul>
-        </div>
-
         <div className="border-t border-border-subtle pt-5">
           <div className="mb-3 flex items-center gap-2">
             <Play className="h-3.5 w-3.5 text-brand-secondary" aria-hidden />
@@ -146,7 +142,11 @@ export function PrassiCaseBriefing({
 }: PrassiCaseBriefingProps) {
   const specialty = displaySpecialtyName(caseRow);
   const dept = pastel ?? specialtyPastel(specialty);
-  const name = patientDisplayName(caseRow.id, caseRow.title, caseRow.sex);
+  const name = resolvePatientProfile({
+    id: caseRow.id,
+    title: caseRow.title,
+    baselineExamFindings: { demographics: { age: caseRow.age, sex: caseRow.sex } },
+  }).name;
   const isModal = open !== undefined || Boolean(onClose);
 
   useEffect(() => {

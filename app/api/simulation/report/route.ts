@@ -56,6 +56,16 @@ const SimulationReportBodySchema = z.object({
   finalDiagnosis: z.string().optional(),
   requestedExamIds: z.array(z.string()).default([]),
   executedActionIds: z.array(z.string()).default([]),
+  physicalExams: z
+    .array(
+      z.object({
+        id: z.string().max(120).default(""),
+        name: z.string().max(200).default(""),
+        finding: z.string().max(500).default(""),
+      }),
+    )
+    .max(40)
+    .default([]),
   helpRequested: z.boolean().optional(),
   helpRequestCount: z.coerce.number().int().min(0).max(500).optional(),
   /** Stress del paziente al momento della chiusura (0–100). */
@@ -123,6 +133,7 @@ export async function POST(req: Request) {
       finalDiagnosis,
       requestedExamIds,
       executedActionIds,
+      physicalExams,
       helpRequested,
       helpRequestCount,
       patientStress,
@@ -188,6 +199,8 @@ export async function POST(req: Request) {
       throw new ValidationError("Caso clinico non disponibile per il report.");
     }
 
+    const maneuverIds = physicalExams.map((exam) => exam.id.trim()).filter(Boolean);
+    const executedWithManeuvers = [...new Set([...executedActionIds, ...maneuverIds])];
     const normalizedReportText = normalizeReportText(
       sanitizeForExternalAI(reportText),
     );
@@ -206,7 +219,8 @@ export async function POST(req: Request) {
       caseContext: sanitizedCaseContext,
       finalDiagnosis: sanitizedFinalDiagnosis,
       requestedExamIds,
-      executedActionIds,
+      executedActionIds: executedWithManeuvers,
+      physicalExams,
       helpRequested,
       helpRequestCount,
       selectedOptions,
@@ -234,7 +248,8 @@ export async function POST(req: Request) {
           finalDiagnosis: sanitizedFinalDiagnosis,
           liveSessionId,
           requestedExamIds,
-          executedActionIds,
+          executedActionIds: executedWithManeuvers,
+          physicalExams,
           helpRequested,
           helpRequestCount,
           selectedOptions,

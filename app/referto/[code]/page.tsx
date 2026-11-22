@@ -114,6 +114,10 @@ export default async function SharedRefertoPage({ params }: RefertoPageProps) {
           legalReport={report.legalAudit ?? null}
           clinicalSummary={report.clinicalSummary ?? null}
           ragAuthoritative={report.ragAuthoritative}
+          scoreWaterfall={report.scoreWaterfall ?? null}
+          clinicalMatrix={report.clinicalMatrix ?? null}
+          guidelineEvidence={report.guidelineEvidence ?? null}
+          helpTelemetry={report.helpTelemetry ?? null}
         />
       </div>
     </div>

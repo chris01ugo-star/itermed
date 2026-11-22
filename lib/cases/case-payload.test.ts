@@ -88,4 +88,38 @@ describe("play-session zero-trust serializer", () => {
     const leaks = findPlaySessionEvaluationLeaks(payload);
     assert.deepEqual(leaks, []);
   });
+
+  it("attaches a safe profile and keeps gold text out of the chart", () => {
+    const payload = buildSimulatorCasePayload({
+      id: "EMAT-012",
+      title: "ALL dell'adulto: BCR::ABL1 e MRD sono obbligatori",
+      description: "Il pannello ELN rende obbligatori BCR::ABL1 e la MRD.",
+      specialty: "Ematologia",
+      difficulty: "HARD",
+      estimatedDurationMinutes: 45,
+      patientPrompt: "Sono Fabio, ho 41 anni. Sono stanco e non so cosa ho.",
+      pastMedicalHistory: "Uomo di 41 anni. Nessuna patologia cronica nota. Nessuna allergia nota.",
+      presentation: "Fabio riferisce astenia e sudorazione notturna.",
+      setting: "REPARTO",
+      baselineExamFindings: { demographics: { name: "Fabio", age: 41, sex: "M" } },
+      correctSolution: "Cercare BCR::ABL1 e impostare la MRD.",
+      goldStandardPath: ["emocromo"],
+    });
+    const chart = [
+      payload.title,
+      payload.description,
+      payload.resolvedProfile.displayTitle,
+      payload.resolvedProfile.triageAnamnesis,
+      payload.resolvedProfile.clinicalHistory,
+      payload.resolvedProfile.allergiesSummary,
+    ].join("\n");
+    assert.equal(payload.resolvedProfile.name, "Fabio");
+    assert.equal(payload.resolvedProfile.age, 41);
+    assert.equal(payload.resolvedProfile.sex, "M");
+    assert.equal("goldStandardPath" in payload, false);
+    assert.equal("correctSolution" in payload, false);
+    assert.equal("coherenceNotes" in payload.resolvedProfile, false);
+    assert.doesNotMatch(chart, /ELN|BCR|MRD|GOLD|leucemia/i);
+    assert.deepEqual(findPlaySessionEvaluationLeaks(payload), []);
+  });
 });

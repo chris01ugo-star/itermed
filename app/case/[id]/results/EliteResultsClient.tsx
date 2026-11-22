@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { Fragment, useEffect, useState, type ReactNode } from "react";
 import {
   Activity,
   AlertTriangle,
@@ -40,6 +40,13 @@ import type { KillerSwitchTrace } from "@/lib/services/simulation-report-data";
 import type { TherapyEvaluation } from "@/lib/services/evaluation-medications";
 import { ReportShareBarcode } from "@/components/report/ReportShareBarcode";
 import { LegalAuditSection } from "@/components/report/LegalAuditSection";
+import {
+  ClinicalMatrixPanel,
+  GuidelineEvidenceBox,
+  WaterfallSteps,
+  type ClinicalMatrixView,
+  type WaterfallStepView,
+} from "@/components/report/ReportMathPanels";
 import { reportAccessionCode, reportShareUrl } from "@/lib/reports/share-link";
 import {
   isLabEvaluationCase,
@@ -98,6 +105,10 @@ type EliteResultsClientProps = {
   clinicalSummary?: string | null;
   /** When true, pillar scores and feedback come from the document-bound examiner. */
   ragAuthoritative?: boolean;
+  scoreWaterfall?: Record<string, WaterfallStepView[]> | null;
+  clinicalMatrix?: ClinicalMatrixView | null;
+  guidelineEvidence?: Array<{ pillar: string; text: string; sources?: string[] }> | null;
+  helpTelemetry?: { helpRequested?: boolean; helpRequestCount?: number; note?: string } | null;
 };
 
 const PILLARS: Array<{
@@ -490,7 +501,12 @@ export function EliteResultsClient({
   economicAudit = null,
   clinicalSummary = null,
   ragAuthoritative = false,
+  scoreWaterfall = null,
+  clinicalMatrix = null,
+  guidelineEvidence = null,
+  helpTelemetry = null,
 }: EliteResultsClientProps) {
+  const [openPillar, setOpenPillar] = useState<string | null>(null);
   const legalDto = coerceLegalReportDto(legalReport);
   const clinicalNarrative = clinicalNarrativeFromAudit(clinicalAudit);
   const economicNarrative = economicNarrativeFromAudit(economicAudit);
@@ -823,13 +839,33 @@ export function EliteResultsClient({
                   const Icon = pillar.icon;
                   const labCopy = isLab ? labPillarCopy(pillar.key) : null;
                   const pillarLabel = labCopy?.label ?? pillar.label;
+                  const waterfallKey =
+                    pillar.key === "clinicalAccuracy"
+                      ? "clinical"
+                      : pillar.key === "legalComplianceGelliBianco"
+                        ? "legal"
+                        : pillar.key === "prescribingAppropriateness"
+                          ? "exams"
+                          : pillar.key === "economicSustainability"
+                            ? "economy"
+                            : "empathy";
+                  const steps = scoreWaterfall?.[waterfallKey] ?? [];
+                  const opened = openPillar === pillar.key && steps.length > 0;
                   return (
-                    <tr key={pillar.key} className={i % 2 === 0 ? "bg-[var(--aequan-panel-bg)]" : "bg-[var(--aequan-border-subtle)]"}>
+                    <Fragment key={pillar.key}>
+                    <tr className={i % 2 === 0 ? "bg-[var(--aequan-panel-bg)]" : "bg-[var(--aequan-border-subtle)]"}>
                       <td className="border-t border-[var(--aequan-border)] px-3 py-3 align-top">
-                        <p className="flex items-center gap-2 font-semibold text-[var(--aequan-brand-primary)]">
+                        <button
+                          type="button"
+                          onClick={() => setOpenPillar(opened ? null : pillar.key)}
+                          className="flex items-center gap-2 text-left font-semibold text-[var(--aequan-brand-primary)]"
+                        >
                           <Icon className="h-3.5 w-3.5 shrink-0 text-[var(--aequan-text-secondary)]" strokeWidth={1.75} />
                           {pillarLabel}
-                        </p>
+                          {steps.length > 0 ? (
+                            <ChevronDown className={cn("h-3.5 w-3.5 transition", opened && "rotate-180")} />
+                          ) : null}
+                        </button>
                         {labCopy ? (
                           <p className="mt-1 max-w-md text-[12px] leading-snug text-[var(--aequan-text-secondary)]">
                             {labCopy.description}
@@ -887,11 +923,33 @@ export function EliteResultsClient({
                         </span>
                       </td>
                     </tr>
+                    {opened ? (
+                      <tr className="bg-[var(--aequan-panel-bg)]">
+                        <td colSpan={5} className="border-t border-[var(--aequan-border)] px-4 py-3">
+                          <WaterfallSteps steps={steps} />
+                        </td>
+                      </tr>
+                    ) : null}
+                    </Fragment>
                   );
                 })}
               </tbody>
             </table>
           </div>
+          {clinicalMatrix ? (
+            <div className="mt-6">
+              <h3 className="text-[10px] font-bold uppercase tracking-[0.22em] text-[var(--aequan-text-secondary)]">
+                Matrice clinica
+              </h3>
+              <div className="mt-3">
+                <ClinicalMatrixPanel matrix={clinicalMatrix} />
+              </div>
+            </div>
+          ) : null}
+          <GuidelineEvidenceBox items={guidelineEvidence ?? []} />
+          {helpTelemetry?.note ? (
+            <p className="mt-3 text-xs text-[var(--aequan-text-secondary)]">{helpTelemetry.note}</p>
+          ) : null}
         </section>
 
         <section className="border-b border-[var(--aequan-border)] px-5 py-6 sm:px-7">

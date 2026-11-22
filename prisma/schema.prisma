@@ -323,6 +323,8 @@ model CaseSession {
   failedDiagnosisAttempts Int @default(0)
   /// Stress del paziente a fine turno (0–100), aggiornato dal clock della simulazione.
   patientStress           Int @default(0)
+  /// Cronologia compatta degli eventi di stress (baseline e variazioni significative).
+  stressTimeline          Json?
   /// Diario clinico / relazione di dimissione compilata dallo studente.
   clinicalSummary         String? @db.Text
   /// Audit trail: momento in cui lo studente ha accettato il disclaimer di questo caso.

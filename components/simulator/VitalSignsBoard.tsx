@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  estimateAgeFromTitle,
   patientDisplayName,
   type DemoVitals,
 } from "@/lib/prassi/demo-vitals";
@@ -25,6 +24,7 @@ import {
 type VitalSignsBoardProps = {
   caseId: string;
   title?: string | null;
+  patientName?: string | null;
   age?: number | string | null;
   sex?: string | null;
   /** Live monitor vitals (baseline + clinical drift). Required for realistic physiology. */
@@ -58,6 +58,7 @@ function findingColor(status: VitalStatus): string {
 export function VitalSignsBoard({
   caseId,
   title,
+  patientName,
   age,
   sex,
   vitals,
@@ -72,8 +73,10 @@ export function VitalSignsBoard({
   const classifiedForStatus =
     bpMeasured || !onMeasureBp ? classified : classified.filter((v) => v.id !== "bp");
   const overall = maxVitalStatus(classifiedForStatus.map((v) => v.status));
-  const resolvedAge = typeof age === "number" ? age : estimateAgeFromTitle(title, Number(age) || 58);
-  const name = patientDisplayName(caseId, title, sex);
+  const numericAge = typeof age === "number" ? age : Number(age);
+  const resolvedAge =
+    Number.isFinite(numericAge) && numericAge >= 1 && numericAge <= 110 ? Math.round(numericAge) : null;
+  const name = patientName?.trim() || patientDisplayName(caseId, title, sex);
   const sexLabel = sex === "F" ? "F" : sex === "M" ? "M" : null;
   const unstable = overall !== "stable";
   const critical = overall === "critical" || vitals.spo2 < 90 || vitals.hr > 110;
@@ -100,7 +103,7 @@ export function VitalSignsBoard({
               {name}
               <span className="font-normal text-slate-400">
                 {" "}
-                · {resolvedAge} anni
+                · {resolvedAge != null ? `${resolvedAge} anni` : "età non indicata"}
                 {sexLabel ? ` · ${sexLabel}` : ""}
               </span>
             </p>

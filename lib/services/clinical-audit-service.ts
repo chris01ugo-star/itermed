@@ -86,6 +86,8 @@ export async function runClinicalAudit(params: {
   }>;
   elapsedMinutes: number;
   clinicalGuidelineChunks?: Array<{ title: string; text: string }>;
+  /** Referti, manovre, prescrizioni e diario: contesto, non un voto sostitutivo. */
+  simulationTrace?: string;
 }): Promise<ClinicalAuditResult> {
   const {
     userDiagnosis,
@@ -97,6 +99,7 @@ export async function runClinicalAudit(params: {
     elapsedMinutes,
     clinicalGuidelineChunks,
   } = params;
+  const simulationTrace = params.simulationTrace?.trim() ?? "";
 
   if (!userDiagnosis && performedActions.length === 0) {
     return {
@@ -164,6 +167,10 @@ ${elapsedMinutes} minuti
 <<<CLINICAL_CORPUS>>>
 ${clinicalCorpus || "Utilizza come riferimento primario il Gold Path e le regole sul rischio iatrogeno."}
 <<<END_CLINICAL_CORPUS>>>
+
+<<<SIMULATION_TRACE>>>
+${simulationTrace || "Traccia clinica non disponibile."}
+<<<END_SIMULATION_TRACE>>>
 `;
 
   const { object } = await generateObject({

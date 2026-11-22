@@ -1,9 +1,6 @@
 import type { ClinicalAuditResult } from "@/lib/services/clinical-audit-service";
 import type { EconomicAuditResult } from "@/lib/services/economic-audit-service";
 import type { LegalAuditResult } from "@/lib/services/legal-audit-service";
-import { clinicalAccuracyPercentFromAudit } from "@/lib/mappers/clinical-audit-mapper";
-import { efficiencyPercentFromAudit } from "@/lib/mappers/economic-audit-mapper";
-import { legalCompliancePercentFromAudit } from "@/lib/mappers/legal-audit-mapper";
 import { isLabEvaluationCase, labPillarLabel } from "@/lib/reports/lab-evaluation-labels";
 
 /** One pillar returned by the document-bound examiner. */
@@ -72,19 +69,10 @@ export function buildResultsRadar(input: {
     specialty: input.specialty,
     caseId: input.caseId,
   });
-  const rag = input.ragAuthoritative === true;
-  const clinical = rag
-    ? input.scores.clinical
-    : (clinicalAccuracyPercentFromAudit(input.clinicalAudit) ?? input.scores.clinical);
-  const legal = rag
-    ? input.scores.legal
-    : (legalCompliancePercentFromAudit(input.legalAudit) ?? input.scores.legal);
-  const exams = rag
-    ? input.scores.exams
-    : (efficiencyPercentFromAudit(input.economicAudit) ?? input.scores.exams);
-  const economy = rag
-    ? input.scores.economy
-    : (efficiencyPercentFromAudit(input.economicAudit) ?? input.scores.economy);
+  const clinical = input.scores.clinical;
+  const legal = input.scores.legal;
+  const exams = input.scores.exams;
+  const economy = input.scores.economy;
 
   const byKey: Record<(typeof RADAR_ROWS)[number]["key"], number> = {
     clinicalAccuracy: clinical,

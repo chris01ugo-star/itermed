@@ -20,24 +20,25 @@ describe("patient system prompt", () => {
       painNrs: 9,
     });
 
-    assert.match(prompt, /ADESSO SEI SOLO QUESTO PAZIENTE/);
+    assert.match(prompt, /SCHEDA PERSONA & VOCE DEL PAZIENTE/);
     assert.match(prompt, /DONNA\/FEMMINA/);
     assert.match(prompt, /femminile/);
     assert.match(prompt, /Dolore al petto da un'ora/);
     assert.match(prompt, /Dolore: 9\/10/);
-    assert.match(prompt, /COME GESTIRE IL TUO COPIONE/);
-    assert.match(prompt, /racconta SOLO come ti senti/);
+    assert.match(prompt, /Al primo turno racconti i sintomi/);
     assert.match(prompt, /vorrebbe sapere/);
-    assert.match(prompt, /Diagnosi da non dire: STEMI/);
-    assert.doesNotMatch(prompt, /sono stanca/);
+    assert.doesNotMatch(prompt, /Diagnosi da non dire/);
+    assert.doesNotMatch(prompt, /STEMI/);
+    assert.doesNotMatch(prompt, /sono stanc/);
+    assert.doesNotMatch(prompt, /note per il medico/);
     assert.doesNotMatch(prompt, /CLOSED-WORLD/);
     assert.doesNotMatch(prompt, /DIRETTIVA DI SICUREZZA/);
-    assert.ok(prompt.indexOf("Dolore al petto da un'ora") > prompt.indexOf("ADESSO SEI SOLO QUESTO PAZIENTE"));
+    assert.ok(prompt.indexOf("Dolore al petto da un'ora") > prompt.indexOf("SCHEDA PERSONA & VOCE DEL PAZIENTE"));
     const groundTruth = prompt.indexOf("<GROUND_TRUTH_CONSTRAINTS>");
     assert.ok(groundTruth >= 0);
     assert.equal(prompt.indexOf("<GROUND_TRUTH_CONSTRAINTS>", groundTruth + 1), -1);
-    assert.ok(prompt.indexOf("FASCIA STRESS") > prompt.indexOf("ADESSO SEI SOLO QUESTO PAZIENTE"));
-    assert.ok(prompt.indexOf("Parametri attuali:") > prompt.indexOf("ADESSO SEI SOLO QUESTO PAZIENTE"));
+    assert.ok(prompt.indexOf("FASCIA STRESS") > prompt.indexOf("SCHEDA PERSONA & VOCE DEL PAZIENTE"));
+    assert.ok(prompt.indexOf("Parametri attuali:") > prompt.indexOf("SCHEDA PERSONA & VOCE DEL PAZIENTE"));
   });
 
   it("turns a third-person ward story into lived experience and keeps the script", () => {
@@ -63,9 +64,9 @@ describe("patient system prompt", () => {
     assert.match(prompt, /UOMO\/MASCHIO/);
     assert.match(prompt, /Dici che sei a letto da giorni/);
     assert.match(prompt, /in reparto da cinque giorni/);
-    assert.match(prompt, /note per il medico/);
-    assert.match(prompt, /nota di regia/);
     assert.match(prompt, /eritema sacrale/);
+    assert.doesNotMatch(prompt, /note per il medico/);
+    assert.doesNotMatch(prompt, /nota di regia/);
   });
 
   it("drops the placeholder script and does not treat it as the persona", () => {
@@ -84,8 +85,8 @@ describe("patient system prompt", () => {
         "Paziente in simulazione. Rispondi come paziente, senza diagnosi e senza valori vitali a voce.",
     });
 
-    assert.match(prompt, /non c'è un copione separato/);
     assert.match(prompt, /bronchite/);
+    assert.doesNotMatch(prompt, /non c'è un copione separato/);
     assert.doesNotMatch(prompt, /Paziente in simulazione/);
     assert.doesNotMatch(prompt, /NON inventare un punteggio/);
   });
@@ -130,16 +131,18 @@ describe("patient system prompt", () => {
     });
 
     assert.match(prompt, /Reparto di degenza/);
-    assert.match(prompt, /ADESSO SEI SOLO QUESTO PAZIENTE/);
-    assert.match(prompt, /Sospetta leucemia mieloide acuta/);
+    assert.match(prompt, /SCHEDA PERSONA & VOCE DEL PAZIENTE/);
+    assert.match(prompt, /Nome: Sara/);
     assert.match(prompt, /Pallida, niente sanguinamento maggiore/);
-    assert.match(prompt, /midostaurin prima del FLT3/);
     assert.match(prompt, /in ansia/);
     assert.match(prompt, /ti manca il fiato/);
+    assert.doesNotMatch(prompt, /leucemia/);
+    assert.doesNotMatch(prompt, /midostaurin/);
     assert.doesNotMatch(prompt, /NON conosci la parola/);
-    const rulesEnd = prompt.indexOf("ADESSO SEI SOLO QUESTO PAZIENTE");
+    const rulesEnd = prompt.indexOf("SCHEDA PERSONA & VOCE DEL PAZIENTE");
     assert.ok(rulesEnd > 0);
-    assert.ok(prompt.indexOf("Sospetta leucemia mieloide acuta") > rulesEnd);
+    assert.ok(prompt.indexOf("Pallida, niente sanguinamento maggiore") > rulesEnd);
+    assert.ok(prompt.indexOf("FASCIA STRESS") > rulesEnd);
   });
 
   it("keeps refusals out of the opening script and saves them as reactions", () => {
@@ -159,17 +162,17 @@ describe("patient system prompt", () => {
     });
 
     const symptoms = prompt.slice(
-      prompt.indexOf("Sintomi da raccontare subito:"),
+      prompt.indexOf("Sintomi da raccontare subito"),
       prompt.indexOf("Reazioni solo dopo"),
     );
     const reactions = prompt.slice(
       prompt.indexOf("Reazioni solo dopo"),
-      prompt.indexOf("Situazione:"),
+      prompt.indexOf("Motivo di accesso"),
     );
     assert.match(symptoms, /catarro è giallo/);
     assert.doesNotMatch(symptoms, /PET/);
     assert.match(reactions, /Non voglio la PET/);
     assert.match(reactions, /ossigeno/);
-    assert.match(prompt, /NON anticipare MAI al primo messaggio/);
+    assert.match(prompt, /Non anticipi un rifiuto/);
   });
 });

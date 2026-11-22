@@ -1,5 +1,13 @@
+import { resolvePatientProfile } from "@/lib/cases/resolve-patient-profile";
 import { normalizeStepId } from "@/lib/cases/simulation-time";
 import { isInvasiveExam, resolveCanonicalExam } from "@/lib/simulator/exam-canonical-registry";
+
+/** Inclusive crisis threshold shared by the bar, the prompt and the report penalty. */
+export const CRITICAL_STRESS_THRESHOLD = 80;
+
+export function isCriticalPatientStress(value: number): boolean {
+  return Number.isFinite(value) && value >= CRITICAL_STRESS_THRESHOLD;
+}
 
 /** Per-case stress configuration stored in `baselineExamFindings.stressProfile`. */
 export interface StressProfile {
@@ -16,7 +24,47 @@ export interface StressProfile {
   relievingExams?: string[];
   /** Exam or therapy keys that spike stress when wrongly prescribed */
   dangerousPrescriptions?: string[];
+  /** Lowest stress while the acute driver is untreated. */
+  physiologicalFloor: number;
+  /** Symptom the patient is living, without the hidden diagnosis. */
+  caseContext: CaseContextProfile;
 }
+
+export type DominantSymptom = "dyspnea" | "chest" | "shock" | "sensitive" | "general";
+
+export type CaseContextProfile = {
+  dominantSymptom: DominantSymptom;
+  specificTriggers: string[];
+  specificReliefs: string[];
+  baselineStatusLabel: string;
+};
+
+export type StressEventCategory =
+  | "communication"
+  | "clinical_action"
+  | "deterioration"
+  | "time"
+  | "diagnosis"
+  | "baseline";
+
+export type StressSeverity = "calm" | "elevated" | "critical";
+
+export type StressTurnEvent = {
+  stress: number;
+  delta: number;
+  reason: string;
+  category: StressEventCategory;
+  severity: StressSeverity;
+};
+
+export type StressTimelineEntry = {
+  atMinute: number;
+  turn: number;
+  stress: number;
+  delta: number;
+  reason: string;
+  category: StressEventCategory;
+};
 
 export type MessageTone = "empathetic" | "cold" | "aggressive" | "neutral";
 
@@ -45,6 +93,9 @@ export type StressEngineInput = {
   requestedExamIds?: string[];
   /** Physical maneuver that hurts if done without warning. */
   painfulManeuver?: boolean;
+  respiratoryRate?: number | null;
+  /** Earlier doctor lines, used to shrink repeated reassuring formulas. */
+  recentDoctorMessages?: string[];
 };
 
 const EMPATHY_PATTERNS = [
@@ -168,17 +219,32 @@ export function pathologicalStressFloor(params: {
   painNrs?: number | null;
   spo2?: number | null;
   systolic?: number | null;
+  respiratoryRate?: number | null;
   description?: string;
   treated?: boolean;
 }): number {
   if (params.treated) return 0;
+  if (params.profile.physiologicalFloor > 0 && !params.treated) {
+    const authored = params.profile.physiologicalFloor;
+    const text = params.description ?? "";
+    const pain = params.painNrs ?? 0;
+    const spo2 = params.spo2 != null && params.spo2 > 0 ? params.spo2 : null;
+    const rr = params.respiratoryRate != null && params.respiratoryRate > 0 ? params.respiratoryRate : null;
+    const shock =
+      /shock|ipotens|sopor|coma|sepsi/i.test(text) ||
+      (params.systolic != null && params.systolic > 0 && params.systolic < 90);
+    const severe = pain >= 7 || (spo2 != null && spo2 < 90) || (rr != null && rr >= 24) || shock;
+    if (severe) return Math.max(authored, 45);
+    return authored;
+  }
   const text = params.description ?? "";
   const pain = params.painNrs ?? 0;
   const spo2 = params.spo2 != null && params.spo2 > 0 ? params.spo2 : null;
+  const rr = params.respiratoryRate != null && params.respiratoryRate > 0 ? params.respiratoryRate : null;
   const shock =
-    /shock|ipotens|sopor|coma/i.test(text) ||
+    /shock|ipotens|sopor|coma|sepsi/i.test(text) ||
     (params.systolic != null && params.systolic > 0 && params.systolic < 90);
-  const severe = pain >= 9 || (spo2 != null && spo2 < 90) || shock;
+  const severe = pain >= 9 || (spo2 != null && spo2 < 90) || (rr != null && rr >= 24) || shock;
   const acute = pain >= 7 || (spo2 != null && spo2 < 92) || shock || ACUTE_TEXT.test(text);
   if (severe) return 45;
   if (acute) return params.profile.reactivityType === "hypo" ? 40 : 35;
@@ -360,6 +426,13 @@ function normalizeStressProfile(
     dangerousPrescriptions: Array.isArray(raw.dangerousPrescriptions)
       ? (raw.dangerousPrescriptions as string[])
       : [],
+    physiologicalFloor: 0,
+    caseContext: {
+      dominantSymptom: "general",
+      specificTriggers: [],
+      specificReliefs: [],
+      baselineStatusLabel: "Il paziente è in attesa.",
+    },
   };
 }
 
@@ -375,20 +448,295 @@ function inferStressProfileFromCase(description: string, goldStandardPath?: stri
   );
 }
 
+type PhysiologyRead = {
+  initial: number;
+  floor: number;
+  reactivity: StressProfile["reactivityType"];
+  decay: number;
+  context: CaseContextProfile;
+};
+
+function readNumber(value: unknown): number | null {
+  const n = typeof value === "number" ? value : typeof value === "string" ? Number(value) : NaN;
+  return Number.isFinite(n) ? n : null;
+}
+
+function baselineVitals(baseline: Record<string, unknown> | null | undefined): {
+  spo2: number | null;
+  rr: number | null;
+  hr: number | null;
+  systolic: number | null;
+  gcs: number | null;
+  pain: number | null;
+} {
+  const vitals =
+    baseline?.vitals && typeof baseline.vitals === "object" && !Array.isArray(baseline.vitals)
+      ? (baseline.vitals as Record<string, unknown>)
+      : {};
+  const painObj =
+    baseline?.pain && typeof baseline.pain === "object" && !Array.isArray(baseline.pain)
+      ? (baseline.pain as Record<string, unknown>)
+      : {};
+  const systolic = readNumber(String(vitals.bloodPressure ?? "").split("/")[0]);
+  return {
+    spo2: readNumber(vitals.spo2),
+    rr: readNumber(vitals.respiratoryRate ?? vitals.rr),
+    hr: readNumber(vitals.heartRate ?? vitals.hr),
+    systolic: systolic != null && systolic > 0 ? systolic : null,
+    gcs: readNumber(vitals.gcs ?? vitals.glasgow),
+    pain: readNumber(painObj.nrs ?? vitals.painScore ?? vitals.pain),
+  };
+}
+
+function derivePhysiology(params: {
+  id?: string | null;
+  title?: string | null;
+  description: string;
+  presentation?: string | null;
+  patientPrompt?: string | null;
+  setting?: string | null;
+  baselineExamFindings?: Record<string, unknown> | null;
+  emotionalState?: string | null;
+  communicationStyle?: string | null;
+}): PhysiologyRead {
+  const chart = resolvePatientProfile({
+    id: params.id,
+    title: params.title,
+    description: params.description,
+    presentation: params.presentation,
+    patientPrompt: params.patientPrompt,
+    setting: params.setting,
+    baselineExamFindings: params.baselineExamFindings,
+  });
+  const vitals = baselineVitals(params.baselineExamFindings);
+  const profileRaw = params.baselineExamFindings?.patientProfile;
+  const profileObj =
+    profileRaw && typeof profileRaw === "object" && !Array.isArray(profileRaw)
+      ? (profileRaw as Record<string, unknown>)
+      : {};
+  const emotion = `${params.emotionalState ?? ""} ${profileObj.emotionalState ?? ""} ${params.communicationStyle ?? ""} ${profileObj.communicationStyle ?? ""}`.toLowerCase();
+  const corpus = `${params.title ?? ""} ${params.description} ${params.presentation ?? ""} ${chart.triageAnamnesis}`.toLowerCase();
+  const anxious = /anxious|ansia|panico|preoccup|irrequiet|angosc/.test(emotion) || /ansios|irrequiet|palpit/.test(corpus);
+  const setting = chart.setting;
+  const emergency = /pronto soccorso/i.test(setting);
+  const guard = /guardia medica/i.test(setting);
+  const shock =
+    (vitals.systolic != null && vitals.systolic < 90) ||
+    (vitals.gcs != null && vitals.gcs <= 12) ||
+    /shock|sepsi|coma|sopor/.test(corpus);
+  const hypoxic = (vitals.spo2 != null && vitals.spo2 < 90) || (vitals.rr != null && vitals.rr >= 24);
+  const painful = vitals.pain != null && vitals.pain >= 7;
+  const chest = /palpit|dolore torac|oppress|batte il cuore|petto/.test(corpus);
+  const stable =
+    !shock &&
+    !hypoxic &&
+    !painful &&
+    (vitals.spo2 == null || vitals.spo2 >= 96) &&
+    (vitals.rr == null || vitals.rr <= 20) &&
+    (vitals.hr == null || (vitals.hr >= 55 && vitals.hr <= 105));
+
+  let reactivity: StressProfile["reactivityType"] = "standard";
+  let initial = emergency ? 34 : guard ? 30 : 26;
+  let floor = emergency ? 12 : 8;
+  let decay = emergency ? 0.8 : 0.35;
+  let dominant: DominantSymptom = "general";
+
+  if (shock) {
+    reactivity = "hypo";
+    initial = 64;
+    floor = 45;
+    decay = 3.2;
+    dominant = "shock";
+  } else if (hypoxic) {
+    initial = vitals.spo2 != null && vitals.spo2 < 88 ? 62 : 58;
+    floor = 45;
+    decay = 1.8;
+    reactivity = anxious ? "hyper" : "standard";
+    dominant = "dyspnea";
+  } else if (painful || chest) {
+    initial = Math.max(initial, painful ? 58 : 48);
+    floor = painful ? 45 : 22;
+    decay = anxious || chest ? 1.6 : 1.2;
+    reactivity = anxious || chest ? "hyper" : "standard";
+    dominant = chest ? "chest" : "general";
+  } else if (stable && !emergency) {
+    initial = anxious ? 32 : 26;
+    floor = anxious ? 12 : 8;
+    decay = 0.15;
+    reactivity = anxious ? "hyper" : "standard";
+    dominant = anxious ? "sensitive" : "sensitive";
+  }
+
+  if (anxious && reactivity === "standard") reactivity = "hyper";
+  if (anxious && dominant === "general") dominant = chest ? "chest" : "sensitive";
+  if (emergency && !stable && !shock && !hypoxic) initial = Math.min(70, initial + 4);
+
+  const context: CaseContextProfile =
+    dominant === "dyspnea"
+      ? {
+          dominantSymptom: "dyspnea",
+          specificTriggers: ["messaggi lunghi", "raffica di domande", "ritardo sull'ossigeno"],
+          specificReliefs: ["ossigeno", "domande brevi", "auscultazione"],
+          baselineStatusLabel: "Affannato: il fiato corto tiene alta la tensione finché non si interviene sul respiro.",
+        }
+      : dominant === "chest"
+        ? {
+            dominantSymptom: "chest",
+            specificTriggers: ["minimizzare", "ritardo", "tono freddo"],
+            specificReliefs: ["ECG precoce", "spiegazione sul petto", "gestione del dolore"],
+            baselineStatusLabel: "Irrequieto: sente il petto e il battito, e si calma se il passo successivo è concreto.",
+          }
+        : dominant === "shock"
+          ? {
+              dominantSymptom: "shock",
+              specificTriggers: ["ritardo delle manovre", "solo parole"],
+              specificReliefs: ["monitoraggio", "fluidi", "intervento immediato"],
+              baselineStatusLabel: "Provato: le parole da sole lo calmano poco finché non parte un intervento.",
+            }
+          : dominant === "sensitive"
+            ? {
+                dominantSymptom: "sensitive",
+                specificTriggers: ["gergo non spiegato", "tono sbrigativo", "non ascoltare"],
+                specificReliefs: ["spiegazione chiara", "alleanza", "percorso condiviso"],
+                baselineStatusLabel: "Vigile: il quadro è stabile, ma le parole pesano più del tempo che passa.",
+              }
+            : {
+                dominantSymptom: "general",
+                specificTriggers: ["tono brusco", "fretta"],
+                specificReliefs: ["ascolto", "spiegazione"],
+                baselineStatusLabel: emergency
+                  ? "Teso per l'attesa, ma ancora in grado di raccontare."
+                  : "Abbastanza composto, in attesa di capire cosa succede.",
+              };
+
+  return { initial, floor, reactivity, decay, context };
+}
+
+export function stressSeverity(value: number): StressSeverity {
+  if (isCriticalPatientStress(value)) return "critical";
+  if (value >= 50) return "elevated";
+  return "calm";
+}
+
+export function stressCoachCopy(profile: StressProfile): string {
+  switch (profile.caseContext.dominantSymptom) {
+    case "dyspnea":
+      return "È molto sensibile al fiato corto: frasi lunghe e ritardi pesano, un intervento sul respiro lo calma.";
+    case "chest":
+      return "Il petto e il battito lo agitano: una spiegazione concreta lo rassicura più di una frase generica.";
+    case "shock":
+      return "È molto provato: le parole da sole lo calmano poco finché non parte un intervento.";
+    case "sensitive":
+      return "È stabile ma attento alle parole: il gergo non spiegato lo tende, una spiegazione chiara lo avvicina.";
+    default:
+      return "Reagisce al tono e alla chiarezza, più che al tempo che passa.";
+  }
+}
+
+function normalizeUtterance(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s]/gu, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function isFormulaRepeat(message: string, recent: string[]): boolean {
+  const norm = normalizeUtterance(message);
+  if (norm.length < 18) return false;
+  return recent.some((prev) => {
+    const other = normalizeUtterance(prev);
+    if (!other) return false;
+    if (other === norm) return true;
+    const a = new Set(norm.split(" ").filter((word) => word.length > 2));
+    const b = new Set(other.split(" ").filter((word) => word.length > 2));
+    if (a.size === 0 || b.size === 0) return false;
+    let shared = 0;
+    for (const word of a) if (b.has(word)) shared += 1;
+    return shared / (a.size + b.size - shared) >= 0.82;
+  });
+}
+
+export function withDeteriorationStress(event: StressTurnEvent): StressTurnEvent {
+  const before = event.stress - event.delta;
+  const stress = Math.max(event.stress, 85);
+  if (stress === event.stress && event.category === "deterioration") return event;
+  return {
+    stress,
+    delta: stress - before,
+    reason: "Peggioramento clinico per ritardo negli interventi",
+    category: "deterioration",
+    severity: "critical",
+  };
+}
+
+export function appendStressTimeline(
+  existing: unknown,
+  entry: StressTimelineEntry,
+  cap = 40,
+): StressTimelineEntry[] {
+  const prior = Array.isArray(existing)
+    ? existing.filter(
+        (row): row is StressTimelineEntry =>
+          !!row &&
+          typeof row === "object" &&
+          typeof (row as StressTimelineEntry).stress === "number" &&
+          typeof (row as StressTimelineEntry).reason === "string",
+      )
+    : [];
+  const meaningful =
+    entry.category === "baseline" ||
+    entry.category === "deterioration" ||
+    entry.category === "diagnosis" ||
+    entry.category === "clinical_action" ||
+    Math.abs(entry.delta) >= 4;
+  const next = meaningful ? [...prior, entry] : prior;
+  if (next.length <= cap) return next;
+  const baseline = next.find((row) => row.category === "baseline");
+  const rest = next.filter((row) => row !== baseline).slice(-(cap - (baseline ? 1 : 0)));
+  return baseline ? [baseline, ...rest] : rest;
+}
+
 /** Resolves per-case stress config from JSON baseline or clinical inference. */
 export function resolveCaseStressProfile(params: {
+  id?: string | null;
+  title?: string | null;
   description: string;
+  presentation?: string | null;
+  patientPrompt?: string | null;
+  setting?: string | null;
+  emotionalState?: string | null;
+  communicationStyle?: string | null;
   baselineExamFindings?: Record<string, unknown> | null;
   goldStandardPath?: string[];
 }): StressProfile {
+  const phys = derivePhysiology(params);
   const raw = params.baselineExamFindings?.stressProfile;
-  if (raw && typeof raw === "object" && !Array.isArray(raw)) {
-    return normalizeStressProfile(raw as Record<string, unknown>, {
-      description: params.description,
-      goldStandardPath: params.goldStandardPath,
-    });
-  }
-  return inferStressProfileFromCase(params.description, params.goldStandardPath);
+  const hasRaw = !!raw && typeof raw === "object" && !Array.isArray(raw);
+  const src = hasRaw ? (raw as Record<string, unknown>) : null;
+  const base = normalizeStressProfile(
+    hasRaw
+      ? (raw as Record<string, unknown>)
+      : {
+          initialStress: phys.initial,
+          reactivityType: phys.reactivity,
+          timeDecayRate: phys.decay,
+        },
+    { description: params.description, goldStandardPath: params.goldStandardPath },
+  );
+  const explicitReactivity =
+    src?.reactivityType === "hyper" || src?.reactivityType === "hypo" || src?.reactivityType === "standard";
+  return {
+    ...base,
+    initialStress: typeof src?.initialStress === "number" ? base.initialStress : phys.initial,
+    reactivityType: explicitReactivity ? base.reactivityType : phys.reactivity,
+    timeDecayRate: typeof src?.timeDecayRate === "number" ? base.timeDecayRate : phys.decay,
+    physiologicalFloor:
+      typeof src?.physiologicalFloor === "number"
+        ? Math.max(0, Math.min(100, Math.round(src.physiologicalFloor)))
+        : phys.floor,
+    caseContext: phys.context,
+  };
 }
 
 /** @deprecated Prefer {@link resolveCaseStressProfile}. */
@@ -441,10 +789,49 @@ function applyCriticalMilestoneDeltas(
   return next;
 }
 
+type StressNote = { delta: number; reason: string; category: StressEventCategory };
+
+function reliefReason(text: string, symptom: DominantSymptom, repeated: boolean): string {
+  if (repeated) return "La stessa frase rassicura meno se si ripete";
+  if (EXPLAINS.test(text) && (symptom === "sensitive" || symptom === "general" || symptom === "chest")) {
+    return "Spiegazione chiara del percorso diagnostico";
+  }
+  if (symptom === "dyspnea" && /ossigen|fiato|respiro|satur/i.test(text)) {
+    return "Parla del fiato e il paziente si sente ascoltato";
+  }
+  if (symptom === "chest" && /petto|palpit|cuore|elettro|ecg/i.test(text)) {
+    return "Rassicurazione concreta sul sintomo che lo agita";
+  }
+  if (VALIDATION.test(text) || WARM.test(text)) return "Si sente ascoltato";
+  return "Il tono del medico lo calma un poco";
+}
+
+function penaltyReason(text: string, symptom: DominantSymptom): string {
+  if (JARGON.test(text) && !EXPLAINS.test(text)) return "Gergo tecnico non spiegato: paziente confuso e teso";
+  if (MINIMIZE.test(text)) return "Si sente minimizzato";
+  if (BLAME.test(text)) return "Il tono è brusco e lo chiude";
+  const questions = text ? text.split("?").length - 1 : 0;
+  if (symptom === "dyspnea" && (questions >= 3 || text.split(/\s+/).length > 42)) {
+    return "Troppe domande di fila mentre gli manca il fiato";
+  }
+  if (text && text.trim().length < 8) return "Risposta telegrafica: si sente poco considerato";
+  return "Il modo di parlare aumenta la tensione";
+}
+
+function pickNote(notes: StressNote[], delta: number): StressNote {
+  if (notes.length === 0) {
+    return { delta: 0, reason: "Il paziente resta sullo stesso livello", category: "baseline" };
+  }
+  const sameSign = notes.filter((note) => (delta < 0 ? note.delta < 0 : note.delta > 0));
+  const pool = sameSign.length > 0 ? sameSign : notes;
+  return pool.reduce((best, note) => (Math.abs(note.delta) > Math.abs(best.delta) ? note : best));
+}
+
 /**
  * Core turn-based stress update — case profile, tone, milestones, prescriptions.
+ * Returns the new value and the reason the student can read under the bar.
  */
-export function computePatientStress(input: StressEngineInput): number {
+export function computePatientStress(input: StressEngineInput): StressTurnEvent {
   const {
     profile,
     lastUserMessage,
@@ -459,9 +846,11 @@ export function computePatientStress(input: StressEngineInput): number {
     painNrs,
     spo2,
     systolic,
+    respiratoryRate,
     description,
     requestedExamIds = [],
     painfulManeuver,
+    recentDoctorMessages = [],
   } = input;
 
   const completed = milestoneSet([
@@ -480,46 +869,153 @@ export function computePatientStress(input: StressEngineInput): number {
     painNrs,
     spo2: spo2FromUnknown(spo2),
     systolic,
+    respiratoryRate,
     description,
     treated,
   });
 
-  let next = input.currentStress > 0 ? input.currentStress : profile.initialStress;
-  const signal = analyzeDoctorMessage(lastUserMessage, llmEmpathyDetected);
-  const relief = Math.round(
-    signal.relief * reliefFactor(profile.reactivityType) * diminishingRelief(next, floor),
-  );
-  const penalty = Math.round(signal.penalty * penaltyFactor(profile.reactivityType));
-  next = next - relief + penalty;
+  const before = input.currentStress > 0 ? input.currentStress : profile.initialStress;
+  const text = lastUserMessage?.trim() ?? "";
+  const symptom = profile.caseContext?.dominantSymptom ?? "general";
+  const repeated = isFormulaRepeat(text, recentDoctorMessages);
+  const signal = analyzeDoctorMessage(text, llmEmpathyDetected);
+  const reliefScale =
+    reliefFactor(profile.reactivityType) *
+    diminishingRelief(before, floor) *
+    (repeated ? 0.22 : 1) *
+    (symptom === "shock" ? 0.35 : 1);
+  const penaltyScale = penaltyFactor(profile.reactivityType) * (symptom === "sensitive" ? 1.35 : 1);
+  const notes: StressNote[] = [];
+
+  const commRelief = Math.round(signal.relief * reliefScale);
+  const commPenalty = Math.round(signal.penalty * penaltyScale);
+  if (commRelief > 0) {
+    notes.push({
+      delta: -commRelief,
+      reason: reliefReason(text, symptom, repeated),
+      category: "communication",
+    });
+  }
+  if (commPenalty > 0) {
+    notes.push({ delta: commPenalty, reason: penaltyReason(text, symptom), category: "communication" });
+  }
+  if (symptom === "dyspnea" && text.split(/\s+/).filter(Boolean).length > 42 && !/ossigen|fiato|respiro/.test(text)) {
+    notes.push({
+      delta: 6,
+      reason: "Troppe domande di fila mentre gli manca il fiato",
+      category: "communication",
+    });
+  }
 
   if (profile.reactivityType === "hypo" && turnsWithoutLifesaving > 0 && !isLifesavingMet(profile, completed)) {
-    next += Math.round(5 * turnsWithoutLifesaving);
+    notes.push({
+      delta: Math.round(5 * turnsWithoutLifesaving),
+      reason: "Peggioramento clinico per ritardo negli interventi",
+      category: "deterioration",
+    });
   }
 
   if (newExamId) {
-    if (isDangerousPrescription(newExamId, newExamName, lastUserMessage ?? "", profile) || riskyPrescription) {
-      next += 25;
+    const examHaystack = `${newExamId} ${newExamName ?? ""}`;
+    if (isDangerousPrescription(newExamId, newExamName, text, profile) || riskyPrescription) {
+      notes.push({ delta: 25, reason: "Un intervento che non si aspetta lo agita", category: "clinical_action" });
     } else if (isRelievingExam(newExamId, newExamName, profile, goldStandardPath)) {
-      next -= 12;
-    } else if (/cateter|emogas|puncion/i.test(`${newExamId} ${newExamName ?? ""}`) || isInvasiveExam(newExamId, newExamName)) {
-      const explained = EXPLAINS.test(lastUserMessage ?? "") || CONSENT.test(lastUserMessage ?? "");
-      next += explained ? 3 : 10;
+      const oxygen = /ossigen|o2|venturi|broncodilat|salbutam|ega/i.test(examHaystack);
+      notes.push({
+        delta: -12,
+        reason:
+          symptom === "dyspnea" || oxygen
+            ? "Ossigenoterapia/intervento mirato: respiro meno affannoso"
+            : symptom === "chest"
+              ? "Un controllo mirato sul petto lo rassicura"
+              : "Un passo clinico pertinente lo rassicura",
+        category: "clinical_action",
+      });
+    } else if (/cateter|emogas|puncion/i.test(examHaystack) || isInvasiveExam(newExamId, newExamName)) {
+      const explained = EXPLAINS.test(text) || CONSENT.test(text);
+      notes.push({
+        delta: explained ? 3 : 10,
+        reason: explained ? "La manovra è stata spiegata prima" : "Manovra dolorosa eseguita senza preavviso",
+        category: "clinical_action",
+      });
     }
   }
 
   if (painfulManeuver) {
-    const explained = EXPLAINS.test(lastUserMessage ?? "") || CONSENT.test(lastUserMessage ?? "");
-    next += explained ? 2 : Math.round(8 * penaltyFactor(profile.reactivityType));
+    const explained = EXPLAINS.test(text) || CONSENT.test(text);
+    notes.push({
+      delta: explained ? 2 : Math.round(8 * penaltyFactor(profile.reactivityType)),
+      reason: explained ? "La manovra è stata spiegata prima" : "Manovra dolorosa eseguita senza preavviso",
+      category: "clinical_action",
+    });
   }
 
-  next = applyCriticalMilestoneDeltas(next, profile, lastUserMessage ?? "", completed, newExamId, newExamName);
+  if (!repeated) {
+    for (const key of profile.criticalMilestones.reduceStress) {
+      if (completed.has(normalizeStepId(key)) || matchesMilestoneKey(key, text, newExamId, newExamName)) {
+        notes.push({
+          delta: matchesMilestoneKey(key, text, newExamId, newExamName) ? -12 : -6,
+          reason: "Un passo che lo riguarda lo fa sentire seguito",
+          category: "clinical_action",
+        });
+        completed.add(normalizeStepId(key));
+      }
+    }
+  }
+  for (const key of profile.criticalMilestones.increaseStress) {
+    if (matchesMilestoneKey(key, text, newExamId, newExamName)) {
+      const unexplained =
+        key === "procedura_invasiva_non_spiegata" && !completed.has(normalizeStepId("consenso_informato"));
+      notes.push({
+        delta: unexplained ? 18 : 10,
+        reason: unexplained ? "Manovra dolorosa eseguita senza preavviso" : "Il ritardo o la scelta lo rendono più teso",
+        category: "clinical_action",
+      });
+    }
+  }
 
   if (wrongDiagnosis) {
-    next += profile.reactivityType === "hyper" ? 28 : 18;
+    notes.push({
+      delta: profile.reactivityType === "hyper" ? 28 : 18,
+      reason: "Una conclusione che non riconosce lo preoccupa",
+      category: "diagnosis",
+    });
   }
 
+  let next = before + notes.reduce((sum, note) => sum + note.delta, 0);
   if (floor > 0) next = Math.max(next, floor);
-  return clampStress(next);
+  const stress = clampStress(next);
+  const delta = stress - before;
+  const chosen = pickNote(notes, delta);
+  return {
+    stress,
+    delta,
+    reason: chosen.reason,
+    category: chosen.category,
+    severity: stressSeverity(stress),
+  };
+}
+
+export function temporalStressEvent(
+  current: number,
+  profile: StressProfile,
+  elapsedMinutes = 1,
+  options?: TemporalDriftOptions,
+): StressTurnEvent {
+  const stress = computeTemporalStressDrift(current, profile, elapsedMinutes, options);
+  const delta = stress - Math.round(current);
+  const rising = delta > 0 && options?.acuteUntreated;
+  return {
+    stress,
+    delta,
+    reason: rising
+      ? "Peggioramento clinico per ritardo negli interventi"
+      : delta > 0
+        ? "Il tempo passa e il disagio sale leggermente"
+        : "Il tempo passa, il paziente resta stabile",
+    category: rising ? "deterioration" : "time",
+    severity: stressSeverity(stress),
+  };
 }
 
 export type TemporalDriftOptions = {

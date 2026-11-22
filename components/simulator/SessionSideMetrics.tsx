@@ -7,6 +7,8 @@ type SessionSideMetricsProps = {
   totalCost: number;
   budget?: number;
   patientStress: number;
+  stressCaption?: string;
+  stressDelta?: number | null;
   onOpenDischarge: () => void;
   reportReady?: boolean;
   className?: string;
@@ -21,6 +23,8 @@ export function SessionSideMetrics({
   totalCost,
   budget = 250,
   patientStress,
+  stressCaption,
+  stressDelta,
   onOpenDischarge,
   reportReady = false,
   className,
@@ -80,12 +84,20 @@ export function SessionSideMetrics({
               </p>
               <p className="text-sm font-bold tabular-nums text-slate-800">
                 {stress}%
-                {stressTier !== "calm" ? (
-                  <span className="ml-1.5 text-[10px] font-medium text-slate-500">
-                    {stressTier === "danger" ? "Critico" : "In aumento"}
-                  </span>
-                ) : null}
+                <span className="ml-1.5 text-[10px] font-medium text-slate-500">
+                  {stressTier === "danger" ? "Critico" : stressTier === "warning" ? "In tensione" : "Calmo"}
+                </span>
               </p>
+              {stressCaption ? (
+                <p className="line-clamp-1 text-[10px] text-slate-500">
+                  {stressDelta != null && stressDelta !== 0 ? (
+                    <span className={stressDelta < 0 ? "mr-1 font-semibold text-emerald-700" : "mr-1 font-semibold text-red-600"}>
+                      {stressDelta > 0 ? `+${Math.round(stressDelta)}` : Math.round(stressDelta)}
+                    </span>
+                  ) : null}
+                  {stressCaption}
+                </p>
+              ) : null}
             </div>
           </div>
           <div className="mt-2 h-1 overflow-hidden rounded-full bg-slate-100">
@@ -175,11 +187,19 @@ export function SessionSideMetrics({
               style={{ width: `${stress}%`, backgroundColor: "#345884" }}
             />
           </div>
-          {stressTier !== "calm" ? (
-            <p className="mt-1.5 text-[10px] font-medium text-slate-500">
-              {stressTier === "danger" ? "Critico" : "In aumento"}
+          {stressCaption ? (
+            <p className="mt-1.5 line-clamp-1 text-[10px] font-medium text-slate-500">
+              {stressTier === "danger" ? "Critico" : stressTier === "warning" ? "In tensione" : "Calmo"}
+              {" · "}
+              {stressCaption}
             </p>
-          ) : null}
+          ) : stressTier !== "calm" ? (
+            <p className="mt-1.5 text-[10px] font-medium text-slate-500">
+              {stressTier === "danger" ? "Critico" : "In tensione"}
+            </p>
+          ) : (
+            <p className="mt-1.5 text-[10px] font-medium text-slate-500">Calmo</p>
+          )}
         </div>
       </div>
 

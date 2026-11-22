@@ -1,7 +1,7 @@
 /**
  * Pilastro 2 — Accuratezza Clinica & Decision-Making Deterministico
  * Matrice Classi di Raccomandazione ESC/AHA (I / IIa / IIb / III)
- * + registro immutabile `executedActionIds` (zero fuzzy / zero falsi positivi).
+ * + registro immutabile `executedActionIds` (alias di separatore, niente substring).
  */
 
 import type {
@@ -139,26 +139,45 @@ export function isIatrogenicCriticalExam(exam: CaseExamDefinition): boolean {
   return exam.inappropriate === true && penalty >= 40;
 }
 
+/** Hyphen and underscore are the same action id. No substring matching. */
+export function canonicalActionId(id: string): string {
+  return id.trim().toLowerCase().replace(/_/g, "-");
+}
+
+function executedHas(executed: ReadonlySet<string>, actionId: string): boolean {
+  if (executed.has(actionId)) return true;
+  const want = canonicalActionId(actionId);
+  if (!want) return false;
+  for (const item of executed) {
+    if (canonicalActionId(item) === want) return true;
+  }
+  return false;
+}
+
 /**
- * Exact-ID membership only. Panel algebra: a required component is executed if
- * its own ID is present OR a parent panel that lists it as componentExamId is present.
- * A required panel is executed if its ID is present OR every component ID is present.
+ * Membership by canonical id (hyphen/underscore). Panel algebra: a required
+ * component is executed if its own ID is present OR a parent panel that lists
+ * it as componentExamId is present. A required panel is executed if its ID is
+ * present OR every component ID is present.
  */
 export function isActionIdExecuted(
   actionId: string,
   executed: ReadonlySet<string>,
   catalog: CaseExamDefinition[],
 ): boolean {
-  if (executed.has(actionId)) return true;
+  if (executedHas(executed, actionId)) return true;
 
   for (const exam of catalog) {
-    if (!executed.has(exam.examId)) continue;
-    if (exam.componentExamIds?.includes(actionId)) return true;
+    if (!executedHas(executed, exam.examId)) continue;
+    if (exam.componentExamIds?.some((component) => canonicalActionId(component) === canonicalActionId(actionId))) {
+      return true;
+    }
   }
 
-  const panel = catalog.find((e) => e.examId === actionId);
+  const want = canonicalActionId(actionId);
+  const panel = catalog.find((exam) => canonicalActionId(exam.examId) === want);
   if (panel?.componentExamIds && panel.componentExamIds.length > 0) {
-    return panel.componentExamIds.every((c) => executed.has(c));
+    return panel.componentExamIds.every((component) => executedHas(executed, component));
   }
 
   return false;

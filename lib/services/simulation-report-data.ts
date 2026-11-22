@@ -20,9 +20,6 @@ import {
   type EmpathyBehavioralBreakdown,
   type ScoreBreakdown,
 } from "@/lib/services/evaluation-scoring";
-import { legalCompliancePercentFromAudit } from "@/lib/mappers/legal-audit-mapper";
-import { clinicalAccuracyPercentFromAudit } from "@/lib/mappers/clinical-audit-mapper";
-import { efficiencyPercentFromAudit } from "@/lib/mappers/economic-audit-mapper";
 import { readRagAuthoritative } from "@/lib/reports/pillar-radar";
 import type { SessionPrescription } from "@/lib/simulator/prescription-trace";
 
@@ -74,8 +71,19 @@ export function buildSessionReportData(params: {
   prescribedMedications?: SessionPrescription[];
   /** Diario clinico / relazione di dimissione persistita sulla sessione. */
   clinicalSummary?: string | null;
-  /** Document-bound 4-pillar examiner. When authoritative, its scores win over audits. */
+  /** Document-bound examiner. Citations only: it does not replace the five scores. */
   ragPillars?: RagPillarTrace | null;
+  scoreProvenance?: {
+    scoreWaterfall: unknown;
+    clinicalMatrix: unknown;
+    guidelineEvidence: unknown;
+    unifiedTrace: unknown;
+    helpTelemetry?: {
+      helpRequested: boolean;
+      helpRequestCount: number;
+      note: string;
+    };
+  } | null;
 }): Prisma.SessionReportUncheckedUpdateInput {
   const {
     userId,
@@ -99,6 +107,7 @@ export function buildSessionReportData(params: {
     prescribedMedications = [],
     clinicalSummary,
     ragPillars,
+    scoreProvenance,
   } = params;
 
   const scores = evaluation.scores ?? {
@@ -144,32 +153,11 @@ export function buildSessionReportData(params: {
     cap: 17.9,
   };
 
-  const clinicalFromAudit = clinicalAccuracyPercentFromAudit(clinicalAudit);
-  const efficiencyFromAudit = efficiencyPercentFromAudit(economicAudit);
-
-  const ragAuthoritative = ragPillars?.authoritative === true;
-
-  let clinicalAccuracy = ragAuthoritative
-    ? Number(scores.clinical) || 0
-    : (clinicalFromAudit ?? scores.clinical);
-  let legalComplianceGelliBianco = ragAuthoritative
-    ? Number(scores.legal) || 0
-    : legalAudit &&
-        legalAudit.status === "EVALUATED" &&
-        legalAudit.overallVerdict !== "NOT_EVALUABLE"
-      ? Math.max(0, Math.min(100, Number(legalAudit.complianceScore) || 0))
-      : Number(scores.legal) || 0;
-  /** Exam appropriateness (0–100) — feeds the 15% weight of the /30 grade. */
-  let prescribingAppropriateness = ragAuthoritative
-    ? Number(scores.exams) || 0
-    : (efficiencyFromAudit ?? scores.exams);
-  /**
-   * Economic sustainability (0–100) — feeds the 10% weight of the /30 grade.
-   * When the economic audit succeeds, the same efficiencyScore also replaces prescribing.
-   */
-  let economicSustainability = ragAuthoritative
-    ? Number(scores.economy) || 0
-    : (efficiencyFromAudit ?? scores.economy);
+  let clinicalAccuracy = Number(scores.clinical) || 0;
+  let legalComplianceGelliBianco = Number(scores.legal) || 0;
+  /** Exam appropriateness (0–100). Kept apart from the SSN economy score. */
+  let prescribingAppropriateness = Number(scores.exams) || 0;
+  let economicSustainability = Number(scores.economy) || 0;
 
   const reportBlocked = blockingFails.some((fail) => fail.pillar === "report");
   const legalBlocked = blockingFails.some((fail) => fail.pillar === "legal");
@@ -249,10 +237,19 @@ export function buildSessionReportData(params: {
       finalStressLevel: evaluation.scoreBreakdown?.communication?.finalStressLevel ?? null,
       stressPenalty: evaluation.scoreBreakdown?.communication?.stressPenalty ?? 0,
       criticalPatientStress: evaluation.scoreBreakdown?.communication?.criticalPatientStress === true,
-      helpTelemetry: evaluation.helpTelemetry ?? {
-        helpRequested: false,
-        helpRequestCount: 0,
-      },
+      helpTelemetry: scoreProvenance?.helpTelemetry ??
+        evaluation.helpTelemetry ?? {
+          helpRequested: false,
+          helpRequestCount: 0,
+        },
+      ...(scoreProvenance
+        ? {
+            scoreWaterfall: JSON.parse(JSON.stringify(scoreProvenance.scoreWaterfall ?? null)),
+            clinicalMatrix: JSON.parse(JSON.stringify(scoreProvenance.clinicalMatrix ?? null)),
+            guidelineEvidence: JSON.parse(JSON.stringify(scoreProvenance.guidelineEvidence ?? null)),
+            unifiedTrace: JSON.parse(JSON.stringify(scoreProvenance.unifiedTrace ?? null)),
+          }
+        : {}),
       ...(typeof simulationElapsedMinutes === "number" && simulationElapsedMinutes > 0
         ? { simulationElapsedMinutes }
         : {}),
@@ -360,19 +357,11 @@ export function buildReportDataFromSession(session: {
   return {
     sessionId: session.id,
     scores: {
-      clinical: ragAuthoritative
-        ? session.clinicalAccuracy
-        : (clinicalAccuracyPercentFromAudit(trace.clinicalAudit) ?? session.clinicalAccuracy),
-      legal: ragAuthoritative
-        ? session.legalComplianceGelliBianco
-        : (legalCompliancePercentFromAudit(trace.legalAudit) ?? session.legalComplianceGelliBianco),
-      exams: ragAuthoritative
-        ? session.prescribingAppropriateness
-        : (efficiencyPercentFromAudit(trace.economicAudit) ?? session.prescribingAppropriateness),
+      clinical: session.clinicalAccuracy,
+      legal: session.legalComplianceGelliBianco,
+      exams: session.prescribingAppropriateness,
       empathy: session.empathy,
-      economy: ragAuthoritative
-        ? session.economicSustainability
-        : (efficiencyPercentFromAudit(trace.economicAudit) ?? session.economicSustainability),
+      economy: session.economicSustainability,
     },
     feedback: trace.feedback,
     evidence: {

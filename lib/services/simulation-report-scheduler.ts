@@ -19,6 +19,7 @@ type JobQueuePayload = {
   liveSessionId?: string;
   requestedExamIds?: string[];
   executedActionIds?: string[];
+  physicalExams?: SimulationReportJobInput["physicalExams"];
   helpRequested?: boolean;
   helpRequestCount?: number;
   selectedOptions?: SimulationReportJobInput["selectedOptions"];
@@ -131,6 +132,7 @@ export async function ensureSimulationReportProcessing(
       finalDiagnosis: queue.finalDiagnosis,
       requestedExamIds: queue.requestedExamIds,
       executedActionIds: queue.executedActionIds,
+      physicalExams: queue.physicalExams,
       helpRequested: queue.helpRequested,
       helpRequestCount: queue.helpRequestCount,
       selectedOptions: queue.selectedOptions,

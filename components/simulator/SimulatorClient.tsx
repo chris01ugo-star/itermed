@@ -10,6 +10,7 @@ import {
   ArrowLeft,
   BookOpen,
   CheckCheck,
+  Compass,
   ClipboardList,
   FlaskConical,
   Clock,
@@ -47,18 +48,16 @@ import { cn } from "@/app/utils/cn";
 import { Badge } from "../../app/ui/badge";
 import { AiTransparencyBadge } from "@/components/legal/AiTransparencyBadge";
 import { ClinicalSimulationDisclaimer } from "@/components/legal/ClinicalSimulationDisclaimer";
-import { OnboardingTutorialModal } from "@/components/simulator/OnboardingTutorialModal";
-import { isTutorialCaseId, TutorialOverlay } from "@/components/simulator/TutorialOverlay";
+import { SimulatorTutorialModal } from "@/components/simulator/SimulatorTutorialModal";
 import {
-  readCaseTourCompleted,
-  readTutorialCompleted,
+  hasSeenSimulatorTutorial,
+  markSimulatorTutorialSeen,
 } from "@/lib/simulator/onboarding-storage";
 import { PhysicalExamTab } from "./PhysicalExamTab";
 import { PatientStressBar } from "./PatientStressBar";
 import { SafeLlmText } from "@/components/ui/safe-llm-content";
 import { SkeletonChatBubble } from "@/components/ui/Skeleton";
 import { VitalSignsBoard } from "./VitalSignsBoard";
-import { extractPatientAllergies } from "@/lib/services/evaluation-allergies";
 import { ExamReportRecap } from "./ExamReportRecap";
 import { DiagnosticCategoryPanel } from "./DiagnosticCategoryPanel";
 import {
@@ -77,7 +76,7 @@ import {
 } from "./ClinicalDischargeReportPanel";
 import { MetricBar } from "@/app/case/[id]/results/MetricBar";
 import { ScoreProgressRing } from "@/app/case/[id]/results/ScoreProgressRing";
-import { patientDisplayName } from "@/lib/prassi/demo-vitals";
+import { resolvePatientProfile } from "@/lib/cases/resolve-patient-profile";
 import { classifyVitals, maxVitalStatus } from "@/lib/clinical/vital-status";
 import {
   formatBloodPressureFinding,
@@ -86,10 +85,13 @@ import {
 } from "@/lib/clinical/case-vitals";
 import {
   computePatientStress,
-  computeTemporalStressDrift,
+  CRITICAL_STRESS_THRESHOLD,
   isAcuteUntreated,
   pathologicalStressFloor,
   resolveCaseStressProfile,
+  stressCoachCopy,
+  temporalStressEvent,
+  type StressTurnEvent,
 } from "@/lib/simulator/patient-stress-engine";
 import { parsePainNrs } from "@/lib/simulator/patientCaseContext";
 import { isInvasiveExam } from "@/lib/simulator/exam-canonical-registry";
@@ -102,7 +104,6 @@ import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
 import { clinicalNarrativeFromAudit } from "@/lib/mappers/clinical-audit-mapper";
 import { economicNarrativeFromAudit } from "@/lib/mappers/economic-audit-mapper";
 import { MEDICAL_DISCLAIMER_VERSION } from "@/lib/simulator/medical-disclaimer";
-import { resolvePatientGrammaticalGender } from "@/lib/simulator/patient-grammatical-gender";
 import { PATIENT_MAX_TURNS } from "@/lib/simulator/chat-context-window";
 import {
   formatPrescriptionTrace,
@@ -173,6 +174,16 @@ type InitialCaseData = {
   /** Da DB: include advancedExams.values compilati in creazione caso */
   baselineExamFindings?: Record<string, unknown>;
   timeLimitMinutes?: number | null;
+  resolvedProfile?: {
+    name: string;
+    age: number | null;
+    sex: "M" | "F" | null;
+    displayTitle: string;
+    triageAnamnesis: string;
+    clinicalHistory: string;
+    allergiesSummary: string;
+    setting: string;
+  };
   examLatencies?: Record<string, number> | null;
   goldStandardPath?: string[] | null;
   patientDeteriorationThreshold?: number | null;
@@ -217,8 +228,6 @@ const REPORT_POLL_RETRY_AFTER_FALLBACK_MS = 4_000;
 const REPORT_POLL_TIMEOUT_MS = 3 * 60 * 1000;
 /** Canonical gold / ESC action id for informed consent (must match registry paths). */
 const CONSENT_INFORMED_ACTION_ID = "consenso-informato";
-/** Mid-simulation adrenaline: visual deterioration when stress crosses this value. */
-const CRITICAL_STRESS_THRESHOLD = 80;
 const TIME_PENALTY_FEEDBACK_MS = 1_600;
 
 /**
@@ -566,9 +575,7 @@ export function SimulatorClient({
   const [disclaimerBusy, setDisclaimerBusy] = useState(false);
   const [disclaimerError, setDisclaimerError] = useState<string | null>(null);
   const [tutorialOpen, setTutorialOpen] = useState(false);
-  const [caseTourOpen, setCaseTourOpen] = useState(false);
   const [tutorialHydrated, setTutorialHydrated] = useState(false);
-  const tutorialCase = isTutorialCaseId(initialCaseData.id);
   const lastActivityAtRef = useRef<number>(Date.now());
   const [activeTab, setActiveTab] = useState<
     "history" | "exam" | "labs" | "imaging" | "instrumental" | "notes"
@@ -600,6 +607,7 @@ export function SimulatorClient({
   /** Non-exam clinical actions (e.g. consenso-informato) for ESC executedActionIds. */
   const [extraExecutedActionIds, setExtraExecutedActionIds] = useState<string[]>([]);
   const extraExecutedActionIdsRef = useRef<string[]>([]);
+  const physicalExamsRef = useRef<Array<{ id: string; name: string; finding: string }>>([]);
   const selectedOptionsRef = useRef<Array<{ id: string; label: string; nodeId?: string }>>([]);
   const [consentRequested, setConsentRequested] = useState(false);
   const [isConsentBusy, setIsConsentBusy] = useState(false);
@@ -654,7 +662,11 @@ export function SimulatorClient({
   const [dismissLoading, setDismissLoading] = useState(false);
   /** 0–100: pressione temporale e carico simulato (chat, esami, errori, tempo). */
   const [patientStress, setPatientStress] = useState(0);
+  const [stressCaption, setStressCaption] = useState("");
+  const [stressDelta, setStressDelta] = useState<number | null>(null);
+  const [stressCoach, setStressCoach] = useState("");
   const patientStressRef = useRef(patientStress);
+  const stressBeforeRef = useRef(0);
   /** True while patientStress exceeds the critical deterioration threshold. */
   const [isCriticalDeterioration, setIsCriticalDeterioration] = useState(false);
   /** Brief exam-latency toast: "Tempo clinico trascorso..." */
@@ -701,7 +713,7 @@ export function SimulatorClient({
   }, [clockMinutes]);
 
   useEffect(() => {
-    setIsCriticalDeterioration(patientStress > CRITICAL_STRESS_THRESHOLD);
+    setIsCriticalDeterioration(patientStress >= CRITICAL_STRESS_THRESHOLD);
   }, [patientStress]);
 
   useEffect(() => {
@@ -730,33 +742,47 @@ export function SimulatorClient({
     setTutorialHydrated(true);
   }, []);
 
-  // First-run tutorial — only after disclaimer acceptance + hydrated localStorage check.
-  // TUTORIAL-001 uses the non-blocking coach marks instead of the modal.
+  // First visit only, after the medico-legal disclaimer, on every case including TUTORIAL-001.
   useEffect(() => {
     if (!tutorialHydrated || !disclaimerAccepted) return;
-    if (tutorialCase) {
-      if (!readCaseTourCompleted()) setCaseTourOpen(true);
-      return;
-    }
-    if (readTutorialCompleted()) return;
+    if (hasSeenSimulatorTutorial()) return;
     setTutorialOpen(true);
-  }, [tutorialHydrated, disclaimerAccepted, tutorialCase]);
+  }, [tutorialHydrated, disclaimerAccepted]);
 
   const markUserActivity = useCallback(() => {
     lastActivityAtRef.current = Date.now();
   }, []);
 
+  const closeSimulatorTutorial = useCallback(() => {
+    markSimulatorTutorialSeen();
+    setTutorialOpen(false);
+    markUserActivity();
+  }, [markUserActivity]);
+
+  const toggleSimulatorTutorial = useCallback(() => {
+    setTutorialOpen((open) => {
+      if (open) markSimulatorTutorialSeen();
+      return !open;
+    });
+    markUserActivity();
+  }, [markUserActivity]);
+
   // Apply case baseline stress once (e.g. STEMI seed initialStress: 75).
   useEffect(() => {
     if (stressInitializedRef.current) return;
     const profile = resolveCaseStressProfile({
+      id: initialCaseData.id,
+      title: initialCaseData.resolvedProfile?.displayTitle ?? initialCaseData.title,
       description: initialCaseData.description,
+      presentation: initialCaseData.resolvedProfile?.triageAnamnesis,
+      setting: initialCaseData.resolvedProfile?.setting,
       baselineExamFindings: initialCaseData.baselineExamFindings as Record<string, unknown> | undefined,
-      goldStandardPath: initialCaseData.goldStandardPath ?? undefined,
     });
     stressInitializedRef.current = true;
     setPatientStress(profile.initialStress);
     patientStressRef.current = profile.initialStress;
+    setStressCaption(profile.caseContext.baselineStatusLabel);
+    setStressCoach(stressCoachCopy(profile));
   }, [
     initialCaseData.description,
     initialCaseData.baselineExamFindings,
@@ -802,23 +828,27 @@ export function SimulatorClient({
   const readStressTurn = useCallback(() => {
     const baseline = initialCaseData.baselineExamFindings as Record<string, unknown> | undefined;
     const profile = resolveCaseStressProfile({
+      id: initialCaseData.id,
+      title: initialCaseData.resolvedProfile?.displayTitle ?? initialCaseData.title,
       description: initialCaseData.description,
+      presentation: initialCaseData.resolvedProfile?.triageAnamnesis,
+      setting: initialCaseData.resolvedProfile?.setting,
       baselineExamFindings: baseline,
-      goldStandardPath: initialCaseData.goldStandardPath ?? undefined,
     });
     const vitals =
       baseline?.vitals && typeof baseline.vitals === "object"
         ? (baseline.vitals as Record<string, unknown>)
         : undefined;
     const spo2 = Number(vitals?.spo2);
+    const respiratoryRate = Number(vitals?.respiratoryRate);
     const systolic = Number(String(vitals?.bloodPressure ?? "").split("/")[0]);
     return {
       profile,
       painNrs: parsePainNrs(baseline, initialCaseData.description),
       spo2: Number.isFinite(spo2) && spo2 > 0 ? spo2 : null,
+      respiratoryRate: Number.isFinite(respiratoryRate) && respiratoryRate > 0 ? respiratoryRate : null,
       systolic: Number.isFinite(systolic) && systolic > 0 ? systolic : null,
       description: initialCaseData.description,
-      goldStandardPath: initialCaseData.goldStandardPath ?? undefined,
       requestedExamIds: selectedExamIdsRef.current,
     };
   }, [
@@ -827,10 +857,22 @@ export function SimulatorClient({
     initialCaseData.goldStandardPath,
   ]);
 
-  const commitPatientStress = useCallback((next: number) => {
-    const clamped = Math.max(0, Math.min(100, Math.round(next)));
+  const commitPatientStress = useCallback((next: number | StressTurnEvent) => {
+    const event: StressTurnEvent =
+      typeof next === "number"
+        ? {
+            stress: next,
+            delta: next - patientStressRef.current,
+            reason: "",
+            category: "baseline",
+            severity: next >= CRITICAL_STRESS_THRESHOLD ? "critical" : next >= 50 ? "elevated" : "calm",
+          }
+        : next;
+    const clamped = Math.max(0, Math.min(100, Math.round(event.stress)));
     patientStressRef.current = clamped;
     setPatientStress(clamped);
+    if (event.reason) setStressCaption(event.reason);
+    if (event.delta !== 0) setStressDelta(event.delta);
   }, []);
 
   // Timer clinico: +1 minuto simulato ogni 20s reali.
@@ -842,12 +884,12 @@ export function SimulatorClient({
       const turn = readStressTurn();
       const acute = isAcuteUntreated(turn);
       const floor = pathologicalStressFloor({ ...turn, treated: !acute });
-      const next = computeTemporalStressDrift(patientStressRef.current, turn.profile, 1, {
+      const event = temporalStressEvent(patientStressRef.current, turn.profile, 1, {
         acuteUntreated: acute,
         allianceStable: !acute,
         floor,
       });
-      commitPatientStress(next);
+      commitPatientStress(event);
     }, 20_000);
     return () => window.clearInterval(id);
   }, [disclaimerAccepted, gameStatus, isPaused, readStressTurn, commitPatientStress]);
@@ -861,14 +903,18 @@ export function SimulatorClient({
     return () => window.clearInterval(id);
   }, [disclaimerAccepted, gameStatus, isPaused]);
 
-  const demoChat = initialCaseData.demographics ?? {};
-  const patientAgeForChat = demoChat.age ?? 58;
-  const patientSexForChat =
-    resolvePatientGrammaticalGender(demoChat.sex) ??
-    resolvePatientGrammaticalGender(
-      (demoChat as { gender?: string }).gender,
-    ) ??
-    (typeof demoChat.sex === "string" ? demoChat.sex : "");
+  const chartProfile = useMemo(
+    () =>
+      initialCaseData.resolvedProfile ??
+      resolvePatientProfile({
+        id: initialCaseData.id,
+        title: initialCaseData.title,
+        description: initialCaseData.description,
+        patientPrompt: initialCaseData.patientPrompt,
+        baselineExamFindings: initialCaseData.baselineExamFindings,
+      }),
+    [initialCaseData],
+  );
 
   const monitorVitals = useMemo(
     () =>
@@ -920,9 +966,10 @@ export function SimulatorClient({
     body: {
       casePrompt: initialCaseData.patientPrompt,
       caseId: initialCaseData.id,
-      patientAge: patientAgeForChat,
-      patientSex: patientSexForChat,
-      chiefComplaint: initialCaseData.description,
+      ...(chartProfile.age != null ? { patientAge: chartProfile.age } : {}),
+      ...(chartProfile.sex ? { patientSex: chartProfile.sex } : {}),
+      patientName: chartProfile.name,
+      chiefComplaint: chartProfile.triageAnamnesis,
       vitalSigns: vitalSignsForChat,
       abnormalExams: abnormalExamsForChat,
       // Never send gold diagnosis from the browser — server loads it only for owned live sessions.
@@ -931,6 +978,7 @@ export function SimulatorClient({
       ...(requestBody ?? {}),
       // Never send offline/registry tokens — they 403'd chat before soft-allow.
       sessionId: sanitizeLiveSessionId(effectiveSessionIdRef.current),
+      patientStressBefore: stressBeforeRef.current,
       patientStress: patientStressRef.current,
       requestedExamIds: selectedExamIdsRef.current,
       messages: chatMessages.map((m) => ({
@@ -938,6 +986,22 @@ export function SimulatorClient({
         content: typeof m.content === "string" ? m.content : "",
       })),
     }),
+    onResponse: (response) => {
+      const raw = response.headers.get("x-aequan-stress");
+      if (raw == null) return;
+      const stress = Number(raw);
+      if (!Number.isFinite(stress)) return;
+      const delta = Number(response.headers.get("x-aequan-stress-delta") ?? "0");
+      const reason = decodeURIComponent(response.headers.get("x-aequan-stress-reason") ?? "");
+      const category = response.headers.get("x-aequan-stress-category") ?? "communication";
+      commitPatientStress({
+        stress,
+        delta: Number.isFinite(delta) ? delta : 0,
+        reason,
+        category: category as StressTurnEvent["category"],
+        severity: stress >= CRITICAL_STRESS_THRESHOLD ? "critical" : stress >= 50 ? "elevated" : "calm",
+      });
+    },
     onError: () => {
       setMessages((prev) => {
         const last = prev[prev.length - 1];
@@ -1433,10 +1497,15 @@ export function SimulatorClient({
 
     markUserActivity();
     const turn = readStressTurn();
+    stressBeforeRef.current = patientStressRef.current;
     const stressForRequest = computePatientStress({
       currentStress: patientStressRef.current,
       ...turn,
       lastUserMessage: trimmed,
+      recentDoctorMessages: messages
+        .filter((message) => message.role === "user")
+        .map((message) => getChatMessageText(message))
+        .slice(-4),
     });
     commitPatientStress(stressForRequest);
     advanceClock(1);
@@ -1599,6 +1668,7 @@ export function SimulatorClient({
           ...(selectedExamIdsRef.current ?? []),
           ...(extraExecutedActionIdsRef.current ?? []),
         ],
+        physicalExams: physicalExamsRef.current,
         helpRequested: Boolean(helpRequested),
         helpRequestCount: helpRequestCountRef.current ?? 0,
         patientStress: patientStressRef.current,
@@ -1684,16 +1754,16 @@ export function SimulatorClient({
   ]);
 
   const demo = initialCaseData.demographics ?? {};
-  const ageValue = demo.age ?? 58;
-  const sexValue = (demo.sex === "F" || demo.sex === "M") ? demo.sex : "M";
-  const contextValue = demo.context ?? initialCaseData.specialty ?? "Specialità non specificata";
-
-  const patientAllergies = extractPatientAllergies(initialCaseData.baselineExamFindings);
+  const contextValue = chartProfile.setting || demo.context || initialCaseData.specialty || "Setting non indicato";
 
   const patient = {
-    age: ageValue,
-    sex: (sexValue === "F" ? "F" : "M") as "M" | "F",
-    mainComplaint: initialCaseData.description,
+    name: chartProfile.name,
+    age: chartProfile.age,
+    sex: chartProfile.sex,
+    mainComplaint: chartProfile.triageAnamnesis,
+    clinicalHistory: chartProfile.clinicalHistory,
+    allergiesSummary: chartProfile.allergiesSummary,
+    displayTitle: chartProfile.displayTitle,
     context: contextValue,
     id: `CASE-${String(initialCaseData.id ?? "").slice(0, 6).toUpperCase() || "DEMO"}`,
   };
@@ -1705,14 +1775,20 @@ export function SimulatorClient({
   }) => {
     if (isPaused) return;
     if (payload.id === "blood-pressure") setBpMeasured(true);
-    if (payload.id === "gcs" || payload.id === "pupils" || payload.id === "neuro-deficits") {
-      setExtraExecutedActionIds((prev) => {
-        if (prev.includes(payload.id)) return prev;
-        const next = [...prev, payload.id];
-        extraExecutedActionIdsRef.current = next;
-        return next;
-      });
-    }
+    setExtraExecutedActionIds((prev) => {
+      if (prev.includes(payload.id)) return prev;
+      const next = [...prev, payload.id];
+      extraExecutedActionIdsRef.current = next;
+      return next;
+    });
+    physicalExamsRef.current = [
+      ...physicalExamsRef.current.filter((exam) => exam.id !== payload.id),
+      {
+        id: payload.id,
+        name: payload.label,
+        finding: payload.result.finding,
+      },
+    ];
     setExamFindings((prev) => ({
       ...prev,
       [payload.id]: {
@@ -1845,6 +1921,7 @@ export function SimulatorClient({
         return current;
       }
       const charged = examIdsChargedForStressRef.current;
+      let stressEvent: StressTurnEvent | null = null;
       if (!charged.has(examId)) {
         charged.add(examId);
         const examName = availableExams.find((e) => e.id === examId)?.name;
@@ -1853,7 +1930,7 @@ export function SimulatorClient({
         const lastDoctorLine = lastUserTurn ? getChatMessageText(lastUserTurn) : "";
         const painful = /murphy|rettale|dolor/i.test(`${examId} ${examName ?? ""} ${lastDoctorLine}`);
         const turn = readStressTurn();
-        const nextStress = computePatientStress({
+        stressEvent = computePatientStress({
           currentStress: patientStressRef.current,
           ...turn,
           lastUserMessage: lastDoctorLine,
@@ -1861,7 +1938,7 @@ export function SimulatorClient({
           newExamName: examName,
           painfulManeuver: painful,
         });
-        commitPatientStress(nextStress);
+        commitPatientStress(stressEvent);
         advanceClock(invasive ? 3 : 1);
         flashTimePenaltyFeedback();
       }
@@ -1880,6 +1957,18 @@ export function SimulatorClient({
             requestedExamIds: next,
             examLabels: Object.fromEntries(next.map((id) => [id, labelFor(id)])),
             prescribedExams: next.map((id) => ({ id, name: labelFor(id) })),
+            ...(stressEvent
+              ? {
+                  stressEvent: {
+                    atMinute: clockMinutesRef.current,
+                    turn: messages.length,
+                    stress: stressEvent.stress,
+                    delta: stressEvent.delta,
+                    reason: stressEvent.reason,
+                    category: stressEvent.category,
+                  },
+                }
+              : {}),
           }),
         }).catch(() => {
           /* non-blocking: evaluation will re-sync */
@@ -2284,6 +2373,21 @@ export function SimulatorClient({
             <div className="flex flex-wrap items-center gap-1 lg:justify-self-end">
               <button
                 type="button"
+                onClick={toggleSimulatorTutorial}
+                aria-pressed={tutorialOpen}
+                aria-label={tutorialOpen ? "Chiudi tutorial" : "Apri tutorial"}
+                className={cn(
+                  "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[13px] font-medium transition",
+                  tutorialOpen
+                    ? "bg-[#1E324E] text-white"
+                    : "text-slate-600 hover:bg-slate-50 hover:text-slate-800",
+                )}
+              >
+                <Compass className="h-3.5 w-3.5" strokeWidth={1.75} />
+                Tutorial
+              </button>
+              <button
+                type="button"
                 onClick={() => setIsPaused((v) => !v)}
                 aria-pressed={isPaused}
                 className={cn(
@@ -2383,6 +2487,7 @@ export function SimulatorClient({
             <VitalSignsBoard
               caseId={initialCaseData.id}
               title={initialCaseData.title}
+              patientName={patient.name}
               age={patient.age}
               sex={patient.sex}
               vitals={monitorVitals}
@@ -2399,7 +2504,7 @@ export function SimulatorClient({
                 </p>
                 <div className="flex flex-wrap items-center gap-2">
                   <h1 className="font-display text-lg font-semibold tracking-tight text-brand-primary">
-                    {initialCaseData.title}
+                    {patient.displayTitle}
                   </h1>
                   {isVariant ? (
                     <Badge className="inline-flex items-center gap-1 border-brand-secondary/30 bg-brand-secondary/10 text-[10px] text-brand-secondary">
@@ -2412,6 +2517,20 @@ export function SimulatorClient({
                 </div>
               </div>
               <div className="inline-flex shrink-0 items-center gap-2">
+                <button
+                  type="button"
+                  onClick={toggleSimulatorTutorial}
+                  aria-pressed={tutorialOpen}
+                  className={cn(
+                    "inline-flex items-center gap-1.5 rounded-xl border px-2.5 py-2 text-xs font-medium shadow-sm transition",
+                    tutorialOpen
+                      ? "border-[#1E324E] bg-[#1E324E] text-white"
+                      : "border-[#345884]/30 bg-white text-[#345884] hover:bg-[#EEF2F9]",
+                  )}
+                >
+                  <Compass className="h-4 w-4" strokeWidth={1.75} />
+                  <span className="hidden sm:inline">Tutorial</span>
+                </button>
                 <button
                   type="button"
                   onClick={openHelpConsult}
@@ -2448,14 +2567,17 @@ export function SimulatorClient({
                     Caso clinico attivo
                   </p>
                   <h1 className="mt-0.5 truncate font-display text-base font-bold tracking-tight text-[#345884] sm:text-lg">
-                    {initialCaseData.title}
+                    {patient.name}
+                    <span className="font-sans font-normal text-slate-500">
+                      {" "}
+                      · {patient.age != null ? `${patient.age} anni` : "età non indicata"}
+                      {patient.sex ? ` · ${patient.sex}` : ""}
+                    </span>
                   </h1>
                   <p className="mt-1 truncate text-xs text-slate-500">
-                    {initialCaseData.specialty?.trim() || "Pronto Soccorso"}
+                    {patient.displayTitle}
                     <span className="mx-1.5 text-slate-300">·</span>
-                    Paziente {patient.age} anni ({patient.sex})
-                    <span className="mx-1.5 text-slate-300">·</span>
-                    ID: {patient.id}
+                    {initialCaseData.specialty?.trim() || patient.context}
                   </p>
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
@@ -2491,6 +2613,7 @@ export function SimulatorClient({
               <VitalSignsBoard
                 caseId={initialCaseData.id}
                 title={initialCaseData.title}
+                patientName={patient.name}
                 age={patient.age}
                 sex={patient.sex}
                 vitals={monitorVitals}
@@ -2606,14 +2729,11 @@ export function SimulatorClient({
                   Sessione clinica
                 </p>
                 <p className="mt-0.5 truncate font-display text-sm font-semibold text-slate-900 dark:text-slate-100">
-                  {patientDisplayName(
-                    initialCaseData.id,
-                    initialCaseData.title,
-                    patient.sex,
-                  )}
+                  {patient.name}
                   <span className="font-sans font-normal text-slate-500">
                     {" "}
-                    · {patient.age} anni · {patient.sex === "M" ? "M" : "F"}
+                    · {patient.age != null ? `${patient.age} anni` : "età non indicata"}
+                    {patient.sex ? ` · ${patient.sex}` : ""}
                   </span>
                 </p>
                 <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-slate-600">
@@ -2787,6 +2907,8 @@ export function SimulatorClient({
                     totalCost={totalCost}
                     budget={examBudgetEuro}
                     patientStress={patientStress}
+                    stressCaption={stressCaption}
+                    stressDelta={stressDelta}
                     reportReady={isClinicalReportComplete(reportSections)}
                     onOpenDischarge={() => setIsDischargeOpen(true)}
                     className="min-h-0"
@@ -2905,9 +3027,7 @@ export function SimulatorClient({
                                   </p>
                                 </div>
                                 <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                                  {expectedConditionText && isAdmin
-                                    ? expectedConditionText
-                                    : "Nessuna patologia nota."}
+                                  {patient.clinicalHistory}
                                 </p>
                               </section>
 
@@ -2919,9 +3039,7 @@ export function SimulatorClient({
                                   <p className="text-xs font-semibold text-slate-800">Allergie</p>
                                 </div>
                                 <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                                  {patientAllergies.length > 0
-                                    ? patientAllergies.join(", ")
-                                    : "Nessuna allergia nota."}
+                                  {patient.allergiesSummary}
                                 </p>
                               </section>
                             </div>
@@ -3097,7 +3215,13 @@ export function SimulatorClient({
                 <p className="mb-1.5 text-[10px] font-mono uppercase tracking-wider text-slate-500">
                   Stress paziente
                 </p>
-                <PatientStressBar value={patientStress} critical={isCriticalDeterioration} />
+                <PatientStressBar
+                  value={patientStress}
+                  critical={isCriticalDeterioration}
+                  caption={stressCaption}
+                  delta={stressDelta}
+                  coach={stressCoach}
+                />
               </div>
             </div>
 
@@ -3630,7 +3754,10 @@ export function SimulatorClient({
                 <div className="rounded-2xl border border-zinc-200/80 bg-zinc-50/80 px-3 py-2.5">
                   <p className="text-[11px] font-medium text-zinc-700 mb-1">Dati anagrafici</p>
                   <p className="text-sm text-zinc-900">
-                    {patient.age} anni – {patient.sex === "M" ? "Maschio" : "Femmina"}
+                    {patient.name}
+                    {" · "}
+                    {patient.age != null ? `${patient.age} anni` : "età non indicata"}
+                    {patient.sex === "M" ? " · Maschio" : patient.sex === "F" ? " · Femmina" : ""}
                   </p>
                   <p className="text-[11px] text-zinc-500 mt-1">{patient.id}</p>
                 </div>
@@ -3871,75 +3998,26 @@ export function SimulatorClient({
             </div>
           </div>
 
-          <div className="space-y-2.5 px-5 py-4">
-            <div className="flex gap-3 rounded-xl border border-slate-100 bg-slate-50/70 px-3.5 py-3">
-              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-[#345884] shadow-sm ring-1 ring-slate-100">
-                {isLaboratoryCase ? (
-                  <TestTube2 className="h-3.5 w-3.5" strokeWidth={1.75} />
-                ) : (
-                  <MessageCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
-                )}
-              </span>
-              <p className="text-sm leading-relaxed text-slate-600">
-                {isLaboratoryCase
-                  ? "Parti dalla richiesta elettronica e dal quesito clinico. Il colloquio diretto col paziente non è previsto in questo modulo."
-                  : "Usa il dialogo per raccogliere l'anamnesi ponendo domande aperte."}
-              </p>
-            </div>
-            <div className="flex gap-3 rounded-xl border border-slate-100 bg-slate-50/70 px-3.5 py-3">
-              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-[#345884] shadow-sm ring-1 ring-slate-100">
-                <FolderOpen className="h-3.5 w-3.5" strokeWidth={1.75} />
-              </span>
-              <p className="text-sm leading-relaxed text-slate-600">
-                {isLaboratoryCase ? (
-                  <>
-                    Consulta la{" "}
-                    <span className="font-semibold text-slate-800">Cartella clinica</span> a destra
-                    per il quesito clinico e per la gestione del campione e la refertazione.
-                  </>
-                ) : (
-                  <>
-                    Consulta la{" "}
-                    <span className="font-semibold text-slate-800">Cartella clinica</span> a destra per
-                    anamnesi, esame obiettivo, laboratorio, imaging e strumentale.
-                  </>
-                )}
-              </p>
-            </div>
-            <div className="flex gap-3 rounded-xl border border-slate-100 bg-slate-50/70 px-3.5 py-3">
-              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-[#345884] shadow-sm ring-1 ring-slate-100">
-                <HelpCircle className="h-3.5 w-3.5" strokeWidth={1.75} />
-              </span>
-              <p className="text-sm leading-relaxed text-slate-600">
-                I suggerimenti clinici non vengono proposti automaticamente: usa questo pulsante
-                Aiuto quando ti serve un consulto.
-              </p>
-            </div>
-            <div className="flex gap-3 rounded-xl border border-slate-100 bg-slate-50/70 px-3.5 py-3">
-              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white text-[#345884] shadow-sm ring-1 ring-slate-100">
-                <FileText className="h-3.5 w-3.5" strokeWidth={1.75} />
-              </span>
-              <p className="text-sm leading-relaxed text-slate-600">
-                Al termine, compila il referto di dimissione per chiudere il caso.
-              </p>
-            </div>
-          </div>
-
-          <DialogFooter className="gap-2 border-t border-slate-100 bg-slate-50/50 px-5 py-3.5 sm:justify-end">
-            <Button
+          <div className="space-y-3 px-5 py-4">
+            <p className="text-sm leading-relaxed text-slate-600">
+              {isLaboratoryCase
+                ? "Il consulto resta sul quesito di laboratorio di questo caso. La richiesta è già annotata e non cambia i parametri della sessione."
+                : "Il consulto resta sul caso in corso. La richiesta è già annotata e non cambia dialogo, esami o terapie."}
+            </p>
+            <button
               type="button"
-              size="sm"
-              variant="outline"
-              className="rounded-xl"
               onClick={() => {
                 markUserActivity();
                 setIsHelpOpen(false);
-                if (tutorialCase) setCaseTourOpen(true);
-                else setTutorialOpen(true);
+                setTutorialOpen(true);
               }}
+              className="text-xs font-medium text-[#345884] underline-offset-2 hover:underline"
             >
-              Rivedi Tutorial
-            </Button>
+              Apri guida interfaccia
+            </button>
+          </div>
+
+          <DialogFooter className="gap-2 border-t border-slate-100 bg-slate-50/50 px-5 py-3.5 sm:justify-end">
             <Button
               type="button"
               size="sm"
@@ -3952,20 +4030,7 @@ export function SimulatorClient({
         </DialogContent>
       </Dialog>
 
-      <OnboardingTutorialModal
-        open={tutorialOpen && !tutorialCase}
-        onComplete={() => {
-          setTutorialOpen(false);
-          markUserActivity();
-        }}
-      />
-      <TutorialOverlay
-        open={caseTourOpen}
-        onClose={() => {
-          setCaseTourOpen(false);
-          markUserActivity();
-        }}
-      />
+      <SimulatorTutorialModal open={tutorialOpen} onClose={closeSimulatorTutorial} />
     </div>
   );
 }

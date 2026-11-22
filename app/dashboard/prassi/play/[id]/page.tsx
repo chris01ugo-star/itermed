@@ -244,6 +244,7 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
     const effectivePrompt =
       isVariant && session?.variantPrompt ? session.variantPrompt : basePatientPrompt;
 
+    const narrative = await getCaseById(caseData.id).catch(() => undefined);
     const initialCaseData = await withLabFlow(buildSimulatorCasePayload({
       id: caseData.id,
       title: caseData.title,
@@ -251,7 +252,13 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
       specialty: caseData.specialty ?? null,
       difficulty: caseData.difficulty,
       estimatedDurationMinutes: caseData.estimatedDurationMinutes ?? null,
-      patientPrompt: effectivePrompt,
+      patientPrompt: effectivePrompt || narrative?.patientPrompt || "",
+      pastMedicalHistory: narrative?.pastMedicalHistory ?? null,
+      presentation: narrative?.presentation,
+      setting: narrative?.setting,
+      diagnosis: narrative?.diagnosis,
+      condition: narrative?.condition,
+      correctSolution: narrative?.correctSolution ?? null,
       baselineExamFindings: caseData.baselineExamFindings,
       timeLimitMinutes: caseData.timeLimitMinutes ?? null,
     }));
@@ -259,10 +266,10 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
     return (
       <LiveAequanClinicalWorkspace
         caseMeta={{
-          title: caseData.title,
+          title: initialCaseData.resolvedProfile.displayTitle,
           specialty: caseData.specialty,
-          patientAge: initialCaseData.demographics?.age ?? null,
-          patientSex: initialCaseData.demographics?.sex ?? null,
+          patientAge: initialCaseData.resolvedProfile.age,
+          patientSex: initialCaseData.resolvedProfile.sex,
           caseId: caseData.id,
         }}
         backHref="/dashboard/prassi"

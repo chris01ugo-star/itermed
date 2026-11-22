@@ -17,7 +17,7 @@ import {
 } from "@/lib/cases/case-payload";
 import { ensureRegisteredCaseInDb, findClinicalCaseForSimulation } from "@/lib/cases/ensure-registered-case";
 import { withLabFlow } from "@/lib/simulator/load-lab-flow";
-import { decodeCaseParam, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
+import { decodeCaseParam, getCaseById, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
 type CasePageProps = {
   params: Promise<{ id: string }> | { id: string };
   searchParams?:
@@ -175,6 +175,7 @@ export default async function CasePage(props: CasePageProps) {
     const effectivePrompt =
       isVariant && session?.variantPrompt ? session.variantPrompt : basePatientPrompt;
 
+    const narrative = await getCaseById(caseData.id).catch(() => undefined);
     const initialCaseData = await withLabFlow(buildSimulatorCasePayload({
       id: caseData.id,
       title: caseData.title,
@@ -182,7 +183,13 @@ export default async function CasePage(props: CasePageProps) {
       specialty: caseData.specialty ?? null,
       difficulty: caseData.difficulty,
       estimatedDurationMinutes: caseData.estimatedDurationMinutes ?? null,
-      patientPrompt: effectivePrompt,
+      patientPrompt: effectivePrompt || narrative?.patientPrompt || "",
+      pastMedicalHistory: narrative?.pastMedicalHistory ?? caseData.pastMedicalHistory,
+      presentation: narrative?.presentation,
+      setting: narrative?.setting,
+      diagnosis: narrative?.diagnosis,
+      condition: narrative?.condition,
+      correctSolution: narrative?.correctSolution ?? caseData.correctSolution,
       baselineExamFindings: caseData.baselineExamFindings,
       timeLimitMinutes: caseData.timeLimitMinutes ?? null,
     }));
@@ -190,10 +197,10 @@ export default async function CasePage(props: CasePageProps) {
     return (
       <LiveAequanClinicalWorkspace
         caseMeta={{
-          title: caseData.title,
+          title: initialCaseData.resolvedProfile.displayTitle,
           specialty: caseData.specialty,
-          patientAge: initialCaseData.demographics.age,
-          patientSex: initialCaseData.demographics.sex,
+          patientAge: initialCaseData.resolvedProfile.age,
+          patientSex: initialCaseData.resolvedProfile.sex,
           caseId: caseData.id,
         }}
         backHref="/dashboard/prassi"

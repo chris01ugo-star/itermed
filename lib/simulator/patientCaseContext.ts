@@ -1,4 +1,5 @@
-import type { PatientSimulatorCaseInput } from "./patient-system-prompt";
+import { resolvePatientProfile } from "@/lib/cases/resolve-patient-profile";
+import type { PatientSimulatorCaseInput } from "@/lib/simulator/patient-system-prompt";
 import {
   grammaticalAnchorFor,
   resolvePatientPersona,
@@ -152,9 +153,17 @@ export function buildPatientSimulatorCaseInput(params: {
   body: BodyInput;
   /** Da DB quando disponibile */
   clinicalCase: {
+    id?: string | null;
+    title?: string | null;
     description: string;
     correctSolution: string | null;
     baselineExamFindings: unknown;
+    patientPrompt?: string | null;
+    pastMedicalHistory?: string | null;
+    presentation?: string | null;
+    setting?: string | null;
+    diagnosis?: string | null;
+    condition?: string | null;
   } | null;
   patientStress: number;
 }): PatientSimulatorCaseInput {
@@ -171,7 +180,7 @@ export function buildPatientSimulatorCaseInput(params: {
   } | undefined;
 
   const patientAge = firstNonEmpty(
-    body.patientAge ?? body.patient_age,
+    clinicalCase ? "" : body.patientAge ?? body.patient_age,
     demo?.age != null && demo.age !== "" ? `${demo.age}` : "",
   );
   const dbSex = firstNonEmpty(demo?.sex, demo?.gender);
@@ -179,13 +188,9 @@ export function buildPatientSimulatorCaseInput(params: {
     body.patientSex ?? body.patient_sex,
     body.gender,
   );
-  // Prefer Prisma/case demographics over the client body: the chat client used to
-  // default unknown sex to "M", which overrode female patients (e.g. Federica).
-  const patientSexRaw = clinicalCase
-    ? firstNonEmpty(dbSex, bodySex)
-    : firstNonEmpty(bodySex, dbSex);
+  const patientSexRaw = clinicalCase ? dbSex : firstNonEmpty(bodySex, dbSex);
   const chiefComplaint = firstNonEmpty(
-    body.chiefComplaint ?? body.chief_complaint,
+    clinicalCase ? "" : body.chiefComplaint ?? body.chief_complaint,
     clinicalCase?.description,
     body.casePrompt,
   );
@@ -211,42 +216,66 @@ export function buildPatientSimulatorCaseInput(params: {
       ? str(clinicalCase.correctSolution)
       : "(non definita nel caso)";
 
-  const explicitName = firstNonEmpty(
-    body.patientName ?? body.patient_name,
-    demo?.name,
-    demo?.firstName,
-    demo?.givenName,
-    demo?.fullName,
-  );
-  // Sex is resolved before the prompt: a dedicated field wins; otherwise the
-  // anagraphic name or the case narrative decides grammatical gender.
+  const explicitName = clinicalCase
+    ? ""
+    : firstNonEmpty(
+        body.patientName ?? body.patient_name,
+        demo?.name,
+        demo?.firstName,
+        demo?.givenName,
+        demo?.fullName,
+      );
+  const serverProfile = clinicalCase
+    ? resolvePatientProfile({
+        id: clinicalCase.id,
+        title: clinicalCase.title,
+        description: clinicalCase.description,
+        patientPrompt: firstNonEmpty(
+          clinicalCase.patientPrompt,
+          typeof body.casePrompt === "string" ? body.casePrompt : "",
+          typeof body.patientPrompt === "string" ? body.patientPrompt : "",
+        ),
+        pastMedicalHistory: clinicalCase.pastMedicalHistory,
+        presentation: clinicalCase.presentation,
+        setting: clinicalCase.setting,
+        baselineExamFindings: clinicalCase.baselineExamFindings,
+        correctSolution: clinicalCase.correctSolution,
+        diagnosis: clinicalCase.diagnosis,
+        condition: clinicalCase.condition,
+      })
+    : null;
   const persona = resolvePatientPersona({
-    explicitSex: patientSexRaw,
-    explicitName,
-    texts: [
-      typeof body.casePrompt === "string" ? body.casePrompt : "",
-      typeof body.patientPrompt === "string" ? body.patientPrompt : "",
-      typeof body.title === "string" ? body.title : "",
-      typeof body.caseTitle === "string" ? body.caseTitle : "",
-      chiefComplaint,
-      clinicalCase?.description,
-    ],
+    explicitSex: serverProfile?.sex ?? patientSexRaw,
+    explicitName: serverProfile?.name || explicitName || null,
+    texts: serverProfile
+      ? []
+      : [
+          typeof body.casePrompt === "string" ? body.casePrompt : "",
+          typeof body.patientPrompt === "string" ? body.patientPrompt : "",
+          typeof body.title === "string" ? body.title : "",
+          typeof body.caseTitle === "string" ? body.caseTitle : "",
+          chiefComplaint,
+          clinicalCase?.description,
+        ],
   });
 
   return {
-    patientAge: patientAge || "(non specificata)",
-    patientName: persona.name,
-    patientSex: persona.gender ?? (patientSexRaw || "(non specificato)"),
-    chiefComplaint: chiefComplaint || "(non specificato)",
-    clinicalStory: firstNonEmpty(clinicalCase?.description, chiefComplaint) || "(non specificata)",
+    patientAge: serverProfile
+      ? serverProfile.age != null
+        ? String(serverProfile.age)
+        : "(non specificata)"
+      : patientAge || "(non specificata)",
+    patientName: serverProfile?.name ?? persona.name,
+    patientSex: serverProfile?.sex ?? persona.gender ?? (patientSexRaw || "(non specificato)"),
+    chiefComplaint: serverProfile?.triageAnamnesis || chiefComplaint || "(non specificato)",
+    clinicalStory: serverProfile?.triageAnamnesis || firstNonEmpty(clinicalCase?.description, chiefComplaint) || "(non specificata)",
     vitalSigns,
     patientStress,
-    // Never trust client-supplied trueDiagnosis / true_diagnosis (prompt injection / gold leak).
     trueDiagnosis,
     abnormalExams,
     clinicalSignsJson: serializeClinicalSignsJson(baseline ?? undefined),
     painNrs: parsePainNrs(baseline, chiefComplaint),
-    knownAllergies: extractPatientAllergies(baseline),
+    knownAllergies: serverProfile?.allergies ?? extractPatientAllergies(baseline),
   };
 }
 

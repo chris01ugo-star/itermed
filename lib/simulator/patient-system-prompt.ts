@@ -1,4 +1,5 @@
 import { usablePatientPrompt } from "@/lib/cases/case-payload";
+import { patientSafeProse, sanitizeCluesForPatient } from "@/lib/cases/resolve-patient-profile";
 import type { PatientProfile } from "@/lib/data/cases/types";
 import {
   extractStructuredAnamnesisTruth,
@@ -25,6 +26,8 @@ export type PatientSimulatorCaseInput = {
   clinicalStory?: string | null;
   vitalSigns: string;
   patientStress: number;
+  /** Last stress reason, dynamic tail only. */
+  stressReason?: string | null;
   /** Case stress profile. Drives the 80–100 behavioral band. */
   stressReactivity?: StressProfile["reactivityType"] | null;
   /** Structured allergies from baseline (`allergies` / `patient.allergies`). */
@@ -130,65 +133,78 @@ function profileLine(profile: PatientProfile | null | undefined): string {
 function stressBehaviorBlock(
   stress: number,
   reactivity: StressProfile["reactivityType"] | null | undefined,
+  reason?: string | null,
 ): string {
   const level = Math.max(0, Math.min(100, Math.round(stress)));
+  const motive = reason?.trim() ? `Motivo stato attuale: ${reason.trim()}` : "";
+  let band: string;
   if (level <= 30) {
-    return `FASCIA STRESS ${level}/100 — Calmo / Collaborativo. Rispondi in modo ordinato, fiducioso e completo. Non sei nel panico.`;
+    band = `FASCIA STRESS ${level}/100 — Calmo / Collaborativo. Rispondi in modo ordinato, fiducioso e completo. Non sei nel panico.`;
+  } else if (level <= 55) {
+    band = `FASCIA STRESS ${level}/100 — Preoccupato / Vigile. Mostra apprensione normale per i sintomi, chiedi rassicurazioni, ma collabora e rispondi alle domande.`;
+  } else if (level <= 79) {
+    band = `FASCIA STRESS ${level}/100 — Molto ansioso / teso / sofferente. Frasi più spezzate o urgenti. Esprimi paura o disagio fisico. Puoi chiedere "Dottore ma è grave?". Se il medico è freddo, fatichi a concentrarti e accorci le risposte.`;
+  } else if (reactivity === "hypo") {
+    band = `FASCIA STRESS ${level}/100 — Crisi (reattività ipo). Sei letargico, confuso o sfinito. Risposte brevissime e affaticate. Reclami aiuto con poche parole. Se trattato male, ti chiudi o rifiuti le cure con un filo di voce.`;
+  } else if (reactivity === "hyper") {
+    band = `FASCIA STRESS ${level}/100 — Crisi (reattività iper). Sei nel panico o agitato. Frasi rotte, chiedi aiuto subito. Se il medico minimizza o è brusco, alzi la voce o minacci di rifiutare le cure.`;
+  } else {
+    band = `FASCIA STRESS ${level}/100 — Crisi. Sei sofferente e non riesci a seguire un discorso lungo. Chiedi aiuto immediato. Se trattato male, ti chiudi o rifiuti il prossimo gesto.`;
   }
-  if (level <= 55) {
-    return `FASCIA STRESS ${level}/100 — Preoccupato / Vigile. Mostra apprensione normale per i sintomi, chiedi rassicurazioni, ma collabora e rispondi alle domande.`;
-  }
-  if (level <= 79) {
-    return `FASCIA STRESS ${level}/100 — Molto ansioso / teso / sofferente. Frasi più spezzate o urgenti. Esprimi paura o disagio fisico. Puoi chiedere "Dottore ma è grave?". Se il medico è freddo, fatichi a concentrarti e accorci le risposte.`;
-  }
-  if (reactivity === "hypo") {
-    return `FASCIA STRESS ${level}/100 — Deterioramento (reattività ipo). Sei letargico, confuso o sfinito. Risposte brevissime e affaticate. Reclami aiuto con poche parole. Se trattato male, ti chiudi o rifiuti le cure con un filo di voce.`;
-  }
-  if (reactivity === "hyper") {
-    return `FASCIA STRESS ${level}/100 — Crisi (reattività iper). Sei nel panico o agitato. Frasi rotte, chiedi aiuto subito. Se il medico minimizza o è brusco, alzi la voce o minacci di rifiutare le cure.`;
-  }
-  return `FASCIA STRESS ${level}/100 — Crisi. Sei sofferente e non riesci a seguire un discorso lungo. Chiedi aiuto immediato. Se trattato male, ti chiudi o rifiuti il prossimo gesto.`;
-}
-
-function genderFewShot(sex: "M" | "F"): string {
-  if (sex === "F") {
-    return `ESEMPIO OBBLIGATORIO DI TONO: Siccome sei una DONNA, devi rispondere SEMPRE così: "Dottore, sono molto stancA", "Sono statA operatA", "Sono preoccupatA". È un ERRORE CRITICO rispondere "sono stanco" o "sono stato".`;
-  }
-  return `ESEMPIO OBBLIGATORIO DI TONO: Siccome sei un UOMO, devi rispondere SEMPRE così: "Dottore, sono molto stancO", "Sono statO operatO", "Sono preoccupatO". È un ERRORE CRITICO rispondere "sono stanca" o "sono stata".`;
+  return motive ? `${band}\n${motive}` : band;
 }
 
 function groundTruthBlock(truth: StructuredAnamnesisTruth): string {
   const facts =
     truth.mandatoryAnamnesisFacts.length > 0
       ? truth.mandatoryAnamnesisFacts.map((fact) => `- ${fact}`).join("\n")
-      : "- Nessuna domanda anamnestica obbligatoria oltre allo storico sotto.";
+      : "- Nessun altro fatto oltre lo storico sotto.";
   return `<GROUND_TRUTH_CONSTRAINTS>
-REGOLA GENERE INVIOLABILE: sei una persona reale, non un modulo. ${truth.grammaticalAnchor}. Vietato usare barre /, asterischi o schwa per il genere (niente stato/a, operato/a, nat*, -ə). Participi e aggettivi concordano SEMPRE con il sesso ${truth.biologicalSex}.
-${genderFewShot(truth.biologicalSex)}
-REGOLA COERENZA ANAMNESTICA: non negare interventi, patologie, allergie o sintomi elencati qui sotto. Non inventare interventi, malattie, allergie o farmaci che qui non compaiono.
-- Sesso biologico: ${truth.biologicalSex}
-- Ancora grammaticale: ${truth.grammaticalAnchor}
+Sei una persona reale. Concordi aggettivi e participi con il sesso ${truth.biologicalSex}, in modo naturale, senza formule ripetute a ogni frase. Vietato usare barre /, asterischi o schwa (niente stato/a, operato/a, nat*, -ə).
+Non negare interventi, patologie, allergie o sintomi elencati qui. Non inventarne altri.
+- Sesso: ${truth.biologicalSex}
 - Interventi e procedure: ${truth.surgeriesAndProcedures}
-- Anamnesi: ${truth.chronicConditionsAndHistory}
+- Storia che conosci: ${truth.chronicConditionsAndHistory}
 - Allergie: ${truth.allergies}
 - Farmaci domiciliari, abitudini, familiarità: ${truth.homeMedicationsOrHabits}
-- Fatti da riferire se il medico li indaga:
+- Fatti che riveli solo se il medico li chiede in modo pertinente:
 ${facts}
 </GROUND_TRUTH_CONSTRAINTS>`;
 }
 
-function clueLines(clues: AnamnesisFactSource[] | null | undefined): string {
-  if (!clues?.length) return "";
-  const rows = clues
-    .map((clue) => {
-      const rationale = clue.rationale?.trim();
-      const prompt = clue.prompt?.trim();
-      if (!rationale && !prompt) return "";
-      return `  - Se il medico sfiora «${prompt}», il fatto del caso è: ${rationale || prompt}`;
-    })
-    .filter(Boolean);
+function sanitizedClueLines(clues: AnamnesisFactSource[] | null | undefined): string {
+  const rows = sanitizeCluesForPatient(clues);
   if (rows.length === 0) return "";
-  return rows.join("\n");
+  return rows
+    .map((clue) => `- Se il medico chiede di «${clue.ask}», puoi raccontare solo questo, con parole tue: ${clue.reveal}`)
+    .join("\n");
+}
+
+function voiceRegister(params: {
+  age: number | null;
+  setting: string;
+  complaint: string;
+  style?: string | null;
+  emotion?: string | null;
+  breathless: boolean;
+}): string {
+  const bits: string[] = [];
+  if (params.breathless || params.age != null && params.age >= 65 && /fiato|dispnea|affanno|catarro/i.test(params.complaint)) {
+    bits.push("Frasi brevi, affaticate, concrete. Ti fermi a respirare. Parli della fame d'aria e di quello che senti adesso, non di sigle.");
+  } else if (/palpit|batte|cuore|petto/i.test(params.complaint)) {
+    bits.push("Sei irrequieto. Descrivi il petto e il battito con sensazioni fisiche, e chiedi se è grave quando hai paura.");
+  } else if (params.age != null && params.age < 50) {
+    bits.push("Linguaggio quotidiano e pratico. Puoi chiedere del lavoro, degli esami e di cosa succede dopo. Zero sigle da laboratorio o da protocollo.");
+  } else if (params.age != null && params.age >= 75) {
+    bits.push("Parli piano, con frasi semplici. Ripeti il sintomo che ti pesa di più.");
+  } else {
+    bits.push("Parli come una persona comune, proporzionata alla domanda: breve se stai male, più distesa se sei stabile.");
+  }
+  if (params.setting) bits.push(`Sei in ${params.setting}.`);
+  if (params.emotion) bits.push(`Tono emotivo: ${params.emotion}.`);
+  if (params.style?.trim()) bits.push(params.style.trim());
+  bits.push("Non aprire ogni turno con la stessa frase. Rispondi a quello che il medico ha appena chiesto.");
+  return bits.join(" ");
 }
 
 function spokenFact(value: string | null | undefined, emptyLabel: string): string {
@@ -230,9 +246,9 @@ function splitCopione(script: string): { symptoms: string; reactions: string } {
  * guideline recitation, and prompt injection.
  */
 export function buildPatientSystemPrompt(ctx: PatientSimulatorCaseInput): string {
-  const script = usablePatientPrompt(ctx.roleplayScript);
+  const script = patientSafeProse(usablePatientPrompt(ctx.roleplayScript));
   const story = spokenFact(
-    ctx.clinicalStory?.trim() || ctx.chiefComplaint,
+    patientSafeProse(ctx.clinicalStory?.trim() || ctx.chiefComplaint),
     "usa il copione",
   );
   const persona = resolvePatientPersona({
@@ -256,16 +272,16 @@ export function buildPatientSystemPrompt(ctx: PatientSimulatorCaseInput): string
   ]
     .filter(Boolean)
     .join("\n");
-  const history = spokenFact(clean(ctx.pastMedicalHistory), "");
-  const presentation = spokenFact(clean(ctx.presentation), "");
-  const condition = spokenFact(clean(ctx.condition), "");
-  const herrings = (ctx.redHerrings ?? []).map((item) => clean(item).trim()).filter(Boolean);
+  const history = spokenFact(clean(patientSafeProse(ctx.pastMedicalHistory)), "");
+  const presentation = spokenFact(clean(patientSafeProse(ctx.presentation)), "");
+  const herrings = (ctx.redHerrings ?? [])
+    .map((item) => patientSafeProse(clean(item)).trim())
+    .filter(Boolean);
   const cleanedClues = (ctx.anamnesisClues ?? []).map((clue) => ({
     prompt: clean(clue.prompt),
     rationale: clean(clue.rationale),
-    expectedKeywords: (clue.expectedKeywords ?? []).map((keyword) => clean(keyword)),
   }));
-  const clues = clueLines(cleanedClues);
+  const clues = sanitizedClueLines(cleanedClues);
   const profile = clean(profileLine(ctx.patientProfile));
   const truth = extractStructuredAnamnesisTruth({
     sex,
@@ -273,14 +289,13 @@ export function buildPatientSystemPrompt(ctx: PatientSimulatorCaseInput): string
     presentation,
     script: scriptClean,
     description: storyClean,
-    anamnesisQuestions: cleanedClues,
     knownAllergies: ctx.knownAllergies,
   });
   const constraints = truth
     ? groundTruthBlock(truth)
     : `<GROUND_TRUTH_CONSTRAINTS>
-REGOLA GENERE INVIOLABILE: vietato usare barre /, asterischi o schwa per il genere.
-REGOLA COERENZA ANAMNESTICA: non inventare interventi, malattie o allergie che non sono nella scheda.
+Concordi il genere in modo naturale, senza barre o schwa.
+Non inventare interventi, malattie o allergie che non sono nella scheda.
 </GROUND_TRUTH_CONSTRAINTS>`;
   const felt = vitalSensations(ctx.vitalSigns);
   const pain =
@@ -295,33 +310,42 @@ REGOLA COERENZA ANAMNESTICA: non inventare interventi, malattie o allergie che n
     typeof ctx.elapsedMinutes === "number" && Number.isFinite(ctx.elapsedMinutes)
       ? Math.max(0, Math.round(ctx.elapsedMinutes))
       : null;
+  const ageNumber = Number(ctx.patientAge);
+  const ageKnown = Number.isFinite(ageNumber) && ageNumber >= 1 && ageNumber <= 110;
+  const breathless =
+    /fiato|dispnea|affanno|respir/i.test(`${storyClean} ${presentation}`) ||
+    /"spo2":\s*(8\d|9[0-3])/.test(ctx.vitalSigns);
 
   const copione = scriptClean ? splitCopione(scriptClean) : { symptoms: "", reactions: "" };
-  const personaBlock = `**ADESSO SEI SOLO QUESTO PAZIENTE. Questa scheda è la tua identità. Lo stato in coda dice come stai in questo momento.**
+  const personaBlock = `SCHEDA PERSONA & VOCE DEL PAZIENTE
+Questa scheda è stabile per tutto il caso. Lo stato in coda cambia a ogni turno.
 - Nome: ${persona.name}
-- Età: ${ctx.patientAge}
-- Sesso: ${sexLabel}. Concorda aggettivi e participi al ${agreement}.
-- Luogo: ${place || "quello descritto sotto. Non cambiare luogo."}
-- Sintomi da raccontare subito: ${copione.symptoms || scriptClean || "non c'è un copione separato: parla dalla situazione sotto."}
-Se questa voce è una nota di regia («Sei…», «Dici che…»), dilla in prima persona.
-- Reazioni solo dopo una proposta del medico: ${copione.reactions || "nessuna nel copione."}
-- Situazione: ${storyClean}
-- Come si presenta: ${presentation || storyClean}
-- Storia personale: ${history || "solo quanto è già scritto qui."}
-- Condizione da incarnare, senza pronunciarne il nome: ${condition || "quella implicita nella situazione."}
-- Corpo: ${symptoms || "solo quanto dice la voce e la situazione"}
-${profile ? `- Profilo: ${profile}\n` : ""}${herrings.length ? `- Ha sentito dire, e lo confonde (non è la diagnosi): ${herrings.join("; ")}\n` : ""}${clues ? `- Se il medico chiede queste cose, risponde con il fatto, in parole sue:\n${clues}\n` : ""}- Diagnosi da non dire: ${spokenFact(ctx.trueDiagnosis, "nessuna da dichiarare")}
-Le frasi in terza persona, le citazioni, le percentuali, le sigle e i criteri sono note per il medico. Non ripeterle. Trasformale in ciò che questo paziente sente nel corpo e nel motivo per cui è qui.
-COME GESTIRE IL TUO COPIONE AL PRIMO TURNO VS TURNI SUCCESSIVI:
-- Quando il medico ti saluta o chiede cosa succede all'inizio, racconta SOLO come ti senti fisicamente, i sintomi attuali, da quanto tempo sono iniziati e perché sei lì.
-- NON anticipare MAI al primo messaggio un rifiuto o un'accettazione di un esame, una terapia o una manovra se il medico non te li ha ancora proposti in questa conversazione.
-- Ogni istruzione condizionale del copione (se propone, se chiede, rifiuta, accetta) è una REAZIONE: tirala fuori solo quando il medico propone davvero quell'esame, quel farmaco o quella manovra.
-- Parla come una persona comune, con un linguaggio vissuto. Leggi un referto solo se lo hai già in mano.
+- Età: ${ageKnown ? `${ageNumber} anni` : "non indicata nel caso"}
+- Sesso: ${sexLabel}. Accordo grammaticale ${agreement}, naturale, senza esempi meccanici ripetuti.
+- Luogo: ${place || "quello della scheda. Non cambiarlo."}
+- Voce: ${voiceRegister({
+    age: ageKnown ? ageNumber : null,
+    setting: place,
+    complaint: `${storyClean} ${copione.symptoms}`,
+    style: ctx.patientProfile?.communicationStyle,
+    emotion: ctx.patientProfile ? EMOTION_LABEL[ctx.patientProfile.emotionalState] : null,
+    breathless,
+  })}
+- Cosa sai: solo i sintomi che stai vivendo, la storia pregressa scritta qui, i farmaci che prendi a casa, le tue paure. È la stessa storia che il medico legge in cartella.
+- Cosa non sai: la diagnosi di questo accesso, il risultato degli esami non ancora eseguiti, sigle molecolari, protocolli, tariffe e nomi di linee guida.
+- Sintomi da raccontare subito, se il medico ti saluta o chiede cosa succede: ${copione.symptoms || scriptClean || storyClean}
+- Reazioni solo dopo una proposta concreta del medico: ${copione.reactions || "nessuna nel copione."}
+- Motivo di accesso, allineato alla cartella: ${storyClean}
+- Come ti presenti: ${presentation || storyClean}
+- Storia pregressa: ${history || "Nessuna patologia cronica nota."}
+${profile ? `- Profilo: ${profile}\n` : ""}${herrings.length ? `- Hai sentito dire, e ti confonde (non è una diagnosi che pronunci): ${herrings.join("; ")}\n` : ""}${clues ? `${clues}\n` : ""}- Corpo, solo sensazioni: ${symptoms || "solo quanto dice la voce e la situazione"}
+Al primo turno racconti i sintomi attuali, da quanto durano e perché sei lì. Non anticipi un rifiuto o un'accettazione finché il medico non propone quell'esame, quel farmaco o quella manovra.
+Rispondi in modo proporzionato: breve se hai dispnea, dolore forte o ansia acuta; più disteso se sei stabile.
 Vietato: "che cosa vuole/vorrebbe sapere?", "mi dica lei", "non so cosa dire", "non mi è stato specificato", "cosa devo cliccare".`;
 
   const dynamicTail = [
     "STATO DI QUESTO TURNO (cambia a ogni messaggio; la scheda sopra resta valida):",
-    stressBehaviorBlock(ctx.patientStress, ctx.stressReactivity),
+    stressBehaviorBlock(ctx.patientStress, ctx.stressReactivity, ctx.stressReason),
     elapsed != null ? `- Minuti trascorsi: ${elapsed}` : "",
     `- Parametri attuali: ${spokenFact(ctx.vitalSigns, "non comunicati")}`,
     `- Cosa sente dai parametri: ${felt.length ? felt.join("; ") : "nessuna alterazione marcata dei parametri"}`,

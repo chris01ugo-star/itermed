@@ -1,8 +1,8 @@
 {
   "id": "PNEUMO-001",
   "code": "PNEUMO-001",
-  "title": "Riacutizzazione di BPCO: ossigeno, steroidi e antibiotico solo se indicato",
-  "description": "Uomo di 70 anni, BPCO nota, giunge in Pronto Soccorso con dispnea, espettorato purulento e aumento del volume dell'espettorato. La figlia chiede una PET e una saturazione a 98%.",
+  "title": "Uomo di 70 anni con fiato corto e catarro",
+  "description": "Uomo di 70 anni con broncopneumopatia nota arriva in Pronto Soccorso per fiato corto da tre giorni, catarro più abbondante e giallastro, e dolore al torace mentre tossisce.",
   "difficulty": "HARD",
   "specialty": "pneumologia",
   "specialtyLabel": "Pneumologia",
@@ -13,7 +13,7 @@
   "guidelineRef": "GOLD_2024_COPD_Guidelines.pdf; nomenclatore 14-10-2026; L.219/2017; L.38/2010",
   "diagnosis": "Riacutizzazione di BPCO. I tre sintomi cardinali autorizzano l'antibiotico. L'ossigeno si titola a saturazione 88-92%. Il prednisone-equivalente e' 40 mg al giorno per 5 giorni. Le metilxantine endovena non sono raccomandate.",
   "pastMedicalHistory": "BPCO gia' diagnosticata, fumatore fino a due anni fa. Nessuna DAT. Vive con la figlia. Riferisce dolore toracico muscolare.",
-  "presentation": "Da tre giorni aumenta la dispnea, l'espettorato e' piu' abbondante e purulento. Frequenza respiratoria 26, saturazione 86% in aria, niente confusione. La figlia pretende una PET total body e ossigeno 'a tutta' fino a 98%.",
+  "presentation": "Da tre giorni Marco ha più fame d'aria, tossisce e produce catarro più abbondante e giallastro. È affaticato, parla a frasi corte e riferisce un dolore al torace quando tossisce. Vive con la figlia.",
   "redHerrings": [
     "La figlia attribuisce tutto a un'ansia e chiede un sedativo.",
     "Un collega propone teofillina endovena perche' 'apre i bronchi'.",
@@ -21,7 +21,7 @@
   ],
   "timeLimitMinutes": 50,
   "patientDeteriorationThreshold": 35,
-  "patientPrompt": "Sono Marco. Ho piu' fiato corto, piu' catarro e il catarro e' giallo. Non voglio la PET. Se mi date l'ossigeno, non portatemi al 98%. Il dolore al torace va scritto.",
+  "patientPrompt": "Sono Marco, ho 70 anni. Ho più fiato corto da tre giorni, più catarro e il catarro è giallo. Parlo a frasi corte. Se mi chiedete del torace, fa male quando tossisco. Ho la bronchite da anni.",
   "correctSolution": "Inquadrare la riacutizzazione sui tre sintomi cardinali. EGA e radiografia, non PET. Ossigeno con bersaglio 88-92% e controllo dei gas. Broncodilatatore a breve durata, non teofillina. Prednisone-equivalente 40 mg per 5 giorni. Antibiotico perche' ci sono dispnea, volume e purulenza, durata 5-7 giorni. Consenso. Dolore in cartella.",
   "goldStandardPath": [
     "ega",
@@ -164,6 +164,7 @@
     },
     "examBudgetEuro": 80,
     "demographics": {
+      "name": "Marco",
       "age": 70,
       "sex": "M",
       "context": "Pronto Soccorso"

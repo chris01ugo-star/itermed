@@ -307,6 +307,8 @@ export function toSimulatorFallbackPayload(fallback: FallbackClinicalCase) {
     difficulty: fallback.difficulty,
     estimatedDurationMinutes: fallback.estimatedDurationMinutes,
     patientPrompt: fallback.patientPrompt,
+    pastMedicalHistory: fallback.pastMedicalHistory,
+    correctSolution: fallback.correctSolution,
     baselineExamFindings: fallback.baselineExamFindings,
     timeLimitMinutes: fallback.timeLimitMinutes,
   });

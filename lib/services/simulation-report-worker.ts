@@ -13,6 +13,7 @@ import {
   normalizeExamSlug,
   resolveExamBudgetEuro,
   resolveExamCostsFromCatalog,
+  communicationStressPenalty,
   writtenReportForEvaluation,
   type BlockingFail,
   type DimensionScores,
@@ -71,8 +72,19 @@ import {
 } from "@/lib/services/rag-pillar-evaluation";
 import type { ClinicalCase } from "@/lib/data/cases/types";
 import { estimateAgeFromTitle, patientDisplayName } from "@/lib/prassi/demo-vitals";
-import { applyEmergencySettingEmpathyPenalty } from "@/lib/reports/d-rime-engine";
 import { resolveCaseStressProfile } from "@/lib/simulator/patient-stress-engine";
+import {
+  buildGuidelineEvidence,
+  composeHybridPillarScores,
+  physicalExamAdjustment,
+  stampWaterfallFinals,
+  undoPostBlendPenalties,
+} from "@/lib/services/hybrid-pillar-scoring";
+import {
+  buildClinicalMatrix,
+  buildUnifiedSimulationTrace,
+  formatUnifiedTraceForPrompt,
+} from "@/lib/services/unified-simulation-trace";
 
 function mapLegalChunksForAudit(
   chunks: GuidelineChunk[] | null | undefined,
@@ -243,6 +255,13 @@ async function safeRunEconomicAudit(params: {
   goldPathExams: ReturnType<typeof buildGoldPathExamsForAudit>;
   clinicalContext: string;
   economicGuidelineChunks: Array<{ title: string; text: string }>;
+  prescriptions?: Array<{
+    commercialName: string;
+    activeIngredient?: string;
+    route: string;
+    posology: string;
+    price: number;
+  }>;
   log: Logger;
 }): Promise<EconomicAuditResult> {
   try {
@@ -251,6 +270,7 @@ async function safeRunEconomicAudit(params: {
       goldPathExams: params.goldPathExams,
       clinicalContext: params.clinicalContext,
       economicGuidelineChunks: params.economicGuidelineChunks,
+      prescriptions: params.prescriptions,
     });
   } catch (error) {
     params.log.warn("Economic audit LLM failed — persisting NOT_EVALUABLE fallback", {
@@ -386,6 +406,7 @@ async function safeRunClinicalAudit(params: {
   }>;
   elapsedMinutes: number;
   clinicalGuidelineChunks: Array<{ title: string; text: string }>;
+  simulationTrace?: string;
   log: Logger;
 }): Promise<ClinicalAuditResult> {
   try {
@@ -398,6 +419,7 @@ async function safeRunClinicalAudit(params: {
       inappropriateExams: params.inappropriateExams,
       elapsedMinutes: params.elapsedMinutes,
       clinicalGuidelineChunks: params.clinicalGuidelineChunks,
+      simulationTrace: params.simulationTrace,
     });
   } catch (error) {
     params.log.warn("Clinical audit LLM failed — persisting NOT_EVALUABLE fallback", {
@@ -537,6 +559,8 @@ export type SimulationReportJobInput = {
   /** Optional client-side immutable action registry. */
   executedActionIds?: string[];
   requestedExamIds?: string[];
+  /** Maneuvers captured at close. Session data still wins when present. */
+  physicalExams?: Array<{ id: string; name: string; finding: string }>;
   helpRequested?: boolean;
   helpRequestCount?: number;
   /** Node choices (and requested exams) sent by the simulator. */
@@ -837,6 +861,8 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     let trustedChatHistory: Array<{ role: "user" | "assistant"; content: string }> = [];
     let sessionClinicalSummary = "";
     let generatedExamReportText = "";
+    let sessionExamOverrides: unknown = null;
+    let sessionStressTimeline: unknown = null;
     if (input.liveSessionId) {
       try {
         const liveSession = await prisma.caseSession.findUnique({
@@ -868,7 +894,19 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
           content: turn.content,
         }));
         sessionClinicalSummary = liveSession?.clinicalSummary?.trim() ?? "";
+        sessionExamOverrides = liveSession?.examOverrides ?? null;
         generatedExamReportText = formatGeneratedReportsForAudit(liveSession?.examOverrides);
+        try {
+          const timelineRow = await prisma.caseSession.findUnique({
+            where: { id: input.liveSessionId },
+            select: { stressTimeline: true },
+          });
+          sessionStressTimeline = timelineRow?.stressTimeline ?? null;
+        } catch (timelineError) {
+          log.warn("stressTimeline unavailable — report continues without the curve", {
+            error: timelineError instanceof Error ? timelineError.message : String(timelineError),
+          });
+        }
       } catch (err) {
         console.error("[simulation-report-worker] CaseSession transcript load failed", err);
       }
@@ -879,8 +917,9 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       });
     }
 
+    const physicalExamIds = (input.physicalExams ?? []).map((exam) => exam.id).filter(Boolean);
     const executedActionIds = buildExecutedActionIds({
-      executedActionIds: asStringArray(input.executedActionIds),
+      executedActionIds: [...asStringArray(input.executedActionIds), ...physicalExamIds],
       requestedExamIds: sessionRequestedExamIds,
       exams: Array.isArray(input.exams) ? input.exams : [],
     });
@@ -1008,6 +1047,37 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
             id: exam.id,
             label: exam.name,
           }));
+    const indicatedExamIds = [
+      ...(registeredCase?.mandatoryExams ?? []).map((exam) => exam.examId),
+      ...goldStandardPath,
+    ];
+    const inappropriateExamIds = (registeredCase?.inappropriateExams ?? []).map((exam) => exam.examId);
+    const fatalExamIds = (registeredCase?.inappropriateExams ?? [])
+      .filter((exam) => exam.iatrogenicCritical)
+      .map((exam) => exam.examId);
+    const unifiedTrace = buildUnifiedSimulationTrace({
+      chatHistory: chatHistoryForAudit,
+      physicalExams: input.physicalExams ?? [],
+      requestedExamIds: sessionRequestedExamIds,
+      exams: Array.isArray(input.exams) ? input.exams : [],
+      examOverrides: sessionExamOverrides,
+      indicatedExamIds,
+      inappropriateExamIds,
+      fatalExamIds,
+      prescriptions: sessionPrescriptions,
+      informedConsent: consentCollected,
+      consentEvidence: consentCollected ? "Consenso presente nel registro di sessione." : "",
+      dischargeNote: sessionClinicalSummary || (input.liveSessionId ? "" : input.normalizedReportText),
+      diagnosisEntered: input.finalDiagnosis,
+      failedDiagnosisAttempts: liveSession?.failedDiagnosisAttempts ?? 0,
+      correctSolution: clinicalCase?.correctSolution ?? registeredCase?.correctSolution,
+      elapsedMinutes: simulationElapsedMinutes,
+      timeLimitMinutes: registeredCase?.timeLimitMinutes,
+      initialStress: null,
+      finalStress: liveSession?.patientStress ?? null,
+      stressTimeline: sessionStressTimeline,
+    });
+    const simulationTraceText = formatUnifiedTraceForPrompt(unifiedTrace);
     const traceCase: ReportCaseData = {
       id: input.caseData?.id || input.caseId,
       title: input.caseData?.title || clinicalCase?.title || registeredCase?.title,
@@ -1124,6 +1194,13 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
         goldPathExams,
         clinicalContext: clinicalContext || "Contesto clinico non disponibile.",
         economicGuidelineChunks,
+        prescriptions: sessionPrescriptions.map((rx) => ({
+          commercialName: rx.commercialName,
+          activeIngredient: rx.activeIngredient,
+          route: rx.route,
+          posology: rx.posology,
+          price: rx.price,
+        })),
         log,
       }).then((result) => {
         noteBranch("Audit economico completato...");
@@ -1136,6 +1213,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
             ? simulationElapsedMinutes
             : 0,
         clinicalGuidelineChunks,
+        simulationTrace: simulationTraceText,
         log,
       }).then((result) => {
         noteBranch("Audit clinico completato...");
@@ -1147,6 +1225,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
         chatHistory: traceChat,
         exams: Array.isArray(input.exams) ? input.exams : [],
         reportText: input.normalizedReportText,
+        simulationTrace: simulationTraceText,
         guidelines,
         specialty: traceCase.specialty,
         caseId: traceCase.id,
@@ -1219,22 +1298,6 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
 
     const legalChunks = legalChunksForAudit;
 
-    if (legalAuditResult.status === "EVALUATED" && legalAuditResult.overallVerdict !== "NOT_EVALUABLE") {
-      scoresForGrade = sanitizeDimensionScores({
-        ...scoresForGrade,
-        legal: legalAuditResult.complianceScore ?? 0,
-      });
-      const recomputed = computeFinalTrentesimiWithKillerSwitch(scoresForGrade, fatalErrors);
-      rawTotalTrentesimi = Number.isFinite(recomputed.rawTotal) ? recomputed.rawTotal : 0;
-      const capped = applyKillerSwitch(
-        Number.isFinite(recomputed.finalTotal) ? recomputed.finalTotal : 0,
-        fatalErrors,
-      );
-      finalTotalTrentesimi = Number.isFinite(capped) ? capped : 0;
-      totalScore = finalTotalTrentesimi;
-      killerSwitchApplied = Boolean(recomputed.killerSwitchApplied) || totalScore < rawTotalTrentesimi;
-    }
-
     let evaluationForPersist: EvaluationResult = {
       ...evaluation,
       scores: scoresForGrade,
@@ -1268,39 +1331,6 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       protocolChunkCount: clinicalGuidelineChunks.length,
     });
 
-    if (clinicalAuditResult.status === "EVALUATED") {
-      scoresForGrade = sanitizeDimensionScores({
-        ...scoresForGrade,
-        clinical: clinicalAuditResult.clinicalAccuracyScore ?? 0,
-      });
-    }
-    if (economicAuditResult.status === "EVALUATED") {
-      scoresForGrade = sanitizeDimensionScores({
-        ...scoresForGrade,
-        economy: economicAuditResult.efficiencyScore ?? 0,
-        exams: economicAuditResult.efficiencyScore ?? 0,
-      });
-    }
-    if (
-      clinicalAuditResult.status === "EVALUATED" ||
-      economicAuditResult.status === "EVALUATED"
-    ) {
-      const recomputed = computeFinalTrentesimiWithKillerSwitch(scoresForGrade, fatalErrors);
-      rawTotalTrentesimi = Number.isFinite(recomputed.rawTotal) ? recomputed.rawTotal : 0;
-      const capped = applyKillerSwitch(
-        Number.isFinite(recomputed.finalTotal) ? recomputed.finalTotal : 0,
-        fatalErrors,
-      );
-      finalTotalTrentesimi = Number.isFinite(capped) ? capped : 0;
-      totalScore = finalTotalTrentesimi;
-      killerSwitchApplied =
-        Boolean(recomputed.killerSwitchApplied) || totalScore < rawTotalTrentesimi;
-      evaluationForPersist = {
-        ...evaluationForPersist,
-        scores: scoresForGrade,
-      };
-    }
-
     const relationalStartedAt = Date.now();
     const chatHistory = chatHistoryForAudit;
     const patientProfile = relationalPatientProfile;
@@ -1324,26 +1354,8 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     });
 
     if (ragPillars) {
-      scoresForGrade = sanitizeDimensionScores({
-        clinical: ragPillars.clinica.score,
-        legal: ragPillars.legale.score,
-        exams: ragPillars.economia.score,
-        economy: ragPillars.economia.score,
-        empathy: ragPillars.empatia.score,
-      });
-      const recomputed = computeFinalTrentesimiWithKillerSwitch(scoresForGrade, fatalErrors);
-      rawTotalTrentesimi = Number.isFinite(recomputed.rawTotal) ? recomputed.rawTotal : 0;
-      const capped = applyKillerSwitch(
-        Number.isFinite(recomputed.finalTotal) ? recomputed.finalTotal : 0,
-        fatalErrors,
-      );
-      finalTotalTrentesimi = Number.isFinite(capped) ? capped : 0;
-      totalScore = finalTotalTrentesimi;
-      killerSwitchApplied =
-        Boolean(recomputed.killerSwitchApplied) || totalScore < rawTotalTrentesimi;
       evaluationForPersist = {
         ...evaluationForPersist,
-        scores: scoresForGrade,
         coachingFeedback: {
           accuratezza: ragPillars.clinica.feedback,
           economicita: ragPillars.economia.feedback,
@@ -1380,34 +1392,87 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
           : null,
       goldStandardPath,
     });
-    const emergencyEmpathy = applyEmergencySettingEmpathyPenalty({
-      score: scoresForGrade.empathy,
-      chatHistory: traceChat,
-      initialPatientStress: stressProfile.initialStress,
-      reactivityType: stressProfile.reactivityType,
+    const clinicalBreakdown = evaluation.scoreBreakdown?.clinical;
+    const clinicalKiller =
+      Boolean(clinicalBreakdown?.iatrogenicCritical) ||
+      fatalErrors.some((error) => /allerg|iatrogen/i.test(error.description ?? ""));
+    const legalSevereCap =
+      clinicalKiller ||
+      fatalErrors.some((error) => /omiss|salvavita/i.test(`${error.description ?? ""} ${error.rationale ?? ""}`));
+    const timeFraction = clinicalBreakdown?.timeMalusFraction ?? 0;
+    const failedAttempts = clinicalBreakdown?.failedDiagnosisCount ?? liveSession?.failedDiagnosisAttempts ?? 0;
+    const matrixClinical = clinicalKiller
+      ? evaluation.scores.clinical
+      : undoPostBlendPenalties(evaluation.scores.clinical, timeFraction, failedAttempts);
+    const legalBase =
+      legalAuditResult.status === "EVALUATED" && legalAuditResult.overallVerdict !== "NOT_EVALUABLE"
+        ? legalAuditResult.complianceScore ?? evaluation.scores.legal
+        : evaluation.scores.legal;
+    const stressInfo = communicationStressPenalty(liveSession?.patientStress ?? null);
+    const empathyComposite =
+      relationalAuditResult.status === "EVALUATED"
+        ? relationalAuditResult.careEmpathyScore
+        : Math.min(100, evaluation.scores.empathy + stressInfo.stressPenalty);
+    const hybrid = composeHybridPillarScores({
+      matrixClinical,
+      clinicalAuditScore: clinicalAuditResult.clinicalAccuracyScore,
+      clinicalAuditEvaluable: clinicalAuditResult.status === "EVALUATED",
+      timeMalusFraction: timeFraction,
+      failedDiagnosisAttempts: failedAttempts,
+      clinicalKiller,
+      legalBase,
+      informedConsent: consentCollected,
+      dischargeValid: unifiedTrace.dischargeNote.valid,
+      legalSevereCap,
+      appropriatenessScore: evaluation.scores.exams,
+      physicalExamDelta: physicalExamAdjustment(unifiedTrace.physicalExams.length),
+      economyScore: evaluation.scores.economy,
+      economyComment: economicAuditResult.executiveSummary,
+      empathyComposite,
+      finalStress: liveSession?.patientStress ?? unifiedTrace.stress.finalStress,
+      emergency: {
+        chatHistory: traceChat,
+        initialPatientStress: stressProfile.initialStress,
+        reactivityType: stressProfile.reactivityType,
+      },
+      ragClinical: ragPillars
+        ? { score: ragPillars.clinica.score, feedback: ragPillars.clinica.feedback }
+        : null,
+      ragLegal: ragPillars
+        ? { score: ragPillars.legale.score, feedback: ragPillars.legale.feedback }
+        : null,
     });
-    if (emergencyEmpathy.penalized) {
-      scoresForGrade = { ...scoresForGrade, empathy: emergencyEmpathy.score };
+    scoresForGrade = sanitizeDimensionScores(hybrid.scores);
+    if (hybrid.waterfall.empathy.some((step) => step.kind === "cap")) {
+      const reason = hybrid.waterfall.empathy.find((step) => step.kind === "cap")?.detail ?? "";
       const priorNote = evaluationForPersist.feedback?.empathyNote ?? "";
-      const reason = emergencyEmpathy.reason ?? "";
       evaluationForPersist = {
         ...evaluationForPersist,
-        scores: { ...(evaluationForPersist.scores ?? scoresForGrade), empathy: emergencyEmpathy.score },
         feedback: {
           ...evaluationForPersist.feedback,
-          empathyNote: priorNote.includes("Comunicazione Inadeguata al Setting di Emergenza")
-            ? priorNote
-            : `${reason} ${priorNote}`.trim(),
+          empathyNote: priorNote.includes(reason) ? priorNote : `${reason} ${priorNote}`.trim(),
         },
       };
-      log.info("Emergency empathy penalty", {
-        idleReason: reason,
-        empathy: emergencyEmpathy.score,
-      });
     }
 
     const graded = computeFinalTrentesimiWithKillerSwitch(scoresForGrade, fatalErrors);
     scoresForGrade = graded.scoresForPersist;
+    const scoreWaterfall = stampWaterfallFinals(hybrid.waterfall, scoresForGrade);
+    const clinicalMatrix = buildClinicalMatrix(unifiedTrace, {
+      empathyImpact: scoreWaterfall.empathy
+        .filter((step) => step.kind === "penalty" || step.kind === "cap")
+        .map((step) => step.detail)
+        .join(" "),
+    });
+    const guidelineEvidence = buildGuidelineEvidence(ragPillars);
+    const legalForPersist = {
+      ...legalAuditResult,
+      complianceScore: scoresForGrade.legal,
+    };
+    const relationalForPersist = {
+      ...relationalAuditResult,
+      careEmpathyScore: scoresForGrade.empathy,
+    };
     evaluationForPersist = {
       ...evaluationForPersist,
       scores: scoresForGrade,
@@ -1453,11 +1518,22 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
           },
           failedByCap,
           blockingFails,
-          legalAudit: legalAuditResult,
+          legalAudit: legalForPersist,
           economicAudit: economicAuditResult,
           clinicalAudit: clinicalAuditResult,
-          relationalAudit: relationalAuditResult,
+          relationalAudit: relationalForPersist,
           ragPillars,
+          scoreProvenance: {
+            scoreWaterfall,
+            clinicalMatrix,
+            guidelineEvidence,
+            unifiedTrace,
+            helpTelemetry: {
+              helpRequested,
+              helpRequestCount,
+              note: "I consulti chiesti in simulazione sono annotati e non modificano il voto.",
+            },
+          },
         }),
         ...(liveSession ? { startedAt: liveSession.createdAt } : {}),
       },

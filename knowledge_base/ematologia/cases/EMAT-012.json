@@ -1,8 +1,8 @@
 {
   "id": "EMAT-012",
   "code": "EMAT-012",
-  "title": "ALL dell'adulto: BCR::ABL1 e MRD sono obbligatori",
-  "description": "ALL-B sospetta. Il pannello ELN 2024 rende obbligatori t(9;22)/BCR::ABL1 e la MRD. Non si chiama Philadelphia-negativa senza il test. La scarsa risposta al prednisone e' una conta periferica di almeno 1 per 10 alla nona a fine prefase, non una dose inventata.",
+  "title": "Paziente di 41 anni con astenia ed esami ematochimici alterati",
+  "description": "Uomo di 41 anni ricoverato per astenia marcata da alcune settimane, sudorazione notturna e esami del sangue già risultati alterati. Non riferisce patologie croniche.",
   "difficulty": "HARD",
   "specialty": "ematologia",
   "specialtyLabel": "Ematologia",
@@ -12,8 +12,8 @@
   "setting": "REPARTO",
   "guidelineRef": "ELN ALL 2024",
   "diagnosis": "Non si chiude il Philadelphia senza BCR::ABL1. La MRD, molecolare o in citofluorimetria, e' obbligatoria per il follow-up. La PET non sostituisce ne' il gene ne' la MRD.",
-  "pastMedicalHistory": "Uomo di 41 anni, blasti linfoidi, proposta di protocollo 'non Philadelphia' senza aver cercato la fusione, e di una PET al posto della MRD.",
-  "presentation": "Vogliono anche una TC encefalo di routine, senza sintomi neurologici.",
+  "pastMedicalHistory": "Uomo di 41 anni. Nessuna patologia cronica nota. Nessuna allergia nota. Non fumatore.",
+  "presentation": "Fabio riferisce stanchezza che gli impedisce di lavorare, sudorazione notturna e il timore per degli esami del sangue che gli hanno detto essere alterati. Non sa dire il nome della malattia.",
   "redHerrings": [
     "Philadelphia negativo senza test.",
     "PET al posto della MRD.",
@@ -21,7 +21,7 @@
   ],
   "timeLimitMinutes": 55,
   "patientDeteriorationThreshold": 40,
-  "patientPrompt": "Sono Fabio. Prima di dirmi che non ho il Philadelphia, fatemi il test. Non sostituite il midollo con una PET.",
+  "patientPrompt": "Sono Fabio, ho 41 anni. Sono stanco da settimane, sudo di notte e al lavoro non ce la faccio. Mi hanno detto che gli esami del sangue non tornano, ma non so cosa ho.",
   "correctSolution": "Cercare BCR::ABL1, KMT2A e TCF3::PBX1. Impostare un saggio di MRD. Non dichiarare il gruppo di rischio senza questi. Non fare PET o TC encefalo al loro posto.",
   "goldStandardPath": [
     "emocromo",
@@ -143,6 +143,12 @@
       "respiratoryRate": 16
     },
     "examBudgetEuro": 80,
+    "demographics": {
+      "name": "Fabio",
+      "age": 41,
+      "sex": "M",
+      "context": "Reparto"
+    },
     "clinicalSigns": {},
     "semeiotics": {},
     "advancedExams": {

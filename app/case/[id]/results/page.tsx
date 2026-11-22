@@ -24,6 +24,7 @@ import type {
 } from "@/lib/services/evaluation-scoring";
 import { AequanLogo } from "@/components/AequanLogo";
 import { EliteResultsClient } from "./EliteResultsClient";
+import type { ClinicalMatrixView, WaterfallStepView } from "@/components/report/ReportMathPanels";
 import { OfflineResultsGate } from "./OfflineResultsGate";
 import { config } from "@/lib/config";
 import { reportAccessionCode, reportShareUrl } from "@/lib/reports/share-link";
@@ -59,6 +60,10 @@ type SessionTrace = {
   clinicalAudit?: ClinicalAuditResult;
   economicAudit?: EconomicAuditResult;
   clinicalSummary?: string | null;
+  scoreWaterfall?: Record<string, WaterfallStepView[]> | null;
+  clinicalMatrix?: ClinicalMatrixView | null;
+  guidelineEvidence?: Array<{ pillar: string; text: string; sources?: string[] }> | null;
+  helpTelemetry?: { helpRequested?: boolean; helpRequestCount?: number; note?: string } | null;
 };
 
 function normalizeFatalErrorsForUi(
@@ -221,6 +226,10 @@ export default async function CaseResultsPage({ params, searchParams }: ResultsP
             economicAudit={trace.economicAudit ?? null}
             clinicalSummary={trace.clinicalSummary ?? null}
             ragAuthoritative={ragAuthoritative}
+            scoreWaterfall={trace.scoreWaterfall ?? null}
+            clinicalMatrix={trace.clinicalMatrix ?? null}
+            guidelineEvidence={trace.guidelineEvidence ?? null}
+            helpTelemetry={trace.helpTelemetry ?? null}
           />
         </div>
       </div>

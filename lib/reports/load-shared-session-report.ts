@@ -16,6 +16,7 @@ import type {
   ScoreBreakdown,
 } from "@/lib/services/evaluation-scoring";
 import { buildResultsRadar, readRagAuthoritative } from "@/lib/reports/pillar-radar";
+import type { ClinicalMatrixView, WaterfallStepView } from "@/components/report/ReportMathPanels";
 import type { ClinicalAuditResult } from "@/lib/services/clinical-audit-service";
 import type { EconomicAuditResult } from "@/lib/services/economic-audit-service";
 
@@ -42,6 +43,10 @@ type SessionTrace = {
   clinicalAudit?: ClinicalAuditResult;
   economicAudit?: EconomicAuditResult;
   clinicalSummary?: string | null;
+  scoreWaterfall?: Record<string, WaterfallStepView[]> | null;
+  clinicalMatrix?: ClinicalMatrixView | null;
+  guidelineEvidence?: Array<{ pillar: string; text: string; sources?: string[] }> | null;
+  helpTelemetry?: { helpRequested?: boolean; helpRequestCount?: number; note?: string } | null;
 };
 
 function safeNum(value: unknown, fallback = 0): number {
@@ -83,6 +88,10 @@ export type SharedEliteReport = {
   clinicalSummary?: string | null;
   specialty?: string | null;
   ragAuthoritative?: boolean;
+  scoreWaterfall?: Record<string, WaterfallStepView[]> | null;
+  clinicalMatrix?: ClinicalMatrixView | null;
+  guidelineEvidence?: Array<{ pillar: string; text: string; sources?: string[] }> | null;
+  helpTelemetry?: { helpRequested?: boolean; helpRequestCount?: number; note?: string } | null;
 };
 
 export async function loadSharedSessionReport(
@@ -145,5 +154,9 @@ export async function loadSharedSessionReport(
     clinicalSummary: trace.clinicalSummary ?? null,
     specialty: registered?.specialty ?? null,
     ragAuthoritative,
+    scoreWaterfall: trace.scoreWaterfall ?? null,
+    clinicalMatrix: trace.clinicalMatrix ?? null,
+    guidelineEvidence: trace.guidelineEvidence ?? null,
+    helpTelemetry: trace.helpTelemetry ?? null,
   };
 }

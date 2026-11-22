@@ -32,12 +32,20 @@ import {
   generatePatientResponse,
   logOpenAIStreamError,
 } from "@/lib/simulator/generatePatientResponse";
+import { resolvePatientProfile } from "@/lib/cases/resolve-patient-profile";
 import { getCaseById } from "@/lib/data/cases/registry";
 import type { ClinicalCase, PatientProfile } from "@/lib/data/cases/types";
 import { flattenCatalogExams } from "@/lib/exam-catalog-structure";
 import { isDevAuthBypass } from "@/lib/require-user";
 import { persistChatTurn } from "@/lib/simulator/persist-chat-turn";
-import { resolveCaseStressProfile } from "@/lib/simulator/patient-stress-engine";
+import { lockCaseSessionForUpdate } from "@/lib/simulator/case-session-lock";
+import {
+  appendStressTimeline,
+  computePatientStress,
+  resolveCaseStressProfile,
+  withDeteriorationStress,
+  type StressTimelineEntry,
+} from "@/lib/simulator/patient-stress-engine";
 import { isPrescriptionTrace } from "@/lib/simulator/prescription-trace";
 import {
   buildDeteriorationInstruction,
@@ -114,6 +122,8 @@ function anamnesisCluesFrom(raw: unknown): ChatAnamnesisClue[] {
 }
 
 type ChatClinicalCase = {
+  id?: string | null;
+  title?: string | null;
   description: string;
   correctSolution: string | null;
   baselineExamFindings: unknown;
@@ -124,6 +134,7 @@ type ChatClinicalCase = {
   condition?: string | null;
   presentation?: string | null;
   pastMedicalHistory?: string | null;
+  diagnosis?: string | null;
   redHerrings?: string[];
   anamnesisClues?: ChatAnamnesisClue[];
   physicalExamSummary?: string | null;
@@ -209,6 +220,8 @@ async function loadServerRoleplayScript(
 function chatCaseFromDisk(disk: ClinicalCase, includeSolution: boolean): ChatClinicalCase {
   const rich = richFieldsFromCase(disk);
   return {
+    id: disk.id,
+    title: disk.title,
     description: disk.description,
     correctSolution: includeSolution ? disk.correctSolution ?? null : null,
     baselineExamFindings: disk.baselineExamFindings,
@@ -282,6 +295,8 @@ async function loadClinicalCaseForChat(
   );
 
   return {
+    id: disk?.id ?? caseId,
+    title: disk?.title ?? null,
     description,
     correctSolution: includeSolution
       ? row?.correctSolution ?? disk?.correctSolution ?? null
@@ -407,8 +422,9 @@ export async function POST(req: Request) {
     });
   }
 
-  const { messages, casePrompt, sessionId, patientStress, caseId, requestedExamIds, completedGoldSteps, model } = body;
+  const { messages, casePrompt, sessionId, patientStress, patientStressBefore, caseId, requestedExamIds, completedGoldSteps, model } = body;
   const stressClamped = clampStress(patientStress);
+  const stressBefore = clampStress(patientStressBefore ?? patientStress);
   const chatMessagesPreview = normalizeChatMessages(messages);
 
   if (chatMessagesPreview.length > MAX_CHAT_MESSAGES) {
@@ -610,29 +626,92 @@ export async function POST(req: Request) {
     roleplayScript = usablePatientPrompt(casePrompt);
   }
 
+  const stressBaseline =
+    clinicalCase?.baselineExamFindings && typeof clinicalCase.baselineExamFindings === "object"
+      ? (clinicalCase.baselineExamFindings as Record<string, unknown>)
+      : undefined;
+  const stressVitals =
+    stressBaseline?.vitals && typeof stressBaseline.vitals === "object"
+      ? (stressBaseline.vitals as Record<string, unknown>)
+      : {};
+  const stressProfile = resolveCaseStressProfile({
+    id: clinicalCase?.id ?? (typeof caseId === "string" ? caseId : null),
+    title: clinicalCase?.title,
+    description: clinicalCase?.description ?? "",
+    presentation: clinicalCase?.presentation,
+    patientPrompt: roleplayScript || clinicalCase?.patientPrompt,
+    setting: clinicalCase?.setting,
+    emotionalState: clinicalCase?.patientProfile?.emotionalState,
+    communicationStyle: clinicalCase?.patientProfile?.communicationStyle,
+    baselineExamFindings: stressBaseline,
+    goldStandardPath: parseGoldStandardPath(clinicalCase?.goldStandardPath),
+  });
+  const doctorLines = chatMessages
+    .filter((message) => message.role === "user" && typeof message.content === "string")
+    .map((message) => message.content);
+  const spo2 = Number(stressVitals.spo2);
+  const respiratoryRate = Number(stressVitals.respiratoryRate);
+  const systolic = Number(String(stressVitals.bloodPressure ?? "").split("/")[0]);
+  const communicationEvent = computePatientStress({
+    currentStress: stressBefore,
+    profile: stressProfile,
+    lastUserMessage: doctorLines.at(-1) ?? "",
+    recentDoctorMessages: doctorLines.slice(0, -1).slice(-4),
+    requestedExamIds: mergedExamIds,
+    spo2: Number.isFinite(spo2) ? spo2 : null,
+    respiratoryRate: Number.isFinite(respiratoryRate) ? respiratoryRate : null,
+    systolic: Number.isFinite(systolic) ? systolic : null,
+    description: clinicalCase?.description,
+  });
+  const stressEvent = deteriorationInstruction ? withDeteriorationStress(communicationEvent) : communicationEvent;
+  if (sessionStateData) sessionStateData.patientStress = stressEvent.stress;
+  const stressTimelineEntry: StressTimelineEntry = {
+    atMinute: elapsedMinutes,
+    turn: doctorLines.length,
+    stress: stressEvent.stress,
+    delta: stressEvent.delta,
+    reason: stressEvent.reason,
+    category: stressEvent.category,
+  };
+
   let sessionStateSaved = sessionStateData == null;
   const sessionStateWrite =
     liveSessionId && sessionStateData
-      ? prisma.caseSession
-          .update({ where: { id: liveSessionId }, data: sessionStateData })
+      ? prisma
+          .$transaction(async (tx) => {
+            const locked = await lockCaseSessionForUpdate(tx, liveSessionId);
+            if (!locked) return;
+            const row = await tx.caseSession.findUnique({
+              where: { id: liveSessionId },
+              select: { stressTimeline: true },
+            });
+            const seeded =
+              row?.stressTimeline == null
+                ? [
+                    {
+                      atMinute: 0,
+                      turn: 0,
+                      stress: stressProfile.initialStress,
+                      delta: 0,
+                      reason: stressProfile.caseContext.baselineStatusLabel,
+                      category: "baseline" as const,
+                    },
+                  ]
+                : row.stressTimeline;
+            await tx.caseSession.update({
+              where: { id: liveSessionId },
+              data: {
+                ...sessionStateData,
+                stressTimeline: appendStressTimeline(seeded, stressTimelineEntry),
+              },
+            });
+          })
           .then(() => {
             sessionStateSaved = true;
           })
           .catch(async (error: unknown) => {
             chatLogger.error("Session state persistence failed", { error, sessionId: liveSessionId });
-            try {
-              await prisma.caseSession.update({
-                where: { id: liveSessionId },
-                data: sessionStateData,
-              });
-              sessionStateSaved = true;
-            } catch (retryError) {
-              sessionStateSaved = false;
-              chatLogger.error("Session state retry failed", {
-                error: retryError,
-                sessionId: liveSessionId,
-              });
-            }
+            sessionStateSaved = false;
           })
       : Promise.resolve();
   if (liveSessionId && sessionStateData && process.env.VERCEL) {
@@ -648,52 +727,57 @@ export async function POST(req: Request) {
 
   let caseData = buildPatientSimulatorCaseInput({
     body: { ...body, casePrompt },
-    clinicalCase,
+    clinicalCase: clinicalCase
+      ? {
+          ...clinicalCase,
+          id: clinicalCase.id ?? (typeof caseId === "string" ? caseId : null),
+          patientPrompt: roleplayScript || clinicalCase.patientPrompt,
+        }
+      : null,
     patientStress: stressClamped,
   });
-  const clinicalStory = [
-    clinicalCase?.description?.trim() || caseData.chiefComplaint,
-    sessionVariantPrompt?.trim()
-      ? `Variante di scenario: ${sessionVariantPrompt.trim()}`
-      : "",
-  ]
-    .filter(Boolean)
-    .join("\n\n");
+  const variantNote = sessionVariantPrompt?.trim()
+    ? `Variante di scenario: ${sessionVariantPrompt.trim()}`
+    : "";
+  const chartProfile = clinicalCase
+    ? resolvePatientProfile({
+        id: clinicalCase.id ?? (typeof caseId === "string" ? caseId : null),
+        title: clinicalCase.title,
+        description: clinicalCase.description,
+        patientPrompt: roleplayScript || clinicalCase.patientPrompt,
+        pastMedicalHistory: clinicalCase.pastMedicalHistory,
+        presentation: clinicalCase.presentation,
+        setting: clinicalCase.setting,
+        baselineExamFindings: clinicalCase.baselineExamFindings,
+        correctSolution: clinicalCase.correctSolution,
+        diagnosis: clinicalCase.diagnosis,
+        condition: clinicalCase.condition,
+      })
+    : null;
   caseData = {
     ...caseData,
     roleplayScript: roleplayScript || clinicalCase?.patientPrompt || "",
     elapsedMinutes,
     completedExamLabels: labelsForExamIds(mergedExamIds),
-    clinicalStory,
-    setting: clinicalCase?.setting,
+    clinicalStory: [chartProfile?.triageAnamnesis || caseData.chiefComplaint, variantNote]
+      .filter(Boolean)
+      .join("\n\n"),
+    setting: chartProfile?.setting || clinicalCase?.setting,
     condition: clinicalCase?.condition,
-    presentation: clinicalCase?.presentation,
-    pastMedicalHistory: clinicalCase?.pastMedicalHistory,
+    presentation: chartProfile?.triageAnamnesis || clinicalCase?.presentation,
+    pastMedicalHistory: chartProfile?.clinicalHistory || clinicalCase?.pastMedicalHistory,
     redHerrings: clinicalCase?.redHerrings,
     anamnesisClues: clinicalCase?.anamnesisClues,
     physicalExamSummary: clinicalCase?.physicalExamSummary,
     patientProfile: clinicalCase?.patientProfile,
-  };
-
-  if (deteriorationInstruction) {
-    caseData = {
-      ...caseData,
-      deteriorationInstruction,
-      patientStress: Math.max(caseData.patientStress, 85),
-    };
-  }
-
-  const stressProfile = resolveCaseStressProfile({
-    description: clinicalCase?.description ?? caseData.chiefComplaint,
-    baselineExamFindings:
-      clinicalCase?.baselineExamFindings && typeof clinicalCase.baselineExamFindings === "object"
-        ? (clinicalCase.baselineExamFindings as Record<string, unknown>)
-        : undefined,
-    goldStandardPath: parseGoldStandardPath(clinicalCase?.goldStandardPath),
-  });
-  caseData = {
-    ...caseData,
+    patientAge: chartProfile?.age != null ? String(chartProfile.age) : caseData.patientAge,
+    patientName: chartProfile?.name || caseData.patientName,
+    patientSex: chartProfile?.sex || caseData.patientSex,
+    knownAllergies: chartProfile?.allergies ?? caseData.knownAllergies,
+    patientStress: stressEvent.stress,
     stressReactivity: stressProfile.reactivityType,
+    stressReason: stressEvent.reason,
+    deteriorationInstruction: deteriorationInstruction ?? undefined,
   };
 
   const lastUserMessage = getLastUserMessage(chatMessages);
@@ -706,8 +790,7 @@ export async function POST(req: Request) {
     sessionId: liveSessionId ?? undefined,
     caseId: typeof caseId === "string" ? caseId : undefined,
     messageCount: chatMessages.length,
-    windowedMessageCount: windowedMessages.length,
-    patientStress: stressClamped,
+    patientStress: stressEvent.stress,
     chatModel,
     planType: billingProfile.planType,
     elapsedMinutes,
@@ -744,6 +827,13 @@ export async function POST(req: Request) {
   });
 
   return stream.toDataStreamResponse({
+    headers: {
+      "x-aequan-stress": String(stressEvent.stress),
+      "x-aequan-stress-delta": String(stressEvent.delta),
+      "x-aequan-stress-reason": encodeURIComponent(stressEvent.reason.slice(0, 180)),
+      "x-aequan-stress-category": stressEvent.category,
+      "x-aequan-stress-severity": stressEvent.severity,
+    },
     getErrorMessage: (error) => {
       const described = logOpenAIStreamError(error);
       const status = described.status != null ? `HTTP ${described.status}` : "HTTP n/d";

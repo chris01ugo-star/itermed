@@ -3,6 +3,7 @@ import { getSessionUserId, unauthorizedJson } from "@/lib/api-session";
 import { authorizeOwnedLiveSession } from "@/lib/access";
 import { detectMilestonesFromTurn } from "@/lib/simulator/milestone-tracker";
 import { lockCaseSessionForUpdate } from "@/lib/simulator/case-session-lock";
+import { appendStressTimeline, type StressTimelineEntry } from "@/lib/simulator/patient-stress-engine";
 import { prisma } from "@/lib/prisma";
 import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
 
@@ -17,6 +18,16 @@ const bodySchema = z.object({
   lastUserMessage: z.string().optional(),
   prescribedExams: z
     .array(z.object({ id: z.string(), name: z.string() }))
+    .optional(),
+  stressEvent: z
+    .object({
+      atMinute: z.number(),
+      turn: z.number(),
+      stress: z.number(),
+      delta: z.number(),
+      reason: z.string().max(180),
+      category: z.enum(["communication", "clinical_action", "deterioration", "time", "diagnosis", "baseline"]),
+    })
     .optional(),
 });
 
@@ -54,7 +65,7 @@ export async function POST(req: Request) {
 
     const session = await tx.caseSession.findUnique({
       where: { id: sessionKey },
-      select: { caseId: true, requestedExamIds: true, completedGoldSteps: true },
+      select: { caseId: true, requestedExamIds: true, completedGoldSteps: true, stressTimeline: true },
     });
     if (!session) return null;
     if (body.caseId && session.caseId !== body.caseId && access.caseId !== body.caseId) {
@@ -87,6 +98,12 @@ export async function POST(req: Request) {
       data: {
         requestedExamIds: mergedExamIds,
         completedGoldSteps: mergedGold,
+        ...(body.stressEvent
+          ? {
+              patientStress: Math.max(0, Math.min(100, Math.round(body.stressEvent.stress))),
+              stressTimeline: appendStressTimeline(session.stressTimeline, body.stressEvent satisfies StressTimelineEntry),
+            }
+          : {}),
       },
     });
 
