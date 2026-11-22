@@ -614,6 +614,7 @@ export function SimulatorClient({
   const [isPrescriptionPadOpen, setIsPrescriptionPadOpen] = useState(false);
   const [isPrescribeBusy, setIsPrescribeBusy] = useState(false);
   const [prescribedMedications, setPrescribedMedications] = useState<SessionPrescription[]>([]);
+  const prescribedMedicationsRef = useRef<SessionPrescription[]>([]);
   const [isDischargeOpen, setIsDischargeOpen] = useState(false);
   const [patientChartTab, setPatientChartTab] = useState<"base" | "referto">("base");
 
@@ -666,6 +667,7 @@ export function SimulatorClient({
   const [stressDelta, setStressDelta] = useState<number | null>(null);
   const [stressCoach, setStressCoach] = useState("");
   const patientStressRef = useRef(patientStress);
+  const deteriorationTriggeredRef = useRef(false);
   const stressBeforeRef = useRef(0);
   /** True while patientStress exceeds the critical deterioration threshold. */
   const [isCriticalDeterioration, setIsCriticalDeterioration] = useState(false);
@@ -808,6 +810,10 @@ export function SimulatorClient({
   }, [extraExecutedActionIds]);
 
   useEffect(() => {
+    prescribedMedicationsRef.current = prescribedMedications;
+  }, [prescribedMedications]);
+
+  useEffect(() => {
     const onClinicalAction = (event: Event) => {
       const action = (event as CustomEvent<{ action?: string }>).detail?.action;
       if (action === "prescribe") setActiveTab("labs");
@@ -868,6 +874,7 @@ export function SimulatorClient({
             severity: next >= CRITICAL_STRESS_THRESHOLD ? "critical" : next >= 50 ? "elevated" : "calm",
           }
         : next;
+    if (event.category === "deterioration") deteriorationTriggeredRef.current = true;
     const clamped = Math.max(0, Math.min(100, Math.round(event.stress)));
     patientStressRef.current = clamped;
     setPatientStress(clamped);
@@ -1875,6 +1882,20 @@ export function SimulatorClient({
             examCategory: examCategoryHint(examId, examMacroCatalog),
             elapsedMinutes: clockMinutesRef.current,
             deteriorationLevel: patientStressRef.current,
+            repeatCount: Math.max(
+              0,
+              selectedExamIdsRef.current.filter((id) => id === examId).length -
+                (selectedExamIdsRef.current.includes(examId) ? 1 : 0),
+            ),
+            deteriorationTriggered: deteriorationTriggeredRef.current,
+            prescribedDrugs: prescribedMedicationsRef.current.flatMap((rx) =>
+              [rx.commercialName, rx.activeIngredient].filter((part) => part.trim().length > 0),
+            ),
+            executedInterventions: [
+              ...extraExecutedActionIdsRef.current,
+              ...physicalExamsRef.current.flatMap((exam) => [exam.id, exam.name]),
+              ...selectedOptionsRef.current.flatMap((option) => [option.id, option.label]),
+            ],
           }),
         });
         const data = (await response.json().catch(() => null)) as { report?: unknown } | null;

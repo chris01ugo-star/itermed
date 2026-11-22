@@ -358,6 +358,21 @@ model SimulationMilestone {
   @@index([sessionId])
 }
 
+/// Cross-session cache of baseline exam reports. Non-baseline reports stay on CaseSession.examOverrides only.
+model CaseExamReportCache {
+  id            String   @id @default(cuid())
+  caseId        String
+  examId        String
+  contextKey    String
+  promptVersion String
+  reportJson    Json
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([caseId, examId, contextKey, promptVersion])
+  @@index([caseId, examId])
+}
+
 model GuidelineDocument {
   id         String   @id @default(cuid())
   title      String
