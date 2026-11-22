@@ -10,9 +10,11 @@ import {
   DialogTitle,
 } from "@/app/ui/dialog";
 import { cn } from "@/app/utils/cn";
-import { formatExamFinding, type SimulatorExam } from "@/lib/simulator/exam-catalog";
-import type { ExamClinicalMeta } from "@/lib/exam-default-values";
-import type { CaseExamOverride } from "@/lib/exam-values-meta";
+import type { SimulatorExam } from "@/lib/simulator/exam-catalog";
+import {
+  StructuredExamReport,
+  type ExamReportUiState,
+} from "@/components/simulator/StructuredExamReport";
 
 type ExamOrderDialogProps = {
   open: boolean;
@@ -22,8 +24,7 @@ type ExamOrderDialogProps = {
   exams: SimulatorExam[];
   selectedExamIds: string[];
   onToggleExam: (id: string) => void;
-  examCatalog: Record<string, ExamClinicalMeta>;
-  caseExamValues: Record<string, CaseExamOverride>;
+  examReports: Record<string, ExamReportUiState | undefined>;
 };
 
 export function ExamOrderDialog({
@@ -34,8 +35,7 @@ export function ExamOrderDialog({
   exams,
   selectedExamIds,
   onToggleExam,
-  examCatalog,
-  caseExamValues,
+  examReports,
 }: ExamOrderDialogProps) {
   const [query, setQuery] = useState("");
   const selectedSet = useMemo(() => new Set(selectedExamIds), [selectedExamIds]);
@@ -126,9 +126,9 @@ export function ExamOrderDialog({
                     )}
                   </div>
                   {selected ? (
-                    <p className="whitespace-pre-line text-xs leading-relaxed text-slate-600">
-                      {formatExamFinding(exam.id, examCatalog, caseExamValues)}
-                    </p>
+                    <div className="pt-1">
+                      <StructuredExamReport state={examReports[exam.id]} />
+                    </div>
                   ) : null}
                 </button>
               );

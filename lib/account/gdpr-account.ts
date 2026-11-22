@@ -25,10 +25,14 @@ async function reassignCreatedCases(userId: string): Promise<number> {
       create: {
         email: SYSTEM_ORPHAN_EMAIL,
         name: "System (orphan cases)",
-        role: "ADMIN",
+        role: "STUDENT",
         leaderboardOptIn: false,
+        isActive: false,
       },
-      update: {},
+      update: {
+        role: "STUDENT",
+        isActive: false,
+      },
       select: { id: true },
     });
     orphanOwnerId = system.id;

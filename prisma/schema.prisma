@@ -332,6 +332,8 @@ model CaseSession {
   milestones             SimulationMilestone[]
 
   createdAt DateTime @default(now())
+  /// Touched on every session write. Cleanup never deletes rows newer than 48 hours.
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@index([userId])
   @@index([caseId])

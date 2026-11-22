@@ -87,14 +87,15 @@ export async function applySubscriptionUpdate(params: {
   stripeCustomerId: string;
   stripeSubscriptionId: string;
   subscriptionStatus: string;
-  planType: PlanType;
+  /** Omit to keep the plan already stored on the user. */
+  planType?: PlanType;
 }): Promise<void> {
   await prisma.user.updateMany({
     where: { stripeCustomerId: params.stripeCustomerId },
     data: {
       stripeSubscriptionId: params.stripeSubscriptionId,
       subscriptionStatus: params.subscriptionStatus,
-      planType: params.planType,
+      ...(params.planType ? { planType: params.planType } : {}),
     },
   });
 }
@@ -111,16 +112,24 @@ export async function revokeSubscription(stripeCustomerId: string): Promise<void
 }
 
 export async function appendPurchasedBundle(userId: string, bundleId: string): Promise<void> {
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { purchasedBundleIds: true },
-  });
-  if (!user) return;
+  await prisma.$transaction(async (tx) => {
+    const locked = await tx.$queryRaw<Array<{ id: string }>>`
+      SELECT id FROM "User" WHERE id = ${userId} FOR UPDATE
+    `;
+    if (locked.length === 0) return;
 
-  if (user.purchasedBundleIds.includes(bundleId)) return;
+    const user = await tx.user.findUnique({
+      where: { id: userId },
+      select: { purchasedBundleIds: true },
+    });
+    if (!user) return;
 
-  await prisma.user.update({
-    where: { id: userId },
-    data: { purchasedBundleIds: { push: bundleId } },
+    const next = [...new Set([...user.purchasedBundleIds, bundleId])];
+    if (next.length === user.purchasedBundleIds.length) return;
+
+    await tx.user.update({
+      where: { id: userId },
+      data: { purchasedBundleIds: next },
+    });
   });
 }

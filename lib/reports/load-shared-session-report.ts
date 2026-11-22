@@ -70,7 +70,6 @@ export type SharedEliteReport = {
   dismissed: boolean;
   strengths: string[];
   weaknesses: string[];
-  correctSolution?: string;
   legalProtectionStatus?: LegalProtectionStatus;
   clinicalDeltaTable: ClinicalDeltaRow[];
   economicAnalysis?: EconomicAnalysis;
@@ -99,7 +98,7 @@ export async function loadSharedSessionReport(
     console.error("[loadSharedSessionReport] Prisma lookup failed", err);
     return null;
   }
-  if (!session) return null;
+  if (!session || session.status !== "COMPLETED") return null;
 
   const registered = await getCaseById(session.caseId);
   const caseTitle =
@@ -131,7 +130,6 @@ export async function loadSharedSessionReport(
     dismissed: Boolean(trace.dismissed),
     strengths: Array.isArray(trace.feedback?.strengths) ? trace.feedback!.strengths! : [],
     weaknesses: Array.isArray(trace.feedback?.weaknesses) ? trace.feedback!.weaknesses! : [],
-    correctSolution: trace.feedback?.correctSolution,
     legalProtectionStatus: trace.analytical?.legalProtectionStatus,
     clinicalDeltaTable: Array.isArray(trace.analytical?.clinicalDeltaTable)
       ? trace.analytical!.clinicalDeltaTable!

@@ -60,8 +60,25 @@ export async function PATCH(req: Request) {
   });
   if (rateLimited) return rateLimited;
 
-  const body = preferencesSchema.parse(await req.json());
-  const preferences = await updateLeaderboardPreferences(userId, body);
+  let raw: unknown;
+  try {
+    raw = await req.json();
+  } catch {
+    return new Response(JSON.stringify({ error: "Invalid body" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  const parsed = preferencesSchema.safeParse(raw);
+  if (!parsed.success) {
+    return new Response(JSON.stringify({ error: "Invalid body" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  const preferences = await updateLeaderboardPreferences(userId, parsed.data);
   const payload = await fetchLeaderboardPayload(userId);
 
   return new Response(

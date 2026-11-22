@@ -8,6 +8,8 @@ import { requireAdminApi } from "@/lib/require-admin-api";
 import { prisma } from "@/lib/prisma";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 
+export const maxDuration = 300;
+
 const ingestGuidelinesLogger = createLogger("ingest-guidelines");
 
 const IngestBodySchema = z.object({

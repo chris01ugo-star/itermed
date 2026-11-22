@@ -1,3 +1,4 @@
+import "@/lib/load-env-from-disk";
 import { PrismaClient } from "@prisma/client";
 import { config } from "@/lib/config";
 import {

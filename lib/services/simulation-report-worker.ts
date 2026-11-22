@@ -31,6 +31,7 @@ import {
   type ClinicalCaseSnapshot,
 } from "@/lib/services/simulation-report-data";
 import type { ChatMessage, ExamPayload } from "@/lib/services/evaluation-service";
+import { formatGeneratedReportsForAudit } from "@/lib/simulator/exam-report";
 import { runLegalAudit, createLegalAuditTechnicalFallback, resolveReferenceGuidelines, withInformedConsentAction, type LegalAuditResult } from "@/lib/services/legal-audit-service";
 import {
   runEconomicAudit,
@@ -835,6 +836,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     let sessionPrescriptions: SessionPrescription[] = [];
     let trustedChatHistory: Array<{ role: "user" | "assistant"; content: string }> = [];
     let sessionClinicalSummary = "";
+    let generatedExamReportText = "";
     if (input.liveSessionId) {
       try {
         const liveSession = await prisma.caseSession.findUnique({
@@ -848,6 +850,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
             createdAt: true,
             failedDiagnosisAttempts: true,
             patientStress: true,
+            examOverrides: true,
           },
         });
         sessionClock = liveSession;
@@ -865,6 +868,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
           content: turn.content,
         }));
         sessionClinicalSummary = liveSession?.clinicalSummary?.trim() ?? "";
+        generatedExamReportText = formatGeneratedReportsForAudit(liveSession?.examOverrides);
       } catch (err) {
         console.error("[simulation-report-worker] CaseSession transcript load failed", err);
       }
@@ -971,6 +975,9 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       input.normalizedReportText?.trim()
         ? `Referto:\n${input.normalizedReportText.trim().slice(0, 2500)}`
         : null,
+      generatedExamReportText
+        ? `Referti diagnostici di sessione:\n${generatedExamReportText}`
+        : null,
     ]
       .filter(Boolean)
       .join("\n\n");
@@ -1074,7 +1081,11 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
           reportText: writtenReport.payload,
           caseId: input.caseId,
           caseTitle: registeredCase?.title,
-          caseContext: input.caseContext,
+          caseContext: generatedExamReportText
+            ? [input.caseContext?.trim(), `Referti diagnostici di sessione:\n${generatedExamReportText}`]
+                .filter(Boolean)
+                .join("\n\n")
+            : input.caseContext,
           finalDiagnosis: input.finalDiagnosis,
           guidelines,
           difficulty: caseDifficulty,

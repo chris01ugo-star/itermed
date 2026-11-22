@@ -89,5 +89,5 @@ export function formatExamFinding(
       return report;
     }
   }
-  return "Nessun valore definito per questo esame (configura in admin o nel caso clinico).";
+  return "";
 }

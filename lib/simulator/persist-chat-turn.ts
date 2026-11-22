@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { createLogger } from "@/lib/logger";
+import { lockCaseSessionForUpdate } from "@/lib/simulator/case-session-lock";
 
 const persistLogger = createLogger("persist-chat-turn");
 
@@ -63,42 +64,56 @@ export async function persistChatTurn(params: PersistChatTurnParams): Promise<vo
   const trimmedAssistant = stripPersistedChatRolePrefix(assistantMessage);
   if (!trimmedAssistant) return;
 
-  const session = await prisma.caseSession.findUnique({
-    where: { id: sessionId },
-    select: { chatHistory: true },
+  const outcome = await prisma.$transaction(async (tx) => {
+    const locked = await lockCaseSessionForUpdate(tx, sessionId);
+    if (!locked) return null;
+
+    const session = await tx.caseSession.findUnique({
+      where: { id: sessionId },
+      select: { chatHistory: true },
+    });
+    if (!session) return null;
+
+    const existing = parseChatHistory(session.chatHistory);
+    const now = new Date().toISOString();
+    const appended: PersistedChatTurn[] = [];
+
+    const trimmedUser = userMessage ? stripPersistedChatRolePrefix(userMessage) : "";
+    if (trimmedUser) {
+      const last = existing[existing.length - 1];
+      const isDuplicateUser = last?.role === "user" && last.content === trimmedUser;
+      if (!isDuplicateUser) {
+        appended.push({ role: "user", content: trimmedUser, createdAt: now });
+      }
+    }
+
+    const tail = [...existing, ...appended].at(-1);
+    const duplicateAssistant = tail?.role === "assistant" && tail.content === trimmedAssistant;
+    if (!duplicateAssistant) {
+      appended.push({ role: "assistant", content: trimmedAssistant, createdAt: now });
+    }
+
+    if (appended.length === 0) {
+      return { appendedCount: 0, totalMessages: existing.length };
+    }
+
+    const nextHistory = [...existing, ...appended];
+    await tx.caseSession.update({
+      where: { id: sessionId },
+      data: { chatHistory: nextHistory },
+    });
+    return { appendedCount: appended.length, totalMessages: nextHistory.length };
   });
 
-  if (!session) {
+  if (!outcome) {
     persistLogger.warn("Chat turn not persisted: session not found", { sessionId });
     return;
   }
 
-  const existing = parseChatHistory(session.chatHistory);
-  const now = new Date().toISOString();
-  const appended: PersistedChatTurn[] = [];
-
-  const trimmedUser = userMessage ? stripPersistedChatRolePrefix(userMessage) : "";
-  if (trimmedUser) {
-    const last = existing[existing.length - 1];
-    const isDuplicateUser = last?.role === "user" && last.content === trimmedUser;
-    if (!isDuplicateUser) {
-      appended.push({ role: "user", content: trimmedUser, createdAt: now });
-    }
-  }
-
-  appended.push({ role: "assistant", content: trimmedAssistant, createdAt: now });
-
-  await prisma.caseSession.update({
-    where: { id: sessionId },
-    data: {
-      chatHistory: [...existing, ...appended],
-    },
-  });
-
   persistLogger.info("Chat turn persisted", {
     sessionId,
-    appendedCount: appended.length,
-    totalMessages: existing.length + appended.length,
+    appendedCount: outcome.appendedCount,
+    totalMessages: outcome.totalMessages,
   });
 }
 

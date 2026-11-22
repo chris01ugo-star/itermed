@@ -104,7 +104,6 @@ export default async function SharedRefertoPage({ params }: RefertoPageProps) {
           dismissed={report.dismissed}
           strengths={report.strengths}
           weaknesses={report.weaknesses}
-          correctSolution={report.correctSolution}
           clinicalDeltaTable={report.clinicalDeltaTable}
           economicAnalysis={report.economicAnalysis}
           coachingFeedback={report.coachingFeedback}

@@ -20,7 +20,6 @@ import {
 import { cn } from "@/app/utils/cn";
 import { PRASSI_PASTELS, PRASSI_TONE } from "@/lib/ui/prassi-pastels";
 import {
-  formatExamFinding,
   type ExamMacroCategory,
   type SimulatorExam,
 } from "@/lib/simulator/exam-catalog";
@@ -28,8 +27,10 @@ import {
   classifyDiagnosticExam,
   DIAGNOSTIC_CATEGORY_TO_MACRO_ID,
 } from "@/lib/clinical/diagnostic-exam-category";
-import type { ExamClinicalMeta } from "@/lib/exam-default-values";
-import type { CaseExamOverride } from "@/lib/exam-values-meta";
+import {
+  StructuredExamReport,
+  type ExamReportUiState,
+} from "@/components/simulator/StructuredExamReport";
 
 export type ObjectiveFindingRecap = {
   id: string;
@@ -41,8 +42,7 @@ export type ObjectiveFindingRecap = {
 type ExamReportRecapProps = {
   exams: SimulatorExam[];
   objectiveFindings: ObjectiveFindingRecap[];
-  examCatalog: Record<string, ExamClinicalMeta>;
-  caseExamValues: Record<string, CaseExamOverride>;
+  examReports: Record<string, ExamReportUiState | undefined>;
   examMacroCatalog: ExamMacroCategory[];
   className?: string;
   /** Laboratory cases omit the physical-exam folder. Default keeps the existing recap. */
@@ -55,6 +55,7 @@ type RecapEntry = {
   finding: string;
   meta: string;
   abnormal: boolean;
+  structured: boolean;
 };
 
 type RecapFolder = {
@@ -165,8 +166,7 @@ function FolderCard({
 export function ExamReportRecap({
   exams,
   objectiveFindings,
-  examCatalog,
-  caseExamValues,
+  examReports,
   examMacroCatalog,
   className,
   hideObjective = false,
@@ -196,6 +196,7 @@ export function ExamReportRecap({
               : "Manovra eseguita",
           finding: f.finding?.trim() || "Nessun reperto registrato.",
           abnormal: false,
+          structured: false,
         })),
       });
     }
@@ -238,18 +239,23 @@ export function ExamReportRecap({
         fill: palette.fill,
         border: palette.border,
         totalCost: bucket.exams.reduce((sum, e) => sum + e.cost, 0),
-        entries: bucket.exams.map((exam) => ({
-          id: exam.id,
-          title: exam.name,
-          meta: `€${exam.cost.toFixed(0)} · ${exam.timeMinutes} min`,
-          finding: formatExamFinding(exam.id, examCatalog, caseExamValues),
-          abnormal: false,
-        })),
+        entries: bucket.exams.map((exam) => {
+          const state = examReports[exam.id];
+          const report = state?.status === "ready" ? state.report : null;
+          return {
+            id: exam.id,
+            title: exam.name,
+            meta: `€${exam.cost.toFixed(0)} · ${exam.timeMinutes} min`,
+            finding: "",
+            abnormal: report?.isAbnormal === true,
+            structured: true,
+          };
+        }),
       });
     }
 
     return result;
-  }, [caseExamValues, examCatalog, examMacroCatalog, exams, hideObjective, objectiveFindings]);
+  }, [examMacroCatalog, examReports, exams, hideObjective, objectiveFindings]);
 
   const openFolder = folders.find((f) => f.id === openId) ?? null;
   const totalEntries = folders.reduce((n, f) => n + f.entries.length, 0);
@@ -339,9 +345,15 @@ export function ExamReportRecap({
                     {entry.meta ? (
                       <p className="mt-0.5 text-[11px] text-slate-400">{entry.meta}</p>
                     ) : null}
-                    <p className="mt-1.5 whitespace-pre-wrap text-sm leading-relaxed text-slate-700">
-                      {entry.finding}
-                    </p>
+                    {entry.structured ? (
+                      <div className="mt-1.5">
+                        <StructuredExamReport state={examReports[entry.id]} />
+                      </div>
+                    ) : (
+                      <p className="mt-1.5 whitespace-pre-wrap text-sm leading-relaxed text-slate-700">
+                        {entry.finding}
+                      </p>
+                    )}
                   </li>
                 ))}
               </ul>

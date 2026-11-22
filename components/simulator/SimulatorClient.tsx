@@ -61,6 +61,10 @@ import { VitalSignsBoard } from "./VitalSignsBoard";
 import { extractPatientAllergies } from "@/lib/services/evaluation-allergies";
 import { ExamReportRecap } from "./ExamReportRecap";
 import { DiagnosticCategoryPanel } from "./DiagnosticCategoryPanel";
+import {
+  StructuredExamReport,
+  type ExamReportUiState,
+} from "./StructuredExamReport";
 import { PrescriptionPad, type ConfirmedPrescription } from "./PrescriptionPad";
 import { SessionSideMetrics } from "./SessionSideMetrics";
 import { PRASSI_TONE } from "@/lib/ui/prassi-pastels";
@@ -127,6 +131,10 @@ import {
   toPlayerAnamnesisText,
   toPlayerCareSetting,
 } from "../../lib/simulator/exam-finding-text";
+import {
+  isClinicalExamReport,
+  isPlaceholderExamFinding,
+} from "../../lib/simulator/exam-report";
 import { partitionExamsByChartSection } from "@/lib/clinical/diagnostic-exam-category";
 import { LaboratoryLisDashboard } from "./LaboratoryLisDashboard";
 import type { LabFlowNode } from "@/lib/simulator/laboratory-lis";
@@ -527,6 +535,20 @@ function LisReportGeneratingOverlay() {
   );
 }
 
+function examCategoryHint(examId: string, catalog: ExamMacroCategory[]): string | undefined {
+  if (examId === "ega" || examId === "ecg") return examId;
+  for (const macro of catalog) {
+    for (const group of macro.groups) {
+      if (!group.exams.some((exam) => exam.id === examId)) continue;
+      if (macro.id === "lab" && group.id === "micro") return "microbiology";
+      if (macro.id === "lab") return "lab";
+      if (macro.id === "img") return "imaging";
+      return "other";
+    }
+  }
+  return undefined;
+}
+
 export function SimulatorClient({
   initialCaseData,
   isVariant,
@@ -565,6 +587,10 @@ export function SimulatorClient({
   const [sessionNotes, setSessionNotes] = useState("");
   const [selectedExamIds, setSelectedExamIds] = useState<string[]>([]);
   const selectedExamIdsRef = useRef<string[]>([]);
+  const [examReports, setExamReports] = useState<
+    Record<string, ExamReportUiState | undefined>
+  >({});
+  const examReportsRef = useRef(examReports);
   const [isPatientChartOpen, setIsPatientChartOpen] = useState(false);
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   /** User-initiated help/consult telemetry for evaluator autonomy tracking. */
@@ -637,6 +663,7 @@ export function SimulatorClient({
   const timePenaltyClearRef = useRef<number | null>(null);
   /** Minuti clinici trascorsi (timer simulato + interazioni), esclusi i tempi degli esami. */
   const [clockMinutes, setClockMinutes] = useState(0);
+  const clockMinutesRef = useRef(0);
   /** Wall-clock session elapsed seconds for MM:SS display. */
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   /** User-triggered pause ("Interruzione") — freezes clocks without ending the session. */
@@ -668,6 +695,10 @@ export function SimulatorClient({
   useEffect(() => {
     patientStressRef.current = patientStress;
   }, [patientStress]);
+
+  useEffect(() => {
+    clockMinutesRef.current = clockMinutes;
+  }, [clockMinutes]);
 
   useEffect(() => {
     setIsCriticalDeterioration(patientStress > CRITICAL_STRESS_THRESHOLD);
@@ -1727,9 +1758,88 @@ export function SimulatorClient({
     });
   };
 
+  const publishExamReport = useCallback((examId: string, next: ExamReportUiState) => {
+    const merged = { ...examReportsRef.current, [examId]: next };
+    examReportsRef.current = merged;
+    setExamReports(merged);
+  }, []);
+
+  const examReportInflightRef = useRef(new Set<string>());
+
+  const requestExamReport = useCallback(
+    async (examId: string) => {
+      const existing = examReportsRef.current[examId];
+      if (existing?.status === "ready" || existing?.status === "fallback") return;
+      if (examReportInflightRef.current.has(examId)) return;
+      const exam = availableExams.find((item) => item.id === examId);
+      if (!exam) {
+        if (availableExams.length > 0) {
+          publishExamReport(examId, { status: "fallback", text: "" });
+        }
+        return;
+      }
+
+      examReportInflightRef.current.add(examId);
+      publishExamReport(examId, { status: "loading" });
+      try {
+        let sessionId = effectiveSessionIdRef.current;
+        try {
+          sessionId = (await ensureSessionId()) ?? sessionId;
+        } catch {
+          sessionId = effectiveSessionIdRef.current;
+        }
+        const response = await fetch("/api/session/exam-report", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...(sessionId ? { sessionId } : {}),
+            caseId: initialCaseData.id,
+            examId,
+            examName: exam.name,
+            examCategory: examCategoryHint(examId, examMacroCatalog),
+            elapsedMinutes: clockMinutesRef.current,
+            deteriorationLevel: patientStressRef.current,
+          }),
+        });
+        const data = (await response.json().catch(() => null)) as { report?: unknown } | null;
+        if (!response.ok || !isClinicalExamReport(data?.report)) {
+          throw new Error("exam report failed");
+        }
+        publishExamReport(examId, { status: "ready", report: data.report });
+      } catch {
+        const fallback = formatExamFinding(examId, examCatalog, caseAdvancedExamValues);
+        publishExamReport(examId, {
+          status: "fallback",
+          text: isPlaceholderExamFinding(fallback) ? "" : fallback,
+        });
+      } finally {
+        examReportInflightRef.current.delete(examId);
+      }
+    },
+    [
+      availableExams,
+      caseAdvancedExamValues,
+      ensureSessionId,
+      examCatalog,
+      examMacroCatalog,
+      initialCaseData.id,
+      publishExamReport,
+    ],
+  );
+
+  useEffect(() => {
+    for (const examId of selectedExamIds) {
+      void requestExamReport(examId);
+    }
+  }, [requestExamReport, selectedExamIds]);
+
   const toggleExam = (examId: string) => {
     if (isPaused) return;
     markUserActivity();
+    if (selectedExamIdsRef.current.includes(examId)) return;
+    if (!examReportsRef.current[examId]) {
+      publishExamReport(examId, { status: "loading" });
+    }
     setSelectedExamIds((current) => {
       if (current.includes(examId)) {
         return current;
@@ -2473,8 +2583,7 @@ export function SimulatorClient({
               <ExamReportRecap
                 exams={selectedExamsRecentFirst}
                 objectiveFindings={objectiveFindingsRecentFirst}
-                examCatalog={examCatalog}
-                caseExamValues={caseAdvancedExamValues}
+                examReports={examReports}
                 examMacroCatalog={examMacroCatalog}
                 hideObjective={isLaboratoryCase}
                 className="h-full min-h-0 flex-1"
@@ -2624,6 +2733,7 @@ export function SimulatorClient({
                       selectedExamIds={selectedExamIds}
                       onToggleExam={toggleExam}
                       caseExamValues={caseAdvancedExamValues}
+                      examReports={examReports}
                       examCatalog={examCatalog}
                       examMacroCatalog={examMacroCatalog}
                       macroFilter={["lab"]}
@@ -2636,6 +2746,7 @@ export function SimulatorClient({
                       selectedExamIds={selectedExamIds}
                       onToggleExam={toggleExam}
                       caseExamValues={caseAdvancedExamValues}
+                      examReports={examReports}
                       examCatalog={examCatalog}
                       examMacroCatalog={examMacroCatalog}
                       chartSection="imaging"
@@ -2647,6 +2758,7 @@ export function SimulatorClient({
                       selectedExamIds={selectedExamIds}
                       onToggleExam={toggleExam}
                       caseExamValues={caseAdvancedExamValues}
+                      examReports={examReports}
                       examCatalog={examCatalog}
                       examMacroCatalog={examMacroCatalog}
                       chartSection="instrumental"
@@ -2833,6 +2945,7 @@ export function SimulatorClient({
                             selectedExamIds={selectedExamIds}
                             onToggleExam={toggleExam}
                             caseExamValues={caseAdvancedExamValues}
+                            examReports={examReports}
                             examCatalog={examCatalog}
                             examMacroCatalog={examMacroCatalog}
                             macroFilter={["lab"]}
@@ -2845,6 +2958,7 @@ export function SimulatorClient({
                             selectedExamIds={selectedExamIds}
                             onToggleExam={toggleExam}
                             caseExamValues={caseAdvancedExamValues}
+                            examReports={examReports}
                             examCatalog={examCatalog}
                             examMacroCatalog={examMacroCatalog}
                             chartSection="imaging"
@@ -2856,6 +2970,7 @@ export function SimulatorClient({
                             selectedExamIds={selectedExamIds}
                             onToggleExam={toggleExam}
                             caseExamValues={caseAdvancedExamValues}
+                            examReports={examReports}
                             examCatalog={examCatalog}
                             examMacroCatalog={examMacroCatalog}
                             chartSection="instrumental"
@@ -3588,9 +3703,9 @@ export function SimulatorClient({
                           className="rounded-xl border border-zinc-200/80 bg-white px-2.5 py-2 text-[11px]"
                         >
                           <p className="text-zinc-800 font-medium">{exam.name}</p>
-                          <p className="text-zinc-600 mt-1 whitespace-pre-line">
-                            {formatExamFinding(exam.id, examCatalog, caseAdvancedExamValues)}
-                          </p>
+                          <div className="mt-1">
+                            <StructuredExamReport state={examReports[exam.id]} />
+                          </div>
                         </li>
                       ))}
                     </ul>
@@ -3613,9 +3728,9 @@ export function SimulatorClient({
                           className="rounded-xl border border-zinc-200/80 bg-white px-2.5 py-2 text-[11px]"
                         >
                           <p className="text-zinc-800 font-medium">{exam.name}</p>
-                          <p className="text-zinc-600 mt-1 whitespace-pre-line">
-                            {formatExamFinding(exam.id, examCatalog, caseAdvancedExamValues)}
-                          </p>
+                          <div className="mt-1">
+                            <StructuredExamReport state={examReports[exam.id]} />
+                          </div>
                         </li>
                       ))}
                     </ul>
@@ -3638,9 +3753,9 @@ export function SimulatorClient({
                           className="rounded-xl border border-zinc-200/80 bg-white px-2.5 py-2 text-[11px]"
                         >
                           <p className="text-zinc-800 font-medium">{exam.name}</p>
-                          <p className="text-zinc-600 mt-1 whitespace-pre-line">
-                            {formatExamFinding(exam.id, examCatalog, caseAdvancedExamValues)}
-                          </p>
+                          <div className="mt-1">
+                            <StructuredExamReport state={examReports[exam.id]} />
+                          </div>
                         </li>
                       ))}
                     </ul>

@@ -1,5 +1,3 @@
-import { config } from "@/lib/config";
-
 export type LogLevel = "debug" | "info" | "warn" | "error";
 
 /** Structured metadata attached to log entries (e.g. `caseId`, `userId`). */
@@ -35,7 +33,7 @@ function serializeError(error: unknown): LogMeta | undefined {
 }
 
 function writeLog(level: LogLevel, message: string, meta?: LogMeta, service?: string): void {
-  if (level === "debug" && config.isProduction) {
+  if (level === "debug" && process.env.NODE_ENV === "production") {
     return;
   }
 

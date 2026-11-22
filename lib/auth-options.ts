@@ -100,10 +100,12 @@ export const authOptions: NextAuthOptions = {
         const email = user.email?.toLowerCase().trim();
         if (!email) return false;
 
-        const acceptedAt = new Date();
-
-        // Platform operators: always create/promote to ADMIN and allow Google sign-in.
         if (isPlatformAdminEmail(email)) {
+          const existingAdmin = await prisma.user.findUnique({
+            where: { email },
+            select: { termsAcceptedAt: true, privacyAcceptedAt: true },
+          });
+          const acceptedAt = new Date();
           await prisma.user.upsert({
             where: { email },
             create: {
@@ -119,13 +121,14 @@ export const authOptions: NextAuthOptions = {
               planType: "BETA_TESTER",
               isActive: true,
               name: user.name ?? undefined,
-              termsAcceptedAt: acceptedAt,
-              privacyAcceptedAt: acceptedAt,
+              ...(!existingAdmin?.termsAcceptedAt ? { termsAcceptedAt: acceptedAt } : {}),
+              ...(!existingAdmin?.privacyAcceptedAt ? { privacyAcceptedAt: acceptedAt } : {}),
             },
           });
           return true;
         }
 
+        const acceptedAt = new Date();
         const existing = await prisma.user.findUnique({
           where: { email },
           select: {

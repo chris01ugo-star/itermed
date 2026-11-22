@@ -14,7 +14,7 @@ import {
 import { resolvePillar, type IngestPillar } from "@/lib/services/ingestion-service";
 
 export const runtime = "nodejs";
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 const ingestLogger = createLogger("admin-ingest-api");
 

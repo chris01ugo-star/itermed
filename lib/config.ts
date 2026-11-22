@@ -1,39 +1,9 @@
 import { z } from "zod";
 
-/** Next.js loads `.env` in the app process; this covers scripts/edge cases when cwd differs. */
-function bootstrapEnvFromDisk(): void {
-  if (typeof window !== "undefined") return;
-
-  try {
-    // Dynamic require keeps `node:fs` out of any accidental client bundle.
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const { existsSync } = require("node:fs") as typeof import("node:fs");
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const path = require("node:path") as typeof import("node:path");
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const dotenv = require("dotenv") as typeof import("dotenv");
-
-    const candidateFiles = [
-      path.resolve(process.cwd(), ".env.local"),
-      path.resolve(process.cwd(), ".env"),
-      path.resolve(process.cwd(), "itermed", ".env.local"),
-      path.resolve(process.cwd(), "itermed", ".env"),
-    ];
-
-    for (const file of candidateFiles) {
-      if (!existsSync(file)) continue;
-      dotenv.config({ path: file });
-      if (process.env.DATABASE_URL && process.env.OPENAI_API_KEY) {
-        return;
-      }
-    }
-  } catch {
-    // Non-fatal: Next.js may already have injected env vars.
-  }
-}
-
-bootstrapEnvFromDisk();
-
+/**
+ * Edge-safe env parser. Node-only dotenv bootstrap lives in `lib/load-env-from-disk.ts`
+ * (imported by Prisma) so this module can be used from Edge AI routes.
+ */
 const normalizedEnv = {
   ...process.env,
   // Prefer Neon pooled URLs (Vercel Neon / DATABASE_POOL_URL) for runtime Prisma.

@@ -10,6 +10,7 @@ import { requireAdminApi } from "@/lib/require-admin-api";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 
 export const runtime = "nodejs";
+export const maxDuration = 300;
 
 const ingestPdfLogger = createLogger("ingest-pdf");
 
@@ -81,6 +82,14 @@ export async function POST(req: Request) {
     if (!(file instanceof File)) {
       return new Response(JSON.stringify({ error: "File PDF mancante." }), {
         status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const maxPdfBytes = 20 * 1024 * 1024;
+    if (file.size > maxPdfBytes) {
+      return new Response(JSON.stringify({ error: "Il PDF supera il limite di 20 MB." }), {
+        status: 413,
         headers: { "Content-Type": "application/json" },
       });
     }

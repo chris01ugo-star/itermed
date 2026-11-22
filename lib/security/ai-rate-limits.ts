@@ -12,6 +12,8 @@ export const AI_RATE_LIMITS = {
   sessionStart: 10,
   sessionStartVariant: 3,
   examine: 20,
+  /** Structured diagnostic reports (cache-first; one call per newly ordered exam). */
+  examReport: 25,
   generateExams: 8,
   generateCaseFields: 8,
   casesCreate: 10,

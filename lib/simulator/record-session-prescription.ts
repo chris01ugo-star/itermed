@@ -5,6 +5,7 @@ import {
   inferCompletedGoldSteps,
   parseGoldStandardPath,
 } from "@/lib/cases/simulation-time";
+import { lockCaseSessionForUpdate } from "@/lib/simulator/case-session-lock";
 import { parseChatHistory } from "@/lib/simulator/persist-chat-turn";
 import {
   type AdministrationRoute,
@@ -32,21 +33,6 @@ export async function recordSessionPrescription(params: {
     throw Object.assign(new Error("Farmaco non trovato nel prontuario."), { status: 404 });
   }
 
-  const session = await prisma.caseSession.findUnique({
-    where: { id: params.sessionId },
-    select: {
-      chatHistory: true,
-      prescribedMedications: true,
-      completedGoldSteps: true,
-      requestedExamIds: true,
-      case: { select: { goldStandardPath: true } },
-    },
-  });
-
-  if (!session) {
-    throw Object.assign(new Error("Sessione non trovata."), { status: 404 });
-  }
-
   const posology = params.posology.trim();
   const trace = formatPrescriptionTrace({
     commercialName: medication.commercialName,
@@ -70,46 +56,68 @@ export async function recordSessionPrescription(params: {
     prescribedAt: new Date().toISOString(),
   };
 
-  const existingRx = parseSessionPrescriptions(session.prescribedMedications);
-  const duplicate = existingRx.some(
-    (row) =>
-      row.id === prescription.id &&
-      row.route === prescription.route &&
-      row.posology === prescription.posology,
-  );
-  const nextRx = duplicate ? existingRx : [...existingRx, prescription];
-
-  const goldPath = parseGoldStandardPath(session.case?.goldStandardPath);
-  const requestedExamIds = Array.isArray(session.requestedExamIds) ? session.requestedExamIds : [];
-  const inferredGold = inferCompletedGoldSteps({
-    goldStandardPath: goldPath,
-    requestedExamIds,
-    clientCompletedSteps: session.completedGoldSteps,
-    lastUserMessage: `${trace} ${params.route} ${posology} ${medication.commercialName} ${medication.activeIngredient}`,
-  });
-
-  const existingChat = parseChatHistory(session.chatHistory);
   const systemLine = formatSystemMedicationAction(
     medication.commercialName,
     `${medication.dosageForm} ${posology}`.trim(),
   );
-  const nextChat = [...existingChat];
-  const appendTurn = (content: string) => {
-    const last = nextChat[nextChat.length - 1];
-    if (last?.role === "user" && last.content === content) return;
-    if (nextChat.some((turn) => turn.role === "user" && turn.content === content)) return;
-    nextChat.push({ role: "user", content, createdAt: prescription.prescribedAt });
-  };
-  appendTurn(trace);
-  appendTurn(systemLine);
 
-  await prisma.$transaction(async (tx) => {
+  const saved = await prisma.$transaction(async (tx) => {
+    const locked = await lockCaseSessionForUpdate(tx, params.sessionId);
+    if (!locked) return null;
+
+    const session = await tx.caseSession.findUnique({
+      where: { id: params.sessionId },
+      select: {
+        chatHistory: true,
+        prescribedMedications: true,
+        completedGoldSteps: true,
+        requestedExamIds: true,
+        case: { select: { goldStandardPath: true } },
+      },
+    });
+    if (!session) return null;
+
+    const existingRx = parseSessionPrescriptions(session.prescribedMedications);
+    const nextRx = dedupePrescriptions(
+      existingRx.some(
+        (row) =>
+          row.id === prescription.id &&
+          row.route === prescription.route &&
+          row.posology === prescription.posology,
+      )
+        ? existingRx
+        : [...existingRx, prescription],
+    );
+
+    const goldPath = parseGoldStandardPath(session.case?.goldStandardPath);
+    const requestedExamIds = [
+      ...new Set(Array.isArray(session.requestedExamIds) ? session.requestedExamIds : []),
+    ];
+    const inferredGold = inferCompletedGoldSteps({
+      goldStandardPath: goldPath,
+      requestedExamIds,
+      clientCompletedSteps: session.completedGoldSteps,
+      lastUserMessage: `${trace} ${params.route} ${posology} ${medication.commercialName} ${medication.activeIngredient}`,
+    });
+    const mergedGold = [...new Set([...session.completedGoldSteps, ...inferredGold])];
+
+    const nextChat = parseChatHistory(session.chatHistory);
+    const appendTurn = (content: string) => {
+      const last = nextChat[nextChat.length - 1];
+      if (last?.role === "user" && last.content === content) return;
+      if (nextChat.some((turn) => turn.role === "user" && turn.content === content)) return;
+      nextChat.push({ role: "user", content, createdAt: prescription.prescribedAt });
+    };
+    appendTurn(trace);
+    appendTurn(systemLine);
+
     await tx.caseSession.update({
       where: { id: params.sessionId },
       data: {
         prescribedMedications: nextRx as Prisma.InputJsonValue,
         chatHistory: nextChat as Prisma.InputJsonValue,
-        completedGoldSteps: inferredGold,
+        completedGoldSteps: mergedGold,
+        requestedExamIds,
       },
     });
 
@@ -154,12 +162,31 @@ export async function recordSessionPrescription(params: {
         evidence: trace.slice(0, 500),
       },
     });
+
+    return { prescribedMedications: nextRx, completedGoldSteps: mergedGold };
   });
+
+  if (!saved) {
+    throw Object.assign(new Error("Sessione non trovata."), { status: 404 });
+  }
 
   return {
     prescription,
     trace,
-    prescribedMedications: nextRx,
-    completedGoldSteps: inferredGold,
+    prescribedMedications: saved.prescribedMedications,
+    completedGoldSteps: saved.completedGoldSteps,
   };
+}
+
+/** Same drug at the same timestamp is one prescription, even if two writers race. */
+function dedupePrescriptions(rows: SessionPrescription[]): SessionPrescription[] {
+  const seen = new Set<string>();
+  const out: SessionPrescription[] = [];
+  for (const row of rows) {
+    const key = `${row.id}|${row.prescribedAt}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(row);
+  }
+  return out;
 }

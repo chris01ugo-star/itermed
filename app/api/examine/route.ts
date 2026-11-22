@@ -413,7 +413,7 @@ Sei il corpo del paziente descritto nel prompt seguente. Non sei un medico e non
 Il medico sta eseguendo SOLO questa manovra di esame obiettivo: "${examType}" (id: ${examId ?? "n/d"}).
 Descrivi esclusivamente i reperti rilevabili con QUESTA manovra — non ripetere un esame obiettivo generale completo se la manovra è distrettuale (cute, cardiovascolare, ecc.).
 Devi restituire SOLO un JSON con i campi:
-- "finding": descrizione testuale breve e realistica del reperto (massimo 20 parole, in italiano).
+- "finding": descrizione semeiologica clinicamente accurata, distrettuale e realistica del reperto rilevabile con questa sola manovra (massimo 45 parole, in italiano). Niente diagnosi e niente consigli.
 - "numericValue": se la manovra corrisponde a un parametro vitale (es. BPM, pressione arteriosa, temperatura, frequenza respiratoria, SpO2) restituisci il numero esatto; altrimenti usa null.
 `.trim();
 

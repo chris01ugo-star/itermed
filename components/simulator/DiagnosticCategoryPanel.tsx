@@ -15,6 +15,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { ExamOrderDialog } from "@/components/simulator/ExamOrderDialog";
+import type { ExamReportUiState } from "@/components/simulator/StructuredExamReport";
 import { cn } from "@/app/utils/cn";
 import type { ExamClinicalMeta } from "@/lib/exam-default-values";
 import type { CaseExamOverride } from "@/lib/exam-values-meta";
@@ -32,6 +33,7 @@ type DiagnosticCategoryPanelProps = {
   selectedExamIds: string[];
   onToggleExam: (id: string) => void;
   caseExamValues: Record<string, CaseExamOverride>;
+  examReports: Record<string, ExamReportUiState | undefined>;
   examCatalog: Record<string, ExamClinicalMeta>;
   examMacroCatalog: ExamMacroCategory[];
   /** Used for Laboratorio (`["lab"]`). Ignored when `chartSection` is set. */
@@ -134,6 +136,7 @@ export function DiagnosticCategoryPanel({
   selectedExamIds,
   onToggleExam,
   caseExamValues,
+  examReports,
   examCatalog,
   examMacroCatalog,
   macroFilter,
@@ -253,8 +256,7 @@ export function DiagnosticCategoryPanel({
         exams={target?.exams ?? []}
         selectedExamIds={selectedExamIds}
         onToggleExam={onToggleExam}
-        examCatalog={examCatalog}
-        caseExamValues={caseExamValues}
+        examReports={examReports}
       />
     </div>
   );

@@ -2,6 +2,7 @@ import { z } from "zod";
 import { getSessionUserId, unauthorizedJson } from "@/lib/api-session";
 import { authorizeOwnedLiveSession } from "@/lib/access";
 import { detectMilestonesFromTurn } from "@/lib/simulator/milestone-tracker";
+import { lockCaseSessionForUpdate } from "@/lib/simulator/case-session-lock";
 import { prisma } from "@/lib/prisma";
 import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
 
@@ -45,43 +46,42 @@ export async function POST(req: Request) {
     return Response.json({ error: access.error, code: access.code }, { status: access.status });
   }
 
-  const session = await prisma.caseSession.findUnique({
-    where: { id: access.liveSessionId },
-    select: { caseId: true, requestedExamIds: true, completedGoldSteps: true },
-  });
-
-  if (!session) {
-    return Response.json({ error: "Forbidden", code: "FORBIDDEN_SESSION" }, { status: 403 });
-  }
-
-  if (body.caseId && session.caseId !== body.caseId && access.caseId !== body.caseId) {
-    return Response.json({ error: "Forbidden", code: "FORBIDDEN_CASE" }, { status: 403 });
-  }
-
-  const mergedExamIds = [
-    ...new Set([
-      ...(Array.isArray(session.requestedExamIds) ? session.requestedExamIds : []),
-      ...(Array.isArray(body.requestedExamIds) ? body.requestedExamIds : []),
-    ]),
-  ];
-  const mergedGold = [
-    ...new Set([
-      ...(Array.isArray(session.completedGoldSteps) ? session.completedGoldSteps : []),
-      ...(Array.isArray(body.completedGoldSteps) ? body.completedGoldSteps : []),
-    ]),
-  ];
-
-  const detected = detectMilestonesFromTurn({
-    userMessage: body.lastUserMessage,
-    requestedExamIds: mergedExamIds,
-    completedGoldSteps: mergedGold,
-    examLabels: body.examLabels,
-    prescribedExams: body.prescribedExams,
-  });
-
   const sessionKey = access.liveSessionId;
 
-  await prisma.$transaction(async (tx) => {
+  const synced = await prisma.$transaction(async (tx) => {
+    const locked = await lockCaseSessionForUpdate(tx, sessionKey);
+    if (!locked) return null;
+
+    const session = await tx.caseSession.findUnique({
+      where: { id: sessionKey },
+      select: { caseId: true, requestedExamIds: true, completedGoldSteps: true },
+    });
+    if (!session) return null;
+    if (body.caseId && session.caseId !== body.caseId && access.caseId !== body.caseId) {
+      return { forbiddenCase: true as const };
+    }
+
+    const mergedExamIds = [
+      ...new Set([
+        ...(Array.isArray(session.requestedExamIds) ? session.requestedExamIds : []),
+        ...body.requestedExamIds,
+      ]),
+    ];
+    const mergedGold = [
+      ...new Set([
+        ...(Array.isArray(session.completedGoldSteps) ? session.completedGoldSteps : []),
+        ...body.completedGoldSteps,
+      ]),
+    ];
+
+    const detected = detectMilestonesFromTurn({
+      userMessage: body.lastUserMessage,
+      requestedExamIds: mergedExamIds,
+      completedGoldSteps: mergedGold,
+      examLabels: body.examLabels,
+      prescribedExams: body.prescribedExams,
+    });
+
     await tx.caseSession.update({
       where: { id: sessionKey },
       data: {
@@ -115,7 +115,16 @@ export async function POST(req: Request) {
         ),
       );
     }
+
+    return { forbiddenCase: false as const, mergedExamIds, detectedCount: detected.length };
   });
+
+  if (!synced) {
+    return Response.json({ error: "Forbidden", code: "FORBIDDEN_SESSION" }, { status: 403 });
+  }
+  if (synced.forbiddenCase) {
+    return Response.json({ error: "Forbidden", code: "FORBIDDEN_CASE" }, { status: 403 });
+  }
 
   const allMilestones = await prisma.simulationMilestone.findMany({
     where: { sessionId: sessionKey },
@@ -124,8 +133,8 @@ export async function POST(req: Request) {
 
   return Response.json({
     ok: true,
-    milestoneCount: detected.length,
+    milestoneCount: synced.detectedCount,
     milestoneKeys: allMilestones.map((m) => m.milestoneKey),
-    requestedExamIds: mergedExamIds,
+    requestedExamIds: synced.mergedExamIds,
   });
 }
