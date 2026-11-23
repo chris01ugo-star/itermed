@@ -9,6 +9,7 @@ import { extraCreditsPriceId, priceIdForPlan } from "@/lib/billing/stripe-prices
 import { hostedCheckoutBase } from "@/lib/billing/stripe-checkout-session";
 import { applyReferralCode, attachCheckoutToReferral } from "@/lib/billing/referral";
 import { hasActiveSubscription } from "@/lib/billing/access-gate";
+import { hasPaidSaasSubscription } from "@/lib/billing/credit-policy";
 
 export const runtime = "nodejs";
 
@@ -51,7 +52,7 @@ export async function POST(request: Request) {
   const checkoutBase = hostedCheckoutBase(origin, userId);
 
   if (parsed.data.type === "extra_credits") {
-    if (!hasActiveSubscription(profile)) {
+    if (!hasPaidSaasSubscription(profile)) {
       return NextResponse.json(
         {
           error: "I crediti extra richiedono un abbonamento attivo.",

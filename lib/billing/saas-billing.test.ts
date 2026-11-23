@@ -16,7 +16,7 @@ import {
   totalAvailableCredits,
 } from "@/lib/billing/plans";
 import { generateReferralCode, normalizeReferralCode } from "@/lib/billing/referral-code";
-import { shouldConsumeCredits } from "@/lib/billing/credit-policy";
+import { hasPaidSaasSubscription, shouldConsumeCredits } from "@/lib/billing/credit-policy";
 
 function profile(
   overrides: {
@@ -140,6 +140,27 @@ describe("referral codes", () => {
     assert.notEqual(a, b);
     assert.equal(normalizeReferralCode("aequan-x7k92"), "AEQUAN-X7K92");
     assert.equal(normalizeReferralCode("not-a-code"), null);
+  });
+});
+
+describe("paid SaaS subscription", () => {
+  it("does not treat admins as paying subscribers", () => {
+    assert.equal(
+      hasPaidSaasSubscription({
+        role: "ADMIN",
+        email: "dariobarbagallo46@gmail.com",
+        planType: "FREE",
+        subscriptionStatus: null,
+      }),
+      false,
+    );
+    assert.equal(
+      hasPaidSaasSubscription({
+        planType: "STUDENT",
+        subscriptionStatus: "active",
+      }),
+      true,
+    );
   });
 });
 

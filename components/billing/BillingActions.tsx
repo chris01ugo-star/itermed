@@ -98,7 +98,7 @@ export function BuyExtraButton({ disabled }: { disabled?: boolean }) {
   );
 }
 
-export function ManageSubscriptionButton() {
+export function ManageSubscriptionButton({ className }: { className?: string } = {}) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -118,7 +118,10 @@ export function ManageSubscriptionButton() {
             setBusy(false);
           }
         }}
-        className="inline-flex min-h-11 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+        className={
+          className ??
+          "inline-flex min-h-11 w-full items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50 disabled:opacity-60"
+        }
       >
         {busy ? "Apertura portale…" : "Gestisci abbonamento"}
       </button>
@@ -127,8 +130,14 @@ export function ManageSubscriptionButton() {
   );
 }
 
-export function ReferralApplyField() {
-  const [code, setCode] = useState("");
+export function ReferralApplyField({
+  defaultCode = "",
+  prominent = false,
+}: {
+  defaultCode?: string;
+  prominent?: boolean;
+}) {
+  const [code, setCode] = useState(defaultCode);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -153,12 +162,15 @@ export function ReferralApplyField() {
         }
       }}
     >
-      <label className="block text-sm font-medium text-slate-700" htmlFor="referral-code">
-        Codice invito (facoltativo)
-      </label>
+      {prominent ? null : (
+        <label className="block text-sm font-medium text-slate-700" htmlFor="referral-code">
+          Codice invito (facoltativo)
+        </label>
+      )}
       <div className="flex flex-col gap-2 sm:flex-row">
         <input
           id="referral-code"
+          aria-label={prominent ? "Codice amico" : undefined}
           value={code}
           onChange={(e) => setCode(e.target.value)}
           placeholder="AEQUAN-X7K92"

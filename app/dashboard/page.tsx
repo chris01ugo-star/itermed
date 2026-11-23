@@ -1,17 +1,16 @@
 import { redirect } from "next/navigation";
 import { BarChart3, History } from "lucide-react";
 import { CompetencyRadarChart } from "@/components/overview/CompetencyRadarChart";
-import { DailySimQuotaBanner } from "@/components/overview/DailySimQuotaBanner";
+import { SubscribePrompt } from "@/components/overview/SubscribePrompt";
 import { OverviewHero } from "@/components/overview/OverviewHero";
 import { OverviewQuickActions } from "@/components/overview/OverviewQuickActions";
 import { OverviewStatsBar } from "@/components/overview/OverviewStatsBar";
 import { RecentSessionsTimeline } from "@/components/overview/RecentSessionsTimeline";
-import { getDailySimulationQuota } from "@/lib/billing/daily-sim-quota";
 import { fetchUserOverviewData } from "@/lib/overview-queries";
 import { requireUser } from "@/lib/require-user";
 import { getCreditBalances } from "@/lib/billing/credit-ledger";
 import { getUserBillingProfile } from "@/lib/billing/user-billing";
-import { hasActiveSubscription } from "@/lib/billing/access-gate";
+import { hasPaidSaasSubscription } from "@/lib/billing/credit-policy";
 import { saasPlanDefinition } from "@/lib/billing/plans";
 import { CreditsSnapshot } from "@/components/overview/CreditsSnapshot";
 
@@ -29,13 +28,12 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
   }
 
   const user = await requireUser();
-  const [overview, dailyQuota, billingProfile, credits] = await Promise.all([
+  const [overview, billingProfile, credits] = await Promise.all([
     fetchUserOverviewData(user.id),
-    getDailySimulationQuota(user.id, { role: user.role, email: user.email }),
     getUserBillingProfile(user.id),
     getCreditBalances(user.id),
   ]);
-  const subscribed = billingProfile ? hasActiveSubscription(billingProfile) : false;
+  const subscribed = billingProfile ? hasPaidSaasSubscription(billingProfile) : false;
   const plan = saasPlanDefinition(billingProfile?.planType ?? null);
 
   const bestDimension = overview.radarData.reduce(
@@ -65,13 +63,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
           planName={plan?.displayName ?? null}
         />
       ) : (
-        <DailySimQuotaBanner
-          remaining={dailyQuota.remaining}
-          limit={dailyQuota.limit}
-          used={dailyQuota.used}
-          unlimited={dailyQuota.unlimited}
-          kind={dailyQuota.kind}
-        />
+        <SubscribePrompt />
       )}
 
       <OverviewStatsBar

@@ -23,14 +23,20 @@ type PrassiCaseBriefingProps = {
   open?: boolean;
   onClose?: () => void;
   pastel?: PrassiPastel;
+  requiresPaidPlan?: boolean;
+  adminBypass?: boolean;
 };
 
 function BriefingBody({
   caseRow,
   dept,
+  requiresPaidPlan = false,
+  adminBypass = false,
 }: {
   caseRow: ClinicalCaseRow;
   dept: PrassiPastel;
+  requiresPaidPlan?: boolean;
+  adminBypass?: boolean;
 }) {
   const specialty = displaySpecialtyName(caseRow);
   const specialtyLook = specialtyAppearance(specialty);
@@ -155,13 +161,25 @@ function BriefingBody({
         ) : null}
 
         <div className="border-t border-border-subtle pt-5">
+          {requiresPaidPlan ? (
+            <div className="mb-3 rounded-xl border border-[#1E324E]/15 bg-[#F4F6F8] px-3 py-2.5 text-sm text-[#1E324E]">
+              {adminBypass
+                ? "I casi sono bloccati per chi non è abbonato. Accesso admin: puoi avviare comunque."
+                : "Serve un piano Start o Plus per avviare questo caso."}
+            </div>
+          ) : null}
           <div className="mb-3 flex items-center gap-2">
             <Play className="h-3.5 w-3.5 text-brand-secondary" aria-hidden />
             <p className="text-xs font-semibold text-slate-600">
               {caseRow.playStatus === "completed" ? "Ripeti la simulazione" : "Avvia esercitazione"}
             </p>
           </div>
-          <StartCaseButtons caseId={caseRow.id} emphasis="original" />
+          <StartCaseButtons
+            caseId={caseRow.id}
+            emphasis="original"
+            requiresPaidPlan={requiresPaidPlan}
+            adminBypass={adminBypass}
+          />
         </div>
       </div>
     </div>
@@ -174,6 +192,8 @@ export function PrassiCaseBriefing({
   open,
   onClose,
   pastel,
+  requiresPaidPlan = false,
+  adminBypass = false,
 }: PrassiCaseBriefingProps) {
   const specialty = displaySpecialtyName(caseRow);
   const dept = pastel ?? specialtyPastel(specialty);
@@ -221,7 +241,12 @@ export function PrassiCaseBriefing({
           >
             <X className="h-4 w-4" />
           </button>
-          <BriefingBody caseRow={caseRow} dept={dept} />
+          <BriefingBody
+            caseRow={caseRow}
+            dept={dept}
+            requiresPaidPlan={requiresPaidPlan}
+            adminBypass={adminBypass}
+          />
         </div>
       </div>
     );
@@ -229,7 +254,12 @@ export function PrassiCaseBriefing({
 
   return (
     <div className="flex h-full min-h-[480px] flex-col">
-      <BriefingBody caseRow={caseRow} dept={dept} />
+      <BriefingBody
+        caseRow={caseRow}
+        dept={dept}
+        requiresPaidPlan={requiresPaidPlan}
+        adminBypass={adminBypass}
+      />
     </div>
   );
 }

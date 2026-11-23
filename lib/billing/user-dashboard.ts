@@ -4,7 +4,8 @@ import { completedPerformanceSessionWhere } from "@/lib/session-report-performan
 import { getUserBillingProfile } from "@/lib/billing/user-billing";
 import { getCreditBalances } from "@/lib/billing/credit-ledger";
 import { getReferralDashboard } from "@/lib/billing/referral";
-import { hasActiveSubscription } from "@/lib/billing/access-gate";
+import { hasPaidSaasSubscription } from "@/lib/billing/credit-policy";
+import { hasUnlimitedCaseAccess } from "@/lib/billing/unlimited-case-access";
 import { saasPlanDefinition, EXTRA_CREDIT_PACK } from "@/lib/billing/plans";
 import { isStripeConfigured } from "@/lib/billing/stripe-client";
 
@@ -41,7 +42,8 @@ export async function getBillingDashboard(userId: string) {
     ]);
 
   const plan = saasPlanDefinition(profile?.planType ?? null);
-  const subscribed = profile ? hasActiveSubscription(profile) : false;
+  const subscribed = profile ? hasPaidSaasSubscription(profile) : false;
+  const isAdmin = profile ? hasUnlimitedCaseAccess(profile) : false;
   const monthlyUsed = plan ? Math.max(0, plan.monthlyCredits - credits.monthlyBalance) : 0;
   const monthlyProgress = plan
     ? Math.min(100, Math.round((monthlyUsed / Math.max(1, plan.monthlyCredits)) * 100))
@@ -50,6 +52,7 @@ export async function getBillingDashboard(userId: string) {
   return {
     stripeConfigured: isStripeConfigured(),
     subscribed,
+    isAdmin,
     plan,
     planType: profile?.planType ?? "FREE",
     subscriptionStatus: profile?.subscriptionStatus ?? null,

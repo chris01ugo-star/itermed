@@ -42,6 +42,8 @@ type ClinicalCaseCardProps = {
   caseRow: ClinicalCaseRow;
   mode?: "start" | "link";
   onSessionStart?: (caseId: string, sessionId: string) => void;
+  requiresPaidPlan?: boolean;
+  adminBypass?: boolean;
 };
 
 const DIFFICULTY_BADGE_STYLES: Record<CaseDifficulty, string> = {
@@ -54,6 +56,8 @@ export function ClinicalCaseCard({
   caseRow,
   mode = "start",
   onSessionStart,
+  requiresPaidPlan = false,
+  adminBypass = false,
 }: ClinicalCaseCardProps) {
   const specialtyLabel = displaySpecialtyName(caseRow);
   const specialtyLook = specialtyAppearance(specialtyLabel);
@@ -90,15 +94,24 @@ export function ClinicalCaseCard({
 
       {mode === "start" ? (
         <div className="mt-5 pt-1">
-          <StartCaseButtons caseId={caseRow.id} onSessionStart={onSessionStart} />
+          <StartCaseButtons
+            caseId={caseRow.id}
+            onSessionStart={onSessionStart}
+            requiresPaidPlan={requiresPaidPlan}
+            adminBypass={adminBypass}
+          />
         </div>
       ) : null}
     </div>
   );
 
   if (mode === "link") {
+    const href =
+      requiresPaidPlan && !adminBypass
+        ? "/dashboard/billing"
+        : `/dashboard/prassi/play/${caseRow.id}`;
     return (
-      <Link href={`/dashboard/prassi/play/${caseRow.id}`} className={`block ${cardClassName}`}>
+      <Link href={href} className={`block ${cardClassName}`}>
         {body}
       </Link>
     );

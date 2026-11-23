@@ -3,14 +3,10 @@ import { CreditCard } from "lucide-react";
 import { requireUser } from "@/lib/require-user";
 import { getBillingDashboard } from "@/lib/billing/user-dashboard";
 import { config } from "@/lib/config";
-import {
-  BuyExtraButton,
-  ManageSubscriptionButton,
-  ReferralApplyField,
-  SubscribeButton,
-} from "@/components/billing/BillingActions";
+import { BuyExtraButton } from "@/components/billing/BillingActions";
+import { BillingPlans } from "@/components/billing/BillingPlans";
 import { ReferralInviteCard } from "@/components/billing/ReferralInviteCard";
-import { SAAS_PLANS } from "@/lib/billing/plans";
+import { toSaasPlanId } from "@/lib/billing/plans";
 
 function statusLabel(status: string | null, cancelAtPeriodEnd: boolean): string {
   if (!status) return "Nessun abbonamento";
@@ -43,20 +39,22 @@ export default async function BillingPage({ searchParams }: PageProps) {
   const data = await getBillingDashboard(user.id);
   const inviteUrl = `${config.APP_URL.replace(/\/$/, "")}/invite/${encodeURIComponent(data.referral.code)}`;
   const prefillRef = resolved?.ref?.trim();
+  const currentPlanId = toSaasPlanId(data.plan?.id ?? data.planType);
 
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-6 p-6 md:p-8">
-      <header className="space-y-1">
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-8 p-6 md:p-8">
+      <header className="space-y-1.5">
         <div className="inline-flex items-center gap-2 text-[#345884]">
           <CreditCard className="h-4 w-4" strokeWidth={1.75} />
           <span className="text-[11px] font-semibold uppercase tracking-[0.14em]">Account</span>
         </div>
         <h1 className="font-display text-2xl font-bold tracking-tight text-[#1E324E] md:text-[28px]">
-          Abbonamento e crediti
+          {data.subscribed ? "Il tuo abbonamento" : "Scegli il piano e inizia a esercitarti"}
         </h1>
         <p className="max-w-2xl text-sm leading-relaxed text-slate-500">
-          Un credito equivale a una sessione completa di simulazione clinica. I report e lo storico
-          restano consultabili anche a crediti esauriti.
+          {data.subscribed
+            ? "Un credito equivale a una sessione completa. Puoi fare upgrade, comprare extra o invitare un collega."
+            : "Senza abbonamento i casi della Prassi restano bloccati. I report già fatti restano consultabili."}
         </p>
       </header>
 
@@ -78,142 +76,73 @@ export default async function BillingPage({ searchParams }: PageProps) {
       ) : null}
       {!data.stripeConfigured ? (
         <p className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
-          I pagamenti Stripe non sono ancora configurati in questo ambiente. I piani e i crediti
-          sono pronti: servono le chiavi e i price ID elencati in{" "}
-          <code className="rounded bg-white px-1.5 py-0.5 text-xs">docs/saas-billing.md</code>.
+          I pagamenti Stripe non sono ancora configurati in questo ambiente.
+        </p>
+      ) : null}
+      {data.isAdmin && !data.subscribed ? (
+        <p className="rounded-xl border border-[#1E324E]/15 bg-[#F4F6F8] px-4 py-3 text-sm text-[#1E324E]">
+          I casi risultano bloccati per chi non è abbonato. Come admin puoi comunque avviarli da
+          Inizia.
         </p>
       ) : null}
 
-      <section className="grid gap-4 lg:grid-cols-5">
-        <div className="rounded-xl border border-border bg-panel-bg p-5 shadow-aequan-panel lg:col-span-3">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
-            Piano attuale
-          </p>
-          <h2 className="mt-1 font-display text-xl font-semibold text-[#1E324E]">
-            {data.plan?.displayName ?? "Nessun piano a pagamento"}
-          </h2>
-          <p className="mt-1 text-sm text-slate-500">
-            {data.plan ? data.plan.monthlyPriceLabel : "Scegli Start o Plus per sbloccare i crediti mensili."}
-          </p>
-          <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
-            <div>
-              <dt className="text-slate-500">Stato</dt>
-              <dd className="mt-0.5 font-medium text-slate-800">
-                {statusLabel(data.subscriptionStatus, data.cancelAtPeriodEnd)}
-              </dd>
-            </div>
-            <div>
-              <dt className="text-slate-500">Prossimo rinnovo</dt>
-              <dd className="mt-0.5 font-medium text-slate-800">{formatDate(data.currentPeriodEnd)}</dd>
-            </div>
-          </dl>
-          <div className="mt-5 flex flex-wrap gap-2">
-            {data.subscribed ? <ManageSubscriptionButton /> : null}
-            {data.subscribed && data.plan?.id === "START" ? (
-              <SubscribeButton plan="PLUS" label="Passa a Plus — 16,90 €/mese" />
-            ) : null}
-          </div>
-        </div>
-
-        <div className="rounded-xl border border-border bg-panel-bg p-5 shadow-aequan-panel lg:col-span-2">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
-            Crediti disponibili
-          </p>
-          <p className="mt-1 font-display text-3xl font-semibold tabular-nums text-[#1E324E]">
-            {data.credits.total}
-          </p>
-          <div className="mt-4 space-y-2 text-sm">
-            <div className="flex items-center justify-between rounded-lg bg-sky-50 px-3 py-2 text-sky-900">
-              <span>Mensili piano</span>
-              <span className="font-semibold tabular-nums">{data.credits.monthlyBalance}</span>
-            </div>
-            <div className="flex items-center justify-between rounded-lg bg-amber-50 px-3 py-2 text-amber-900">
-              <span>Extra acquistati</span>
-              <span className="font-semibold tabular-nums">{data.credits.purchasedBalance}</span>
-            </div>
-            <div className="flex items-center justify-between rounded-lg bg-emerald-50 px-3 py-2 text-emerald-900">
-              <span>Bonus referral</span>
-              <span className="font-semibold tabular-nums">{data.credits.referralBalance}</span>
-            </div>
-          </div>
-          {data.plan ? (
-            <div className="mt-4">
-              <div className="mb-1 flex justify-between text-[11px] text-slate-500">
-                <span>Utilizzo del piano</span>
-                <span>
-                  {data.monthlyUsed}/{data.plan.monthlyCredits}
-                </span>
-              </div>
-              <div className="h-1.5 overflow-hidden rounded-full bg-slate-200">
-                <div
-                  className="h-full rounded-full bg-[#345884]"
-                  style={{ width: `${data.monthlyProgress}%` }}
-                />
-              </div>
-            </div>
-          ) : null}
-          <p className="mt-3 text-xs text-slate-500">
-            {data.completedCount} simulazioni completate · {data.uniqueCases} casi unici
-          </p>
-        </div>
-      </section>
-
-      {data.credits.total === 0 && data.subscribed ? (
-        <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-          Crediti esauriti. Puoi acquistare 5 simulazioni extra oppure passare a Plus. I report già
-          completati restano disponibili.
-        </div>
-      ) : null}
-
-      {!data.subscribed ? (
-        <section className="grid gap-4 md:grid-cols-2">
-          {(["START", "PLUS"] as const).map((id) => {
-            const plan = SAAS_PLANS[id];
-            return (
-              <div
-                key={id}
-                className="flex flex-col rounded-xl border border-border bg-panel-bg p-5 shadow-aequan-panel"
-              >
-                <h3 className="font-display text-lg font-semibold text-[#1E324E]">{plan.displayName}</h3>
-                <p className="mt-1 text-sm text-slate-500">{plan.monthlyPriceLabel}</p>
-                <ul className="mt-3 flex-1 space-y-1.5 text-sm text-slate-600">
-                  <li>{plan.monthlyCredits} crediti al mese</li>
-                  <li>Accumulo fino a {plan.monthlyCap} crediti mensili</li>
-                  <li>Tutte le specialità, report AI e storico</li>
-                </ul>
-                <div className="mt-4">
-                  <SubscribeButton
-                    plan={id}
-                    referralCode={prefillRef}
-                    label={`Scegli ${plan.displayName}`}
-                  />
-                </div>
-              </div>
-            );
-          })}
-        </section>
-      ) : null}
-
-      {!data.firstPaidAt ? (
-        <section className="rounded-xl border border-border bg-panel-bg p-5 shadow-aequan-panel">
-          <ReferralApplyField />
-          {prefillRef ? (
-            <p className="mt-2 text-xs text-slate-500">
-              Codice precompilabile dal link: <span className="font-mono">{prefillRef}</span>
+      {data.subscribed ? (
+        <section className="grid gap-4 rounded-2xl border border-border bg-white p-5 shadow-aequan-panel sm:grid-cols-3">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
+              Piano attuale
             </p>
-          ) : null}
+            <p className="mt-1 font-display text-lg font-semibold text-[#1E324E]">
+              {data.plan?.displayName}
+            </p>
+            <p className="text-sm text-slate-500">
+              {statusLabel(data.subscriptionStatus, data.cancelAtPeriodEnd)}
+            </p>
+          </div>
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
+              Crediti disponibili
+            </p>
+            <p className="mt-1 font-display text-lg font-semibold tabular-nums text-[#1E324E]">
+              {data.credits.total}
+            </p>
+            <p className="text-sm text-slate-500">
+              Piano {data.credits.monthlyBalance} · Extra {data.credits.purchasedBalance} · Referral{" "}
+              {data.credits.referralBalance}
+            </p>
+          </div>
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">
+              Prossimo rinnovo
+            </p>
+            <p className="mt-1 font-display text-lg font-semibold text-[#1E324E]">
+              {formatDate(data.currentPeriodEnd)}
+            </p>
+            <p className="text-sm text-slate-500">
+              {data.completedCount} simulazioni · {data.uniqueCases} casi unici
+            </p>
+          </div>
         </section>
       ) : null}
 
-      <section className="rounded-xl border border-border bg-panel-bg p-5 shadow-aequan-panel">
-        <h2 className="font-display text-base font-semibold text-[#1E324E]">Simulazioni extra</h2>
-        <p className="mt-1 text-sm text-slate-500">
-          Pacchetto da 5 crediti a {data.extraPack.priceLabel}. Non scadono a fine mese. Serve un
-          abbonamento attivo per utilizzarli.
-        </p>
-        <div className="mt-4 max-w-md">
-          <BuyExtraButton disabled={!data.subscribed} />
+      <section className="space-y-3">
+        <div>
+          <h2 className="font-display text-lg font-semibold text-[#1E324E]">
+            {data.subscribed ? "Il tuo piano e l’upgrade" : "Due piani, due ritmi di studio"}
+          </h2>
+          <p className="mt-0.5 text-sm text-slate-500">
+            {data.subscribed
+              ? currentPlanId === "PLUS"
+                ? "Sei su Plus. Puoi gestire rinnovo e fatture dal portale."
+                : "Sei su Start. Passa a Plus quando ti serve più volume."
+              : "Start per un ritmo costante. Plus se vuoi allenarti di più ogni mese."}
+          </p>
         </div>
+        <BillingPlans
+          subscribed={data.subscribed}
+          currentPlanId={currentPlanId}
+          referralCode={prefillRef}
+        />
       </section>
 
       <ReferralInviteCard
@@ -225,23 +154,39 @@ export default async function BillingPage({ searchParams }: PageProps) {
         bonusEarned={data.referral.bonusEarned}
         recent={data.referral.recent}
         suspended={data.referral.suspended}
+        showApply={!data.firstPaidAt}
+        prefillCode={prefillRef}
       />
 
-      <section className="rounded-xl border border-border bg-panel-bg p-5 shadow-aequan-panel">
+      {data.credits.total === 0 && data.subscribed ? (
+        <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          Crediti esauriti. Acquista 5 simulazioni extra oppure passa a Plus. I report già
+          completati restano disponibili.
+        </div>
+      ) : null}
+
+      {data.subscribed ? (
+        <section className="rounded-2xl border border-border bg-panel-bg p-6 shadow-aequan-panel">
+          <h2 className="font-display text-lg font-semibold text-[#1E324E]">Simulazioni extra</h2>
+          <p className="mt-1 max-w-2xl text-sm text-slate-500">
+            Pacchetto da 5 crediti a {data.extraPack.priceLabel}. Non scadono a fine mese.
+          </p>
+          <div className="mt-4 max-w-md">
+            <BuyExtraButton />
+          </div>
+        </section>
+      ) : null}
+
+      <section className="rounded-2xl border border-border bg-panel-bg p-6 shadow-aequan-panel">
         <div className="flex flex-wrap items-end justify-between gap-2">
           <div>
             <h2 className="font-display text-base font-semibold text-[#1E324E]">
               Cronologia crediti
             </h2>
             <p className="mt-0.5 text-xs text-slate-500">
-              Ogni movimento è persistente. La cronologia pagamenti completa è nel portale Stripe.
+              Ogni movimento è persistente. Fatture e addebiti sono nel portale Stripe.
             </p>
           </div>
-          {data.subscribed ? (
-            <Link href="#pagamenti" className="text-xs font-medium text-[#345884] hover:underline">
-              Cronologia pagamenti
-            </Link>
-          ) : null}
         </div>
         {data.creditHistory.length === 0 ? (
           <p className="mt-4 text-sm text-slate-500">Nessun movimento ancora.</p>
@@ -269,9 +214,13 @@ export default async function BillingPage({ searchParams }: PageProps) {
             ))}
           </ul>
         )}
-        <p id="pagamenti" className="mt-4 text-xs text-slate-500">
-          Fatture e addebiti Stripe: usa &quot;Gestisci abbonamento&quot; per aprire il portale cliente.
-          Pacchetti extra registrati: {data.extraPurchases}.
+        <p className="mt-4 text-xs text-slate-500">
+          Pacchetti extra registrati: {data.extraPurchases}.{" "}
+          {data.subscribed ? (
+            <Link href="#pagamenti" className="font-medium text-[#345884] hover:underline">
+              Gestisci fatture dal pulsante del tuo piano.
+            </Link>
+          ) : null}
         </p>
       </section>
     </div>

@@ -5,6 +5,8 @@ type ClinicalCaseGridProps = {
   cases: ClinicalCaseRow[];
   mode?: "start" | "link";
   emptyMessage?: string;
+  requiresPaidPlan?: boolean;
+  adminBypass?: boolean;
 };
 
 function CasesEmptyState({ message }: { message: string }) {
@@ -16,7 +18,13 @@ function CasesEmptyState({ message }: { message: string }) {
   );
 }
 
-export function ClinicalCaseGrid({ cases, mode = "start", emptyMessage }: ClinicalCaseGridProps) {
+export function ClinicalCaseGrid({
+  cases,
+  mode = "start",
+  emptyMessage,
+  requiresPaidPlan = false,
+  adminBypass = false,
+}: ClinicalCaseGridProps) {
   if (cases.length === 0) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -28,7 +36,13 @@ export function ClinicalCaseGrid({ cases, mode = "start", emptyMessage }: Clinic
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
       {cases.map((caseRow) => (
-        <ClinicalCaseCard key={caseRow.id} caseRow={caseRow} mode={mode} />
+        <ClinicalCaseCard
+          key={caseRow.id}
+          caseRow={caseRow}
+          mode={mode}
+          requiresPaidPlan={requiresPaidPlan}
+          adminBypass={adminBypass}
+        />
       ))}
     </div>
   );

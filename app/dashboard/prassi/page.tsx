@@ -12,6 +12,9 @@ import {
   getPrassiRegistrySpecialties,
 } from "@/lib/data/cases";
 import { fetchCaseProgressMap } from "@/lib/billing/case-progress";
+import { getUserBillingProfile } from "@/lib/billing/user-billing";
+import { hasPaidSaasSubscription } from "@/lib/billing/credit-policy";
+import { hasUnlimitedCaseAccess } from "@/lib/billing/unlimited-case-access";
 
 async function mergeRegistryIntoDbCases(
   dbCases: ClinicalCaseRow[],
@@ -65,6 +68,9 @@ async function withPlayProgress(
 
 export default async function PrassiPage() {
   const user = await requireUser();
+  const billingProfile = await getUserBillingProfile(user.id).catch(() => null);
+  const requiresPaidPlan = !hasPaidSaasSubscription(billingProfile ?? {});
+  const adminBypass = hasUnlimitedCaseAccess(user);
   const hasDatabase = isUsableDatabase(config.DATABASE_URL);
 
   let cases: ClinicalCaseRow[] = await getPrassiRegistryCaseRows(user.id);
@@ -92,7 +98,12 @@ export default async function PrassiPage() {
         </div>
       }
     >
-      <PrassiShell cases={cases} specialties={specialties} />
+      <PrassiShell
+        cases={cases}
+        specialties={specialties}
+        requiresPaidPlan={requiresPaidPlan}
+        adminBypass={adminBypass}
+      />
     </Suspense>
   );
 }

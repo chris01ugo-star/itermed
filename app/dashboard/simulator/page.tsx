@@ -11,6 +11,9 @@ import { CaseFilters } from "../../../components/dashboard/CaseFilters";
 import { ClinicalCaseGrid } from "../../../components/dashboard/ClinicalCaseGrid";
 import { type ClinicalCaseRow } from "../../../components/dashboard/ClinicalCaseCard";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../ui/card";
+import { getUserBillingProfile } from "@/lib/billing/user-billing";
+import { hasPaidSaasSubscription } from "@/lib/billing/credit-policy";
+import { hasUnlimitedCaseAccess } from "@/lib/billing/unlimited-case-access";
 
 type DashboardSimulatorPageProps = {
   searchParams?:
@@ -60,6 +63,9 @@ function filterDemoCases(cases: ClinicalCaseRow[], filters: CaseFilterParams): C
 export default async function DashboardSimulatorPage({ searchParams }: DashboardSimulatorPageProps) {
   const user = await requireUser();
   const hasDatabase = Boolean(config.DATABASE_URL);
+  const billingProfile = await getUserBillingProfile(user.id).catch(() => null);
+  const requiresPaidPlan = !hasPaidSaasSubscription(billingProfile ?? {});
+  const adminBypass = hasUnlimitedCaseAccess(user);
   const resolvedSearch =
     searchParams && "then" in searchParams ? await searchParams : searchParams;
 
@@ -121,6 +127,8 @@ export default async function DashboardSimulatorPage({ searchParams }: Dashboard
               cases={globalCases}
               mode="link"
               emptyMessage="Nessun caso globale con questi filtri."
+              requiresPaidPlan={requiresPaidPlan}
+              adminBypass={adminBypass}
             />
           </section>
           <section>
@@ -131,6 +139,8 @@ export default async function DashboardSimulatorPage({ searchParams }: Dashboard
               cases={personalCases}
               mode="link"
               emptyMessage="Nessun caso individuale con questi filtri."
+              requiresPaidPlan={requiresPaidPlan}
+              adminBypass={adminBypass}
             />
           </section>
         </CardContent>

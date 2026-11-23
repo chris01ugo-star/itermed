@@ -45,6 +45,24 @@ export const SAAS_PLANS: Record<SaasPlanId, SaasPlanDefinition> = {
   },
 };
 
+/** Selling points shown on the billing page (IT). */
+export const SAAS_PLAN_FEATURES: Record<SaasPlanId, string[]> = {
+  START: [
+    "12 simulazioni cliniche ogni mese",
+    "Accumulo fino a 24 crediti mensili",
+    "Tutte le specialità della Prassi",
+    "Report AI sui 5 pilastri",
+    "Storico e report sempre consultabili",
+  ],
+  PLUS: [
+    "30 simulazioni cliniche ogni mese",
+    "Accumulo fino a 60 crediti mensili",
+    "Tutto incluso in Start",
+    "Ritmo da specializzando e turni intensi",
+    "Più margine prima di comprare extra",
+  ],
+};
+
 export const EXTRA_CREDIT_PACK = {
   id: "extra_credits_5",
   credits: 5,

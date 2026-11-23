@@ -17,10 +17,15 @@ export const SUBSCRIPTION_REQUIRED_CODE = "SUBSCRIPTION_REQUIRED";
 export const SUBSCRIPTION_REQUIRED_MESSAGE =
   "Per avviare una nuova simulazione serve un abbonamento Aequan attivo. I report e lo storico restano consultabili.";
 
-function hasPaidSubscription(profile: CreditPolicyUser): boolean {
+/** True Stripe Start/Plus — admins are not treated as paying subscribers. */
+export function hasPaidSaasSubscription(profile: CreditPolicyUser): boolean {
   if (!isSubscriptionPlan(profile.planType)) return false;
   if (!profile.subscriptionStatus) return false;
   return ACTIVE_SUBSCRIPTION_STATUSES.has(profile.subscriptionStatus);
+}
+
+function hasPaidSubscription(profile: CreditPolicyUser): boolean {
+  return hasPaidSaasSubscription(profile);
 }
 
 /**

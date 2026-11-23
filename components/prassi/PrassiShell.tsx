@@ -3,7 +3,7 @@
 import { useMemo, useCallback, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowLeft, BookOpen, ChevronRight, FolderOpen } from "lucide-react";
+import { ArrowLeft, BookOpen, ChevronRight, FolderOpen, Lock } from "lucide-react";
 import {
   DIFFICULTY_LABELS,
   displaySpecialtyName,
@@ -30,6 +30,8 @@ type PrassiShellProps = {
   specialties?: SpecialtyOption[];
   /** @deprecated Shell is now self-contained; children ignored outside play. */
   children?: ReactNode;
+  requiresPaidPlan?: boolean;
+  adminBypass?: boolean;
 };
 
 /** Featured guidelines → deep-link into /dashboard/guidelines?q=… */
@@ -97,7 +99,12 @@ function FolderNotch({ fill }: { fill: string }) {
   );
 }
 
-export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
+export function PrassiShell({
+  cases,
+  specialties = [],
+  requiresPaidPlan = false,
+  adminBypass = false,
+}: PrassiShellProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const openSpecialty = searchParams?.get("specialty")?.trim() || null;
@@ -318,8 +325,22 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
                         isSelected
                           ? "shadow-aequan-panel ring-1 ring-brand-primary/25"
                           : "",
+                        requiresPaidPlan ? "pr-10" : "",
                       )}
                     >
+                      {requiresPaidPlan ? (
+                        <span
+                          className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-full bg-[#1E324E] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white"
+                          title={
+                            adminBypass
+                              ? "Bloccato per gli utenti. Accesso admin disponibile."
+                              : "Serve un abbonamento"
+                          }
+                        >
+                          <Lock className="h-3 w-3" aria-hidden />
+                          Piano
+                        </span>
+                      ) : null}
                       <div className="flex min-h-0 min-w-0 flex-1 flex-col justify-between gap-1.5">
                         <p className="truncate text-sm font-bold text-slate-800">
                           {patientName}
@@ -441,6 +462,8 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
         <PrassiCaseBriefing
           caseRow={selectedCase}
           open
+          requiresPaidPlan={requiresPaidPlan}
+          adminBypass={adminBypass}
           onClose={() => setParams({ caseId: null })}
           pastel={
             activeBucket?.pastel ??

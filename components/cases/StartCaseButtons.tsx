@@ -30,6 +30,9 @@ type StartCaseButtonsProps = {
   playBasePath?: string;
   /** Which action looks primary. Default keeps legacy variant emphasis. */
   emphasis?: "original" | "variant";
+  /** Non-subscribers are sent to billing. Admins still start. */
+  requiresPaidPlan?: boolean;
+  adminBypass?: boolean;
 };
 
 /** Hard timeout: never wait longer than this for /api/session/start (varianti). */
@@ -63,6 +66,8 @@ export function StartCaseButtons({
   onSessionStart,
   playBasePath = "/dashboard/prassi/play",
   emphasis = "variant",
+  requiresPaidPlan = false,
+  adminBypass = false,
 }: StartCaseButtonsProps) {
   const [isStartingOriginal, setIsStartingOriginal] = useState(false);
   const [isStartingVariant, setIsStartingVariant] = useState(false);
@@ -171,15 +176,27 @@ export function StartCaseButtons({
     }
   };
 
+  const goToBilling = () => {
+    window.location.assign("/dashboard/billing");
+  };
+
   const handleOriginalClick = (event: MouseEvent<HTMLAnchorElement>) => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
+    if (requiresPaidPlan && !adminBypass) {
+      goToBilling();
+      return;
+    }
     setIsStartingOriginal(true);
     window.location.assign(directPlayHref);
   };
 
   const handleVariantClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    if (requiresPaidPlan && !adminBypass) {
+      goToBilling();
+      return;
+    }
     try {
       void startVariant();
     } catch {
@@ -204,7 +221,11 @@ export function StartCaseButtons({
           aria-busy={isStartingOriginal}
           className={emphasis === "original" ? primaryClass : secondaryClass}
         >
-          {isStartingOriginal ? "Avvio..." : "Avvia caso originale"}
+          {isStartingOriginal
+            ? "Avvio..."
+            : requiresPaidPlan && !adminBypass
+              ? "Abbonati per iniziare"
+              : "Avvia caso originale"}
         </a>
         <button
           type="button"
@@ -214,6 +235,8 @@ export function StartCaseButtons({
         >
           {isStartingVariant ? (
             "Generazione variante..."
+          ) : requiresPaidPlan && !adminBypass ? (
+            "Sblocca con un piano"
           ) : (
             <>
               <Sparkles className="h-4 w-4 shrink-0" aria-hidden />

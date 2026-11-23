@@ -4,7 +4,6 @@ import {
   isSubscriptionPlan,
 } from "@/lib/billing/plans";
 import type { UserBillingProfile } from "@/lib/billing/user-billing";
-import { getBetaEmailAllowlistFromEnv, isBetaAuthorized } from "@/lib/beta/access";
 import {
   hasUnlimitedCaseAccess,
   hasActiveSponsoredCaseGrant,
@@ -14,19 +13,13 @@ import { PATIENT_MAX_TURNS } from "@/lib/simulator/chat-context-window";
 import {
   ACCOUNT_DISABLED_CODE,
   ACCOUNT_DISABLED_MESSAGE,
-  lifetimeCapMessage,
   resolveSimulationEntitlement,
 } from "@/lib/billing/simulation-entitlement";
 import {
+  hasPaidSaasSubscription,
   SUBSCRIPTION_REQUIRED_CODE,
   SUBSCRIPTION_REQUIRED_MESSAGE,
 } from "@/lib/billing/credit-policy";
-import {
-  PILOT_ACCESS_DENIED_MESSAGE,
-  PILOT_CAP_CODE,
-  UNAUTHORIZED_PILOT_EMAIL_CODE,
-} from "@/lib/pilot-whitelist";
-
 import { MODEL_GPT_6_LUNA, type ChatModelId } from "@/lib/ai/models";
 
 export type { ChatModelId };
@@ -140,45 +133,16 @@ export function assertCanStartSimulation(
     return { allowed: true };
   }
 
-  if (hasActiveSubscription(profile)) {
+  if (hasPaidSaasSubscription(profile)) {
     return { allowed: true };
   }
 
-  const hasAdminGrant = entitlement.source === "override";
-  const betaAuthorized = isBetaAuthorized({
-    role: profile.role,
-    planType: profile.planType,
-    email: profile.email,
-    allowlist: getBetaEmailAllowlistFromEnv(),
-  });
-
-  if (!hasAdminGrant && !betaAuthorized) {
-    if (profile.firstPaidAt) {
-      return {
-        allowed: false,
-        code: SUBSCRIPTION_REQUIRED_CODE,
-        status: 402,
-        message: SUBSCRIPTION_REQUIRED_MESSAGE,
-      };
-    }
-    return {
-      allowed: false,
-      code: UNAUTHORIZED_PILOT_EMAIL_CODE,
-      status: 403,
-      message: PILOT_ACCESS_DENIED_MESSAGE,
-    };
-  }
-
-  const lifetimeUsed = options?.lifetimeUsed ?? 0;
-  if (entitlement.lifetimeLimit != null && lifetimeUsed >= entitlement.lifetimeLimit) {
-    return {
-      allowed: false,
-      code: PILOT_CAP_CODE,
-      status: 403,
-      message: lifetimeCapMessage(entitlement.lifetimeLimit),
-    };
-  }
-  return { allowed: true };
+  return {
+    allowed: false,
+    code: SUBSCRIPTION_REQUIRED_CODE,
+    status: 402,
+    message: SUBSCRIPTION_REQUIRED_MESSAGE,
+  };
 }
 
 export function assertCanAccessBundle(
