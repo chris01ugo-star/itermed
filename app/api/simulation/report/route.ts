@@ -156,7 +156,6 @@ export async function POST(req: Request) {
       return jsonResponse({ error: "User not found", code: "NOT_FOUND" }, 404);
     }
 
-    let liveSessionId: string | undefined;
     const access = await authorizeSimulationAction({
       userId,
       sessionId: rawSessionId,
@@ -165,7 +164,7 @@ export async function POST(req: Request) {
     if (!access.ok) {
       return jsonResponse({ error: access.error, code: access.code }, access.status);
     }
-    liveSessionId = access.liveSessionId;
+    const liveSessionId = access.liveSessionId;
 
     if (liveSessionId && (patientStress != null || clinicalSummary?.trim())) {
       await prisma.caseSession.update({

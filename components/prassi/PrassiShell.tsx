@@ -16,7 +16,6 @@ import { estimateAgeFromTitle, patientDisplayName } from "@/lib/prassi/demo-vita
 import {
   assignSpecialtyPastels,
   nestPastel,
-  type PrassiPastel,
 } from "@/lib/ui/prassi-pastels";
 import { specialtyAppearance } from "@/lib/ui/specialty-appearance";
 import { PrassiCaseBriefing } from "@/components/prassi/PrassiCaseBriefing";
@@ -70,12 +69,6 @@ function compareCasesByDifficultyThenTitle(a: ClinicalCaseRow, b: ClinicalCaseRo
   if (rankA !== rankB) return rankA - rankB;
   return (a.title ?? "").localeCompare(b.title ?? "", "it");
 }
-
-type SpecialtyBucket = {
-  name: string;
-  cases: ClinicalCaseRow[];
-  pastel: PrassiPastel;
-};
 
 function difficultyMix(cases: ClinicalCaseRow[]): string {
   let easy = 0;

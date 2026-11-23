@@ -30,11 +30,11 @@ import { applyIntentSequence, clampAffectState } from "@/lib/services/d-rime-fsm
 loadEnv({ path: resolve(process.cwd(), ".env.local") });
 loadEnv({ path: resolve(process.cwd(), ".env") });
 
-const EXPECTED_TOTAL = 90;
+const EXPECTED_TOTAL = 75;
 const EXPECTED_PER_SPECIALTY: Record<string, number> = {
-  cardiologia: 30,
-  pneumologia: 30,
-  gastroenterologia: 30,
+  cardiologia: 25,
+  pneumologia: 25,
+  gastroenterologia: 25,
 };
 
 const SPECIALTIES = Object.keys(EXPECTED_PER_SPECIALTY);

@@ -3,6 +3,7 @@ import { userCanPlayCase } from "../../../../lib/access";
 import { getSessionUserId } from "../../../../lib/api-session";
 import { AI_RATE_LIMITS } from "@/lib/security/ai-rate-limits";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
+import { extractPatientPromptFromNode } from "@/lib/cases/case-payload";
 
 export async function GET(
   req: Request,
@@ -48,9 +49,10 @@ export async function GET(
   }
 
   const firstNode = clinicalCase.nodes[0];
-  const casePrompt =
-    (firstNode?.content as any)?.casePrompt ??
-    `${clinicalCase.title}. ${clinicalCase.description}`;
+  const casePrompt = extractPatientPromptFromNode(
+    firstNode?.content,
+    `${clinicalCase.title}. ${clinicalCase.description}`,
+  );
 
   return new Response(
     JSON.stringify({

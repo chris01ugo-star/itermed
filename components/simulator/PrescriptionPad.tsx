@@ -286,6 +286,7 @@ export function PrescriptionPad({
                         key={med.id}
                         type="button"
                         role="option"
+                        aria-selected={false}
                         onClick={() => {
                           setSelected(med);
                           setQuery(med.commercialName);

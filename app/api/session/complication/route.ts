@@ -11,6 +11,7 @@ import { AI_PROMPT_INJECTION_GUARD } from "@/lib/security/ai-prompt-guards";
 import { withOpenAIRetry } from "@/lib/ai/openai-retry";
 import { MODEL_GPT_6_LUNA, openAIObjectCall } from "@/lib/ai/models";
 import { asOpenAIStrictSchema } from "@/lib/ai/strict-schema";
+import type { Prisma } from "@prisma/client";
 
 export const runtime = "nodejs";
 export const maxDuration = 300;
@@ -129,7 +130,7 @@ ${complication === "anaphylaxis" ? "Shock anafilattico/improvvisa reazione aller
       isVariant: true,
       variantPrompt: object.updatedPatientPrompt,
       currentTargetCondition: "Anafilassi / reazione allergica grave",
-      examOverrides: object.examOverrides as any,
+      examOverrides: object.examOverrides as Prisma.InputJsonValue,
     },
   });
 

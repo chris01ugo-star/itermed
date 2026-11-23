@@ -557,7 +557,7 @@ export async function POST(req: Request) {
 
   if (playDenied) return playDenied;
 
-  let sessionVariantPrompt: string | null = session?.variantPrompt ?? null;
+  const sessionVariantPrompt: string | null = session?.variantPrompt ?? null;
   let elapsedMinutes = 0;
   let deteriorationInstruction: string | null = null;
   let mergedExamIds = clientRequestedExams;

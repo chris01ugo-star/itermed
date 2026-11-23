@@ -167,12 +167,13 @@ export async function POST(req: Request) {
       }),
       { status: 200, headers: { "Content-Type": "application/json" } },
     );
-  } catch (error: any) {
+  } catch (error) {
     return new Response(
       JSON.stringify({
         error:
-          error?.message ??
-          "Errore imprevisto durante l'embedding del testo o l'upsert in Pinecone.",
+          error instanceof Error
+            ? error.message
+            : "Errore imprevisto durante l'embedding del testo o l'upsert in Pinecone.",
       }),
       { status: 500, headers: { "Content-Type": "application/json" } },
     );

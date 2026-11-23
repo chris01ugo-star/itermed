@@ -11,6 +11,18 @@ import { Input } from "../../../ui/input";
 import { Textarea } from "../../../ui/textarea";
 import { Button } from "../../../ui/button";
 
+function asJsonObject(value: unknown): Record<string, unknown> {
+  if (value && typeof value === "object" && !Array.isArray(value)) {
+    return value as Record<string, unknown>;
+  }
+  return {};
+}
+
+function field(value: unknown): string {
+  if (value == null) return "";
+  return String(value);
+}
+
 function str(v: FormDataEntryValue | null): string | null {
   return v && typeof v === "string" && v.trim() ? v.trim() : null;
 }
@@ -148,13 +160,13 @@ export default async function EditCasePage({
     return notFound();
   }
 
-  const baseline: any = clinicalCase.baselineExamFindings ?? {};
-  const demographics = baseline.demographics ?? {};
-  const vitals = baseline.vitals ?? {};
-  const thorax = baseline.thorax ?? {};
-  const abdomen = baseline.abdomen ?? {};
-  const neuro = baseline.neuro ?? {};
-  const advancedExams = baseline.advancedExams ?? {};
+  const baseline = asJsonObject(clinicalCase.baselineExamFindings);
+  const demographics = asJsonObject(baseline.demographics);
+  const vitals = asJsonObject(baseline.vitals);
+  const thorax = asJsonObject(baseline.thorax);
+  const abdomen = asJsonObject(baseline.abdomen);
+  const neuro = asJsonObject(baseline.neuro);
+  const advancedExams = asJsonObject(baseline.advancedExams);
 
   return (
     <div className="flex flex-col gap-6">
@@ -228,7 +240,7 @@ export default async function EditCasePage({
                 <Input
                   id="age"
                   name="age"
-                  defaultValue={demographics.age ?? ""}
+                  defaultValue={field(demographics.age)}
                   className="text-xs"
                 />
               </div>
@@ -264,7 +276,7 @@ export default async function EditCasePage({
                 <Input
                   id="context"
                   name="context"
-                  defaultValue={demographics.context ?? ""}
+                  defaultValue={field(demographics.context)}
                   className="text-xs"
                 />
               </div>
@@ -348,31 +360,31 @@ export default async function EditCasePage({
                   <Input
                     name="vitals_fc"
                     placeholder="FC"
-                    defaultValue={vitals.heartRate ?? ""}
+                    defaultValue={field(vitals.heartRate)}
                     className="h-7 px-2 text-[11px]"
                   />
                   <Input
                     name="vitals_pa"
                     placeholder="PA"
-                    defaultValue={vitals.bloodPressure ?? ""}
+                    defaultValue={field(vitals.bloodPressure)}
                     className="h-7 px-2 text-[11px]"
                   />
                   <Input
                     name="vitals_spo2"
                     placeholder="SpO₂"
-                    defaultValue={vitals.spo2 ?? ""}
+                    defaultValue={field(vitals.spo2)}
                     className="h-7 px-2 text-[11px]"
                   />
                   <Input
                     name="vitals_temp"
                     placeholder="Temp °C"
-                    defaultValue={vitals.temperature ?? ""}
+                    defaultValue={field(vitals.temperature)}
                     className="h-7 px-2 text-[11px]"
                   />
                   <Input
                     name="vitals_fr"
                     placeholder="FR"
-                    defaultValue={vitals.respiratoryRate ?? ""}
+                    defaultValue={field(vitals.respiratoryRate)}
                     className="h-7 px-2 text-[11px]"
                   />
                 </div>
@@ -387,13 +399,13 @@ export default async function EditCasePage({
                   <Input
                     name="thorax_cardiac"
                     placeholder="Auscultazione cuore"
-                    defaultValue={thorax.cardiacAuscultation ?? ""}
+                    defaultValue={field(thorax.cardiacAuscultation)}
                     className="h-7 px-2 text-[11px]"
                   />
                   <Input
                     name="thorax_lung"
                     placeholder="Auscultazione polmoni"
-                    defaultValue={thorax.lungAuscultation ?? ""}
+                    defaultValue={field(thorax.lungAuscultation)}
                     className="h-7 px-2 text-[11px]"
                   />
                 </div>
@@ -408,19 +420,19 @@ export default async function EditCasePage({
                   <Input
                     name="abdomen_inspection"
                     placeholder="Ispezione"
-                    defaultValue={abdomen.inspection ?? ""}
+                    defaultValue={field(abdomen.inspection)}
                     className="h-7 px-2 text-[11px]"
                   />
                   <Input
                     name="abdomen_palpation"
                     placeholder="Palpazione"
-                    defaultValue={abdomen.palpation ?? ""}
+                    defaultValue={field(abdomen.palpation)}
                     className="h-7 px-2 text-[11px]"
                   />
                   <Input
                     name="abdomen_percussion"
                     placeholder="Percussione"
-                    defaultValue={abdomen.percussion ?? ""}
+                    defaultValue={field(abdomen.percussion)}
                     className="h-7 px-2 text-[11px]"
                   />
                 </div>
@@ -435,19 +447,19 @@ export default async function EditCasePage({
                   <Input
                     name="neuro_pupils"
                     placeholder="Pupille"
-                    defaultValue={neuro.pupils ?? ""}
+                    defaultValue={field(neuro.pupils)}
                     className="h-7 px-2 text-[11px]"
                   />
                   <Input
                     name="neuro_gcs"
                     placeholder="GCS"
-                    defaultValue={neuro.gcs ?? ""}
+                    defaultValue={field(neuro.gcs)}
                     className="h-7 px-2 text-[11px]"
                   />
                   <Input
                     name="neuro_deficits"
                     placeholder="Deficit focali"
-                    defaultValue={neuro.deficits ?? ""}
+                    defaultValue={field(neuro.deficits)}
                     className="h-7 px-2 text-[11px]"
                   />
                 </div>
@@ -481,7 +493,7 @@ export default async function EditCasePage({
                   <Textarea
                     name="advanced_exams_notes"
                     rows={7}
-                    defaultValue={advancedExams.notes ?? ""}
+                    defaultValue={field(advancedExams.notes)}
                     className="text-xs"
                     placeholder="Definisci qui reperti/valori dei test diagnostici avanzati (lab, imaging, strumentali, endoscopia)."
                   />

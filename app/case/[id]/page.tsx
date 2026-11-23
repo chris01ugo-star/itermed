@@ -17,7 +17,7 @@ import {
 } from "@/lib/cases/case-payload";
 import { ensureRegisteredCaseInDb, findClinicalCaseForSimulation } from "@/lib/cases/ensure-registered-case";
 import { withLabFlow } from "@/lib/simulator/load-lab-flow";
-import { decodeCaseParam, getCaseById, normalizeCaseLookupKey } from "@/lib/data/cases/registry";
+import { decodeCaseParam, getCaseById } from "@/lib/data/cases/registry";
 type CasePageProps = {
   params: Promise<{ id: string }> | { id: string };
   searchParams?:
@@ -37,7 +37,6 @@ export default async function CasePage(props: CasePageProps) {
       : props.searchParams;
 
   const rawId = decodeCaseParam(params.id || "");
-  const idNormalized = normalizeCaseLookupKey(rawId);
 
   const hasDatabase = isUsableDatabase(config.DATABASE_URL);
 

@@ -55,7 +55,6 @@ import {
 } from "@/lib/simulator/onboarding-storage";
 import { PhysicalExamTab } from "./PhysicalExamTab";
 import { PatientStressBar } from "./PatientStressBar";
-import { SafeLlmText } from "@/components/ui/safe-llm-content";
 import { SkeletonChatBubble } from "@/components/ui/Skeleton";
 import { VitalSignsBoard } from "./VitalSignsBoard";
 import { ExamReportRecap } from "./ExamReportRecap";
@@ -632,7 +631,7 @@ export function SimulatorClient({
 
   const [gameStatus, setGameStatus] = useState<GameStatus>("playing");
   const [diagnosisCheckError, setDiagnosisCheckError] = useState<string | null>(null);
-  const [enableAiSurprises, setEnableAiSurprises] = useState(false);
+  const [enableAiSurprises] = useState(false);
   const [forceAiSurprise, setForceAiSurprise] = useState(false);
   const [finalDiagnosis, setFinalDiagnosis] = useState("");
   const [reportSections, setReportSections] = useState<ClinicalReportSections>({
@@ -652,7 +651,7 @@ export function SimulatorClient({
   const [reportError, setReportError] = useState<string | null>(null);
   const [reportProgress, setReportProgress] = useState(0);
   const [reportProgressMessage, setReportProgressMessage] = useState("");
-  const [reportData, setReportData] = useState<SimulationReportData | null>(null);
+  const [reportData] = useState<SimulationReportData | null>(null);
 
   const [effectiveSessionId, setEffectiveSessionId] = useState<string | undefined>(() =>
     sanitizeLiveSessionId(sessionId),

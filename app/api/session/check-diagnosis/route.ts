@@ -37,7 +37,8 @@ function normalizeText(input: string): string {
 }
 
 function stripExpectedCondition<T extends { expectedCondition?: string }>(payload: T): Omit<T, "expectedCondition"> {
-  const { expectedCondition: _omit, ...rest } = payload;
+  const rest = { ...payload };
+  delete rest.expectedCondition;
   return rest;
 }
 
@@ -81,7 +82,7 @@ export async function POST(req: Request) {
     ? {
         title: session.case.title,
         description: session.case.description,
-        correctSolution: (session.case as any).correctSolution as string | null,
+        correctSolution: session.case.correctSolution,
       }
     : await prisma.clinicalCase.findUnique({
         where: { id: access.caseId },
@@ -96,8 +97,8 @@ export async function POST(req: Request) {
   }
 
   const expectedRaw =
-    (session as any)?.currentTargetCondition ??
-    (session as any)?.variantSolution ??
+    session?.currentTargetCondition ??
+    session?.variantSolution ??
     (clinicalCase.correctSolution ?? "");
   const expected = String(expectedRaw ?? "").trim();
   const userDx = sanitizeForExternalAI(diagnosisText.trim());

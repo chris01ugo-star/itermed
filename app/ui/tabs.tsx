@@ -3,19 +3,14 @@
 import type { ReactNode } from "react";
 import { cn } from "../utils/cn";
 
-type TabsContextProps = {
-  value: string;
-  onValueChange: (value: string) => void;
-};
-
 type TabsRootProps = {
   value: string;
-  onValueChange: (value: string) => void;
+  onValueChange?: (value: string) => void;
   children: ReactNode;
   className?: string;
 };
 
-export function Tabs({ value, onValueChange, children, className }: TabsRootProps) {
+export function Tabs({ value, children, className }: TabsRootProps) {
   return (
     <div className={cn("flex flex-col gap-4", className)} data-tabs-value={value}>
       {children}
