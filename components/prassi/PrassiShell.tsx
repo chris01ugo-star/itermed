@@ -3,7 +3,7 @@
 import { useMemo, useCallback, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowLeft, BookOpen, ChevronRight, FolderOpen, Lock } from "lucide-react";
+import { ArrowLeft, BookOpen, ChevronRight, FolderOpen } from "lucide-react";
 import {
   DIFFICULTY_LABELS,
   displaySpecialtyName,
@@ -96,6 +96,17 @@ function FolderNotch({ fill }: { fill: string }) {
       style={{ backgroundColor: fill }}
       aria-hidden
     />
+  );
+}
+
+function SubscriptionFolderFlag() {
+  return (
+    <Link
+      href="/dashboard/billing"
+      className="absolute left-3 top-0 z-20 -translate-y-[calc(100%-1px)] whitespace-nowrap rounded-t-md bg-[#1E324E] px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.08em] text-white transition hover:bg-[#2A486D]"
+    >
+      Abbonamento necessario
+    </Link>
   );
 }
 
@@ -305,8 +316,12 @@ export function PrassiShell({
                 const isSelected = openCaseId === caseRow.id;
 
                 return (
-                  <div key={caseRow.id} className="relative pt-2.5">
-                    <FolderNotch fill={dept.fill} />
+                  <div key={caseRow.id} className={cn("relative", requiresPaidPlan ? "pt-6" : "pt-2.5")}>
+                    {requiresPaidPlan ? (
+                      <SubscriptionFolderFlag />
+                    ) : (
+                      <FolderNotch fill={dept.fill} />
+                    )}
                     <button
                       type="button"
                       onClick={() =>
@@ -325,22 +340,8 @@ export function PrassiShell({
                         isSelected
                           ? "shadow-aequan-panel ring-1 ring-brand-primary/25"
                           : "",
-                        requiresPaidPlan ? "pr-10" : "",
                       )}
                     >
-                      {requiresPaidPlan ? (
-                        <span
-                          className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-full bg-[#1E324E] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white"
-                          title={
-                            adminBypass
-                              ? "Bloccato per gli utenti. Accesso admin disponibile."
-                              : "Serve un abbonamento"
-                          }
-                        >
-                          <Lock className="h-3 w-3" aria-hidden />
-                          Piano
-                        </span>
-                      ) : null}
                       <div className="flex min-h-0 min-w-0 flex-1 flex-col justify-between gap-1.5">
                         <p className="truncate text-sm font-bold text-slate-800">
                           {patientName}
@@ -402,8 +403,15 @@ export function PrassiShell({
               {buckets.map((bucket) => {
                 const SpecialtyIcon = specialtyAppearance(bucket.name).icon;
                 return (
-                <div key={bucket.name} className="relative pt-2.5">
-                  <FolderNotch fill={bucket.pastel.fill} />
+                <div
+                  key={bucket.name}
+                  className={cn("relative", requiresPaidPlan ? "pt-6" : "pt-2.5")}
+                >
+                  {requiresPaidPlan ? (
+                    <SubscriptionFolderFlag />
+                  ) : (
+                    <FolderNotch fill={bucket.pastel.fill} />
+                  )}
                   <button
                     type="button"
                     onClick={() =>

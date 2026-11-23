@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import { BarChart3, History } from "lucide-react";
 import { CompetencyRadarChart } from "@/components/overview/CompetencyRadarChart";
-import { SubscribePrompt } from "@/components/overview/SubscribePrompt";
 import { OverviewHero } from "@/components/overview/OverviewHero";
 import { OverviewQuickActions } from "@/components/overview/OverviewQuickActions";
 import { OverviewStatsBar } from "@/components/overview/OverviewStatsBar";
@@ -62,9 +61,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
           referral={credits.referralBalance}
           planName={plan?.displayName ?? null}
         />
-      ) : (
-        <SubscribePrompt />
-      )}
+      ) : null}
 
       <OverviewStatsBar
         completedCount={overview.completedCount}

@@ -1,4 +1,4 @@
-import { Bone, type LucideIcon } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 export type SpecialtyAppearance = {
   icon: LucideIcon | null;
@@ -18,7 +18,7 @@ const DEFAULT_APPEARANCE: SpecialtyAppearance = {
  */
 const SPECIALTY_APPEARANCE: Record<string, SpecialtyAppearance> = {
   reumatologia: {
-    icon: Bone,
+    icon: null,
     badgeClass: "border-[#E7D3B0] bg-[#FBF6EE] text-[#8A5A2B]",
     accent: "#8A5A2B",
   },
