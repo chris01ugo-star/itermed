@@ -11,6 +11,7 @@ import {
   getPrassiRegistryCaseRows,
   getPrassiRegistrySpecialties,
 } from "@/lib/data/cases";
+import { fetchCaseProgressMap } from "@/lib/billing/case-progress";
 
 async function mergeRegistryIntoDbCases(
   dbCases: ClinicalCaseRow[],
@@ -35,6 +36,33 @@ async function mergeRegistrySpecialties(
   return Array.from(byId.values());
 }
 
+async function withPlayProgress(
+  userId: string,
+  cases: ClinicalCaseRow[],
+): Promise<ClinicalCaseRow[]> {
+  try {
+    const progress = await fetchCaseProgressMap(
+      userId,
+      cases.map((row) => row.id),
+    );
+    return cases.map((row) => {
+      const p = progress[row.id];
+      if (!p) return { ...row, playStatus: "todo" as const };
+      return {
+        ...row,
+        playStatus: p.status,
+        lastCompletedAt: p.lastCompletedAt,
+        lastScore: p.lastScore,
+        attempts: p.attempts,
+        lastReportId: p.lastReportId,
+        resumeSessionId: p.resumeSessionId,
+      };
+    });
+  } catch {
+    return cases;
+  }
+}
+
 export default async function PrassiPage() {
   const user = await requireUser();
   const hasDatabase = isUsableDatabase(config.DATABASE_URL);
@@ -53,6 +81,7 @@ export default async function PrassiPage() {
     } catch {
       cases = await getPrassiRegistryCaseRows(user.id);
     }
+    cases = await withPlayProgress(user.id, cases);
   }
 
   return (

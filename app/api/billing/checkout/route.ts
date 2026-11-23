@@ -4,15 +4,12 @@ import { config } from "@/lib/config";
 import { CheckoutBodySchema } from "@/lib/billing/schemas";
 import { getOrCreateStripeCustomer, getUserBillingProfile } from "@/lib/billing/user-billing";
 import { getStripeClient, isStripeConfigured } from "@/lib/billing/stripe-client";
+import { EXTRA_CREDIT_PACK, toSaasPlanId, toStoredPlanType } from "@/lib/billing/plans";
+import { extraCreditsPriceId, priceIdForPlan } from "@/lib/billing/stripe-prices";
+import { applyReferralCode, attachCheckoutToReferral } from "@/lib/billing/referral";
+import { hasActiveSubscription } from "@/lib/billing/access-gate";
 
 export const runtime = "nodejs";
-
-function resolvePriceId(body: { type: "subscription"; plan: "STUDENT" | "PREMIUM" } | { type: "bundle"; bundleId: string }) {
-  if (body.type === "subscription") {
-    return body.plan === "PREMIUM" ? config.STRIPE_PRICE_PREMIUM : config.STRIPE_PRICE_STUDENT;
-  }
-  return config.STRIPE_BUNDLE_PRICES[body.bundleId];
-}
 
 export async function POST(request: Request) {
   const userId = await getSessionUserId();
@@ -21,7 +18,10 @@ export async function POST(request: Request) {
   }
 
   if (!isStripeConfigured()) {
-    return NextResponse.json({ error: "Stripe billing is not configured" }, { status: 503 });
+    return NextResponse.json(
+      { error: "Pagamenti non configurati. Contatta Aequan per attivare Stripe." },
+      { status: 503 },
+    );
   }
 
   let json: unknown;
@@ -39,52 +39,153 @@ export async function POST(request: Request) {
     );
   }
 
-  const priceId = resolvePriceId(parsed.data);
-  if (!priceId) {
-    return NextResponse.json({ error: "Price not configured for this product" }, { status: 400 });
-  }
-
   const profile = await getUserBillingProfile(userId);
   if (!profile) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
-  const body = parsed.data;
   const customerId = await getOrCreateStripeCustomer(profile);
   const stripe = getStripeClient();
   const origin = config.APP_URL.replace(/\/$/, "");
+  const successUrl = `${origin}/dashboard/billing?billing=success`;
+  const cancelUrl = `${origin}/dashboard/billing?billing=canceled`;
 
-  if (body.type === "subscription") {
+  if (parsed.data.type === "extra_credits") {
+    if (!hasActiveSubscription(profile)) {
+      return NextResponse.json(
+        {
+          error: "I crediti extra richiedono un abbonamento attivo.",
+          code: "SUBSCRIPTION_REQUIRED",
+        },
+        { status: 402 },
+      );
+    }
+    const priceId = extraCreditsPriceId();
+    if (!priceId) {
+      return NextResponse.json(
+        { error: "Prezzo pacchetto extra non configurato (STRIPE_PRICE_EXTRA_CREDITS)." },
+        { status: 400 },
+      );
+    }
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
-      mode: "subscription",
+      mode: "payment",
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: `${origin}/dashboard/settings?billing=success`,
-      cancel_url: `${origin}/dashboard/settings?billing=canceled`,
-      metadata: { userId, planType: body.plan },
-      subscription_data: {
-        metadata: { userId, planType: body.plan },
+      success_url: successUrl,
+      cancel_url: cancelUrl,
+      metadata: {
+        userId,
+        kind: EXTRA_CREDIT_PACK.id,
+        product: "extra_credits",
       },
     });
-
     if (!session.url) {
       return NextResponse.json({ error: "Failed to create checkout session" }, { status: 500 });
     }
-
     return NextResponse.json({ url: session.url, sessionId: session.id });
+  }
+
+  if (parsed.data.type === "bundle") {
+    const priceId = config.STRIPE_BUNDLE_PRICES[parsed.data.bundleId];
+    if (!priceId) {
+      return NextResponse.json({ error: "Price not configured for this product" }, { status: 400 });
+    }
+    const session = await stripe.checkout.sessions.create({
+      customer: customerId,
+      mode: "payment",
+      line_items: [{ price: priceId, quantity: 1 }],
+      success_url: successUrl,
+      cancel_url: cancelUrl,
+      metadata: { userId, bundleId: parsed.data.bundleId },
+    });
+    if (!session.url) {
+      return NextResponse.json({ error: "Failed to create checkout session" }, { status: 500 });
+    }
+    return NextResponse.json({ url: session.url, sessionId: session.id });
+  }
+
+  const plan = toSaasPlanId(parsed.data.plan);
+  if (!plan) {
+    return NextResponse.json({ error: "Piano non valido" }, { status: 400 });
+  }
+  const priceId = priceIdForPlan(plan);
+  if (!priceId) {
+    return NextResponse.json(
+      {
+        error:
+          "Prezzo abbonamento non configurato. Imposta STRIPE_PRICE_START / STRIPE_PRICE_PLUS (oppure STUDENT/PREMIUM).",
+      },
+      { status: 400 },
+    );
+  }
+
+  const storedPlan = toStoredPlanType(plan);
+  const currentPlan = toSaasPlanId(profile.planType);
+
+  if (hasActiveSubscription(profile) && profile.stripeSubscriptionId) {
+    if (currentPlan === plan) {
+      return NextResponse.json(
+        { error: "Sei già iscritto a questo piano." },
+        { status: 409 },
+      );
+    }
+    await stripe.subscriptions.update(profile.stripeSubscriptionId, {
+      items: [
+        {
+          id: (await stripe.subscriptions.retrieve(profile.stripeSubscriptionId)).items.data[0]
+            ?.id,
+          price: priceId,
+        },
+      ],
+      proration_behavior: "create_prorations",
+      metadata: { userId, planType: storedPlan, saasPlan: plan },
+    });
+    return NextResponse.json({
+      url: `${origin}/dashboard/billing?billing=plan-updated`,
+      upgraded: true,
+    });
+  }
+
+  if (parsed.data.referralCode?.trim() && !profile.firstPaidAt) {
+    const applied = await applyReferralCode({
+      inviteeUserId: userId,
+      code: parsed.data.referralCode,
+    });
+    if (!applied.ok) {
+      return NextResponse.json(
+        { error: applied.message, code: applied.code },
+        { status: 400 },
+      );
+    }
   }
 
   const session = await stripe.checkout.sessions.create({
     customer: customerId,
-    mode: "payment",
+    mode: "subscription",
     line_items: [{ price: priceId, quantity: 1 }],
-    success_url: `${origin}/dashboard/settings?billing=success`,
-    cancel_url: `${origin}/dashboard/settings?billing=canceled`,
-    metadata: { userId, bundleId: body.bundleId },
+    success_url: successUrl,
+    cancel_url: cancelUrl,
+    allow_promotion_codes: false,
+    metadata: {
+      userId,
+      planType: storedPlan,
+      saasPlan: plan,
+    },
+    subscription_data: {
+      metadata: { userId, planType: storedPlan, saasPlan: plan },
+    },
   });
 
   if (!session.url) {
     return NextResponse.json({ error: "Failed to create checkout session" }, { status: 500 });
+  }
+
+  if (parsed.data.referralCode?.trim() && !profile.firstPaidAt) {
+    await attachCheckoutToReferral({
+      inviteeUserId: userId,
+      checkoutSessionId: session.id,
+      stripeCustomerId: customerId,
+    });
   }
 
   return NextResponse.json({ url: session.url, sessionId: session.id });

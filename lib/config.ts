@@ -48,6 +48,9 @@ const envSchema = z
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: z.string().min(1).optional(),
     STRIPE_PRICE_STUDENT: z.string().min(1).optional(),
     STRIPE_PRICE_PREMIUM: z.string().min(1).optional(),
+    STRIPE_PRICE_START: z.string().min(1).optional(),
+    STRIPE_PRICE_PLUS: z.string().min(1).optional(),
+    STRIPE_PRICE_EXTRA_CREDITS: z.string().min(1).optional(),
     STRIPE_BUNDLE_PRICES: z
       .string()
       .optional()
@@ -162,6 +165,9 @@ function buildConfigFromParsed(env: z.infer<typeof envSchema>) {
     NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
     STRIPE_PRICE_STUDENT: env.STRIPE_PRICE_STUDENT,
     STRIPE_PRICE_PREMIUM: env.STRIPE_PRICE_PREMIUM,
+    STRIPE_PRICE_START: env.STRIPE_PRICE_START,
+    STRIPE_PRICE_PLUS: env.STRIPE_PRICE_PLUS,
+    STRIPE_PRICE_EXTRA_CREDITS: env.STRIPE_PRICE_EXTRA_CREDITS,
     STRIPE_BUNDLE_PRICES: env.STRIPE_BUNDLE_PRICES,
     APP_URL: appUrl ?? DEV_APP_URL_FALLBACK,
     isDevelopment: env.NODE_ENV === "development",
@@ -241,6 +247,9 @@ function loadDevFallbackConfig(
       envInput.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.trim() || undefined,
     STRIPE_PRICE_STUDENT: envInput.STRIPE_PRICE_STUDENT?.trim() || undefined,
     STRIPE_PRICE_PREMIUM: envInput.STRIPE_PRICE_PREMIUM?.trim() || undefined,
+    STRIPE_PRICE_START: envInput.STRIPE_PRICE_START?.trim() || undefined,
+    STRIPE_PRICE_PLUS: envInput.STRIPE_PRICE_PLUS?.trim() || undefined,
+    STRIPE_PRICE_EXTRA_CREDITS: envInput.STRIPE_PRICE_EXTRA_CREDITS?.trim() || undefined,
     STRIPE_BUNDLE_PRICES: {} as Record<string, string>,
     APP_URL: appUrl,
     isDevelopment: true,

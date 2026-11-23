@@ -135,11 +135,24 @@ export function StartCaseButtons({
           return;
         }
 
-        if (code === PILOT_CAP_CODE || code === "DAILY_LIMIT" || code === "TRIAL_EXHAUSTED") {
+        if (
+          code === PILOT_CAP_CODE ||
+          code === "DAILY_LIMIT" ||
+          code === "TRIAL_EXHAUSTED" ||
+          code === "CREDITS_EXHAUSTED" ||
+          code === "SUBSCRIPTION_REQUIRED"
+        ) {
           window.clearTimeout(emergencyTimer);
           setLimitDialog({
             mode: "variant",
-            message: code === PILOT_CAP_CODE ? PILOT_CAP_MESSAGE : message,
+            message:
+              code === PILOT_CAP_CODE
+                ? PILOT_CAP_MESSAGE
+                : code === "CREDITS_EXHAUSTED"
+                  ? "Hai esaurito i crediti di simulazione. Acquista un pacchetto extra o modifica il piano."
+                  : code === "SUBSCRIPTION_REQUIRED"
+                    ? "Per avviare una nuova simulazione serve un abbonamento Aequan attivo."
+                    : message,
           });
           return;
         }
@@ -245,6 +258,18 @@ export function StartCaseButtons({
             >
               Chiudi
             </Button>
+            {limitDialog?.message.includes("crediti") ||
+            limitDialog?.message.includes("abbonamento") ? (
+              <Button
+                type="button"
+                className="rounded-lg bg-[#1E324E] text-white hover:bg-[#2A486D]"
+                onClick={() => {
+                  window.location.assign("/dashboard/billing");
+                }}
+              >
+                Abbonamento e crediti
+              </Button>
+            ) : null}
             {isDev ? (
               <Button
                 type="button"

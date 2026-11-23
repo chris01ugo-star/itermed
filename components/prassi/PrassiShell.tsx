@@ -109,11 +109,15 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
   const searchParams = useSearchParams();
   const openSpecialty = searchParams?.get("specialty")?.trim() || null;
   const openCaseId = searchParams?.get("caseId")?.trim() || null;
+  const progressFilter = searchParams?.get("progress")?.trim() || "all";
 
-  const safeCases = useMemo(
-    () => (Array.isArray(cases) ? cases.filter((c) => c?.id) : []),
-    [cases],
-  );
+  const safeCases = useMemo(() => {
+    const rows = Array.isArray(cases) ? cases.filter((c) => c?.id) : [];
+    if (progressFilter === "todo") return rows.filter((c) => (c.playStatus ?? "todo") === "todo");
+    if (progressFilter === "in_progress") return rows.filter((c) => c.playStatus === "in_progress");
+    if (progressFilter === "completed") return rows.filter((c) => c.playStatus === "completed");
+    return rows;
+  }, [cases, progressFilter]);
 
   const buckets = useMemo(() => {
     const byName = new Map<string, ClinicalCaseRow[]>();
@@ -154,19 +158,21 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
         : null;
 
   const setParams = useCallback(
-    (next: { specialty?: string | null; caseId?: string | null }) => {
+    (next: { specialty?: string | null; caseId?: string | null; progress?: string | null }) => {
       const params = new URLSearchParams();
       const specialty =
         next.specialty !== undefined ? next.specialty : openSpecialty;
       const caseId = next.caseId !== undefined ? next.caseId : openCaseId;
+      const progress = next.progress !== undefined ? next.progress : progressFilter;
       if (specialty) params.set("specialty", specialty);
       if (caseId) params.set("caseId", caseId);
+      if (progress && progress !== "all") params.set("progress", progress);
       const qs = params.toString();
       router.replace(qs ? `/dashboard/prassi?${qs}` : "/dashboard/prassi", {
         scroll: false,
       });
     },
-    [router, openSpecialty, openCaseId],
+    [router, openSpecialty, openCaseId, progressFilter],
   );
 
   return (
@@ -187,6 +193,30 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
               ? "Scegli un caso e apri la cartella per avviare la simulazione."
               : "Apri una specialità, poi scegli il caso clinico da esercitare."}
           </p>
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            {(
+              [
+                { id: "all", label: "Tutti i casi" },
+                { id: "todo", label: "Da svolgere" },
+                { id: "in_progress", label: "In corso" },
+                { id: "completed", label: "Completati" },
+              ] as const
+            ).map((filter) => (
+              <button
+                key={filter.id}
+                type="button"
+                onClick={() => setParams({ progress: filter.id === "all" ? "all" : filter.id })}
+                className={cn(
+                  "rounded-lg border px-2.5 py-1 text-[11px] font-semibold transition",
+                  progressFilter === filter.id || (filter.id === "all" && progressFilter === "all")
+                    ? "border-[#1E324E] bg-[#1E324E] text-white"
+                    : "border-slate-200 bg-white text-slate-600 hover:border-[#345884]/35",
+                )}
+              >
+                {filter.label}
+              </button>
+            ))}
+          </div>
         </div>
         <Link
           href="/dashboard/guidelines"
@@ -315,6 +345,11 @@ export function PrassiShell({ cases, specialties = [] }: PrassiShellProps) {
                           )}
                         >
                           {difficultyLabel}
+                          {caseRow.playStatus === "completed"
+                            ? " · Completato"
+                            : caseRow.playStatus === "in_progress"
+                              ? " · In corso"
+                              : " · Da svolgere"}
                         </span>
                       </div>
                       <span

@@ -15,6 +15,10 @@ export type UserBillingProfile = {
   purchasedBundleIds: string[];
   isActive: boolean;
   freeSimulationLimit: number | null;
+  currentPeriodEnd: Date | null;
+  cancelAtPeriodEnd: boolean;
+  firstPaidAt: Date | null;
+  stripePaymentFingerprint: string | null;
 };
 
 const billingSelect = {
@@ -29,6 +33,10 @@ const billingSelect = {
   purchasedBundleIds: true,
   isActive: true,
   freeSimulationLimit: true,
+  currentPeriodEnd: true,
+  cancelAtPeriodEnd: true,
+  firstPaidAt: true,
+  stripePaymentFingerprint: true,
 } as const;
 
 export async function getUserBillingProfile(userId: string): Promise<UserBillingProfile | null> {
@@ -89,6 +97,10 @@ export async function applySubscriptionUpdate(params: {
   subscriptionStatus: string;
   /** Omit to keep the plan already stored on the user. */
   planType?: PlanType;
+  currentPeriodEnd?: Date | null;
+  cancelAtPeriodEnd?: boolean;
+  firstPaidAt?: Date | null;
+  stripePaymentFingerprint?: string | null;
 }): Promise<void> {
   await prisma.user.updateMany({
     where: { stripeCustomerId: params.stripeCustomerId },
@@ -96,6 +108,16 @@ export async function applySubscriptionUpdate(params: {
       stripeSubscriptionId: params.stripeSubscriptionId,
       subscriptionStatus: params.subscriptionStatus,
       ...(params.planType ? { planType: params.planType } : {}),
+      ...(params.currentPeriodEnd !== undefined
+        ? { currentPeriodEnd: params.currentPeriodEnd }
+        : {}),
+      ...(params.cancelAtPeriodEnd !== undefined
+        ? { cancelAtPeriodEnd: params.cancelAtPeriodEnd }
+        : {}),
+      ...(params.firstPaidAt !== undefined ? { firstPaidAt: params.firstPaidAt } : {}),
+      ...(params.stripePaymentFingerprint !== undefined
+        ? { stripePaymentFingerprint: params.stripePaymentFingerprint }
+        : {}),
     },
   });
 }

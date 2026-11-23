@@ -93,12 +93,23 @@ model User {
   /// Set when the user completes the mandatory password form (clears the first-login gate).
   passwordChangedAt DateTime?
 
+  /// Paid billing (Aequan Start/Plus). Additive — existing testers keep planType as-is.
+  currentPeriodEnd      DateTime?
+  cancelAtPeriodEnd     Boolean   @default(false)
+  firstPaidAt           DateTime?
+  stripePaymentFingerprint String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   createdCases ClinicalCase[] @relation("CreatedCases")
   sessions     SessionReport[]
   liveSessions CaseSession[]  @relation("UserLiveSessions")
+  creditWallet CreditWallet?
+  creditTxns   CreditTransaction[]
+  referralProfile ReferralProfile?
+  referralsMade   ReferralRedemption[] @relation("ReferralInviter")
+  referralUsed    ReferralRedemption?  @relation("ReferralInvitee")
 
   @@index([leaderboardOptIn])
 }
@@ -513,4 +524,109 @@ model Medication {
   @@index([activeIngredient])
   @@index([commercialName])
   @@index([aifaBand])
+}
+
+enum CreditBucket {
+  MONTHLY
+  PURCHASED
+  REFERRAL
+}
+
+enum CreditTxnType {
+  MONTHLY_GRANT
+  SIMULATION_USE
+  EXTRA_PACK
+  REFERRAL_INVITER
+  REFERRAL_INVITEE
+  ADMIN_ADJUST
+  REFUND_REVOKE
+  PLAN_CHANGE
+}
+
+enum ReferralStatus {
+  PENDING
+  CONFIRMED
+  CANCELED
+  INVALID
+}
+
+/// Persistent credit balances. Monthly credits are capped; purchased and referral are not.
+model CreditWallet {
+  userId            String   @id
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  monthlyBalance    Int      @default(0)
+  purchasedBalance  Int      @default(0)
+  referralBalance   Int      @default(0)
+  monthlyGrantCap   Int      @default(0)
+  currentPeriodStart DateTime?
+  updatedAt         DateTime @updatedAt
+}
+
+model CreditTransaction {
+  id             String        @id @default(cuid())
+  userId         String
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type           CreditTxnType
+  bucket         CreditBucket
+  amount         Int
+  createdAt      DateTime      @default(now())
+  sourceType     String?
+  sourceId       String?
+  paymentRef     String?
+  sessionId      String?
+  idempotencyKey String        @unique
+  note           String?
+  actorUserId    String?
+
+  @@index([userId, createdAt])
+  @@index([sessionId])
+}
+
+model StripeProcessedEvent {
+  eventId     String   @id
+  type        String
+  processedAt DateTime @default(now())
+}
+
+model ReferralProfile {
+  userId      String   @id
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  code        String   @unique
+  createdAt   DateTime @default(now())
+  suspendedAt DateTime?
+
+  redemptions ReferralRedemption[]
+}
+
+model ReferralRedemption {
+  id                 String         @id @default(cuid())
+  inviterUserId      String
+  inviter            User           @relation("ReferralInviter", fields: [inviterUserId], references: [id], onDelete: Cascade)
+  inviteeUserId      String         @unique
+  invitee            User           @relation("ReferralInvitee", fields: [inviteeUserId], references: [id], onDelete: Cascade)
+  profileUserId      String
+  profile            ReferralProfile @relation(fields: [profileUserId], references: [userId], onDelete: Cascade)
+  code               String
+  status             ReferralStatus @default(PENDING)
+  checkoutSessionId  String?        @unique
+  stripeCustomerId   String?
+  paymentFingerprint String?
+  rewardedAt         DateTime?
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  @@index([inviterUserId, status])
+  @@index([paymentFingerprint])
+}
+
+model CreditAdminAudit {
+  id          String   @id @default(cuid())
+  actorUserId String
+  targetUserId String
+  amount      Int
+  bucket      CreditBucket
+  reason      String
+  createdAt   DateTime @default(now())
+
+  @@index([targetUserId, createdAt])
 }

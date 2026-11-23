@@ -9,6 +9,11 @@ import { RecentSessionsTimeline } from "@/components/overview/RecentSessionsTime
 import { getDailySimulationQuota } from "@/lib/billing/daily-sim-quota";
 import { fetchUserOverviewData } from "@/lib/overview-queries";
 import { requireUser } from "@/lib/require-user";
+import { getCreditBalances } from "@/lib/billing/credit-ledger";
+import { getUserBillingProfile } from "@/lib/billing/user-billing";
+import { hasActiveSubscription } from "@/lib/billing/access-gate";
+import { saasPlanDefinition } from "@/lib/billing/plans";
+import { CreditsSnapshot } from "@/components/overview/CreditsSnapshot";
 
 type DashboardPageProps = {
   searchParams?: Promise<{ specialty?: string }> | { specialty?: string };
@@ -24,10 +29,14 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
   }
 
   const user = await requireUser();
-  const [overview, dailyQuota] = await Promise.all([
+  const [overview, dailyQuota, billingProfile, credits] = await Promise.all([
     fetchUserOverviewData(user.id),
     getDailySimulationQuota(user.id, { role: user.role, email: user.email }),
+    getUserBillingProfile(user.id),
+    getCreditBalances(user.id),
   ]);
+  const subscribed = billingProfile ? hasActiveSubscription(billingProfile) : false;
+  const plan = saasPlanDefinition(billingProfile?.planType ?? null);
 
   const bestDimension = overview.radarData.reduce(
     (best, point) => (point.score > best.score ? point : best),
@@ -47,13 +56,23 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
         focusLabel={overview.focusLabel}
       />
 
-      <DailySimQuotaBanner
-        remaining={dailyQuota.remaining}
-        limit={dailyQuota.limit}
-        used={dailyQuota.used}
-        unlimited={dailyQuota.unlimited}
-        kind={dailyQuota.kind}
-      />
+      {subscribed ? (
+        <CreditsSnapshot
+          total={credits.total}
+          monthly={credits.monthlyBalance}
+          purchased={credits.purchasedBalance}
+          referral={credits.referralBalance}
+          planName={plan?.displayName ?? null}
+        />
+      ) : (
+        <DailySimQuotaBanner
+          remaining={dailyQuota.remaining}
+          limit={dailyQuota.limit}
+          used={dailyQuota.used}
+          unlimited={dailyQuota.unlimited}
+          kind={dailyQuota.kind}
+        />
+      )}
 
       <OverviewStatsBar
         completedCount={overview.completedCount}

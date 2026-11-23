@@ -30,6 +30,12 @@ export type ClinicalCaseRow = {
     temperature?: number | string;
     respiratoryRate?: number | string;
   } | null;
+  playStatus?: "todo" | "in_progress" | "completed";
+  lastCompletedAt?: string | null;
+  lastScore?: number | null;
+  attempts?: number;
+  lastReportId?: string | null;
+  resumeSessionId?: string | null;
 };
 
 type ClinicalCaseCardProps = {

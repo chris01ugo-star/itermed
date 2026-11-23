@@ -8,6 +8,7 @@ import {
   BookOpen,
   ChevronLeft,
   ChevronRight,
+  CreditCard,
   FilePlus,
   LayoutDashboard,
   Settings,
@@ -78,6 +79,12 @@ const primaryNavItems: NavItem[] = [
     label: "Linee Guida",
     icon: BookOpen,
     matchPrefixes: ["/dashboard/guidelines", "/admin/knowledge"],
+  },
+  {
+    href: "/dashboard/billing",
+    label: "Abbonamento",
+    icon: CreditCard,
+    matchPrefixes: ["/dashboard/billing"],
   },
 ];
 
