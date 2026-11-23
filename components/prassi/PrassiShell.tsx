@@ -3,7 +3,7 @@
 import { useMemo, useCallback, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowLeft, BookOpen, ChevronRight, FolderOpen } from "lucide-react";
+import { ArrowLeft, BookOpen, Check, ChevronRight, FolderOpen } from "lucide-react";
 import {
   DIFFICULTY_LABELS,
   displaySpecialtyName,
@@ -96,6 +96,18 @@ function FolderNotch({ fill }: { fill: string }) {
       style={{ backgroundColor: fill }}
       aria-hidden
     />
+  );
+}
+
+function CompletedFlag() {
+  return (
+    <span
+      className="absolute right-2.5 top-0 z-20 flex h-[22px] w-[22px] -translate-y-[42%] items-center justify-center rounded-full bg-[#6EFF76] shadow-[0_1px_0_rgba(0,0,0,0.12)]"
+      title="Caso svolto"
+      aria-label="Caso svolto"
+    >
+      <Check className="h-3.5 w-3.5 text-white" strokeWidth={3.5} aria-hidden />
+    </span>
   );
 }
 
@@ -318,6 +330,7 @@ export function PrassiShell({
                 return (
                   <div key={caseRow.id} className="relative pt-2.5">
                     <FolderNotch fill={dept.fill} />
+                    {caseRow.playStatus === "completed" ? <CompletedFlag /> : null}
                     <div
                       className={cn(
                         "overflow-hidden rounded-b-xl rounded-tr-xl border",
