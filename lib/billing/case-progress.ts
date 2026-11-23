@@ -1,6 +1,9 @@
 import "server-only";
 import { prisma } from "@/lib/prisma";
-import { completedPerformanceSessionWhere } from "@/lib/session-report-performance";
+import {
+  displayIdsForStoredCaseId,
+  expandLookupIds,
+} from "@/lib/billing/case-progress-ids";
 
 export type CasePlayStatus = "todo" | "in_progress" | "completed";
 
@@ -13,6 +16,8 @@ export type CaseProgress = {
   resumeSessionId: string | null;
 };
 
+export { displayIdsForStoredCaseId, expandLookupIds } from "@/lib/billing/case-progress-ids";
+
 export async function fetchCaseProgressMap(
   userId: string,
   caseIds: string[],
@@ -21,12 +26,15 @@ export async function fetchCaseProgressMap(
   const result: Record<string, CaseProgress> = {};
   if (unique.length === 0) return result;
 
+  const lookupIds = expandLookupIds(unique);
+
   const [reports, liveSessions] = await Promise.all([
     prisma.sessionReport.findMany({
-      where: completedPerformanceSessionWhere({
+      where: {
         userId,
-        caseId: { in: unique },
-      }),
+        caseId: { in: lookupIds },
+        status: "COMPLETED",
+      },
       orderBy: { completedAt: "desc" },
       select: {
         id: true,
@@ -37,7 +45,7 @@ export async function fetchCaseProgressMap(
       },
     }),
     prisma.caseSession.findMany({
-      where: { userId, caseId: { in: unique } },
+      where: { userId, caseId: { in: lookupIds } },
       select: { id: true, caseId: true, createdAt: true, updatedAt: true },
       orderBy: { updatedAt: "desc" },
     }),
@@ -45,15 +53,21 @@ export async function fetchCaseProgressMap(
 
   const reportsByCase = new Map<string, typeof reports>();
   for (const report of reports) {
-    const list = reportsByCase.get(report.caseId) ?? [];
-    list.push(report);
-    reportsByCase.set(report.caseId, list);
+    const targets = displayIdsForStoredCaseId(report.caseId, unique);
+    for (const displayId of targets.length > 0 ? targets : [report.caseId]) {
+      const list = reportsByCase.get(displayId) ?? [];
+      list.push(report);
+      reportsByCase.set(displayId, list);
+    }
   }
 
   const latestSessionByCase = new Map<string, (typeof liveSessions)[number]>();
   for (const session of liveSessions) {
-    if (!latestSessionByCase.has(session.caseId)) {
-      latestSessionByCase.set(session.caseId, session);
+    const targets = displayIdsForStoredCaseId(session.caseId, unique);
+    for (const displayId of targets.length > 0 ? targets : [session.caseId]) {
+      if (!latestSessionByCase.has(displayId)) {
+        latestSessionByCase.set(displayId, session);
+      }
     }
   }
 
@@ -67,8 +81,8 @@ export async function fetchCaseProgressMap(
     const resumeSessionId =
       latestSession && !hasReportAfterSession ? latestSession.id : null;
     let status: CasePlayStatus = "todo";
-    if (resumeSessionId) status = "in_progress";
-    else if (latest) status = "completed";
+    if (latest) status = "completed";
+    else if (resumeSessionId) status = "in_progress";
     result[caseId] = {
       status,
       lastCompletedAt: latest?.completedAt?.toISOString() ?? latest?.createdAt.toISOString() ?? null,
