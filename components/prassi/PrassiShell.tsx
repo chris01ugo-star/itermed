@@ -99,11 +99,11 @@ function FolderNotch({ fill }: { fill: string }) {
   );
 }
 
-function SubscriptionFolderFlag() {
+function SubscriptionRibbon() {
   return (
     <Link
       href="/dashboard/billing"
-      className="absolute left-3 top-0 z-20 -translate-y-[calc(100%-1px)] whitespace-nowrap rounded-t-md bg-[#1E324E] px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.08em] text-white transition hover:bg-[#2A486D]"
+      className="block bg-[#1E324E] px-3 py-[5px] text-center text-[10px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[#2A486D]"
     >
       Abbonamento necessario
     </Link>
@@ -316,32 +316,29 @@ export function PrassiShell({
                 const isSelected = openCaseId === caseRow.id;
 
                 return (
-                  <div key={caseRow.id} className={cn("relative", requiresPaidPlan ? "pt-6" : "pt-2.5")}>
-                    {requiresPaidPlan ? (
-                      <SubscriptionFolderFlag />
-                    ) : (
-                      <FolderNotch fill={dept.fill} />
-                    )}
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setParams({
-                          specialty: activeBucket.name,
-                          caseId: caseRow.id,
-                        })
-                      }
+                  <div key={caseRow.id} className="relative pt-2.5">
+                    <FolderNotch fill={dept.fill} />
+                    <div
+                      className={cn(
+                        "overflow-hidden rounded-b-xl rounded-tr-xl border",
+                        isSelected ? "shadow-aequan-panel ring-1 ring-brand-primary/25" : "",
+                      )}
                       style={{
                         backgroundColor: dept.fill,
                         borderColor: isSelected ? "#1E324E" : dept.border,
                       }}
-                      className={cn(
-                        "group relative flex h-[7.25rem] w-full min-w-0 items-stretch gap-2 overflow-hidden rounded-b-xl rounded-tr-xl border px-3.5 py-3 text-left transition duration-200",
-                        "hover:brightness-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/30",
-                        isSelected
-                          ? "shadow-aequan-panel ring-1 ring-brand-primary/25"
-                          : "",
-                      )}
                     >
+                      {requiresPaidPlan ? <SubscriptionRibbon /> : null}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setParams({
+                            specialty: activeBucket.name,
+                            caseId: caseRow.id,
+                          })
+                        }
+                        className="group relative flex h-[7.25rem] w-full min-w-0 items-stretch gap-2 px-3.5 py-3 text-left transition duration-200 hover:brightness-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/30"
+                      >
                       <div className="flex min-h-0 min-w-0 flex-1 flex-col justify-between gap-1.5">
                         <p className="truncate text-sm font-bold text-slate-800">
                           {patientName}
@@ -374,6 +371,7 @@ export function PrassiShell({
                         <ChevronRight className="h-4 w-4" />
                       </span>
                     </button>
+                    </div>
                   </div>
                 );
               })}
@@ -403,30 +401,23 @@ export function PrassiShell({
               {buckets.map((bucket) => {
                 const SpecialtyIcon = specialtyAppearance(bucket.name).icon;
                 return (
-                <div
-                  key={bucket.name}
-                  className={cn("relative", requiresPaidPlan ? "pt-6" : "pt-2.5")}
-                >
-                  {requiresPaidPlan ? (
-                    <SubscriptionFolderFlag />
-                  ) : (
-                    <FolderNotch fill={bucket.pastel.fill} />
-                  )}
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setParams({ specialty: bucket.name, caseId: null })
-                    }
+                <div key={bucket.name} className="relative pt-2.5">
+                  <FolderNotch fill={bucket.pastel.fill} />
+                  <div
+                    className="overflow-hidden rounded-b-xl rounded-tr-xl border transition duration-200 hover:-translate-y-0.5 hover:shadow-aequan-panel"
                     style={{
                       backgroundColor: bucket.pastel.fill,
                       borderColor: bucket.pastel.border,
                     }}
-                    className={cn(
-                      "group relative flex h-[9rem] w-full min-w-0 flex-col justify-between overflow-hidden rounded-b-xl rounded-tr-xl border px-4 py-4 text-left transition duration-200",
-                      "hover:-translate-y-0.5 hover:brightness-[0.97] hover:shadow-aequan-panel",
-                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/30",
-                    )}
                   >
+                    {requiresPaidPlan ? <SubscriptionRibbon /> : null}
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setParams({ specialty: bucket.name, caseId: null })
+                      }
+                      className="group relative flex h-[9rem] w-full min-w-0 flex-col justify-between px-4 py-4 text-left hover:brightness-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/30"
+                    >
                     <div className="min-w-0 space-y-1">
                       <p
                         className="text-[11px] font-semibold uppercase tracking-[0.12em]"
@@ -458,6 +449,7 @@ export function PrassiShell({
                       </span>
                     </div>
                   </button>
+                  </div>
                 </div>
                 );
               })}

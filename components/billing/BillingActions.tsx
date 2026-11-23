@@ -167,21 +167,29 @@ export function ReferralApplyField({
           Codice invito (facoltativo)
         </label>
       )}
-      <div className="flex flex-col gap-2 sm:flex-row">
+      <div className={prominent ? "space-y-3" : "flex flex-col gap-2 sm:flex-row"}>
         <input
           id="referral-code"
           aria-label={prominent ? "Codice amico" : undefined}
           value={code}
           onChange={(e) => setCode(e.target.value)}
           placeholder="AEQUAN-X7K92"
-          className="h-11 flex-1 rounded-xl border border-slate-200 bg-white px-3.5 text-sm outline-none focus:border-[#345884]/45 focus:ring-4 focus:ring-[#345884]/10"
+          className={
+            prominent
+              ? "h-12 w-full rounded-xl border border-[#1E324E]/15 bg-white px-3.5 text-sm outline-none focus:border-[#1E324E]/40 focus:ring-4 focus:ring-[#1E324E]/10"
+              : "h-11 flex-1 rounded-xl border border-slate-200 bg-white px-3.5 text-sm outline-none focus:border-[#345884]/45 focus:ring-4 focus:ring-[#345884]/10"
+          }
         />
         <button
           type="submit"
           disabled={busy || !code.trim()}
-          className="inline-flex h-11 items-center justify-center rounded-xl bg-[#345884] px-4 text-sm font-semibold text-white disabled:opacity-60"
+          className={
+            prominent
+              ? "inline-flex h-12 w-full items-center justify-center rounded-xl bg-[#1E324E] px-4 text-sm font-semibold text-white disabled:opacity-60"
+              : "inline-flex h-11 items-center justify-center rounded-xl bg-[#345884] px-4 text-sm font-semibold text-white disabled:opacity-60"
+          }
         >
-          {busy ? "Verifica…" : "Applica codice"}
+          {busy ? "Verifica…" : prominent ? "Sblocca +5 simulazioni" : "Applica codice"}
         </button>
       </div>
       {message ? <p className="text-sm text-emerald-700">{message}</p> : null}

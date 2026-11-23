@@ -11,7 +11,7 @@ import { getCreditBalances } from "@/lib/billing/credit-ledger";
 import { getUserBillingProfile } from "@/lib/billing/user-billing";
 import { hasPaidSaasSubscription } from "@/lib/billing/credit-policy";
 import { saasPlanDefinition } from "@/lib/billing/plans";
-import { CreditsSnapshot } from "@/components/overview/CreditsSnapshot";
+import { PlanStatusBar } from "@/components/overview/PlanStatusBar";
 
 type DashboardPageProps = {
   searchParams?: Promise<{ specialty?: string }> | { specialty?: string };
@@ -53,15 +53,15 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
         focusLabel={overview.focusLabel}
       />
 
-      {subscribed ? (
-        <CreditsSnapshot
-          total={credits.total}
-          monthly={credits.monthlyBalance}
-          purchased={credits.purchasedBalance}
-          referral={credits.referralBalance}
-          planName={plan?.displayName ?? null}
-        />
-      ) : null}
+      <PlanStatusBar
+        subscribed={subscribed}
+        planName={plan?.displayName ?? null}
+        monthlyBalance={credits.monthlyBalance}
+        monthlyCredits={plan?.monthlyCredits ?? 0}
+        purchased={credits.purchasedBalance}
+        referral={credits.referralBalance}
+        total={credits.total}
+      />
 
       <OverviewStatsBar
         completedCount={overview.completedCount}
