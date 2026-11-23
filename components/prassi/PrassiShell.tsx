@@ -115,11 +115,11 @@ function SubscriptionChip() {
   return (
     <Link
       href="/dashboard/billing"
-      title="Abbonamento necessario"
+      title="Bloccato — richiede un abbonamento"
       className="absolute bottom-2.5 right-2.5 z-20 inline-flex items-center gap-1 rounded-full bg-[#1E324E]/90 px-2 py-[3px] text-[10px] font-medium leading-none text-white/95 shadow-[0_1px_2px_rgba(30,50,78,0.16)] transition hover:bg-[#2A486D]"
     >
       <Lock className="h-2.5 w-2.5 opacity-80" strokeWidth={2.25} aria-hidden />
-      Abbonamento
+      Bloccato
     </Link>
   );
 }
