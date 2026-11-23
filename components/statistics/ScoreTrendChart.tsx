@@ -25,7 +25,7 @@ export function ScoreTrendChart({ data }: ScoreTrendChartProps) {
   }
 
   return (
-    <div className="h-72 w-full">
+    <div className="h-56 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data} margin={{ top: 8, right: 12, left: -8, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" vertical={false} />
