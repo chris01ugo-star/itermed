@@ -50,7 +50,9 @@ import { AiTransparencyBadge } from "@/components/legal/AiTransparencyBadge";
 import { ClinicalSimulationDisclaimer } from "@/components/legal/ClinicalSimulationDisclaimer";
 import { SimulatorTutorialModal } from "@/components/simulator/SimulatorTutorialModal";
 import {
+  hasSeenLabSimulatorTutorial,
   hasSeenSimulatorTutorial,
+  markLabSimulatorTutorialSeen,
   markSimulatorTutorialSeen,
 } from "@/lib/simulator/onboarding-storage";
 import { PhysicalExamTab } from "./PhysicalExamTab";
@@ -137,6 +139,8 @@ import {
 } from "../../lib/simulator/exam-report";
 import { partitionExamsByChartSection } from "@/lib/clinical/diagnostic-exam-category";
 import { LaboratoryLisDashboard } from "./LaboratoryLisDashboard";
+import { LaboratoryWorkbench } from "./LaboratoryWorkbench";
+import type { LabWorkbenchClientBundle } from "@/lib/simulator/laboratory-workbench";
 import type { LabFlowNode } from "@/lib/simulator/laboratory-lis";
 import { labPillarCopy, labPillarLabel } from "@/lib/reports/lab-evaluation-labels";
 import { parseClinicalSigns } from "@/lib/clinical/clinical-signs";
@@ -186,8 +190,12 @@ type InitialCaseData = {
   examLatencies?: Record<string, number> | null;
   goldStandardPath?: string[] | null;
   patientDeteriorationThreshold?: number | null;
-  /** Decision tree for Medicina di Laboratorio. Absent for every other specialty. */
+  /** Decision tree for Medicina di Laboratorio v1. Absent for every other specialty. */
   labFlow?: LabFlowNode[];
+  /** Banco LIS v2 sanitizzato. Assente sui casi v1 e sulle altre specialità. */
+  labWorkbench?: LabWorkbenchClientBundle;
+  /** Ticket v2 già sanitizzato. Se presente, il terminale v1 non va montato. */
+  labBlueprintV2?: LabWorkbenchClientBundle["blueprint"];
 };
 
 type SimulatorClientProps = {
@@ -586,6 +594,7 @@ export function SimulatorClient({
     caseData?.specialty?.toLowerCase() === "medicina di laboratorio" ||
     Boolean(caseData?.id?.startsWith("LABO-"));
   const isLaboratoryCase = isLab;
+  const isLabWorkbench = Boolean(caseData?.labBlueprintV2 && caseData?.labWorkbench);
   useEffect(() => {
     if (!isLaboratoryCase) return;
     if (activeTab === "exam") setActiveTab("labs");
@@ -744,29 +753,34 @@ export function SimulatorClient({
   }, []);
 
   // First visit only, after the medico-legal disclaimer, on every case including TUTORIAL-001.
+  // The laboratory bench keeps its own flag, so a completed clinical guide still opens once.
   useEffect(() => {
     if (!tutorialHydrated || !disclaimerAccepted) return;
-    if (hasSeenSimulatorTutorial()) return;
+    if (isLabWorkbench ? hasSeenLabSimulatorTutorial() : hasSeenSimulatorTutorial()) return;
     setTutorialOpen(true);
-  }, [tutorialHydrated, disclaimerAccepted]);
+  }, [tutorialHydrated, disclaimerAccepted, isLabWorkbench]);
 
   const markUserActivity = useCallback(() => {
     lastActivityAtRef.current = Date.now();
   }, []);
 
   const closeSimulatorTutorial = useCallback(() => {
-    markSimulatorTutorialSeen();
+    if (isLabWorkbench) markLabSimulatorTutorialSeen();
+    else markSimulatorTutorialSeen();
     setTutorialOpen(false);
     markUserActivity();
-  }, [markUserActivity]);
+  }, [isLabWorkbench, markUserActivity]);
 
   const toggleSimulatorTutorial = useCallback(() => {
     setTutorialOpen((open) => {
-      if (open) markSimulatorTutorialSeen();
+      if (open) {
+        if (isLabWorkbench) markLabSimulatorTutorialSeen();
+        else markSimulatorTutorialSeen();
+      }
       return !open;
     });
     markUserActivity();
-  }, [markUserActivity]);
+  }, [isLabWorkbench, markUserActivity]);
 
   // Apply case baseline stress once (e.g. STEMI seed initialStress: 75).
   useEffect(() => {
@@ -2474,7 +2488,16 @@ export function SimulatorClient({
         ) : null}
 
         {isLab && isGeneratingReport ? <LisReportGeneratingOverlay /> : null}
-        {isLab ? (
+        {isLab && initialCaseData.labBlueprintV2 && initialCaseData.labWorkbench ? (
+          <LaboratoryWorkbench
+            bundle={initialCaseData.labWorkbench}
+            ensureSessionId={ensureSessionId}
+            disabled={isPaused}
+            completing={reportLoading}
+            completeError={reportError}
+            onSigned={() => void generateReportAndNavigate()}
+          />
+        ) : isLab && initialCaseData.labBlueprintV2 ? null : isLab ? (
           <LaboratoryLisDashboard
             caseId={initialCaseData.id}
             title={initialCaseData.title}
@@ -4050,7 +4073,11 @@ export function SimulatorClient({
         </DialogContent>
       </Dialog>
 
-      <SimulatorTutorialModal open={tutorialOpen} onClose={closeSimulatorTutorial} />
+      <SimulatorTutorialModal
+        open={tutorialOpen}
+        onClose={closeSimulatorTutorial}
+        variant={isLabWorkbench ? "laboratory" : "clinical"}
+      />
     </div>
   );
 }

@@ -1,8 +1,11 @@
 import assert from "node:assert/strict";
 import { afterEach, describe, it } from "node:test";
 import {
+  AEQUAN_LAB_TUTORIAL_SEEN_V1,
   AEQUAN_TUTORIAL_SEEN_V2,
+  hasSeenLabSimulatorTutorial,
   hasSeenSimulatorTutorial,
+  markLabSimulatorTutorialSeen,
   markSimulatorTutorialSeen,
 } from "@/lib/simulator/onboarding-storage";
 
@@ -50,6 +53,26 @@ describe("simulator tutorial storage", () => {
     assert.equal(hasSeenSimulatorTutorial(), true);
     assert.equal(memory.has("AEQUAN_CASE_TOUR_TUTORIAL_001"), false);
     assert.equal(memory.has("AEQUAN_TUTORIAL_COMPLETED_V1"), false);
+  });
+
+  it("keeps the laboratory guide separate from the clinical guide", () => {
+    const memory = new Map<string, string>();
+    installStorage({
+      getItem: (key) => memory.get(key) ?? null,
+      setItem: (key, value) => {
+        memory.set(key, value);
+      },
+    });
+
+    assert.equal(hasSeenSimulatorTutorial(), false);
+    assert.equal(hasSeenLabSimulatorTutorial(), false);
+    markSimulatorTutorialSeen();
+    assert.equal(hasSeenLabSimulatorTutorial(), false);
+    assert.equal(memory.has(AEQUAN_LAB_TUTORIAL_SEEN_V1), false);
+    markLabSimulatorTutorialSeen();
+    assert.equal(memory.get(AEQUAN_LAB_TUTORIAL_SEEN_V1), "true");
+    assert.equal(hasSeenSimulatorTutorial(), true);
+    assert.equal(hasSeenLabSimulatorTutorial(), true);
   });
 
   it("treats a blocked localStorage as already seen", () => {

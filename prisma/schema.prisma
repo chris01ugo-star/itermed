@@ -342,6 +342,8 @@ model CaseSession {
   stressTimeline          Json?
   /// Diario clinico / relazione di dimissione compilata dallo studente.
   clinicalSummary         String? @db.Text
+  /// Banco LIS v2 (Medicina di Laboratorio). Null su sessioni cliniche e casi v1.
+  labWorkbenchState       Json?
   /// Audit trail: momento in cui lo studente ha accettato il disclaimer di questo caso.
   disclaimerAcceptedAt    DateTime?
   /// Versione del testo di disclaimer accettato.

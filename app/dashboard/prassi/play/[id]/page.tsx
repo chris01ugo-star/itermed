@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { config, isUsableDatabase } from "@/lib/config";
-import { userCanPlayCase } from "@/lib/access";
+import { isRetiredClinicalCase, userCanPlayCase } from "@/lib/access";
 import { requireUser, isDevAuthBypass } from "@/lib/require-user";
 import { SimulatorClient } from "@/components/simulator/SimulatorClient";
 import { LiveAequanClinicalWorkspace } from "@/components/aequan/LiveAequanClinicalWorkspace";
@@ -70,7 +70,11 @@ async function renderFallbackPlay(
   const fallback = await getFallbackCase(rawId);
   if (!fallback) return null;
 
-  const initialCaseData = toSimulatorFallbackPayload(fallback);
+  const initialCaseData = await withLabFlow(toSimulatorFallbackPayload(fallback), {
+    baselineExamFindings: fallback.baselineExamFindings,
+    sessionId: sanitizeLiveSessionId(sessionId) ?? null,
+    startedAtIso: new Date().toISOString(),
+  });
   return (
     <LiveAequanClinicalWorkspace
       caseMeta={{
@@ -128,6 +132,15 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
       (billingProfile ? hasPaidSaasSubscription(billingProfile) : false);
     if (!canStartWithoutPlan && !liveSessionId) {
       redirect("/dashboard/billing");
+    }
+
+    if (await isRetiredClinicalCase(rawId)) {
+      return (
+        <PlayLoadError
+          caseId={rawId}
+          message="Questo caso non è più nel catalogo. I referti già completati restano nello storico."
+        />
+      );
     }
 
     // Best-effort materialize — never block the play UI on a slow/dead Neon pool.
@@ -222,7 +235,17 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
     const [session, examCatalog, caseExamOverrides] = await Promise.all([
       liveSessionId
         ? prisma.caseSession
-            .findUnique({ where: { id: liveSessionId } })
+            .findUnique({
+              where: { id: liveSessionId },
+              select: {
+                id: true,
+                userId: true,
+                caseId: true,
+                isVariant: true,
+                variantPrompt: true,
+                createdAt: true,
+              },
+            })
             .catch(() => null)
         : Promise.resolve(null),
       getExamValuesCatalog().catch(() => EXAM_DEFAULT_VALUES),
@@ -271,7 +294,11 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
       correctSolution: narrative?.correctSolution ?? null,
       baselineExamFindings: caseData.baselineExamFindings,
       timeLimitMinutes: caseData.timeLimitMinutes ?? null,
-    }));
+    }), {
+      baselineExamFindings: caseData.baselineExamFindings,
+      sessionId: session?.id ?? null,
+      startedAtIso: session?.createdAt.toISOString() ?? new Date().toISOString(),
+    });
 
     return (
       <LiveAequanClinicalWorkspace

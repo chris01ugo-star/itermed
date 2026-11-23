@@ -5,11 +5,16 @@ import {
   Activity,
   ChevronLeft,
   ChevronRight,
+  ClipboardCheck,
   Compass,
   FolderOpen,
   MessageCircle,
+  Phone,
   Pill,
   Scale,
+  TestTubeDiagonal,
+  Timer,
+  Wallet,
   X,
 } from "lucide-react";
 import { cn } from "@/app/utils/cn";
@@ -77,17 +82,99 @@ const STEPS = [
   },
 ] as const;
 
+const LAB_STEPS = [
+  {
+    id: "banco",
+    label: "Banco",
+    title: "Il banco LIS e lo SLA",
+    icon: Timer,
+    lead: "Sei il medico di laboratorio alla validazione. Il ticket è cieco: i numeri da soli non dicono se l'emergenza è del paziente.",
+    points: [
+      "In alto trovi la finestra SLA e il budget Reflex SSN. Il tempo della simulazione scorre mentre indaghi e decidi.",
+      "L'obiettivo è distinguere un'emergenza clinica reale da un artefatto pre-analitico o analitico, prima di firmare.",
+      "Il ticket non rivela la soluzione. Le prove stanno sul campione, sullo storico e sul dialogo con il banco o con il richiedente.",
+    ],
+  },
+  {
+    id: "indagini",
+    label: "Indagini",
+    title: "Indagine pre-analitica e analitica",
+    icon: TestTubeDiagonal,
+    lead: "Prima di decidere sui numeri, verifica le prove sul campione.",
+    points: [
+      "Usa le pillole in alto: Provetta, Indici HIL, Delta Check e CQI Linea.",
+      "Quando il ticket lo prevede, apri anche Morfologia / Tracciati: striscio, elettroforesi o scattergram.",
+      "Una pillola chiusa è una prova che non hai ancora letto. Non firmare al buio.",
+    ],
+  },
+  {
+    id: "foglio",
+    label: "Foglio",
+    title: "Validazione granulare per analita",
+    icon: ClipboardCheck,
+    lead: "Nel Foglio di validazione scegli l'esito di ciascun analita, uno per uno.",
+    points: [
+      "Valida il risultato se il campione è idoneo e il numero è affidabile.",
+      "Sopprimi o Sospendi quando il risultato non si può refertare. Indica sempre il codice motivo: emolisi, riempimento, coagulo, matrice errata, interferenza o un altro codice del banco.",
+      "Un analita inaffidabile non obbliga a fermare gli altri. La disposizione è selettiva.",
+    ],
+  },
+  {
+    id: "reflex",
+    label: "Reflex",
+    title: "Banco e test reflex SSN",
+    icon: Wallet,
+    lead: "Nel tab Banco & Reflex richiedi solo la conferma che cambia la decisione.",
+    points: [
+      "Ogni test ha una tariffa. La spesa si somma al budget Reflex SSN indicato in alto.",
+      "Un reflex mirato chiarisce il ticket. Un pannello fuori quesito consuma risorse senza aiutare la firma.",
+      "Il risultato del reflex compare dopo l'ordine e va letto prima di chiudere.",
+    ],
+  },
+  {
+    id: "linea",
+    label: "Linea",
+    title: "Linea interna: TSLB e medico richiedente",
+    icon: Phone,
+    lead: "Nel tab Linea Interna hai due telefoni separati. La domanda va alla persona che può rispondere.",
+    points: [
+      "TSLB di banco: provetta, striscio, centrifugazione e altre verifiche operative. Non è il canale per la storia clinica.",
+      "Medico di reparto o di PS: contesto, farmaci e integratori, pressioni del reparto, comunicazione di un valore critico.",
+      "Chiedi in modo mirato. Una pressione a firmare non sostituisce l'idoneità del campione.",
+    ],
+  },
+  {
+    id: "firma",
+    label: "Firma",
+    title: "Valore critico, read-back e firma",
+    icon: Scale,
+    lead: "Nel tab Notifica & Firma chiudi solo quando disposizione, nota e, se dovuto, la telefonata sono a posto.",
+    points: [
+      "Registra la notifica solo se il valore critico è davvero del paziente. Il canale è la telefonata sincrona, con conferma di read-back.",
+      "Un artefatto non si notifica come emergenza. Un critico reale non si lascia in segreteria, fax o email.",
+      "Scrivi una nota interpretativa chiara per il clinico, almeno 25 caratteri, poi clicca Firma & Chiudi Referto. Il voto usa i cinque pilastri di patologia clinica.",
+    ],
+  },
+] as const;
+
 type SimulatorTutorialModalProps = {
   open: boolean;
   onClose: () => void;
+  variant?: "clinical" | "laboratory";
 };
 
-export function SimulatorTutorialModal({ open, onClose }: SimulatorTutorialModalProps) {
+export function SimulatorTutorialModal({
+  open,
+  onClose,
+  variant = "clinical",
+}: SimulatorTutorialModalProps) {
+  const steps = variant === "laboratory" ? LAB_STEPS : STEPS;
   const [stepIndex, setStepIndex] = useState(0);
-  const step = STEPS[stepIndex] ?? STEPS[0];
+  const safeIndex = Math.min(stepIndex, steps.length - 1);
+  const step = steps[safeIndex] ?? steps[0];
   const Icon = step.icon;
-  const isFirst = stepIndex === 0;
-  const isLast = stepIndex === STEPS.length - 1;
+  const isFirst = safeIndex === 0;
+  const isLast = safeIndex === steps.length - 1;
 
   useEffect(() => {
     if (!open) return;
@@ -125,7 +212,11 @@ export function SimulatorTutorialModal({ open, onClose }: SimulatorTutorialModal
               <Compass className="h-3.5 w-3.5" strokeWidth={1.75} />
               Guida del simulatore
             </p>
-            <p className="mt-0.5 text-xs text-slate-500">Uguale per ogni caso. Chiuderla non azzera la simulazione.</p>
+            <p className="mt-0.5 text-xs text-slate-500">
+              {variant === "laboratory"
+                ? "Banco di medicina di laboratorio. Chiuderla non azzera la simulazione."
+                : "Uguale per ogni caso. Chiuderla non azzera la simulazione."}
+            </p>
           </div>
           <button
             type="button"
@@ -138,7 +229,7 @@ export function SimulatorTutorialModal({ open, onClose }: SimulatorTutorialModal
         </div>
 
         <div className="flex gap-1 overflow-x-auto border-b border-slate-100 px-3 py-2 sm:px-4">
-          {STEPS.map((item, index) => {
+          {steps.map((item, index) => {
             const active = index === stepIndex;
             return (
               <button
@@ -211,7 +302,7 @@ export function SimulatorTutorialModal({ open, onClose }: SimulatorTutorialModal
             ) : (
               <button
                 type="button"
-                onClick={() => setStepIndex((index) => Math.min(STEPS.length - 1, index + 1))}
+                onClick={() => setStepIndex((index) => Math.min(steps.length - 1, index + 1))}
                 className="inline-flex items-center gap-1 rounded-lg bg-[#1E324E] px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-[#345884]"
               >
                 Avanti

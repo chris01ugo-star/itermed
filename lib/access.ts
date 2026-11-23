@@ -18,8 +18,24 @@ import { isOfflineSessionId, sanitizeLiveSessionId } from "@/lib/simulator/sessi
 
 export { attachableCasesWhere, visibleCasesWhere } from "./access-queries";
 
+/** True when a ClinicalCase row exists and has been withdrawn from the catalog. */
+export async function isRetiredClinicalCase(caseId: string): Promise<boolean> {
+  const ids = knowledgeBaseIdCandidates(caseId);
+  if (ids.length === 0) return false;
+  try {
+    const row = await prisma.clinicalCase.findFirst({
+      where: { id: { in: ids } },
+      select: { isActive: true },
+    });
+    return row?.isActive === false;
+  } catch {
+    return false;
+  }
+}
+
 export async function userCanPlayCase(userId: string, caseId: string): Promise<boolean> {
   if (isDevAuthBypass()) return true;
+  if (await isRetiredClinicalCase(caseId)) return false;
   const normalized = normalizeCaseLookupKey(caseId);
   // Gold-standard Prassi registry cases are always playable for authenticated users.
   if (isRegisteredCaseId(caseId) || isRegisteredCaseId(normalized)) return true;
@@ -48,6 +64,19 @@ export async function assertUserCanPlayCase(
   options?: { profile?: UserBillingProfile | null },
 ): Promise<Response | null> {
   if (isDevAuthBypass()) return null;
+
+  if (await isRetiredClinicalCase(caseId)) {
+    return new Response(
+      JSON.stringify({
+        error: "Questo caso non è disponibile o non è più attivo.",
+        code: "CASE_NOT_VISIBLE",
+      }),
+      {
+        status: 403,
+        headers: { "Content-Type": "application/json" },
+      },
+    );
+  }
 
   if (isRegisteredCaseId(caseId) || (await getCaseById(caseId))) {
     return null;

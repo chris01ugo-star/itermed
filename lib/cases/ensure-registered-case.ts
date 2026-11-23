@@ -66,7 +66,6 @@ export async function ensureRegisteredCaseInDb(
         secondarySpecialties: registered.secondarySpecialties ?? [],
         difficulty: registered.difficulty,
         isGlobal: true,
-        isActive: true,
         estimatedDurationMinutes: registered.estimatedTimeMinutes,
         timeLimitMinutes: registered.timeLimitMinutes,
         patientDeteriorationThreshold: registered.patientDeteriorationThreshold,

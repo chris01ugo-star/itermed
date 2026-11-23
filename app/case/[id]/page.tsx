@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import { prisma } from "../../../lib/prisma";
 import { config, isUsableDatabase } from "../../../lib/config";
-import { userCanPlayCase } from "../../../lib/access";
+import { isRetiredClinicalCase, userCanPlayCase } from "../../../lib/access";
 import { requireUser, isDevAuthBypass } from "../../../lib/require-user";
 import { SimulatorClient } from "../../../components/simulator/SimulatorClient";
 import { LiveAequanClinicalWorkspace } from "@/components/aequan/LiveAequanClinicalWorkspace";
@@ -76,6 +76,10 @@ export default async function CasePage(props: CasePageProps) {
   const user = await requireUser();
   const userId = user.id;
 
+  if (await isRetiredClinicalCase(rawId)) {
+    return notFound();
+  }
+
   try {
     await ensureRegisteredCaseInDb(rawId, userId);
 
@@ -83,7 +87,11 @@ export default async function CasePage(props: CasePageProps) {
     if (!canPlay) {
       const fallback = await getFallbackCase(rawId);
       if (fallback) {
-        const initialCaseData = toSimulatorFallbackPayload(fallback);
+        const initialCaseData = await withLabFlow(toSimulatorFallbackPayload(fallback), {
+        baselineExamFindings: fallback.baselineExamFindings,
+        sessionId: sessionId ?? null,
+        startedAtIso: new Date().toISOString(),
+      });
         return (
           <LiveAequanClinicalWorkspace
             caseMeta={{
@@ -115,7 +123,11 @@ export default async function CasePage(props: CasePageProps) {
     if (!caseData || !caseData.isActive) {
       const fallback = await getFallbackCase(rawId);
       if (fallback) {
-        const initialCaseData = toSimulatorFallbackPayload(fallback);
+        const initialCaseData = await withLabFlow(toSimulatorFallbackPayload(fallback), {
+        baselineExamFindings: fallback.baselineExamFindings,
+        sessionId: sessionId ?? null,
+        startedAtIso: new Date().toISOString(),
+      });
         return (
           <LiveAequanClinicalWorkspace
             caseMeta={{
@@ -146,6 +158,14 @@ export default async function CasePage(props: CasePageProps) {
       sessionId
         ? prisma.caseSession.findUnique({
             where: { id: sessionId },
+            select: {
+              id: true,
+              userId: true,
+              caseId: true,
+              isVariant: true,
+              variantPrompt: true,
+              createdAt: true,
+            },
           })
         : Promise.resolve(null),
       getExamValuesCatalog(),
@@ -191,7 +211,11 @@ export default async function CasePage(props: CasePageProps) {
       correctSolution: narrative?.correctSolution ?? caseData.correctSolution,
       baselineExamFindings: caseData.baselineExamFindings,
       timeLimitMinutes: caseData.timeLimitMinutes ?? null,
-    }));
+    }), {
+      baselineExamFindings: caseData.baselineExamFindings,
+      sessionId: session?.id ?? null,
+      startedAtIso: session?.createdAt.toISOString() ?? new Date().toISOString(),
+    });
 
     return (
       <LiveAequanClinicalWorkspace
@@ -221,7 +245,11 @@ export default async function CasePage(props: CasePageProps) {
     // DB non pronto — soft-fallback to in-memory cases when id matches.
     const fallback = await getFallbackCase(rawId);
     if (fallback) {
-      const initialCaseData = toSimulatorFallbackPayload(fallback);
+      const initialCaseData = await withLabFlow(toSimulatorFallbackPayload(fallback), {
+        baselineExamFindings: fallback.baselineExamFindings,
+        sessionId: sessionId ?? null,
+        startedAtIso: new Date().toISOString(),
+      });
       return (
         <LiveAequanClinicalWorkspace
           caseMeta={{

@@ -78,6 +78,8 @@ import {
 import type { ClinicalCase } from "@/lib/data/cases/types";
 import { estimateAgeFromTitle, patientDisplayName } from "@/lib/prassi/demo-vitals";
 import { resolveCaseStressProfile } from "@/lib/simulator/patient-stress-engine";
+import { persistLaboratoryWorkbenchReportIfReady } from "@/lib/simulator/laboratory-evaluator";
+import { loadStoredLabBlueprint } from "@/lib/simulator/load-lab-flow";
 import {
   buildGuidelineEvidence,
   composeHybridPillarScores,
@@ -760,6 +762,22 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     const allowed = await userCanPlayCase(input.userId, input.caseId);
     if (!allowed) {
       throw new Error("Forbidden");
+    }
+
+    const labBlueprintV2 = input.liveSessionId
+      ? await loadStoredLabBlueprint(input.caseId)
+      : null;
+    if (labBlueprintV2) {
+      const laboratoryHandled = await persistLaboratoryWorkbenchReportIfReady(
+        {
+          reportId: input.reportId,
+          userId: input.userId,
+          caseId: input.caseId,
+          liveSessionId: input.liveSessionId,
+        },
+        log,
+      );
+      if (laboratoryHandled) return;
     }
 
     const prefetchStartedAt = Date.now();

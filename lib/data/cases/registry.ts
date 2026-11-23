@@ -203,11 +203,32 @@ export const getRegisteredCase = getCaseById;
 export const getGoldStandardCase = getCaseById;
 
 /**
+ * Knowledge-base rows stay in PostgreSQL after a case is withdrawn.
+ * The Prassi catalog follows ClinicalCase.isActive, same as the dashboard query.
+ */
+async function listCatalogCases(): Promise<ClinicalCase[]> {
+  const registered = await listRegisteredCases({ category: "prassi-clinica" });
+  if (!isUsableDatabase(config.DATABASE_URL) || registered.length === 0) return registered;
+  try {
+    const hidden = await prisma.clinicalCase.findMany({
+      where: { id: { in: registered.map((item) => item.id) }, isActive: false },
+      select: { id: true },
+    });
+    if (hidden.length === 0) return registered;
+    const inactive = new Set(hidden.map((row) => row.id));
+    return registered.filter((item) => !inactive.has(item.id));
+  } catch (err) {
+    console.error("[registry] catalog active filter failed", err);
+    return registered;
+  }
+}
+
+/**
  * Cases exposed to Prassi Clinica (demo / offline + registry merge).
  * Always includes gold-standard registry entries for the requested section.
  */
 export async function getPrassiRegistryCaseRows(userId: string): Promise<ClinicalCaseRow[]> {
-  const goldRows = (await listRegisteredCases({ category: "prassi-clinica" })).map((c) =>
+  const goldRows = (await listCatalogCases()).map((c) =>
     toClinicalCaseRow(c, { createdById: "gold-standard", isGlobal: true }),
   );
 
@@ -241,7 +262,7 @@ export async function getPrassiRegistryCaseRows(userId: string): Promise<Clinica
 
 /** Specialties derived from registry (+ legacy demos) for Prassi filters. */
 export async function getPrassiRegistrySpecialties(): Promise<{ id: string; name: string }[]> {
-  const fromRegistry = (await listRegisteredCases({ category: "prassi-clinica" })).map((c) => ({
+  const fromRegistry = (await listCatalogCases()).map((c) => ({
     id: `sp_${c.specialty}`,
     name: c.specialtyLabel,
   }));
