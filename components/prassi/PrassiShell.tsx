@@ -102,22 +102,25 @@ function FolderNotch({ fill }: { fill: string }) {
 function CompletedFlag() {
   return (
     <span
-      className="absolute right-2.5 top-0 z-20 flex h-[22px] w-[22px] -translate-y-[42%] items-center justify-center rounded-full bg-[#6EFF76] shadow-[0_1px_0_rgba(0,0,0,0.12)]"
+      className="pointer-events-none absolute right-0 top-0 z-20 flex h-[22px] w-[22px] items-center justify-center rounded-bl-md bg-[#32D74B] shadow-[inset_0_-1px_0_rgba(0,0,0,0.12)]"
       title="Caso svolto"
       aria-label="Caso svolto"
     >
-      <Check className="h-3.5 w-3.5 text-white" strokeWidth={3.5} aria-hidden />
+      <Check className="h-3 w-3 text-white" strokeWidth={3.5} aria-hidden />
     </span>
   );
 }
 
-function SubscriptionRibbon() {
+function SubscriptionCornerFlag() {
   return (
     <Link
       href="/dashboard/billing"
-      className="block bg-[#1E324E] px-3 py-[5px] text-center text-[10px] font-semibold uppercase tracking-[0.14em] text-white transition hover:bg-[#2A486D]"
+      title="Abbonamento necessario"
+      className="absolute bottom-0 right-0 z-20 rounded-tl-md bg-[#1E324E] px-1.5 py-[5px] text-right text-[7px] font-semibold uppercase leading-[1.1] tracking-[0.06em] text-white transition hover:bg-[#2A486D]"
     >
-      Abbonamento necessario
+      Abbonamento
+      <br />
+      necessario
     </Link>
   );
 }
@@ -330,10 +333,9 @@ export function PrassiShell({
                 return (
                   <div key={caseRow.id} className="relative pt-2.5">
                     <FolderNotch fill={dept.fill} />
-                    {caseRow.playStatus === "completed" ? <CompletedFlag /> : null}
                     <div
                       className={cn(
-                        "overflow-hidden rounded-b-xl rounded-tr-xl border",
+                        "relative overflow-hidden rounded-b-xl rounded-tr-xl border",
                         isSelected ? "shadow-aequan-panel ring-1 ring-brand-primary/25" : "",
                       )}
                       style={{
@@ -341,7 +343,6 @@ export function PrassiShell({
                         borderColor: isSelected ? "#1E324E" : dept.border,
                       }}
                     >
-                      {requiresPaidPlan ? <SubscriptionRibbon /> : null}
                       <button
                         type="button"
                         onClick={() =>
@@ -350,7 +351,11 @@ export function PrassiShell({
                             caseId: caseRow.id,
                           })
                         }
-                        className="group relative flex h-[7.25rem] w-full min-w-0 items-stretch gap-2 px-3.5 py-3 text-left transition duration-200 hover:brightness-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/30"
+                        className={cn(
+                          "group relative flex h-[7.25rem] w-full min-w-0 items-stretch gap-2 px-3.5 py-3 text-left transition duration-200 hover:brightness-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/30",
+                          caseRow.playStatus === "completed" ? "pr-8" : "",
+                          requiresPaidPlan ? "pr-16" : "",
+                        )}
                       >
                       <div className="flex min-h-0 min-w-0 flex-1 flex-col justify-between gap-1.5">
                         <p className="truncate text-sm font-bold text-slate-800">
@@ -377,13 +382,17 @@ export function PrassiShell({
                               : " · Da svolgere"}
                         </span>
                       </div>
-                      <span
-                        className="flex shrink-0 items-center self-center text-slate-400 transition group-hover:text-brand-primary"
-                        aria-hidden
-                      >
-                        <ChevronRight className="h-4 w-4" />
-                      </span>
+                      {requiresPaidPlan ? null : (
+                        <span
+                          className="flex shrink-0 items-center self-center text-slate-400 transition group-hover:text-brand-primary"
+                          aria-hidden
+                        >
+                          <ChevronRight className="h-4 w-4" />
+                        </span>
+                      )}
                     </button>
+                    {caseRow.playStatus === "completed" ? <CompletedFlag /> : null}
+                    {requiresPaidPlan ? <SubscriptionCornerFlag /> : null}
                     </div>
                   </div>
                 );
@@ -417,13 +426,12 @@ export function PrassiShell({
                 <div key={bucket.name} className="relative pt-2.5">
                   <FolderNotch fill={bucket.pastel.fill} />
                   <div
-                    className="overflow-hidden rounded-b-xl rounded-tr-xl border transition duration-200 hover:-translate-y-0.5 hover:shadow-aequan-panel"
+                    className="relative overflow-hidden rounded-b-xl rounded-tr-xl border transition duration-200 hover:-translate-y-0.5 hover:shadow-aequan-panel"
                     style={{
                       backgroundColor: bucket.pastel.fill,
                       borderColor: bucket.pastel.border,
                     }}
                   >
-                    {requiresPaidPlan ? <SubscriptionRibbon /> : null}
                     <button
                       type="button"
                       onClick={() =>
@@ -454,14 +462,19 @@ export function PrassiShell({
                           ? "1 caso clinico"
                           : `${bucket.cases.length} casi clinici`}
                       </p>
-                      <span
-                        className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/55 text-slate-500 transition group-hover:text-brand-primary"
-                        aria-hidden
-                      >
-                        <ChevronRight className="h-4 w-4" />
-                      </span>
+                      {requiresPaidPlan ? (
+                        <span className="h-7 w-16 shrink-0" aria-hidden />
+                      ) : (
+                        <span
+                          className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/55 text-slate-500 transition group-hover:text-brand-primary"
+                          aria-hidden
+                        >
+                          <ChevronRight className="h-4 w-4" />
+                        </span>
+                      )}
                     </div>
                   </button>
+                  {requiresPaidPlan ? <SubscriptionCornerFlag /> : null}
                   </div>
                 </div>
                 );
