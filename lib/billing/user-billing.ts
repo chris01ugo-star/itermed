@@ -55,7 +55,8 @@ export async function getOrCreateStripeCustomer(user: UserBillingProfile): Promi
   const stripe = getStripeClient();
   const customer = await stripe.customers.create({
     email: user.email,
-    metadata: { userId: user.id },
+    preferred_locales: ["it"],
+    metadata: { userId: user.id, product: "aequan" },
   });
 
   await prisma.user.update({

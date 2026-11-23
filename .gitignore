@@ -41,6 +41,10 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# local Stripe agent skills (regenerate with: npx skills add https://docs.stripe.com)
+.agents/
+skills-lock.json
+
 # vercel
 .vercel
 

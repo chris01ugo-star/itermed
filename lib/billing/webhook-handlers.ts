@@ -404,3 +404,16 @@ export async function handleDisputeCreated(dispute: Stripe.Dispute): Promise<voi
     log.error("dispute.created charge retrieve failed", { disputeId: dispute.id, error });
   }
 }
+
+export async function handleEarlyFraudWarning(
+  warning: Stripe.Radar.EarlyFraudWarning,
+): Promise<void> {
+  const chargeId = typeof warning.charge === "string" ? warning.charge : warning.charge?.id;
+  if (!chargeId) return;
+  try {
+    const charge = await getStripeClient().charges.retrieve(chargeId);
+    await handleChargeRefunded(charge);
+  } catch (error) {
+    log.error("early_fraud_warning charge retrieve failed", { warningId: warning.id, error });
+  }
+}

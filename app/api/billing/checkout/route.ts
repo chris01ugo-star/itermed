@@ -6,6 +6,7 @@ import { getOrCreateStripeCustomer, getUserBillingProfile } from "@/lib/billing/
 import { getStripeClient, isStripeConfigured } from "@/lib/billing/stripe-client";
 import { EXTRA_CREDIT_PACK, toSaasPlanId, toStoredPlanType } from "@/lib/billing/plans";
 import { extraCreditsPriceId, priceIdForPlan } from "@/lib/billing/stripe-prices";
+import { hostedCheckoutBase } from "@/lib/billing/stripe-checkout-session";
 import { applyReferralCode, attachCheckoutToReferral } from "@/lib/billing/referral";
 import { hasActiveSubscription } from "@/lib/billing/access-gate";
 
@@ -47,8 +48,7 @@ export async function POST(request: Request) {
   const customerId = await getOrCreateStripeCustomer(profile);
   const stripe = getStripeClient();
   const origin = config.APP_URL.replace(/\/$/, "");
-  const successUrl = `${origin}/dashboard/billing?billing=success`;
-  const cancelUrl = `${origin}/dashboard/billing?billing=canceled`;
+  const checkoutBase = hostedCheckoutBase(origin, userId);
 
   if (parsed.data.type === "extra_credits") {
     if (!hasActiveSubscription(profile)) {
@@ -68,11 +68,11 @@ export async function POST(request: Request) {
       );
     }
     const session = await stripe.checkout.sessions.create({
+      ...checkoutBase,
       customer: customerId,
       mode: "payment",
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: successUrl,
-      cancel_url: cancelUrl,
+      invoice_creation: { enabled: true },
       metadata: {
         userId,
         kind: EXTRA_CREDIT_PACK.id,
@@ -91,11 +91,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Price not configured for this product" }, { status: 400 });
     }
     const session = await stripe.checkout.sessions.create({
+      ...checkoutBase,
       customer: customerId,
       mode: "payment",
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: successUrl,
-      cancel_url: cancelUrl,
+      invoice_creation: { enabled: true },
       metadata: { userId, bundleId: parsed.data.bundleId },
     });
     if (!session.url) {
@@ -160,12 +160,10 @@ export async function POST(request: Request) {
   }
 
   const session = await stripe.checkout.sessions.create({
+    ...checkoutBase,
     customer: customerId,
     mode: "subscription",
     line_items: [{ price: priceId, quantity: 1 }],
-    success_url: successUrl,
-    cancel_url: cancelUrl,
-    allow_promotion_codes: false,
     metadata: {
       userId,
       planType: storedPlan,

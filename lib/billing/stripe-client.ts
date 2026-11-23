@@ -12,6 +12,7 @@ export function getStripeClient(): Stripe {
   if (!stripeSingleton) {
     stripeSingleton = new Stripe(config.STRIPE_SECRET_KEY, {
       typescript: true,
+      appInfo: { name: "Aequan", url: "https://www.aequan.it" },
     });
   }
 

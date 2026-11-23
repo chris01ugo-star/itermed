@@ -21,7 +21,8 @@
     "db:audit:duplicate-cases": "npx tsx scripts/audit-duplicate-cases.ts",
     "db:promote-admins": "npx tsx scripts/promote-admins.ts",
     "db:ensure-platform-admins": "npx tsx scripts/ensure-platform-admins.ts",
-    "db:set-dev-password": "npx tsx scripts/set-dev-password.ts"
+    "db:set-dev-password": "npx tsx scripts/set-dev-password.ts",
+    "stripe:bootstrap": "npx tsx scripts/stripe-bootstrap.ts"
   },
   "prisma": {
     "seed": "node --import tsx/esm prisma/seed-aequan-cases.ts"

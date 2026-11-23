@@ -21,6 +21,14 @@ STRIPE_PRICE_EXTRA_CREDITS=price_...
 
 Non committare valori reali. In test mode usa chiavi `sk_test_` / `pk_test_` e price ID di test.
 
+Crea (o riusa) i tre prodotti sul account Stripe **test** e allinea il Customer Portal:
+
+```bash
+npm run stripe:bootstrap
+```
+
+Lo script legge `STRIPE_SECRET_KEY` da `.env.local` (gitignored) ed è idempotente tramite metadata `aequan_sku`. Copia gli ID prezzo stampati nelle env Vercel. Webhook in locale: `stripe listen --forward-to localhost:3000/api/billing/webhook`. In produzione l’endpoint Dashboard è `https://<dominio>/api/billing/webhook` (live keys).
+
 ## Prodotti Stripe da creare
 
 | Prodotto | Tipo | Importo | Price ID env |
@@ -28,6 +36,16 @@ Non committare valori reali. In test mode usa chiavi `sk_test_` / `pk_test_` e p
 | Aequan Start | Subscription, mensile, EUR | 9,90 € | `STRIPE_PRICE_START` |
 | Aequan Plus | Subscription, mensile, EUR | 16,90 € | `STRIPE_PRICE_PLUS` |
 | 5 simulazioni extra | One-time, EUR | 4,90 € | `STRIPE_PRICE_EXTRA_CREDITS` |
+
+Catalogo **test** già creato sull’account Stripe IT (`aequan_sku`):
+
+```
+STRIPE_PRICE_START=price_1Uf39o3SDEJLWXWsC8URtCSR
+STRIPE_PRICE_PLUS=price_1Uf39o3SDEJLWXWsZ8VcFkQO
+STRIPE_PRICE_EXTRA_CREDITS=price_1Uf39o3SDEJLWXWsL3jxpuHi
+```
+
+In live mode ricrea i prezzi (non riusare questi ID) e abilita Stripe Tax dopo sede legale + registrazione IVA. Oggi Tax Settings è `pending` (nessuna head office, nessuna registration): `automatic_tax` non è attivo, altrimenti Stripe calcolerebbe 0 IVA senza errore.
 
 Crediti del piano: Start 12/mese (cap mensile 24), Plus 30/mese (cap mensile 60). Gli extra e i bonus referral **non** entrano nel cap mensile.
 
@@ -38,6 +56,7 @@ Endpoint: `POST /api/billing/webhook`
 Eventi da abilitare:
 
 - `checkout.session.completed`
+- `checkout.session.async_payment_succeeded`
 - `invoice.paid`
 - `invoice.payment_failed`
 - `customer.subscription.created`
@@ -45,6 +64,7 @@ Eventi da abilitare:
 - `customer.subscription.deleted`
 - `charge.refunded`
 - `charge.dispute.created`
+- `radar.early_fraud_warning.created`
 
 Configura il Customer Portal Stripe (upgrade/downgrade, cancellazione a fine periodo, fatture). `POST /api/billing/portal` apre la sessione.
 

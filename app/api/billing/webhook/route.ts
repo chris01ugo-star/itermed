@@ -6,6 +6,7 @@ import {
   handleChargeRefunded,
   handleCheckoutSessionCompleted,
   handleDisputeCreated,
+  handleEarlyFraudWarning,
   handleInvoicePaid,
   handleInvoicePaymentFailed,
   handleSubscriptionDeleted,
@@ -43,6 +44,7 @@ export async function POST(request: Request) {
     const result = await withStripeEvent(event, async () => {
       switch (event.type) {
         case "checkout.session.completed":
+        case "checkout.session.async_payment_succeeded":
           await handleCheckoutSessionCompleted(event.data.object as Stripe.Checkout.Session);
           break;
         case "invoice.paid":
@@ -63,6 +65,11 @@ export async function POST(request: Request) {
           break;
         case "charge.dispute.created":
           await handleDisputeCreated(event.data.object as Stripe.Dispute);
+          break;
+        case "radar.early_fraud_warning.created":
+          await handleEarlyFraudWarning(
+            event.data.object as Stripe.Radar.EarlyFraudWarning,
+          );
           break;
         default:
           break;
