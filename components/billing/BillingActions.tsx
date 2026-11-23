@@ -189,7 +189,7 @@ export function ReferralApplyField({
               : "inline-flex h-11 items-center justify-center rounded-xl bg-[#345884] px-4 text-sm font-semibold text-white disabled:opacity-60"
           }
         >
-          {busy ? "Verifica…" : prominent ? "Sblocca +5 simulazioni" : "Applica codice"}
+          {busy ? "Verifica…" : prominent ? "Registra il codice" : "Applica codice"}
         </button>
       </div>
       {message ? <p className="text-sm text-emerald-700">{message}</p> : null}
