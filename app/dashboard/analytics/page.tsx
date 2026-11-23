@@ -16,7 +16,7 @@ export default async function AnalyticsPage() {
           Performance
         </h1>
         <p className="max-w-2xl text-sm leading-relaxed text-slate-500">
-          Come stai andando nei casi, e dove sei rispetto agli altri medici in formazione.
+          Il tuo punteggio, le competenze e la classifica.
         </p>
       </header>
 
