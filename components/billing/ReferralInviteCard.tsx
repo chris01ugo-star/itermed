@@ -17,6 +17,25 @@ const STATUS_LABEL: Record<string, string> = {
   INVALID: "Non valido",
 };
 
+function Step({ n, children, tone }: { n: number; children: string; tone: "dark" | "light" }) {
+  return (
+    <li className="flex items-start gap-2.5">
+      <span
+        className={
+          tone === "dark"
+            ? "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/15 text-[11px] font-semibold text-white"
+            : "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#1E324E]/10 text-[11px] font-semibold text-[#1E324E]"
+        }
+      >
+        {n}
+      </span>
+      <span className={tone === "dark" ? "text-sm leading-snug text-white/80" : "text-sm leading-snug text-slate-600"}>
+        {children}
+      </span>
+    </li>
+  );
+}
+
 export function ReferralInviteCard({
   code,
   inviteUrl,
@@ -85,25 +104,38 @@ export function ReferralInviteCard({
           <p className="relative mt-2 font-display text-xl font-semibold text-white">
             simulazioni per te
           </p>
-          <p className="relative mt-2 max-w-sm text-sm leading-relaxed text-white/70">
-            Lui ne riceve {REFERRAL_INVITEE_BONUS} al primo abbonamento. Un link, un collega, crediti in più.
+          <p className="relative mt-1 text-sm text-white/65">
+            Il collega ne riceve {REFERRAL_INVITEE_BONUS}.
           </p>
+
+          <ol className="relative mt-5 space-y-2">
+            <Step n={1} tone="dark">
+              Copia il link e invialo a un collega.
+            </Step>
+            <Step n={2} tone="dark">
+              Lui si abbona a Start o Plus.
+            </Step>
+            <Step n={3} tone="dark">
+              {`Al primo pagamento: +${REFERRAL_INVITER_BONUS} a te, +${REFERRAL_INVITEE_BONUS} a lui.`}
+            </Step>
+          </ol>
 
           {suspended ? (
             <p className="relative mt-5 rounded-lg bg-white/10 px-3 py-2 text-sm text-white/90">
               Il programma referral di questo account è sospeso.
             </p>
           ) : (
-            <div className="relative mt-6 space-y-3">
+            <div className="relative mt-6 space-y-2.5">
               <button
                 type="button"
                 onClick={() => void copyInvite()}
                 className="inline-flex h-12 w-full items-center justify-center rounded-xl bg-white px-4 text-sm font-semibold text-[#1E324E] transition hover:bg-white/90"
               >
-                {copied ? "Link copiato" : "Copia il link di invito"}
+                {copied ? "Link copiato — ora invialo" : "Copia il link e invialo"}
               </button>
-              <p className="text-center font-mono text-[11px] tracking-[0.18em] text-white/45">
-                {code}
+              <p className="text-center text-[11px] text-white/45">
+                Codice personale{" "}
+                <span className="font-mono tracking-[0.16em] text-white/70">{code}</span>
               </p>
             </div>
           )}
@@ -113,14 +145,25 @@ export function ReferralInviteCard({
           {showApply ? (
             <>
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#8A5A2B]">
-                Codice amico
+                Ti hanno invitato?
               </p>
               <p className="mt-2 font-display text-3xl font-bold tracking-tight text-[#1E324E]">
                 +{REFERRAL_INVITEE_BONUS} extra
               </p>
               <p className="mt-1.5 text-sm leading-relaxed text-slate-600">
-                Inseriscilo prima di abbonarti. Il bonus arriva con il primo pagamento.
+                Incolla il codice dell&apos;amico. I crediti arrivano quando paghi il piano.
               </p>
+              <ol className="mt-4 space-y-2">
+                <Step n={1} tone="light">
+                  Incolla qui il codice che ti hanno mandato.
+                </Step>
+                <Step n={2} tone="light">
+                  Scegli Start o Plus e completa il pagamento.
+                </Step>
+                <Step n={3} tone="light">
+                  {`Ricevi ${REFERRAL_INVITEE_BONUS} simulazioni extra sul tuo account.`}
+                </Step>
+              </ol>
               <div className="mt-5">
                 <ReferralApplyField defaultCode={prefillCode} prominent />
               </div>
@@ -137,8 +180,9 @@ export function ReferralInviteCard({
                 {confirmed === 1 ? "collega abbonato" : "colleghi abbonati"}
                 {pending > 0 ? ` · ${pending} in attesa` : ""}
               </p>
-              <p className="mt-4 text-sm text-slate-500">
-                {invitedTotal} link condivisi · {bonusEarned} crediti guadagnati
+              <p className="mt-4 text-sm leading-relaxed text-slate-500">
+                I crediti arrivano al primo pagamento del collega. Finora {bonusEarned} simulazioni
+                guadagnate su {invitedTotal} link condivisi.
               </p>
             </>
           )}
