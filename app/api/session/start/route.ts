@@ -13,6 +13,12 @@ import { countSimulationsStartedAllTime, countSimulationsStartedToday } from "@/
 import { getUserBillingProfile } from "@/lib/billing/user-billing";
 import { resolveSimulationEntitlement } from "@/lib/billing/simulation-entitlement";
 import {
+  consumeCreditForNewSession,
+  findResumableCaseSession,
+  rollbackNewSession,
+} from "@/lib/billing/session-credits";
+import type { UserBillingProfile } from "@/lib/billing/user-billing";
+import {
   PILOT_CAP_CODE,
   PILOT_CAP_MESSAGE,
 } from "@/lib/pilot-whitelist";
@@ -54,7 +60,23 @@ async function createSession(params: {
   enforceDailyCap: boolean;
   sponsoredLimit?: number | null;
   lifetimeCap?: number | null;
+  billingProfile: UserBillingProfile;
 }): Promise<Response> {
+  if (!params.isVariant) {
+    const resumable = await findResumableCaseSession(params.userId, params.caseId);
+    if (resumable) {
+      return new Response(
+        JSON.stringify({
+          sessionId: resumable.id,
+          caseId: params.caseId,
+          isVariant: false,
+          resumed: true,
+        }),
+        { status: 200, headers: { "Content-Type": "application/json" } },
+      );
+    }
+  }
+
   // Persist caseId + empty milestone/exam arrays so sync-milestones can merge safely.
   const session = await prisma.caseSession.create({
     data: {
@@ -68,10 +90,28 @@ async function createSession(params: {
     },
   });
 
+  const consumed = await consumeCreditForNewSession({
+    profile: params.billingProfile,
+    sessionId: session.id,
+  });
+  if (!consumed.ok) {
+    await prisma.caseSession.delete({ where: { id: session.id } }).catch(() => undefined);
+    return gateToResponse({
+      allowed: false,
+      code: consumed.code,
+      status: consumed.status,
+      message: consumed.message,
+    });
+  }
+
   if (params.enforceDailyCap) {
     const usedToday = await countSimulationsStartedToday(params.userId);
     if (usedToday > DAILY_SIMULATION_LIMIT) {
-      await prisma.caseSession.delete({ where: { id: session.id } }).catch(() => undefined);
+      await rollbackNewSession({
+        profile: params.billingProfile,
+        sessionId: session.id,
+        reason: "Rollback quota giornaliera",
+      });
       return gateToResponse({
         allowed: false,
         code: "DAILY_LIMIT",
@@ -84,7 +124,11 @@ async function createSession(params: {
   if (params.lifetimeCap != null) {
     const lifetimeUsed = await countSimulationsStartedAllTime(params.userId);
     if (lifetimeUsed > params.lifetimeCap) {
-      await prisma.caseSession.delete({ where: { id: session.id } }).catch(() => undefined);
+      await rollbackNewSession({
+        profile: params.billingProfile,
+        sessionId: session.id,
+        reason: "Rollback tetto lifetime",
+      });
       return gateToResponse({
         allowed: false,
         code: PILOT_CAP_CODE,
@@ -99,7 +143,11 @@ async function createSession(params: {
     if (lifetimeUsed > params.sponsoredLimit) {
       const usedToday = await countSimulationsStartedToday(params.userId);
       if (usedToday > DAILY_SIMULATION_LIMIT) {
-        await prisma.caseSession.delete({ where: { id: session.id } }).catch(() => undefined);
+        await rollbackNewSession({
+          profile: params.billingProfile,
+          sessionId: session.id,
+          reason: "Rollback tetto omaggio",
+        });
         return gateToResponse({
           allowed: false,
           code: "DAILY_LIMIT",
@@ -293,6 +341,7 @@ export async function POST(req: Request) {
         enforceDailyCap,
         sponsoredLimit,
         lifetimeCap,
+        billingProfile,
       });
     } catch {
       // Keep navigation unblocked: client can open play with registry/offline token.
@@ -347,6 +396,7 @@ Gold standard steps (non alterare): ${goldPath.length ? goldPath.join(", ") : "n
       enforceDailyCap,
       sponsoredLimit,
       lifetimeCap,
+      billingProfile,
     });
   } catch (err) {
     console.error("[POST /api/session/start] variant session failed", {

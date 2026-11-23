@@ -1,6 +1,10 @@
 import { ensureDevMockUser, getDevMockUser, isDevAuthBypass } from "./require-user";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./auth-options";
+import {
+  MUST_CHANGE_PASSWORD_CODE,
+  MUST_CHANGE_PASSWORD_MESSAGE,
+} from "./auth/must-change-password";
 
 export const AUTH_JSON_HEADERS = { "Content-Type": "application/json" } as const;
 
@@ -22,6 +26,7 @@ export type ApiSessionUser = {
   id: string;
   role: string;
   email?: string | null;
+  mustChangePassword?: boolean;
 };
 
 /**
@@ -30,14 +35,15 @@ export type ApiSessionUser = {
  */
 export async function getSessionUserId(): Promise<string | null> {
   const user = await getSessionUser();
-  return user?.id ?? null;
+  if (!user || user.mustChangePassword) return null;
+  return user.id;
 }
 
 export async function getSessionUser(): Promise<ApiSessionUser | null> {
   if (isDevAuthBypass()) {
     const mock = getDevMockUser();
     await ensureDevMockUser();
-    return { id: mock.id, role: mock.role, email: mock.email };
+    return { id: mock.id, role: mock.role, email: mock.email, mustChangePassword: false };
   }
 
   const session = await getServerSession(authOptions);
@@ -47,6 +53,7 @@ export async function getSessionUser(): Promise<ApiSessionUser | null> {
     id,
     role: session.user.role?.trim() || "STUDENT",
     email: session.user.email ?? null,
+    mustChangePassword: session.user.mustChangePassword === true,
   };
 }
 
@@ -56,6 +63,9 @@ export async function getSessionUser(): Promise<ApiSessionUser | null> {
 export async function requireUserApi(): Promise<ApiSessionUser | Response> {
   const user = await getSessionUser();
   if (!user) return unauthorizedJson();
+  if (user.mustChangePassword) {
+    return forbiddenJson(MUST_CHANGE_PASSWORD_MESSAGE, MUST_CHANGE_PASSWORD_CODE);
+  }
   return user;
 }
 

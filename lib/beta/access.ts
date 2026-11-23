@@ -32,6 +32,8 @@ export function isBetaAuthorized(params: {
   const plan = (params.planType ?? "").trim().toUpperCase();
   // Manual approval: admin create sets INVITED, platform operators get BETA_TESTER.
   if (plan === "INVITED" || plan === "BETA_TESTER") return true;
+  // Paid Aequan Start / Plus (legacy stored names STUDENT / PREMIUM).
+  if (plan === "START" || plan === "PLUS" || plan === "STUDENT" || plan === "PREMIUM") return true;
 
   if (isPilotAllowedEmail(params.email)) return true;
   if (isSponsoredFreeCaseEmail(params.email)) return true;

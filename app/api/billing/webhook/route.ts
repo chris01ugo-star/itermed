@@ -3,9 +3,14 @@ import Stripe from "stripe";
 import { config } from "@/lib/config";
 import { getStripeClient } from "@/lib/billing/stripe-client";
 import {
+  handleChargeRefunded,
   handleCheckoutSessionCompleted,
+  handleDisputeCreated,
+  handleInvoicePaid,
+  handleInvoicePaymentFailed,
   handleSubscriptionDeleted,
   handleSubscriptionUpdated,
+  withStripeEvent,
 } from "@/lib/billing/webhook-handlers";
 import { createLogger } from "@/lib/logger";
 
@@ -35,24 +40,37 @@ export async function POST(request: Request) {
   }
 
   try {
-    switch (event.type) {
-      case "checkout.session.completed":
-        await handleCheckoutSessionCompleted(event.data.object as Stripe.Checkout.Session);
-        break;
-      case "customer.subscription.created":
-      case "customer.subscription.updated":
-        await handleSubscriptionUpdated(event.data.object as Stripe.Subscription);
-        break;
-      case "customer.subscription.deleted":
-        await handleSubscriptionDeleted(event.data.object as Stripe.Subscription);
-        break;
-      default:
-        break;
-    }
+    const result = await withStripeEvent(event, async () => {
+      switch (event.type) {
+        case "checkout.session.completed":
+          await handleCheckoutSessionCompleted(event.data.object as Stripe.Checkout.Session);
+          break;
+        case "invoice.paid":
+          await handleInvoicePaid(event.data.object as Stripe.Invoice);
+          break;
+        case "invoice.payment_failed":
+          await handleInvoicePaymentFailed(event.data.object as Stripe.Invoice);
+          break;
+        case "customer.subscription.created":
+        case "customer.subscription.updated":
+          await handleSubscriptionUpdated(event.data.object as Stripe.Subscription);
+          break;
+        case "customer.subscription.deleted":
+          await handleSubscriptionDeleted(event.data.object as Stripe.Subscription);
+          break;
+        case "charge.refunded":
+          await handleChargeRefunded(event.data.object as Stripe.Charge);
+          break;
+        case "charge.dispute.created":
+          await handleDisputeCreated(event.data.object as Stripe.Dispute);
+          break;
+        default:
+          break;
+      }
+    });
+    return NextResponse.json({ received: true, result });
   } catch (error) {
     log.error("Webhook handler failed", { error, eventType: event.type });
     return NextResponse.json({ error: "Webhook handler failed" }, { status: 500 });
   }
-
-  return NextResponse.json({ received: true });
 }

@@ -3,6 +3,11 @@ import {
   fetchPlatformMetrics,
   fetchWaitlistEntries,
 } from "@/lib/admin/platform-metrics";
+import {
+  fetchMonetizationMetrics,
+  listRecentCreditAudits,
+} from "@/lib/admin/monetization-metrics";
+import { MonetizationAdjustForm } from "@/components/admin/MonetizationAdjustForm";
 
 export const metadata = {
   title: "Piattaforma · Admin Aequan",
@@ -34,9 +39,11 @@ function MetricCard({
 export default async function AdminPlatformPage() {
   await requirePlatformAdmin();
 
-  const [metrics, waitlist] = await Promise.all([
+  const [metrics, waitlist, monetization, audits] = await Promise.all([
     fetchPlatformMetrics(),
     fetchWaitlistEntries(300),
+    fetchMonetizationMetrics(),
+    listRecentCreditAudits(12),
   ]);
 
   return (
@@ -83,6 +90,59 @@ export default async function AdminPlatformPage() {
         </div>
         <div className="mt-3 grid grid-cols-2 gap-3 lg:grid-cols-4">
           <MetricCard label="Casi clinici attivi" value={metrics.activeCases} />
+        </div>
+      </section>
+
+      <section>
+        <h2 className="mb-3 text-sm font-semibold text-slate-800">
+          Abbonamenti e monetizzazione
+        </h2>
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <MetricCard label="Abbonati Start" value={monetization.startActive} />
+          <MetricCard label="Abbonati Plus" value={monetization.plusActive} />
+          <MetricCard
+            label="MRR stimato"
+            value={`${monetization.estimatedMrrEuro} €`}
+            hint="Piani attivi in database, non incassi Stripe"
+          />
+          <MetricCard
+            label="Cancellati / past due"
+            value={`${monetization.canceled} / ${monetization.pastDue}`}
+          />
+          <MetricCard label="Pacchetti extra" value={monetization.extraPacks} />
+          <MetricCard label="Crediti erogati" value={monetization.creditsGranted} />
+          <MetricCard label="Crediti usati" value={monetization.creditsUsed} />
+          <MetricCard label="Simulazioni completate" value={monetization.simulationsCompleted} />
+          <MetricCard
+            label="Referral"
+            value={`${monetization.referralsConfirmed}/${monetization.referralsTotal}`}
+            hint="Convertiti / generati"
+          />
+          <MetricCard label="Bonus referral" value={monetization.referralBonus} />
+          <MetricCard label="Pagamenti falliti" value={monetization.failedPayments} />
+          <MetricCard
+            label="Referral sospetti"
+            value={monetization.suspiciousReferrals}
+            hint="Fingerprint riutilizzato o codice invalidato"
+          />
+        </div>
+        <p className="mt-2 text-xs text-slate-500">{monetization.collectedNote}</p>
+        <div className="mt-5 rounded-2xl border border-slate-200/90 bg-white p-4">
+          <MonetizationAdjustForm />
+          {audits.length > 0 ? (
+            <ul className="mt-4 divide-y divide-slate-100 text-xs text-slate-600">
+              {audits.map((row) => (
+                <li key={row.id} className="flex justify-between gap-3 py-2">
+                  <span>
+                    {row.targetUserId} · {row.bucket} · {row.amount} · {row.reason}
+                  </span>
+                  <span className="shrink-0 text-slate-400">
+                    {row.createdAt.toLocaleString("it-IT", { timeZone: "Europe/Rome" })}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : null}
         </div>
       </section>
 

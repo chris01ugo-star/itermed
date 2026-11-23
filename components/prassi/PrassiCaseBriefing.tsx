@@ -121,10 +121,45 @@ function BriefingBody({
           </div>
         </div>
 
+        {caseRow.playStatus === "completed" || caseRow.playStatus === "in_progress" ? (
+          <div className="rounded-xl border border-slate-200 bg-ui-bg/60 px-4 py-3 text-sm">
+            <p className="font-medium text-slate-800">
+              {caseRow.playStatus === "in_progress" ? "Simulazione in corso" : "Caso completato"}
+            </p>
+            <p className="mt-1 text-xs text-slate-500">
+              {caseRow.lastCompletedAt
+                ? `Ultima sessione: ${new Date(caseRow.lastCompletedAt).toLocaleDateString("it-IT", { timeZone: "Europe/Rome" })}`
+                : null}
+              {caseRow.lastScore != null ? ` · Punteggio ${caseRow.lastScore}` : ""}
+              {caseRow.attempts ? ` · ${caseRow.attempts} tentativ${caseRow.attempts === 1 ? "o" : "i"}` : ""}
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {caseRow.lastReportId ? (
+                <a
+                  href={`/case/${encodeURIComponent(caseRow.id)}/results?sessionId=${encodeURIComponent(caseRow.lastReportId)}`}
+                  className="inline-flex h-10 items-center rounded-xl border border-slate-200 bg-white px-3 text-xs font-semibold text-slate-700"
+                >
+                  Consulta il report precedente
+                </a>
+              ) : null}
+              {caseRow.resumeSessionId ? (
+                <a
+                  href={`/dashboard/prassi/play/${encodeURIComponent(caseRow.id)}?sessionId=${encodeURIComponent(caseRow.resumeSessionId)}`}
+                  className="inline-flex h-10 items-center rounded-xl bg-[#1E324E] px-3 text-xs font-semibold text-white"
+                >
+                  Riprendi simulazione
+                </a>
+              ) : null}
+            </div>
+          </div>
+        ) : null}
+
         <div className="border-t border-border-subtle pt-5">
           <div className="mb-3 flex items-center gap-2">
             <Play className="h-3.5 w-3.5 text-brand-secondary" aria-hidden />
-            <p className="text-xs font-semibold text-slate-600">Avvia esercitazione</p>
+            <p className="text-xs font-semibold text-slate-600">
+              {caseRow.playStatus === "completed" ? "Ripeti la simulazione" : "Avvia esercitazione"}
+            </p>
           </div>
           <StartCaseButtons caseId={caseRow.id} emphasis="original" />
         </div>

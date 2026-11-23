@@ -18,6 +18,10 @@ import {
   resolveSimulationEntitlement,
 } from "@/lib/billing/simulation-entitlement";
 import {
+  SUBSCRIPTION_REQUIRED_CODE,
+  SUBSCRIPTION_REQUIRED_MESSAGE,
+} from "@/lib/billing/credit-policy";
+import {
   PILOT_ACCESS_DENIED_MESSAGE,
   PILOT_CAP_CODE,
   UNAUTHORIZED_PILOT_EMAIL_CODE,
@@ -136,6 +140,10 @@ export function assertCanStartSimulation(
     return { allowed: true };
   }
 
+  if (hasActiveSubscription(profile)) {
+    return { allowed: true };
+  }
+
   const hasAdminGrant = entitlement.source === "override";
   const betaAuthorized = isBetaAuthorized({
     role: profile.role,
@@ -145,6 +153,14 @@ export function assertCanStartSimulation(
   });
 
   if (!hasAdminGrant && !betaAuthorized) {
+    if (profile.firstPaidAt) {
+      return {
+        allowed: false,
+        code: SUBSCRIPTION_REQUIRED_CODE,
+        status: 402,
+        message: SUBSCRIPTION_REQUIRED_MESSAGE,
+      };
+    }
     return {
       allowed: false,
       code: UNAUTHORIZED_PILOT_EMAIL_CODE,

@@ -102,6 +102,9 @@ export function UsersAdminPanel({
                       <Badge variant={user.isActive ? "success" : "danger"}>
                         {user.isActive ? "Attivo" : "Disattivato"}
                       </Badge>
+                      {user.mustChangePassword ? (
+                        <Badge variant="warning">Deve cambiare password</Badge>
+                      ) : null}
                     </div>
                     <p className="mt-0.5 truncate text-xs text-zinc-500">{user.email}</p>
                     <p className="mt-1 text-[11px] text-zinc-400">
