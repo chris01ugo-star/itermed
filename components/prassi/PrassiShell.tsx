@@ -3,7 +3,7 @@
 import { useMemo, useCallback, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowLeft, BookOpen, Check, ChevronRight, FolderOpen } from "lucide-react";
+import { ArrowLeft, BookOpen, Check, ChevronRight, FolderOpen, Lock } from "lucide-react";
 import {
   DIFFICULTY_LABELS,
   displaySpecialtyName,
@@ -99,28 +99,27 @@ function FolderNotch({ fill }: { fill: string }) {
   );
 }
 
-function CompletedFlag() {
+function CompletedCheck() {
   return (
     <span
-      className="pointer-events-none absolute right-0 top-0 z-20 flex h-[22px] w-[22px] items-center justify-center rounded-bl-md bg-[#32D74B] shadow-[inset_0_-1px_0_rgba(0,0,0,0.12)]"
+      className="inline-flex h-[15px] w-[15px] shrink-0 items-center justify-center rounded-full bg-[#5B9078]"
       title="Caso svolto"
       aria-label="Caso svolto"
     >
-      <Check className="h-3 w-3 text-white" strokeWidth={3.5} aria-hidden />
+      <Check className="h-[9px] w-[9px] text-white" strokeWidth={3} aria-hidden />
     </span>
   );
 }
 
-function SubscriptionCornerFlag() {
+function SubscriptionChip() {
   return (
     <Link
       href="/dashboard/billing"
       title="Abbonamento necessario"
-      className="absolute bottom-0 right-0 z-20 rounded-tl-md bg-[#1E324E] px-1.5 py-[5px] text-right text-[7px] font-semibold uppercase leading-[1.1] tracking-[0.06em] text-white transition hover:bg-[#2A486D]"
+      className="absolute bottom-2.5 right-2.5 z-20 inline-flex items-center gap-1 rounded-full bg-[#1E324E]/90 px-2 py-[3px] text-[10px] font-medium leading-none text-white/95 shadow-[0_1px_2px_rgba(30,50,78,0.16)] transition hover:bg-[#2A486D]"
     >
+      <Lock className="h-2.5 w-2.5 opacity-80" strokeWidth={2.25} aria-hidden />
       Abbonamento
-      <br />
-      necessario
     </Link>
   );
 }
@@ -353,17 +352,19 @@ export function PrassiShell({
                         }
                         className={cn(
                           "group relative flex h-[7.25rem] w-full min-w-0 items-stretch gap-2 px-3.5 py-3 text-left transition duration-200 hover:brightness-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/30",
-                          caseRow.playStatus === "completed" ? "pr-8" : "",
-                          requiresPaidPlan ? "pr-16" : "",
+                          requiresPaidPlan ? "pr-[6.75rem]" : "",
                         )}
                       >
                       <div className="flex min-h-0 min-w-0 flex-1 flex-col justify-between gap-1.5">
-                        <p className="truncate text-sm font-bold text-slate-800">
-                          {patientName}
-                          <span className="font-medium text-slate-500">
-                            {" "}
-                            · {patientAge} anni
+                        <p className="flex min-w-0 items-center gap-1.5 text-sm font-bold text-slate-800">
+                          <span className="min-w-0 truncate">
+                            {patientName}
+                            <span className="font-medium text-slate-500">
+                              {" "}
+                              · {patientAge} anni
+                            </span>
                           </span>
+                          {caseRow.playStatus === "completed" ? <CompletedCheck /> : null}
                         </p>
                         <p className="h-10 overflow-hidden text-xs leading-5 text-slate-600 [display:-webkit-box] [-webkit-box-orient:vertical] [-webkit-line-clamp:2]">
                           {condition}
@@ -391,8 +392,7 @@ export function PrassiShell({
                         </span>
                       )}
                     </button>
-                    {caseRow.playStatus === "completed" ? <CompletedFlag /> : null}
-                    {requiresPaidPlan ? <SubscriptionCornerFlag /> : null}
+                    {requiresPaidPlan ? <SubscriptionChip /> : null}
                     </div>
                   </div>
                 );
@@ -463,7 +463,7 @@ export function PrassiShell({
                           : `${bucket.cases.length} casi clinici`}
                       </p>
                       {requiresPaidPlan ? (
-                        <span className="h-7 w-16 shrink-0" aria-hidden />
+                        <span className="h-6 w-[6.75rem] shrink-0" aria-hidden />
                       ) : (
                         <span
                           className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/55 text-slate-500 transition group-hover:text-brand-primary"
@@ -474,7 +474,7 @@ export function PrassiShell({
                       )}
                     </div>
                   </button>
-                  {requiresPaidPlan ? <SubscriptionCornerFlag /> : null}
+                  {requiresPaidPlan ? <SubscriptionChip /> : null}
                   </div>
                 </div>
                 );
