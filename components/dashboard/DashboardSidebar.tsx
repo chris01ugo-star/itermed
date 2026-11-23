@@ -70,7 +70,7 @@ const primaryNavItems: NavItem[] = [
   },
   {
     href: "/dashboard/analytics",
-    label: "Analytics",
+    label: "Performance",
     icon: Trophy,
     matchPrefixes: ["/dashboard/analytics", "/dashboard/classifiche", "/dashboard/statistics"],
   },

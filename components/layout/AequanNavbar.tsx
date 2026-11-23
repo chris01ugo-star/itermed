@@ -10,7 +10,7 @@ type NavLink = { href: string; label: string };
 const DEFAULT_NAV: NavLink[] = [
   { href: "/dashboard", label: "Overview" },
   { href: "/dashboard/prassi", label: "Casi Clinici" },
-  { href: "/dashboard/analytics", label: "Analytics" },
+  { href: "/dashboard/analytics", label: "Performance" },
   { href: "/demo", label: "Demo UI" },
 ];
 
