@@ -18,8 +18,8 @@ type ScoreTrendChartProps = {
 export function ScoreTrendChart({ data }: ScoreTrendChartProps) {
   if (data.length === 0) {
     return (
-      <p className="text-sm text-zinc-500 text-center py-12">
-        Completa almeno una simulazione per visualizzare il trend di miglioramento.
+      <p className="py-12 text-center text-sm text-slate-500">
+        Completa almeno un caso per vedere l&apos;andamento.
       </p>
     );
   }
@@ -38,7 +38,7 @@ export function ScoreTrendChart({ data }: ScoreTrendChartProps) {
             tickLine={false}
           />
           <YAxis
-            domain={[0, 100]}
+            domain={[0, 30]}
             tick={{ fill: "#64748B", fontSize: 11 }}
             axisLine={false}
             tickLine={false}
@@ -50,7 +50,7 @@ export function ScoreTrendChart({ data }: ScoreTrendChartProps) {
               fontSize: 12,
             }}
             labelFormatter={(label) => `Sessione · ${label}`}
-            formatter={(value: number) => [`${value}/100`, "Punteggio medio"]}
+            formatter={(value: number) => [`${value}/30`, "Punteggio"]}
           />
           <Line
             type="monotone"

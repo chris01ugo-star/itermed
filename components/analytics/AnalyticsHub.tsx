@@ -1,14 +1,14 @@
 "use client";
 
 import { useCallback, useMemo, useState, useTransition } from "react";
-import { Activity, BarChart3, Lightbulb, TrendingUp } from "lucide-react";
+import { Award, Target, TrendingUp, Trophy } from "lucide-react";
 import type { AnalyticsPageData } from "@/lib/analytics/analytics-types";
 import { PersonalProfilePanel } from "@/components/analytics/PersonalProfilePanel";
 import { ClinicalPerformanceRegistry } from "@/components/analytics/ClinicalPerformanceRegistry";
 import { ScoreTrendChart } from "@/components/statistics/ScoreTrendChart";
 import { AiClinicalCoach } from "@/components/statistics/AiClinicalCoach";
 import { OVERVIEW_RADAR_METRICS } from "@/lib/constants/overview-radar-metrics";
-import { ResultsRadarClient } from "@/app/case/[id]/results/ResultsRadarClient";
+import { cn } from "@/app/utils/cn";
 
 type AnalyticsHubProps = {
   initialData: AnalyticsPageData;
@@ -29,134 +29,184 @@ export function AnalyticsHub({ initialData }: AnalyticsHubProps) {
 
   const { leaderboard, statistics } = data;
   const currentEntry = leaderboard.currentUser.entry;
+  const metrics = leaderboard.currentUser.metrics;
+  const optedIn = leaderboard.currentUser.preferences.leaderboardOptIn;
   const isOutsideTop50 =
     currentEntry != null &&
     currentEntry.rank > 50 &&
     !leaderboard.top50.some((e) => e.isCurrentUser);
 
-  const radarData = useMemo(
-    () =>
-      OVERVIEW_RADAR_METRICS.map(({ metric, key }) => ({
-        metric,
-        score: statistics.overallAverages[key] ?? 0,
-        target: 100,
-      })),
-    [statistics.overallAverages],
-  );
+  const weakest = useMemo(() => {
+    if (statistics.completedCount === 0) return null;
+    return OVERVIEW_RADAR_METRICS.reduce((lowest, item) => {
+      const score = statistics.overallAverages[item.key] ?? 0;
+      const lowestScore = statistics.overallAverages[lowest.key] ?? 0;
+      return score < lowestScore ? item : lowest;
+    });
+  }, [statistics.completedCount, statistics.overallAverages]);
 
   return (
     <div className="flex flex-col gap-6">
-      <section className="grid grid-cols-1 items-stretch gap-4 xl:grid-cols-[minmax(17rem,0.9fr)_minmax(0,1.7fr)]">
-        <PersonalProfilePanel
-          metrics={leaderboard.currentUser.metrics}
-          preferences={leaderboard.currentUser.preferences}
-          entry={currentEntry}
-          top50={leaderboard.top50}
-          onUpdated={refreshLeaderboard}
+      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <SnapshotCard
+          icon={Trophy}
+          label="Posizione"
+          value={
+            optedIn && metrics.rank != null ? `#${metrics.rank}` : optedIn ? "—" : "Nascosto"
+          }
+          caption={
+            optedIn && metrics.totalParticipants > 0
+              ? `su ${metrics.totalParticipants} in classifica`
+              : optedIn
+                ? "Completa un caso per entrare"
+                : "Rendi visibili i risultati sotto"
+          }
         />
-
-        <ClinicalPerformanceRegistry
-          entries={leaderboard.top50}
-          currentUserOutsideTop50={isOutsideTop50 ? currentEntry : null}
-          totalParticipants={leaderboard.currentUser.metrics.totalParticipants}
+        <SnapshotCard
+          icon={Award}
+          label="Media casi"
+          value={metrics.averageScore != null ? `${metrics.averageScore}/30` : "—"}
+          caption={
+            metrics.completedCount > 0
+              ? `su ${metrics.completedCount} ${metrics.completedCount === 1 ? "caso" : "casi"}`
+              : "Nessun caso completato"
+          }
+        />
+        <SnapshotCard
+          icon={TrendingUp}
+          label="Casi completati"
+          value={String(metrics.completedCount)}
+          caption="Simulazioni con report chiuso"
+        />
+        <SnapshotCard
+          icon={Target}
+          label="Da migliorare"
+          value={weakest ? weakest.metric : "—"}
+          caption={
+            weakest
+              ? `${statistics.overallAverages[weakest.key]}/100 su questo ambito`
+              : "Uscirà dopo il primo caso"
+          }
         />
       </section>
 
-      <section className="grid grid-cols-1 gap-4 lg:grid-cols-12">
-        <div className="overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-[0_1px_0_rgba(15,23,42,0.03)] lg:col-span-7">
-          <div className="flex items-center gap-2.5 border-b border-slate-100 px-5 py-4">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#EEF2F9] text-[#345884]">
-              <Activity className="h-4 w-4" strokeWidth={1.75} />
+      <section className="grid grid-cols-1 items-stretch gap-6 xl:grid-cols-12">
+        <div className="min-h-[28rem] xl:col-span-7">
+          <ClinicalPerformanceRegistry
+            entries={leaderboard.top50}
+            currentUserOutsideTop50={isOutsideTop50 ? currentEntry : null}
+            totalParticipants={metrics.totalParticipants}
+            identity={
+              <PersonalProfilePanel
+                preferences={leaderboard.currentUser.preferences}
+                onUpdated={refreshLeaderboard}
+              />
+            }
+          />
+        </div>
+
+        <div className="flex flex-col gap-4 xl:col-span-5">
+          <div className="overflow-hidden rounded-xl border border-border bg-panel-bg shadow-aequan-panel">
+            <div className="border-b border-border-subtle px-5 py-4">
+              <h2 className="font-display text-base font-semibold text-[#1E324E]">Competenze</h2>
+              <p className="mt-0.5 text-xs text-slate-500">
+                Media da 0 a 100 sui report completati.
+              </p>
             </div>
-            <div>
-              <h2 className="font-display text-sm font-semibold text-[#1E324E]">
-                Radar competenze
+            <div className="space-y-3.5 px-5 py-4">
+              {statistics.completedCount === 0 ? (
+                <p className="py-6 text-sm text-slate-500">
+                  Completa un caso per vedere i cinque ambiti.
+                </p>
+              ) : (
+                OVERVIEW_RADAR_METRICS.map(({ metric, key }) => {
+                  const score = statistics.overallAverages[key] ?? 0;
+                  const isWeakest = weakest?.key === key;
+                  return (
+                    <div key={key}>
+                      <div className="mb-1 flex items-baseline justify-between gap-3">
+                        <p
+                          className={cn(
+                            "text-sm",
+                            isWeakest ? "font-semibold text-[#1E324E]" : "text-slate-700",
+                          )}
+                        >
+                          {metric}
+                        </p>
+                        <p className="text-sm font-semibold tabular-nums text-[#1E324E]">{score}</p>
+                      </div>
+                      <div className="h-1.5 overflow-hidden rounded-full bg-slate-100">
+                        <div
+                          className={cn(
+                            "h-full rounded-full",
+                            isWeakest ? "bg-amber-500" : "bg-[#345884]",
+                          )}
+                          style={{ width: `${Math.max(0, Math.min(100, score))}%` }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+
+          <div className="overflow-hidden rounded-xl border border-border bg-panel-bg shadow-aequan-panel">
+            <div className="border-b border-border-subtle px-5 py-4">
+              <h2 className="font-display text-base font-semibold text-[#1E324E]">
+                Cosa migliorare
               </h2>
               <p className="mt-0.5 text-xs text-slate-500">
-                Media sulle simulazioni completate vs target formativo.
+                Le aree con il punteggio più basso, in ordine.
               </p>
             </div>
-          </div>
-          <div className="h-80 px-4 py-4">
-            {statistics.completedCount === 0 ? (
-              <p className="flex h-full items-center justify-center text-sm text-slate-500">
-                Completa un caso per vedere il radar.
-              </p>
-            ) : (
-              <ResultsRadarClient data={radarData} />
-            )}
-          </div>
-        </div>
-
-        <div className="overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-[0_1px_0_rgba(15,23,42,0.03)] lg:col-span-5">
-          <div className="flex items-center gap-2.5 border-b border-slate-100 px-5 py-4">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#EEF2F9] text-[#345884]">
-              <BarChart3 className="h-4 w-4" strokeWidth={1.75} />
+            <div className="px-5 py-4">
+              <AiClinicalCoach
+                insights={statistics.completedCount === 0 ? [] : statistics.coachInsights}
+              />
             </div>
-            <div>
-              <h2 className="font-display text-sm font-semibold text-[#1E324E]">
-                Medie per dimensione
-              </h2>
-              <p className="mt-0.5 text-xs text-slate-500">Snapshot su tutti i report completati.</p>
-            </div>
-          </div>
-          <div className="px-5 py-4">
-            {statistics.completedCount === 0 ? (
-              <p className="text-sm text-slate-500">Nessun dato disponibile.</p>
-            ) : (
-              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                {OVERVIEW_RADAR_METRICS.map(({ metric, key }) => (
-                  <div
-                    key={key}
-                    className="rounded-xl border border-slate-100 bg-slate-50/70 px-3.5 py-3"
-                  >
-                    <p className="text-[10px] uppercase tracking-wide text-slate-400">{metric}</p>
-                    <p className="mt-0.5 font-display text-xl font-semibold tabular-nums text-[#1E324E]">
-                      {statistics.overallAverages[key]}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
         </div>
       </section>
 
-      <section className="overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-[0_1px_0_rgba(15,23,42,0.03)]">
-        <div className="flex items-center gap-2.5 border-b border-slate-100 px-5 py-4">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#EEF2F9] text-[#345884]">
-            <TrendingUp className="h-4 w-4" strokeWidth={1.75} />
-          </div>
-          <div>
-            <h2 className="font-display text-sm font-semibold text-[#1E324E]">Trend punteggi</h2>
-            <p className="mt-0.5 text-xs text-slate-500">
-              Andamento del punteggio totale nelle ultime sessioni completate.
-            </p>
-          </div>
+      <section className="overflow-hidden rounded-xl border border-border bg-panel-bg shadow-aequan-panel">
+        <div className="border-b border-border-subtle px-5 py-4">
+          <h2 className="font-display text-base font-semibold text-[#1E324E]">Andamento</h2>
+          <p className="mt-0.5 text-xs text-slate-500">
+            Punteggio in trentesimi delle ultime simulazioni.
+          </p>
         </div>
         <div className="px-5 py-4">
           <ScoreTrendChart data={statistics.trend} />
         </div>
       </section>
+    </div>
+  );
+}
 
-      <section className="overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-[0_1px_0_rgba(15,23,42,0.03)]">
-        <div className="flex items-center gap-2.5 border-b border-slate-100 px-5 py-4">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#EEF2F9] text-[#345884]">
-            <Lightbulb className="h-4 w-4" strokeWidth={1.75} />
-          </div>
-          <div>
-            <h2 className="font-display text-sm font-semibold text-[#1E324E]">
-              Raccomandazioni clinico-legali
-            </h2>
-            <p className="mt-0.5 text-xs text-slate-500">
-              Aree prioritarie di miglioramento basate sulle tue performance.
-            </p>
-          </div>
+function SnapshotCard({
+  icon: Icon,
+  label,
+  value,
+  caption,
+}: {
+  icon: typeof Trophy;
+  label: string;
+  value: string;
+  caption: string;
+}) {
+  return (
+    <div className="flex flex-col gap-3 rounded-xl border border-border bg-panel-bg px-5 py-4 shadow-aequan-panel">
+      <div className="flex items-center gap-3">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#EEF2F9] text-[#345884]">
+          <Icon className="h-[18px] w-[18px]" strokeWidth={1.75} />
         </div>
-        <div className="px-5 py-4">
-          <AiClinicalCoach insights={statistics.coachInsights} />
+        <div className="min-w-0">
+          <p className="text-xs text-slate-500">{label}</p>
+          <p className="truncate text-xl font-semibold tabular-nums text-[#1E324E]">{value}</p>
         </div>
-      </section>
+      </div>
+      <p className="text-xs leading-snug text-slate-400">{caption}</p>
     </div>
   );
 }
