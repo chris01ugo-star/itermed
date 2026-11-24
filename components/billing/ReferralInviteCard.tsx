@@ -59,27 +59,15 @@ export function ReferralInviteCard({
   showApply?: boolean;
   prefillCode?: string;
 }) {
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<"code" | "link" | null>(null);
 
-  async function copyInvite() {
+  async function copyText(value: string, kind: "code" | "link") {
     try {
-      if (typeof navigator !== "undefined" && typeof navigator.share === "function") {
-        try {
-          await navigator.share({
-            title: "Aequan",
-            text: "Allenati su casi clinici con Aequan. Usa il mio invito:",
-            url: inviteUrl,
-          });
-          return;
-        } catch (err) {
-          if (err instanceof Error && err.name === "AbortError") return;
-        }
-      }
-      await navigator.clipboard.writeText(inviteUrl);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 1600);
+      await navigator.clipboard.writeText(value);
+      setCopied(kind);
+      window.setTimeout(() => setCopied(null), 1600);
     } catch {
-      setCopied(false);
+      setCopied(null);
     }
   }
 
@@ -125,18 +113,29 @@ export function ReferralInviteCard({
               Il programma referral di questo account è sospeso.
             </p>
           ) : (
-            <div className="relative mt-6 space-y-2.5">
+            <div className="relative mt-6 space-y-3">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/55">
+                Il tuo codice
+              </p>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <p className="min-w-0 flex-1 rounded-xl bg-white/10 px-3.5 py-3 text-center font-mono text-lg font-semibold tracking-[0.18em] text-white sm:text-left">
+                  {code}
+                </p>
+                <button
+                  type="button"
+                  onClick={() => void copyText(code, "code")}
+                  className="inline-flex h-12 shrink-0 items-center justify-center rounded-xl bg-white px-4 text-sm font-semibold text-[#1E324E] transition hover:bg-white/90"
+                >
+                  {copied === "code" ? "Codice copiato" : "Copia codice"}
+                </button>
+              </div>
               <button
                 type="button"
-                onClick={() => void copyInvite()}
-                className="inline-flex h-12 w-full items-center justify-center rounded-xl bg-white px-4 text-sm font-semibold text-[#1E324E] transition hover:bg-white/90"
+                onClick={() => void copyText(inviteUrl, "link")}
+                className="inline-flex h-11 w-full items-center justify-center rounded-xl border border-white/20 bg-white/5 px-4 text-sm font-medium text-white/90 transition hover:bg-white/10"
               >
-                {copied ? "Link copiato — ora invialo" : "Copia il link e invialo"}
+                {copied === "link" ? "Link copiato — ora invialo" : "Copia anche il link di invito"}
               </button>
-              <p className="text-center text-[11px] text-white/45">
-                Codice personale{" "}
-                <span className="font-mono tracking-[0.16em] text-white/70">{code}</span>
-              </p>
             </div>
           )}
         </div>
