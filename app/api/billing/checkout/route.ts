@@ -13,7 +13,26 @@ import { hasPaidSaasSubscription } from "@/lib/billing/credit-policy";
 
 export const runtime = "nodejs";
 
+function checkoutErrorMessage(err: unknown): string {
+  if (err && typeof err === "object" && "message" in err) {
+    const message = (err as { message: unknown }).message;
+    if (typeof message === "string" && message.trim()) {
+      return message.trim().slice(0, 280);
+    }
+  }
+  return "Checkout Stripe non riuscito. Controlla le chiavi test e i Price ID su Vercel, poi riprova.";
+}
+
 export async function POST(request: Request) {
+  try {
+    return await createCheckoutResponse(request);
+  } catch (err) {
+    console.error("[billing/checkout]", err);
+    return NextResponse.json({ error: checkoutErrorMessage(err) }, { status: 502 });
+  }
+}
+
+async function createCheckoutResponse(request: Request) {
   const userId = await getSessionUserId();
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

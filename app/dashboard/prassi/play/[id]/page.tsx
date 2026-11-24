@@ -20,8 +20,7 @@ import { withLabFlow } from "@/lib/simulator/load-lab-flow";
 import { decodeCaseParam, getCaseById } from "@/lib/data/cases/registry";
 import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
 import { getUserBillingProfile } from "@/lib/billing/user-billing";
-import { hasPaidSaasSubscription } from "@/lib/billing/credit-policy";
-import { hasUnlimitedCaseAccess } from "@/lib/billing/unlimited-case-access";
+import { mayStartLiveSimulation } from "@/lib/billing/credit-policy";
 
 type PlayPageProps = {
   params: Promise<{ id: string }> | { id: string };
@@ -127,10 +126,7 @@ export default async function PrassiPlayPage(props: PlayPageProps) {
     const user = await requireUser();
     const userId = user.id;
     const billingProfile = await getUserBillingProfile(userId).catch(() => null);
-    const canStartWithoutPlan =
-      hasUnlimitedCaseAccess(user) ||
-      (billingProfile ? hasPaidSaasSubscription(billingProfile) : false);
-    if (!canStartWithoutPlan && !liveSessionId) {
+    if (!billingProfile || !mayStartLiveSimulation(billingProfile)) {
       redirect("/dashboard/billing");
     }
 

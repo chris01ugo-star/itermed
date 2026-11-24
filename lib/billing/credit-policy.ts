@@ -1,12 +1,15 @@
 import { ACTIVE_SUBSCRIPTION_STATUSES, isSubscriptionPlan } from "@/lib/billing/plans";
 import { hasUnlimitedCaseAccess } from "@/lib/billing/unlimited-case-access";
 import { isBetaAuthorized, getBetaEmailAllowlistFromEnv } from "@/lib/beta/access";
+import { resolveSimulationEntitlement } from "@/lib/billing/simulation-entitlement";
 
 type CreditPolicyUser = {
   role?: string | null;
   email?: string | null;
   planType?: string | null;
   subscriptionStatus?: string | null;
+  isActive?: boolean | null;
+  freeSimulationLimit?: number | null;
 };
 
 export const CREDITS_EXHAUSTED_CODE = "CREDITS_EXHAUSTED";
@@ -22,6 +25,14 @@ export function hasPaidSaasSubscription(profile: CreditPolicyUser): boolean {
   if (!isSubscriptionPlan(profile.planType)) return false;
   if (!profile.subscriptionStatus) return false;
   return ACTIVE_SUBSCRIPTION_STATUSES.has(profile.subscriptionStatus);
+}
+
+/** Live simulator: paid Start/Plus, or admin / unlimited grant. Unpaid BETA/INVITED stay locked. */
+export function mayStartLiveSimulation(profile: CreditPolicyUser): boolean {
+  const entitlement = resolveSimulationEntitlement(profile);
+  if (!entitlement.isActive) return false;
+  if (entitlement.unlimited) return true;
+  return hasPaidSaasSubscription(profile);
 }
 
 function hasPaidSubscription(profile: CreditPolicyUser): boolean {

@@ -256,6 +256,13 @@ export async function POST(req: Request) {
     });
   }
 
+  const earlyGate = assertCanStartSimulation(billingProfile, {
+    bypassDailyLimit: canHonorDailyLimitBypass(devBypass),
+  });
+  if (!earlyGate.allowed) {
+    return gateToResponse(earlyGate);
+  }
+
   try {
     await Promise.race([
       ensureRegisteredCaseInDb(rawCaseId, userId),
