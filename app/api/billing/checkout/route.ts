@@ -6,6 +6,7 @@ import { getOrCreateStripeCustomer, getUserBillingProfile } from "@/lib/billing/
 import { getStripeClient, isStripeConfigured } from "@/lib/billing/stripe-client";
 import { EXTRA_CREDIT_PACK, toSaasPlanId, toStoredPlanType } from "@/lib/billing/plans";
 import { extraCreditsPriceId, priceIdForPlan } from "@/lib/billing/stripe-prices";
+import { resolveStripePriceId, stripePriceKindError } from "@/lib/billing/stripe-price-resolve";
 import { hostedCheckoutBase } from "@/lib/billing/stripe-checkout-session";
 import { applyReferralCode, attachCheckoutToReferral } from "@/lib/billing/referral";
 import { hasActiveSubscription } from "@/lib/billing/access-gate";
@@ -17,6 +18,13 @@ function checkoutErrorMessage(err: unknown): string {
   if (err && typeof err === "object" && "message" in err) {
     const message = (err as { message: unknown }).message;
     if (typeof message === "string" && message.trim()) {
+      const prodHint = message.match(/No such price: '(prod_[^']+)'/i);
+      if (prodHint?.[1]) {
+        return (
+          stripePriceKindError(prodHint[1]) ??
+          message.trim().slice(0, 280)
+        );
+      }
       return message.trim().slice(0, 280);
     }
   }
@@ -80,10 +88,15 @@ async function createCheckoutResponse(request: Request) {
         { status: 402 },
       );
     }
-    const priceId = extraCreditsPriceId();
+    const extraRaw = extraCreditsPriceId();
+    const priceId = await resolveStripePriceId(extraRaw, "one_time");
     if (!priceId) {
       return NextResponse.json(
-        { error: "Prezzo pacchetto extra non configurato (STRIPE_PRICE_EXTRA_CREDITS)." },
+        {
+          error:
+            stripePriceKindError(extraRaw) ??
+            "Prezzo pacchetto extra non configurato (STRIPE_PRICE_EXTRA_CREDITS).",
+        },
         { status: 400 },
       );
     }
@@ -128,11 +141,13 @@ async function createCheckoutResponse(request: Request) {
   if (!plan) {
     return NextResponse.json({ error: "Piano non valido" }, { status: 400 });
   }
-  const priceId = priceIdForPlan(plan);
+  const planRaw = priceIdForPlan(plan);
+  const priceId = await resolveStripePriceId(planRaw, "recurring");
   if (!priceId) {
     return NextResponse.json(
       {
         error:
+          stripePriceKindError(planRaw) ??
           "Prezzo abbonamento non configurato. Imposta STRIPE_PRICE_START / STRIPE_PRICE_PLUS (oppure STUDENT/PREMIUM).",
       },
       { status: 400 },
