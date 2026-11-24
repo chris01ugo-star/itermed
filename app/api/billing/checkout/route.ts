@@ -2,15 +2,20 @@ import { NextResponse } from "next/server";
 import { getSessionUserId } from "@/lib/api-session";
 import { config } from "@/lib/config";
 import { CheckoutBodySchema } from "@/lib/billing/schemas";
-import { getOrCreateStripeCustomer, getUserBillingProfile } from "@/lib/billing/user-billing";
+import {
+  applySubscriptionUpdate,
+  getOrCreateStripeCustomer,
+  getUserBillingProfile,
+} from "@/lib/billing/user-billing";
 import { getStripeClient, isStripeConfigured } from "@/lib/billing/stripe-client";
 import { EXTRA_CREDIT_PACK, toSaasPlanId, toStoredPlanType } from "@/lib/billing/plans";
 import { extraCreditsPriceId, priceIdForPlan } from "@/lib/billing/stripe-prices";
 import { resolveStripePriceId, stripePriceKindError } from "@/lib/billing/stripe-price-resolve";
 import { hostedCheckoutBase } from "@/lib/billing/stripe-checkout-session";
 import { applyReferralCode, attachCheckoutToReferral } from "@/lib/billing/referral";
-import { hasActiveSubscription } from "@/lib/billing/access-gate";
 import { hasPaidSaasSubscription } from "@/lib/billing/credit-policy";
+import { applyPlanChangeCap, grantMonthlyCredits } from "@/lib/billing/credit-ledger";
+import { subscriptionPeriod } from "@/lib/billing/stripe-period";
 
 export const runtime = "nodejs";
 
@@ -157,23 +162,47 @@ async function createCheckoutResponse(request: Request) {
   const storedPlan = toStoredPlanType(plan);
   const currentPlan = toSaasPlanId(profile.planType);
 
-  if (hasActiveSubscription(profile) && profile.stripeSubscriptionId) {
+  if (hasPaidSaasSubscription(profile) && profile.stripeSubscriptionId) {
     if (currentPlan === plan) {
       return NextResponse.json(
         { error: "Sei già iscritto a questo piano." },
         { status: 409 },
       );
     }
-    await stripe.subscriptions.update(profile.stripeSubscriptionId, {
-      items: [
-        {
-          id: (await stripe.subscriptions.retrieve(profile.stripeSubscriptionId)).items.data[0]
-            ?.id,
-          price: priceId,
-        },
-      ],
+    const currentSub = await stripe.subscriptions.retrieve(profile.stripeSubscriptionId);
+    const itemId = currentSub.items.data[0]?.id;
+    if (!itemId) {
+      return NextResponse.json(
+        { error: "Abbonamento Stripe senza voce di prezzo. Apri il portale e riprova." },
+        { status: 409 },
+      );
+    }
+    const updated = await stripe.subscriptions.update(profile.stripeSubscriptionId, {
+      items: [{ id: itemId, price: priceId }],
       proration_behavior: "create_prorations",
       metadata: { userId, planType: storedPlan, saasPlan: plan },
+    });
+    const period = subscriptionPeriod(updated);
+    await applySubscriptionUpdate({
+      userId,
+      stripeCustomerId: customerId,
+      stripeSubscriptionId: updated.id,
+      subscriptionStatus: updated.status,
+      planType: storedPlan,
+      currentPeriodEnd: period.end,
+      cancelAtPeriodEnd: period.cancelAtPeriodEnd,
+    });
+    await applyPlanChangeCap({
+      userId,
+      plan,
+      sourceId: `${updated.id}:${priceId}`,
+    });
+    await grantMonthlyCredits({
+      userId,
+      plan,
+      periodStart: period.start ?? new Date(),
+      sourceId: updated.id,
+      paymentRef: updated.id,
     });
     return NextResponse.json({
       url: `${origin}/dashboard/billing?billing=plan-updated`,

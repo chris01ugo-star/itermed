@@ -1,6 +1,19 @@
 @import "tailwindcss";
 @config "../tailwind.config.js";
 
+@keyframes aequan-nav-progress {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(380%);
+  }
+}
+
+.aequan-nav-progress {
+  animation: aequan-nav-progress 1.05s ease-in-out infinite;
+}
+
 /* Force light UI — dark: only when .dark is explicitly set (never via OS). */
 @custom-variant dark (&:where(.dark, .dark *));
 

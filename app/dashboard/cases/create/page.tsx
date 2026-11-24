@@ -1,8 +1,13 @@
+import { redirect } from "next/navigation";
 import { CaseCreatorWizard } from "@/components/cases/CaseCreatorWizard";
+import { hasUnlimitedCaseAccess } from "@/lib/billing/unlimited-case-access";
 import { requireUser } from "@/lib/require-user";
 
 export default async function CreateCasePage() {
   const user = await requireUser();
+  if (!hasUnlimitedCaseAccess(user)) {
+    redirect("/dashboard/prassi");
+  }
 
   return (
     <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 p-6 md:p-8">

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { cn } from "@/app/utils/cn";
+import { Spinner } from "@/components/ui/Spinner";
+import { usePendingNav } from "@/components/ui/PendingNav";
 
 type GoogleSignInButtonProps = {
   callbackUrl?: string;
@@ -42,6 +44,7 @@ export function GoogleSignInButton({
   disabled = false,
 }: GoogleSignInButtonProps) {
   const [loading, setLoading] = useState(false);
+  const { begin } = usePendingNav();
   const isInactive = disabled || loading;
 
   return (
@@ -54,6 +57,7 @@ export function GoogleSignInButton({
         onClick={() => {
           if (disabled) return;
           setLoading(true);
+          begin();
           signIn("google", { callbackUrl }).catch(() => setLoading(false));
         }}
         className={cn(
@@ -63,7 +67,7 @@ export function GoogleSignInButton({
             : "hover:border-slate-300 hover:bg-white disabled:opacity-60",
         )}
       >
-        <GoogleGlyph />
+        {loading ? <Spinner className="text-slate-600" /> : <GoogleGlyph />}
         {loading ? "Reindirizzamento…" : label}
       </button>
       <p className="text-xs leading-relaxed text-gray-500">

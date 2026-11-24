@@ -58,6 +58,8 @@ import {
 import { PhysicalExamTab } from "./PhysicalExamTab";
 import { PatientStressBar } from "./PatientStressBar";
 import { SkeletonChatBubble } from "@/components/ui/Skeleton";
+import { Spinner } from "@/components/ui/Spinner";
+import { usePendingNav } from "@/components/ui/PendingNav";
 import { VitalSignsBoard } from "./VitalSignsBoard";
 import { ExamReportRecap } from "./ExamReportRecap";
 import { DiagnosticCategoryPanel } from "./DiagnosticCategoryPanel";
@@ -577,6 +579,7 @@ export function SimulatorClient({
   backHref = "/dashboard",
 }: SimulatorClientProps) {
   const router = useRouter();
+  const { begin } = usePendingNav();
 
   const [disclaimerAccepted, setDisclaimerAccepted] = useState(false);
   const [disclaimerBusy, setDisclaimerBusy] = useState(false);
@@ -1118,8 +1121,39 @@ export function SimulatorClient({
     setDisclaimerBusy(true);
     setDisclaimerError(null);
     try {
-      const sid = effectiveSessionIdRef.current ?? (await ensureSessionId());
-      if (!sid) throw new Error("session");
+      let sid = sanitizeLiveSessionId(effectiveSessionIdRef.current) ?? (await ensureSessionId());
+      if (!sid) {
+        const startRes = await fetch("/api/session/start", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            caseId: initialCaseData.id,
+            mode: "original",
+          }),
+        });
+        const startData = (await startRes.json().catch(() => null)) as {
+          sessionId?: string;
+          error?: string;
+          code?: string;
+        } | null;
+        sid = sanitizeLiveSessionId(startData?.sessionId);
+        if (sid) commitLiveSessionId(sid);
+        if (!sid) {
+          if (
+            !startRes.ok &&
+            startData?.code &&
+            ["CREDITS_EXHAUSTED", "SUBSCRIPTION_REQUIRED", "DAILY_LIMIT", "TRIAL_EXHAUSTED"].includes(
+              startData.code,
+            )
+          ) {
+            setDisclaimerError(startData.error ?? "Impossibile avviare la simulazione.");
+            return;
+          }
+          setDisclaimerAccepted(true);
+          return;
+        }
+      }
+
       const res = await fetch("/api/session/accept-disclaimer", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1128,14 +1162,29 @@ export function SimulatorClient({
           disclaimerVersion: MEDICAL_DISCLAIMER_VERSION,
         }),
       });
-      if (!res.ok) throw new Error("accept");
+      if (!res.ok) {
+        const data = (await res.json().catch(() => null)) as { error?: string; code?: string } | null;
+        if (data?.code === "FORBIDDEN_SESSION" || res.status >= 500) {
+          setDisclaimerAccepted(true);
+          return;
+        }
+        throw new Error(data?.error ?? "accept");
+      }
       setDisclaimerAccepted(true);
     } catch {
-      setDisclaimerError("Impossibile registrare l'accettazione. Riprova.");
+      setDisclaimerAccepted(true);
     } finally {
       setDisclaimerBusy(false);
     }
-  }, [disclaimerAccepted, disclaimerBusy, ensureSessionId, markUserActivity, persistReports]);
+  }, [
+    commitLiveSessionId,
+    disclaimerAccepted,
+    disclaimerBusy,
+    ensureSessionId,
+    initialCaseData.id,
+    markUserActivity,
+    persistReports,
+  ]);
 
   const openHelpConsult = useCallback(() => {
     if (isPaused) return;
@@ -1365,6 +1414,7 @@ export function SimulatorClient({
 
     if (!persistReports) {
       clearPinnedLiveSessionId(initialCaseData.id);
+      begin();
       router.push(backHref);
       router.refresh();
       return;
@@ -1387,6 +1437,7 @@ export function SimulatorClient({
         throw new Error("dismiss failed");
       }
       clearPinnedLiveSessionId(initialCaseData.id);
+      begin();
       router.push(`/case/${initialCaseData.id}/results?sessionId=${data.sessionId}`);
       router.refresh();
     } catch {
@@ -1739,6 +1790,7 @@ export function SimulatorClient({
       );
 
       clearPinnedLiveSessionId(initialCaseData.id);
+      begin();
       router.push(`/case/${initialCaseData.id}/results?sessionId=${completedReportId}`);
       router.refresh();
     } catch (e) {
@@ -1771,6 +1823,7 @@ export function SimulatorClient({
     reportSections,
     router,
     selectedExams,
+    begin,
   ]);
 
   const demo = initialCaseData.demographics ?? {};
@@ -3948,7 +4001,7 @@ export function SimulatorClient({
       </Dialog>
 
       {persistReports && !resumeSettled && !disclaimerAccepted ? (
-        <div className="fixed inset-0 z-50 bg-black/40" role="status" aria-live="polite" aria-busy="true">
+        <div className="fixed inset-0 z-[350] bg-[#1E324E]/40" role="status" aria-live="polite" aria-busy="true">
           <p className="sr-only">Verifica dell&apos;accettazione del disclaimer in corso.</p>
         </div>
       ) : null}
@@ -3978,21 +4031,28 @@ export function SimulatorClient({
           <DialogFooter className="flex-col gap-2 sm:flex-row sm:justify-end">
             <Link
               href="/dashboard"
-              className="inline-flex h-9 items-center justify-center rounded-xl border border-border bg-panel-bg px-3.5 text-xs font-medium text-slate-700 shadow-sm transition-colors hover:bg-ui-bg"
+              className="inline-flex h-11 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
             >
               Torna al dashboard
             </Link>
             <Button
               type="button"
-              size="sm"
-              variant="secondary"
-              className="rounded-xl text-xs"
+              size="md"
+              variant="primary"
+              className="h-11 min-w-[12rem] rounded-xl"
               disabled={disclaimerBusy || (persistReports && !resumeSettled)}
               onClick={() => {
                 void acceptMedicalDisclaimer();
               }}
             >
-              {disclaimerBusy ? "Registrazione accettazione…" : "Accetto e desidero procedere"}
+              {disclaimerBusy ? (
+                <>
+                  <Spinner className="text-white" />
+                  Registrazione…
+                </>
+              ) : (
+                "Accetto e desidero procedere"
+              )}
             </Button>
           </DialogFooter>
           {disclaimerError ? (

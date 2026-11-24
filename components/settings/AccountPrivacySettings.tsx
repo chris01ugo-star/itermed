@@ -6,6 +6,8 @@ import { Download, Shield, Trophy, Trash2 } from "lucide-react";
 import { Button } from "@/app/ui/button";
 import type { LeaderboardNameType } from "@prisma/client";
 import { cn } from "@/app/utils/cn";
+import { Spinner } from "@/components/ui/Spinner";
+import { usePendingNav } from "@/components/ui/PendingNav";
 
 type AccountPrivacySettingsProps = {
   initialLeaderboardOptIn: boolean;
@@ -39,6 +41,7 @@ export function AccountPrivacySettings({
   const [confirmText, setConfirmText] = useState("");
   const [deleting, setDeleting] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const { begin } = usePendingNav();
 
   async function patchLeaderboardOptIn(next: boolean) {
     setError(null);
@@ -106,6 +109,7 @@ export function AccountPrivacySettings({
         setDeleting(false);
         return;
       }
+      begin();
       await signOut({ callbackUrl: "/login?deleted=1" });
     } catch {
       setError("Errore di rete durante l'eliminazione.");
@@ -174,11 +178,18 @@ export function AccountPrivacySettings({
             type="button"
             variant="secondary"
             size="sm"
-            className="rounded-xl"
+            className="inline-flex items-center gap-2 rounded-xl"
             disabled={exporting}
             onClick={() => void downloadExport()}
           >
-            {exporting ? "Preparazione…" : "Scarica i miei dati (JSON)"}
+            {exporting ? (
+              <>
+                <Spinner size={14} className="text-current" />
+                Preparazione…
+              </>
+            ) : (
+              "Scarica i miei dati (JSON)"
+            )}
           </Button>
         </div>
       </section>
@@ -272,11 +283,18 @@ export function AccountPrivacySettings({
               <Button
                 type="button"
                 size="sm"
-                className="rounded-xl bg-rose-700 text-white hover:bg-rose-800"
+                className="inline-flex items-center gap-2 rounded-xl bg-rose-700 text-white hover:bg-rose-800"
                 disabled={deleting || confirmText.trim().toUpperCase() !== "ELIMINA"}
                 onClick={() => void deleteAccount()}
               >
-                {deleting ? "Eliminazione…" : "Elimina definitivamente"}
+                {deleting ? (
+                  <>
+                    <Spinner size={14} className="text-white" />
+                    Eliminazione…
+                  </>
+                ) : (
+                  "Elimina definitivamente"
+                )}
               </Button>
             </div>
           </div>

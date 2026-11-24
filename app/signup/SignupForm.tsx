@@ -5,6 +5,8 @@ import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { AuthShell } from "@/components/auth/AuthShell";
 import { GoogleSignInButton } from "@/components/auth/GoogleSignInButton";
+import { Spinner } from "@/components/ui/Spinner";
+import { usePendingNav } from "@/components/ui/PendingNav";
 
 const fieldClassName =
   "h-11 w-full rounded-xl border border-slate-200 bg-white px-3.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#345884]/45 focus:ring-4 focus:ring-[#345884]/10";
@@ -20,6 +22,7 @@ export function SignupForm({ googleEnabled = false }: SignupFormProps) {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const { begin } = usePendingNav();
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -58,6 +61,7 @@ export function SignupForm({ googleEnabled = false }: SignupFormProps) {
         setLoading(false);
         return;
       }
+      begin();
       window.location.href = "/dashboard";
     } catch {
       setError("Errore di rete. Riprova.");
@@ -185,9 +189,17 @@ export function SignupForm({ googleEnabled = false }: SignupFormProps) {
             <button
               type="submit"
               disabled={loading || !acceptedTerms}
-              className="inline-flex h-11 w-full items-center justify-center rounded-xl bg-[#1E324E] text-sm font-semibold text-white shadow-sm transition hover:bg-[#2A486D] disabled:opacity-60"
+              aria-busy={loading}
+              className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#1E324E] text-sm font-semibold text-white shadow-sm transition hover:bg-[#2A486D] disabled:opacity-60"
             >
-              {loading ? "Creazione…" : "Crea account"}
+              {loading ? (
+                <>
+                  <Spinner className="text-white" />
+                  Creazione…
+                </>
+              ) : (
+                "Crea account"
+              )}
             </button>
           </form>
         </div>

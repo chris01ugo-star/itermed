@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Bell, Search } from "lucide-react";
 import { initialsFromLabel } from "@/lib/avatar-initials";
+import { usePendingNav } from "@/components/ui/PendingNav";
 
 type TopBarProps = {
   userLabel: string;
@@ -13,10 +14,12 @@ type TopBarProps = {
 export function TopBar({ userLabel, showSearch = true }: TopBarProps) {
   const router = useRouter();
   const [query, setQuery] = useState("");
+  const { begin } = usePendingNav();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = query.trim();
+    begin();
     router.push(trimmed ? `/dashboard/prassi?q=${encodeURIComponent(trimmed)}` : "/dashboard/prassi");
   };
 

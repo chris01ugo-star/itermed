@@ -93,6 +93,7 @@ export async function tryConsumeFreeTrialUsage(
 }
 
 export async function applySubscriptionUpdate(params: {
+  userId?: string;
   stripeCustomerId: string;
   stripeSubscriptionId: string;
   subscriptionStatus: string;
@@ -104,7 +105,9 @@ export async function applySubscriptionUpdate(params: {
   stripePaymentFingerprint?: string | null;
 }): Promise<void> {
   await prisma.user.updateMany({
-    where: { stripeCustomerId: params.stripeCustomerId },
+    where: params.userId
+      ? { OR: [{ id: params.userId }, { stripeCustomerId: params.stripeCustomerId }] }
+      : { stripeCustomerId: params.stripeCustomerId },
     data: {
       stripeSubscriptionId: params.stripeSubscriptionId,
       subscriptionStatus: params.subscriptionStatus,
