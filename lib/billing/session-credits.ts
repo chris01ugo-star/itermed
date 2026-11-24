@@ -7,7 +7,9 @@ import {
   refundSimulationCredit,
 } from "@/lib/billing/credit-ledger";
 import { shouldConsumeCredits } from "@/lib/billing/credit-policy";
+import { isSessionTooShort } from "@/lib/billing/short-session";
 import type { UserBillingProfile } from "@/lib/billing/user-billing";
+import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
 
 export async function findResumableCaseSession(
   userId: string,
@@ -72,4 +74,57 @@ export async function rollbackNewSession(params: {
     });
   }
   await prisma.caseSession.delete({ where: { id: params.sessionId } }).catch(() => undefined);
+}
+
+/**
+ * Bounce under 30s: refund the simulation credit and drop the CaseSession
+ * so quota, playStatus and dismiss-0 reports do not treat it as used.
+ * Completing (or queuing) a report still counts even if the wall clock is short.
+ */
+export async function releaseShortLivedSession(params: {
+  userId: string;
+  sessionId: string;
+  now?: Date;
+}): Promise<{ released: boolean; reason: string }> {
+  const sessionId = sanitizeLiveSessionId(params.sessionId);
+  if (!sessionId) {
+    return { released: false, reason: "invalid" };
+  }
+
+  const session = await prisma.caseSession.findUnique({
+    where: { id: sessionId },
+    select: { id: true, userId: true, caseId: true, createdAt: true },
+  });
+  if (!session || session.userId !== params.userId) {
+    return { released: false, reason: "not_found" };
+  }
+
+  const now = params.now ?? new Date();
+  if (!isSessionTooShort(session.createdAt, now)) {
+    return { released: false, reason: "elapsed" };
+  }
+
+  const linkedReport = await prisma.sessionReport.findFirst({
+    where: {
+      userId: params.userId,
+      caseId: session.caseId,
+      OR: [
+        { rawTrace: { path: ["jobQueue", "liveSessionId"], equals: session.id } },
+        { rawTrace: { path: ["liveSessionId"], equals: session.id } },
+        { createdAt: { gte: session.createdAt } },
+      ],
+    },
+    select: { id: true },
+  });
+  if (linkedReport) {
+    return { released: false, reason: "reported" };
+  }
+
+  await refundSimulationCredit({
+    userId: params.userId,
+    sessionId: session.id,
+    reason: "Sessione sotto i 30 secondi: credito non conteggiato",
+  });
+  await prisma.caseSession.delete({ where: { id: session.id } }).catch(() => undefined);
+  return { released: true, reason: "short" };
 }

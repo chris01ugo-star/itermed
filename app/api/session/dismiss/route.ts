@@ -2,6 +2,8 @@ import { z } from "zod";
 import { prisma } from "../../../../lib/prisma";
 import { getSessionUserId, unauthorizedJson } from "../../../../lib/api-session";
 import { userCanPlayCase, verifyLiveSessionOwner } from "../../../../lib/access";
+import { releaseShortLivedSession } from "../../../../lib/billing/session-credits";
+import { sanitizeLiveSessionId } from "../../../../lib/simulator/session-id";
 
 const bodySchema = z.object({
   caseId: z.string().min(1),
@@ -33,21 +35,28 @@ export async function POST(req: Request) {
     return Response.json({ error: "Forbidden" }, { status: 403 });
   }
 
-  if (liveSessionId) {
-    const owns = await verifyLiveSessionOwner(liveSessionId, userId);
+  const liveId = sanitizeLiveSessionId(liveSessionId);
+  if (liveId) {
+    const owns = await verifyLiveSessionOwner(liveId, userId);
     if (!owns) {
       return Response.json({ error: "Forbidden" }, { status: 403 });
     }
     const live = await prisma.caseSession.findUnique({
-      where: { id: liveSessionId },
+      where: { id: liveId },
       select: { caseId: true },
     });
     if (live && live.caseId !== caseId) {
       return Response.json({ error: "Session mismatch" }, { status: 400 });
     }
+
+    const short = await releaseShortLivedSession({ userId, sessionId: liveId });
+    if (short.released) {
+      return Response.json({ released: true, sessionId: null });
+    }
+
     if (summary) {
       await prisma.caseSession.update({
-        where: { id: liveSessionId },
+        where: { id: liveId },
         data: { clinicalSummary: summary },
       });
     }
@@ -85,7 +94,7 @@ export async function POST(req: Request) {
         "Caso abbandonato dall'utente (Dismiss case): tutti i punteggi registrati a 0 per policy IterMed.",
       rawTrace: {
         dismissed: true,
-        liveSessionId: liveSessionId ?? null,
+        liveSessionId: liveId ?? null,
         clinicalSummary: summary || null,
         chatHistory: [],
         exams: [],

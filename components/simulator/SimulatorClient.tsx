@@ -104,6 +104,7 @@ import {
   resolveAnchoredLiveSessionId,
 } from "@/lib/simulator/live-session-pin";
 import { sanitizeLiveSessionId } from "@/lib/simulator/session-id";
+import { pingReleaseShortSession } from "@/lib/billing/release-short-session-client";
 import { clinicalNarrativeFromAudit } from "@/lib/mappers/clinical-audit-mapper";
 import { economicNarrativeFromAudit } from "@/lib/mappers/economic-audit-mapper";
 import { MEDICAL_DISCLAIMER_VERSION } from "@/lib/simulator/medical-disclaimer";
@@ -459,17 +460,20 @@ function SimulatorNavBar({
   backHref = "/dashboard",
   backLabel = "Dashboard",
   embedded = false,
+  onBackClick,
 }: {
   dismissCase?: { loading: boolean; onClick: () => void };
   backHref?: string;
   backLabel?: string;
   embedded?: boolean;
+  onBackClick?: () => void;
 }) {
   if (embedded) {
     return (
       <header className="mb-4 flex items-center justify-between gap-3 rounded-xl border border-slate-100 bg-white px-4 py-2.5 shadow-sm">
         <Link
           href={backHref}
+          onClick={onBackClick}
           className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50"
         >
           <ArrowLeft className="h-3.5 w-3.5 shrink-0" />
@@ -496,6 +500,7 @@ function SimulatorNavBar({
     <header className="fixed top-0 left-0 right-0 z-[100] flex h-12 items-center justify-between gap-3 border-b border-slate-100 bg-white/95 px-4 backdrop-blur-md shadow-sm">
       <Link
         href={backHref}
+        onClick={onBackClick}
         className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition-colors hover:bg-slate-50"
       >
         <ArrowLeft className="h-3.5 w-3.5 shrink-0" />
@@ -672,6 +677,8 @@ export function SimulatorClient({
   const [resumeSettled, setResumeSettled] = useState(!persistReports);
   const [isStartingEmergency, setIsStartingEmergency] = useState(false);
   const [dismissLoading, setDismissLoading] = useState(false);
+  /** True while completing/abandoning so pagehide does not double-release. */
+  const skipShortReleaseRef = useRef(false);
   /** 0–100: pressione temporale e carico simulato (chat, esami, errori, tempo). */
   const [patientStress, setPatientStress] = useState(0);
   const [stressCaption, setStressCaption] = useState("");
@@ -1407,9 +1414,14 @@ export function SimulatorClient({
     ],
   );
 
+  const releaseShortSessionOnLeave = useCallback(() => {
+    if (!persistReports || skipShortReleaseRef.current) return;
+    pingReleaseShortSession(effectiveSessionIdRef.current);
+  }, [persistReports]);
+
   const handleDismissCase = async () => {
     const confirmed = window.confirm(
-      "Abbandonare il caso (Dismiss case)? Verrà registrato un punteggio di 0 su tutti gli assi di valutazione.",
+      "Vuoi abbandonare questo caso? Se hai già superato i 30 secondi verrà registrato come interrotto (punteggio 0).",
     );
     if (!confirmed) return;
 
@@ -1421,9 +1433,13 @@ export function SimulatorClient({
       return;
     }
 
+    skipShortReleaseRef.current = true;
     setDismissLoading(true);
     try {
-      const liveId = (await ensureSessionId()) ?? undefined;
+      const liveId =
+        sanitizeLiveSessionId(effectiveSessionIdRef.current) ??
+        (await ensureSessionId()) ??
+        undefined;
       const res = await fetch("/api/session/dismiss", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1433,18 +1449,35 @@ export function SimulatorClient({
           clinicalSummary: reportSections.dischargeNote.trim(),
         }),
       });
-      const data = (await res.json().catch(() => null)) as { sessionId?: string } | null;
-      if (!res.ok || !data?.sessionId) {
+      const data = (await res.json().catch(() => null)) as {
+        sessionId?: string | null;
+        released?: boolean;
+      } | null;
+      if (!res.ok || !data || (!data.released && !data.sessionId)) {
         throw new Error("dismiss failed");
       }
       clearPinnedLiveSessionId(initialCaseData.id);
       begin();
-      router.push(`/case/${initialCaseData.id}/results?sessionId=${data.sessionId}`);
+      if (data.released) {
+        router.push(backHref);
+      } else {
+        router.push(`/case/${initialCaseData.id}/results?sessionId=${data.sessionId}`);
+      }
       router.refresh();
     } catch {
+      skipShortReleaseRef.current = false;
       setDismissLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!persistReports) return;
+    const onPageHide = () => {
+      releaseShortSessionOnLeave();
+    };
+    window.addEventListener("pagehide", onPageHide);
+    return () => window.removeEventListener("pagehide", onPageHide);
+  }, [persistReports, releaseShortSessionOnLeave]);
 
   // Pause & resume: hydrate chat, exams and prescriptions from the active CaseSession.
   useEffect(() => {
@@ -1661,6 +1694,7 @@ export function SimulatorClient({
     const abortController = new AbortController();
     reportGenerationAbortRef.current = abortController;
 
+    skipShortReleaseRef.current = true;
     setReportError(null);
     if (isLab) setIsGeneratingReport(true);
     setReportLoading(true);
@@ -1798,6 +1832,7 @@ export function SimulatorClient({
       if (abortController.signal.aborted) {
         return;
       }
+      skipShortReleaseRef.current = false;
       const message =
         e instanceof Error ? e.message : "Errore nella generazione del report.";
       setReportError(message);
@@ -2198,7 +2233,11 @@ export function SimulatorClient({
         }
       >
         {!embedded ? (
-          <SimulatorNavBar backHref={backHref} backLabel="Torna alla Prassi" />
+          <SimulatorNavBar
+            backHref={backHref}
+            backLabel="Torna alla Prassi"
+            onBackClick={releaseShortSessionOnLeave}
+          />
         ) : null}
         <div className="flex w-full min-w-0 flex-col gap-6 pb-12">
           <Card className="w-full rounded-xl border border-border bg-panel-bg shadow-aequan-panel">
@@ -2418,6 +2457,7 @@ export function SimulatorClient({
         <SimulatorNavBar
           backHref={backHref}
           backLabel={backHref.includes("prassi") ? "Torna alla Prassi" : "Dashboard"}
+          onBackClick={releaseShortSessionOnLeave}
           dismissCase={
             persistReports && disclaimerAccepted
               ? { loading: dismissLoading, onClick: handleDismissCase }
@@ -2519,6 +2559,7 @@ export function SimulatorClient({
               ) : (
                 <Link
                   href={backHref}
+                  onClick={releaseShortSessionOnLeave}
                   className="inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[13px] font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-800"
                 >
                   <ArrowLeft className="h-3.5 w-3.5" strokeWidth={1.75} />
