@@ -25,6 +25,7 @@ import { Badge } from "@/app/ui/badge";
 import { cn } from "@/app/utils/cn";
 import { Skeleton, SkeletonText } from "@/components/ui/Skeleton";
 import { SegmentedControl } from "@/components/ui/segmented-control";
+import { usePendingNav } from "@/components/ui/PendingNav";
 
 const STEPS = [
   { id: 1, label: "Anagrafica", icon: UserRound },
@@ -126,6 +127,7 @@ function StepPanelHeader({
 
 export function CaseCreatorWizard({ canPublishGlobal = false }: CaseCreatorWizardProps) {
   const router = useRouter();
+  const { begin } = usePendingNav();
   const [step, setStep] = useState(1);
   const [form, setForm] = useState<WizardForm>(INITIAL);
   const [isGlobal, setIsGlobal] = useState(false);
@@ -328,6 +330,7 @@ export function CaseCreatorWizard({ canPublishGlobal = false }: CaseCreatorWizar
         setError(data?.error ?? "Errore durante la creazione del caso.");
         return;
       }
+      begin();
       router.push("/dashboard/prassi");
       router.refresh();
     } catch {

@@ -1,7 +1,7 @@
 import { generateObject } from "ai";
 import type { NextRequest } from "next/server";
 import { z } from "zod";
-import { getEdgeSessionUser, requireTeacherApiEdge } from "@/lib/api-session-edge";
+import { getEdgeSessionUser, requireAdminApiEdge } from "@/lib/api-session-edge";
 import { createLogger } from "@/lib/logger";
 import { sanitizeForExternalAI } from "@/lib/security/sanitize-for-ai";
 import { enforceRateLimit } from "@/lib/security/rate-limit";
@@ -47,7 +47,7 @@ type RequestBody = {
 };
 
 export async function POST(req: NextRequest) {
-  const denied = await requireTeacherApiEdge(req);
+  const denied = await requireAdminApiEdge(req);
   if (denied) return denied;
 
   const user = await getEdgeSessionUser(req);

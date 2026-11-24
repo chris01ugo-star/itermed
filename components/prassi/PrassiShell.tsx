@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useCallback, type ReactNode } from "react";
+import { useMemo, useCallback, useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { usePendingNav } from "@/components/ui/PendingNav";
 import { ArrowLeft, BookOpen, Check, ChevronRight, FolderOpen, Lock } from "lucide-react";
 import {
   DIFFICULTY_LABELS,
@@ -133,9 +134,28 @@ export function PrassiShell({
 }: PrassiShellProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const openSpecialty = searchParams?.get("specialty")?.trim() || null;
-  const openCaseId = searchParams?.get("caseId")?.trim() || null;
-  const progressFilter = searchParams?.get("progress")?.trim() || "all";
+  const { begin } = usePendingNav();
+  const [nav, setNav] = useState(() => ({
+    specialty: searchParams?.get("specialty")?.trim() || null,
+    caseId: searchParams?.get("caseId")?.trim() || null,
+    progress: searchParams?.get("progress")?.trim() || "all",
+  }));
+  const openSpecialty = nav.specialty;
+  const openCaseId = nav.caseId;
+  const progressFilter = nav.progress;
+
+  useEffect(() => {
+    const syncFromHistory = () => {
+      const params = new URLSearchParams(window.location.search);
+      setNav({
+        specialty: params.get("specialty")?.trim() || null,
+        caseId: params.get("caseId")?.trim() || null,
+        progress: params.get("progress")?.trim() || "all",
+      });
+    };
+    window.addEventListener("popstate", syncFromHistory);
+    return () => window.removeEventListener("popstate", syncFromHistory);
+  }, []);
 
   const safeCases = useMemo(() => {
     const rows = Array.isArray(cases) ? cases.filter((c) => c?.id) : [];
@@ -190,6 +210,12 @@ export function PrassiShell({
         next.specialty !== undefined ? next.specialty : openSpecialty;
       const caseId = next.caseId !== undefined ? next.caseId : openCaseId;
       const progress = next.progress !== undefined ? next.progress : progressFilter;
+      const nextProgress = progress ?? "all";
+      setNav({
+        specialty,
+        caseId,
+        progress: nextProgress,
+      });
       if (specialty) params.set("specialty", specialty);
       if (caseId) params.set("caseId", caseId);
       if (progress && progress !== "all") params.set("progress", progress);
@@ -354,6 +380,7 @@ export function PrassiShell({
                               lastReportId: caseRow.lastReportId,
                             })
                           ) {
+                            begin();
                             router.push("/dashboard/billing");
                             return;
                           }

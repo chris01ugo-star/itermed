@@ -1,5 +1,6 @@
 import { getToken } from "next-auth/jwt";
 import type { NextRequest } from "next/server";
+import { hasUnlimitedCaseAccess } from "@/lib/billing/unlimited-case-access";
 
 export type EdgeSessionUser = {
   id: string;
@@ -65,6 +66,15 @@ export async function requireTeacherApiEdge(req: NextRequest): Promise<Response 
   const user = await getEdgeSessionUser(req);
   if (!user) return unauthorizedJson();
   if (!TEACHER_ROLES.has(user.role)) {
+    return forbiddenJson("Forbidden", "FORBIDDEN_ROLE");
+  }
+  return null;
+}
+
+export async function requireAdminApiEdge(req: NextRequest): Promise<Response | null> {
+  const user = await getEdgeSessionUser(req);
+  if (!user) return unauthorizedJson();
+  if (!hasUnlimitedCaseAccess({ role: user.role, email: user.email })) {
     return forbiddenJson("Forbidden", "FORBIDDEN_ROLE");
   }
   return null;

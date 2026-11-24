@@ -15,6 +15,8 @@ import {
   PILOT_ACCESS_DENIED_MESSAGE,
   UNAUTHORIZED_PILOT_EMAIL_CODE,
 } from "@/lib/pilot-whitelist";
+import { Spinner } from "@/components/ui/Spinner";
+import { usePendingNav } from "@/components/ui/PendingNav";
 
 const fieldClassName =
   "h-11 w-full rounded-xl border border-slate-200 bg-white px-3.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#345884]/45 focus:ring-4 focus:ring-[#345884]/10";
@@ -43,6 +45,7 @@ export function LoginForm({ googleEnabled = false }: LoginFormProps) {
         : null,
   );
   const [loading, setLoading] = useState(false);
+  const { begin } = usePendingNav();
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -53,8 +56,8 @@ export function LoginForm({ googleEnabled = false }: LoginFormProps) {
       password,
       redirect: false,
     });
-    setLoading(false);
     if (res?.error) {
+      setLoading(false);
       const msg = String(res.error);
       if (msg.includes(ACCOUNT_DISABLED_CODE)) {
         setError(ACCOUNT_DISABLED_MESSAGE);
@@ -66,6 +69,7 @@ export function LoginForm({ googleEnabled = false }: LoginFormProps) {
       return;
     }
     const session = await getSession();
+    begin();
     window.location.href = session?.user?.mustChangePassword
       ? MUST_CHANGE_PASSWORD_PATH
       : callbackUrl;
@@ -150,9 +154,17 @@ export function LoginForm({ googleEnabled = false }: LoginFormProps) {
             <button
               type="submit"
               disabled={loading}
-              className="mt-1 inline-flex h-11 w-full items-center justify-center rounded-xl bg-[#1E324E] text-sm font-semibold text-white shadow-sm transition hover:bg-[#2A486D] disabled:opacity-60"
+              aria-busy={loading}
+              className="mt-1 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#1E324E] text-sm font-semibold text-white shadow-sm transition hover:bg-[#2A486D] disabled:opacity-60"
             >
-              {loading ? "Accesso…" : "Entra in AEQUAN"}
+              {loading ? (
+                <>
+                  <Spinner className="text-white" />
+                  Accesso…
+                </>
+              ) : (
+                "Entra in AEQUAN"
+              )}
             </button>
             <p className="text-xs leading-relaxed text-gray-500">
               Accedendo, confermi di aver letto e accettato i nostri{" "}

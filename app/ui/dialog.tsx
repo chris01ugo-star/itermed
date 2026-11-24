@@ -1,6 +1,7 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, useSyncExternalStore, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { cn } from "../utils/cn";
 
 type DialogProps = {
@@ -8,17 +9,30 @@ type DialogProps = {
   children: ReactNode;
 };
 
-export function Dialog({ open, children }: DialogProps) {
-  if (!open) return null;
+const emptySubscribe = () => () => {};
 
-  return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/60" role="presentation">
-      <div className="flex min-h-full justify-center p-4 sm:p-6">
-        <div className="pointer-events-none relative z-10 m-auto flex w-full max-w-lg justify-center sm:max-w-xl md:max-w-2xl">
-          {children}
-        </div>
-      </div>
-    </div>
+export function Dialog({ open, children }: DialogProps) {
+  const isClient = useSyncExternalStore(emptySubscribe, () => true, () => false);
+
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [open]);
+
+  if (!open || !isClient) return null;
+
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[400] flex items-center justify-center bg-[#1E324E]/50 p-4 backdrop-blur-[3px]"
+      role="presentation"
+    >
+      <div className="w-full max-w-[42rem]">{children}</div>
+    </div>,
+    document.body,
   );
 }
 
@@ -33,7 +47,7 @@ export function DialogContent({ children, className }: DialogContentProps) {
       role="dialog"
       aria-modal="true"
       className={cn(
-        "pointer-events-auto w-full max-h-[min(90dvh,720px)] overflow-y-auto rounded-xl border border-border bg-panel-bg p-5 shadow-[0_24px_80px_rgba(0,0,0,0.35)] sm:p-6",
+        "w-full max-h-[min(90dvh,720px)] overflow-y-auto rounded-2xl border border-white/20 bg-white p-5 shadow-[0_28px_80px_rgba(30,50,78,0.28)] sm:p-6",
         className,
       )}
     >
@@ -58,7 +72,7 @@ type DialogTitleProps = {
 
 export function DialogTitle({ children, className }: DialogTitleProps) {
   return (
-    <h2 className={cn("font-display text-base font-semibold tracking-tight text-brand-primary", className)}>
+    <h2 className={cn("font-display text-lg font-semibold tracking-tight text-[#1E324E]", className)}>
       {children}
     </h2>
   );
@@ -71,7 +85,7 @@ type DialogDescriptionProps = {
 
 export function DialogDescription({ children, className }: DialogDescriptionProps) {
   return (
-    <div className={cn("text-xs leading-relaxed text-slate-600", className)}>{children}</div>
+    <div className={cn("text-sm leading-relaxed text-slate-600", className)}>{children}</div>
   );
 }
 

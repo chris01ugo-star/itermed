@@ -11,6 +11,7 @@ import {
 import { DAILY_SIMULATION_LIMIT } from "@/lib/billing/plans";
 import { countSimulationsStartedAllTime, countSimulationsStartedToday } from "@/lib/billing/daily-sim-quota";
 import { getUserBillingProfile } from "@/lib/billing/user-billing";
+import { hasUnlimitedCaseAccess } from "@/lib/billing/unlimited-case-access";
 import { resolveSimulationEntitlement } from "@/lib/billing/simulation-entitlement";
 import {
   consumeCreditForNewSession,
@@ -254,6 +255,16 @@ export async function POST(req: Request) {
       status: 404,
       headers: { "Content-Type": "application/json" },
     });
+  }
+
+  if (mode === "variant" && !hasUnlimitedCaseAccess(billingProfile)) {
+    return new Response(
+      JSON.stringify({
+        error: "La generazione di varianti IA è riservata agli amministratori.",
+        code: "FORBIDDEN_ROLE",
+      }),
+      { status: 403, headers: { "Content-Type": "application/json" } },
+    );
   }
 
   const earlyGate = assertCanStartSimulation(billingProfile, {

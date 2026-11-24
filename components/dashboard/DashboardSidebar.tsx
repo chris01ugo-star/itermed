@@ -182,19 +182,21 @@ export function DashboardSidebar({
 
       <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
         <div className="flex h-16 shrink-0 items-center border-b border-slate-100 px-3">
-          <Link
-            href={CREATE_CASE_HREF}
-            title={collapsed ? "Crea Caso" : undefined}
-            aria-current={isCreateActive ? "page" : undefined}
-            className={cn(
-              "inline-flex items-center justify-center gap-2 rounded-xl bg-[#1E324E] text-[13px] font-semibold text-white transition hover:bg-[#345884]",
-              collapsed ? "h-10 w-10 px-0" : "h-10 w-full px-3",
-              isCreateActive && "ring-2 ring-[#345884]/25 ring-offset-2 ring-offset-white",
-            )}
-          >
-            <FilePlus className="h-4 w-4 shrink-0" strokeWidth={1.75} />
-            {collapsed ? null : <span>Crea Caso</span>}
-          </Link>
+          {isAdmin ? (
+            <Link
+              href={CREATE_CASE_HREF}
+              title={collapsed ? "Crea Caso" : undefined}
+              aria-current={isCreateActive ? "page" : undefined}
+              className={cn(
+                "inline-flex items-center justify-center gap-2 rounded-xl bg-[#1E324E] text-[13px] font-semibold text-white transition hover:bg-[#345884]",
+                collapsed ? "h-10 w-10 px-0" : "h-10 w-full px-3",
+                isCreateActive && "ring-2 ring-[#345884]/25 ring-offset-2 ring-offset-white",
+              )}
+            >
+              <FilePlus className="h-4 w-4 shrink-0" strokeWidth={1.75} />
+              {collapsed ? null : <span>Crea Caso</span>}
+            </Link>
+          ) : null}
         </div>
 
         <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-2.5 py-4">

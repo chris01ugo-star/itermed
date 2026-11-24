@@ -2,6 +2,9 @@
 
 import { useRef, useState, type MouseEvent } from "react";
 import { Sparkles } from "lucide-react";
+import { cn } from "@/app/utils/cn";
+import { Spinner } from "@/components/ui/Spinner";
+import { usePendingNav } from "@/components/ui/PendingNav";
 import {
   Dialog,
   DialogContent,
@@ -74,6 +77,8 @@ export function StartCaseButtons({
   const [error, setError] = useState<string | null>(null);
   const [limitDialog, setLimitDialog] = useState<LimitDialogState | null>(null);
   const navigatedRef = useRef(false);
+  const { begin } = usePendingNav();
+  const allowAiVariant = adminBypass;
 
   const directPlayHref = playHref(playBasePath, caseId);
 
@@ -86,6 +91,7 @@ export function StartCaseButtons({
     } catch {
       // Ignore analytics/router hooks — hard nav below is the source of truth.
     }
+    begin();
     window.location.assign(href);
   };
 
@@ -177,73 +183,93 @@ export function StartCaseButtons({
   };
 
   const goToBilling = () => {
+    begin();
     window.location.assign("/dashboard/billing");
   };
 
   const handleOriginalClick = (event: MouseEvent<HTMLAnchorElement>) => {
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
     event.preventDefault();
+    if (isStartingOriginal || isStartingVariant) return;
     if (requiresPaidPlan && !adminBypass) {
       goToBilling();
       return;
     }
     setIsStartingOriginal(true);
+    begin();
     window.location.assign(directPlayHref);
   };
 
   const handleVariantClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    if (isStartingOriginal || isStartingVariant) return;
+    if (!allowAiVariant) return;
     if (requiresPaidPlan && !adminBypass) {
       goToBilling();
       return;
     }
+    begin();
     try {
       void startVariant();
     } catch {
+      begin();
       window.location.assign(directPlayHref);
     }
   };
 
   const isBusy = isStartingOriginal || isStartingVariant;
   const isDev = process.env.NODE_ENV === "development";
+  const originalIsPrimary = !allowAiVariant || emphasis === "original";
 
   const primaryClass =
-    "inline-flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl bg-[#1E324E] px-4 py-2.5 text-center font-display text-sm font-semibold text-white transition-colors hover:bg-[#2A486D]";
+    "inline-flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl bg-[#1E324E] px-4 py-2.5 text-center font-display text-sm font-semibold text-white transition-colors hover:bg-[#2A486D] disabled:opacity-60";
   const secondaryClass =
-    "inline-flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl border border-border bg-panel-bg px-4 py-2.5 text-center text-sm font-medium text-slate-700 transition-colors hover:border-brand-secondary/30 hover:bg-brand-secondary/[0.04]";
+    "inline-flex min-h-11 w-full items-center justify-center gap-1.5 rounded-xl border border-border bg-panel-bg px-4 py-2.5 text-center text-sm font-medium text-slate-700 transition-colors hover:border-brand-secondary/30 hover:bg-brand-secondary/[0.04] disabled:opacity-60";
 
   return (
     <div className="space-y-2">
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+      <div className={cn("grid grid-cols-1 gap-2", allowAiVariant && "sm:grid-cols-2")}>
         <a
           href={directPlayHref}
           onClick={handleOriginalClick}
           aria-busy={isStartingOriginal}
-          className={emphasis === "original" ? primaryClass : secondaryClass}
+          aria-disabled={isBusy}
+          className={originalIsPrimary ? primaryClass : secondaryClass}
         >
-          {isStartingOriginal
-            ? "Avvio..."
-            : requiresPaidPlan && !adminBypass
-              ? "Abbonati per iniziare"
-              : "Avvia caso originale"}
-        </a>
-        <button
-          type="button"
-          onClick={handleVariantClick}
-          aria-busy={isStartingVariant}
-          className={emphasis === "variant" ? primaryClass : secondaryClass}
-        >
-          {isStartingVariant ? (
-            "Generazione variante..."
-          ) : requiresPaidPlan && !adminBypass ? (
-            "Sblocca con un piano"
-          ) : (
+          {isStartingOriginal ? (
             <>
-              <Sparkles className="h-4 w-4 shrink-0" aria-hidden />
-              Genera variante IA
+              <Spinner className="text-current" />
+              Avvio…
             </>
+          ) : requiresPaidPlan && !adminBypass ? (
+            "Abbonati per iniziare"
+          ) : (
+            "Avvia caso originale"
           )}
-        </button>
+        </a>
+        {allowAiVariant ? (
+          <button
+            type="button"
+            onClick={handleVariantClick}
+            disabled={isBusy}
+            aria-busy={isStartingVariant}
+            className={emphasis === "variant" ? primaryClass : secondaryClass}
+          >
+            {isStartingVariant ? (
+              <>
+                <Spinner className="text-current" />
+                Generazione variante…
+              </>
+            ) : requiresPaidPlan && !adminBypass ? (
+              "Sblocca con un piano"
+            ) : (
+              <>
+                <Sparkles className="h-4 w-4 shrink-0" aria-hidden />
+                Genera variante IA
+              </>
+            )}
+          </button>
+        ) : null}
       </div>
       {error ? (
         <p
