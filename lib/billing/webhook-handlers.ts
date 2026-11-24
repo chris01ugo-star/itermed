@@ -8,7 +8,7 @@ import {
   revokeSubscription,
 } from "@/lib/billing/user-billing";
 import { toStoredPlanType, EXTRA_CREDIT_PACK, type SaasPlanId } from "@/lib/billing/plans";
-import { planFromPriceId } from "@/lib/billing/stripe-prices";
+import { planFromPriceId, stripeProductIdOf } from "@/lib/billing/stripe-prices";
 import {
   applyPlanChangeCap,
   grantMonthlyCredits,
@@ -195,8 +195,11 @@ export async function handleSubscriptionUpdated(subscription: Stripe.Subscriptio
   const customerId = stripeCustomerId(subscription.customer);
   if (!customerId) return;
 
-  const priceId = subscription.items.data[0]?.price?.id;
-  const plan = planFromPriceId(priceId) ?? planFromMetadata(subscription.metadata?.planType);
+  const price = subscription.items.data[0]?.price;
+  const priceId = price?.id;
+  const plan =
+    planFromPriceId(priceId, stripeProductIdOf(price)) ??
+    planFromMetadata(subscription.metadata?.planType);
   const period = subscriptionPeriod(subscription);
 
   if (!plan && priceId) {
@@ -257,8 +260,11 @@ export async function handleInvoicePaid(invoice: Stripe.Invoice): Promise<void> 
     try {
       const stripe = getStripeClient();
       const subscription = await stripe.subscriptions.retrieve(subscriptionId);
-      const priceId = subscription.items.data[0]?.price?.id;
-      plan = planFromPriceId(priceId) ?? planFromMetadata(subscription.metadata?.planType);
+      const price = subscription.items.data[0]?.price;
+      const priceId = price?.id;
+      plan =
+        planFromPriceId(priceId, stripeProductIdOf(price)) ??
+        planFromMetadata(subscription.metadata?.planType);
       const period = subscriptionPeriod(subscription);
       if (customerId) {
         await applySubscriptionUpdate({
