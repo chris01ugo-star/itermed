@@ -16,7 +16,11 @@ import {
   totalAvailableCredits,
 } from "@/lib/billing/plans";
 import { generateReferralCode, normalizeReferralCode } from "@/lib/billing/referral-code";
-import { hasPaidSaasSubscription, shouldConsumeCredits } from "@/lib/billing/credit-policy";
+import {
+  hasPaidSaasSubscription,
+  mayStartLiveSimulation,
+  shouldConsumeCredits,
+} from "@/lib/billing/credit-policy";
 
 function profile(
   overrides: {
@@ -159,6 +163,22 @@ describe("paid SaaS subscription", () => {
         planType: "STUDENT",
         subscriptionStatus: "active",
       }),
+      true,
+    );
+  });
+
+  it("locks unpaid FREE/INVITED/BETA from live play and lets paid Start through", () => {
+    assert.equal(mayStartLiveSimulation(profile({ planType: "FREE" })), false);
+    assert.equal(mayStartLiveSimulation(profile({ planType: "INVITED" })), false);
+    assert.equal(mayStartLiveSimulation(profile({ planType: "BETA_TESTER" })), false);
+    assert.equal(
+      mayStartLiveSimulation(profile({ planType: "START", subscriptionStatus: "active" })),
+      true,
+    );
+    assert.equal(
+      mayStartLiveSimulation(
+        profile({ role: "ADMIN", email: "admin@example.com", planType: "FREE" }),
+      ),
       true,
     );
   });

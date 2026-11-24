@@ -16,7 +16,9 @@ async function postJson(url: string, body?: unknown) {
     message?: string;
   };
   if (!res.ok) {
-    throw new Error(data.error || "Operazione non riuscita.");
+    throw new Error(
+      data.error || data.message || `Operazione non riuscita (${res.status}).`,
+    );
   }
   return data;
 }

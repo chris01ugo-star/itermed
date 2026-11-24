@@ -9,8 +9,10 @@ import {
   Play,
   X,
 } from "lucide-react";
+import Link from "next/link";
 import { StartCaseButtons } from "@/components/cases/StartCaseButtons";
 import type { ClinicalCaseRow } from "@/components/dashboard/ClinicalCaseCard";
+import { isCaseLockedForLearner } from "@/lib/billing/case-lock";
 import { DIFFICULTY_LABELS, displaySpecialtyName } from "@/lib/dashboard-case-utils";
 import { resolvePatientProfile } from "@/lib/cases/resolve-patient-profile";
 import type { PrassiPastel } from "@/lib/ui/prassi-pastels";
@@ -148,7 +150,7 @@ function BriefingBody({
                   Consulta il report precedente
                 </a>
               ) : null}
-              {caseRow.resumeSessionId ? (
+              {caseRow.resumeSessionId && !isCaseLockedForLearner({ requiresPaidPlan, adminBypass }) ? (
                 <a
                   href={`/dashboard/prassi/play/${encodeURIComponent(caseRow.id)}?sessionId=${encodeURIComponent(caseRow.resumeSessionId)}`}
                   className="inline-flex h-10 items-center rounded-xl bg-[#1E324E] px-3 text-xs font-semibold text-white"
@@ -168,18 +170,29 @@ function BriefingBody({
                 : "Serve un piano Start o Plus per avviare questo caso."}
             </div>
           ) : null}
-          <div className="mb-3 flex items-center gap-2">
-            <Play className="h-3.5 w-3.5 text-brand-secondary" aria-hidden />
-            <p className="text-xs font-semibold text-slate-600">
-              {caseRow.playStatus === "completed" ? "Ripeti la simulazione" : "Avvia esercitazione"}
-            </p>
-          </div>
-          <StartCaseButtons
-            caseId={caseRow.id}
-            emphasis="original"
-            requiresPaidPlan={requiresPaidPlan}
-            adminBypass={adminBypass}
-          />
+          {isCaseLockedForLearner({ requiresPaidPlan, adminBypass }) ? (
+            <Link
+              href="/dashboard/billing"
+              className="inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-[#1E324E] px-4 py-2.5 text-center font-display text-sm font-semibold text-white transition-colors hover:bg-[#2A486D]"
+            >
+              Abbonati per sbloccare
+            </Link>
+          ) : (
+            <>
+              <div className="mb-3 flex items-center gap-2">
+                <Play className="h-3.5 w-3.5 text-brand-secondary" aria-hidden />
+                <p className="text-xs font-semibold text-slate-600">
+                  {caseRow.playStatus === "completed" ? "Ripeti la simulazione" : "Avvia esercitazione"}
+                </p>
+              </div>
+              <StartCaseButtons
+                caseId={caseRow.id}
+                emphasis="original"
+                requiresPaidPlan={requiresPaidPlan}
+                adminBypass={adminBypass}
+              />
+            </>
+          )}
         </div>
       </div>
     </div>

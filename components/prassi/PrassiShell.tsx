@@ -19,6 +19,7 @@ import {
 } from "@/lib/ui/prassi-pastels";
 import { specialtyAppearance } from "@/lib/ui/specialty-appearance";
 import { PrassiCaseBriefing } from "@/components/prassi/PrassiCaseBriefing";
+import { lockedCaseMayOpenBriefing } from "@/lib/billing/case-lock";
 
 type SpecialtyOption = {
   id: string;
@@ -344,12 +345,23 @@ export function PrassiShell({
                     >
                       <button
                         type="button"
-                        onClick={() =>
+                        onClick={() => {
+                          if (
+                            !lockedCaseMayOpenBriefing({
+                              requiresPaidPlan,
+                              adminBypass,
+                              playStatus: caseRow.playStatus,
+                              lastReportId: caseRow.lastReportId,
+                            })
+                          ) {
+                            router.push("/dashboard/billing");
+                            return;
+                          }
                           setParams({
                             specialty: activeBucket.name,
                             caseId: caseRow.id,
-                          })
-                        }
+                          });
+                        }}
                         className={cn(
                           "group relative flex h-[7.25rem] w-full min-w-0 items-stretch gap-2 px-3.5 py-3 text-left transition duration-200 hover:brightness-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary/30",
                           requiresPaidPlan ? "pr-[6.75rem]" : "",
@@ -462,19 +474,14 @@ export function PrassiShell({
                           ? "1 caso clinico"
                           : `${bucket.cases.length} casi clinici`}
                       </p>
-                      {requiresPaidPlan ? (
-                        <span className="h-6 w-[6.75rem] shrink-0" aria-hidden />
-                      ) : (
-                        <span
-                          className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/55 text-slate-500 transition group-hover:text-brand-primary"
-                          aria-hidden
-                        >
-                          <ChevronRight className="h-4 w-4" />
-                        </span>
-                      )}
+                      <span
+                        className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/55 text-slate-500 transition group-hover:text-brand-primary"
+                        aria-hidden
+                      >
+                        <ChevronRight className="h-4 w-4" />
+                      </span>
                     </div>
                   </button>
-                  {requiresPaidPlan ? <SubscriptionChip /> : null}
                   </div>
                 </div>
                 );

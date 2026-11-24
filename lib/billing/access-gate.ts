@@ -16,7 +16,7 @@ import {
   resolveSimulationEntitlement,
 } from "@/lib/billing/simulation-entitlement";
 import {
-  hasPaidSaasSubscription,
+  mayStartLiveSimulation,
   SUBSCRIPTION_REQUIRED_CODE,
   SUBSCRIPTION_REQUIRED_MESSAGE,
 } from "@/lib/billing/credit-policy";
@@ -129,11 +129,7 @@ export function assertCanStartSimulation(
     return { allowed: true };
   }
 
-  if (entitlement.unlimited || isAdmin(profile)) {
-    return { allowed: true };
-  }
-
-  if (hasPaidSaasSubscription(profile)) {
+  if (mayStartLiveSimulation(profile)) {
     return { allowed: true };
   }
 
