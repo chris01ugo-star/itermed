@@ -6,7 +6,9 @@ import { config } from "@/lib/config";
 import { BuyExtraButton } from "@/components/billing/BillingActions";
 import { BillingPlans } from "@/components/billing/BillingPlans";
 import { ReferralInviteCard } from "@/components/billing/ReferralInviteCard";
+import { BillingStatusToast } from "@/components/billing/BillingStatusToast";
 import { toSaasPlanId } from "@/lib/billing/plans";
+import { reconcilePaidCheckoutSession } from "@/lib/billing/reconcile-checkout";
 
 function statusLabel(status: string | null, cancelAtPeriodEnd: boolean): string {
   if (!status) return "Nessun abbonamento";
@@ -29,13 +31,18 @@ function formatDate(iso: string | null): string {
 }
 
 type PageProps = {
-  searchParams?: Promise<{ billing?: string; ref?: string }> | { billing?: string; ref?: string };
+  searchParams?:
+    | Promise<{ billing?: string; ref?: string; session_id?: string }>
+    | { billing?: string; ref?: string; session_id?: string };
 };
 
 export default async function BillingPage({ searchParams }: PageProps) {
   const user = await requireUser();
   const resolved =
     searchParams && "then" in searchParams ? await searchParams : searchParams;
+  if (resolved?.billing === "success") {
+    await reconcilePaidCheckoutSession(user.id, resolved.session_id);
+  }
   const data = await getBillingDashboard(user.id);
   const inviteUrl = `${config.APP_URL.replace(/\/$/, "")}/invite/${encodeURIComponent(data.referral.code)}`;
   const prefillRef = resolved?.ref?.trim();
@@ -58,22 +65,7 @@ export default async function BillingPage({ searchParams }: PageProps) {
         </p>
       </header>
 
-      {resolved?.billing === "success" ? (
-        <p className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
-          Pagamento ricevuto. Lo stato dell&apos;abbonamento si aggiorna appena Stripe conferma il
-          webhook (di solito pochi secondi).
-        </p>
-      ) : null}
-      {resolved?.billing === "canceled" ? (
-        <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          Checkout annullato. Nessun addebito è stato effettuato.
-        </p>
-      ) : null}
-      {resolved?.billing === "plan-updated" ? (
-        <p className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
-          Piano aggiornato. L&apos;eventuale conguaglio è gestito da Stripe.
-        </p>
-      ) : null}
+      {resolved?.billing ? <BillingStatusToast kind={resolved.billing} /> : null}
       {!data.stripeConfigured ? (
         <p className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
           I pagamenti Stripe non sono ancora configurati in questo ambiente.
@@ -159,9 +151,9 @@ export default async function BillingPage({ searchParams }: PageProps) {
       />
 
       {data.credits.total === 0 && data.subscribed ? (
-        <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-          Crediti esauriti. Acquista 5 simulazioni extra oppure passa a Plus. I report già
-          completati restano disponibili.
+        <div className="rounded-xl border border-[#1E324E]/12 bg-[#F4F6F8] px-4 py-3 text-sm leading-relaxed text-[#1E324E]">
+          Crediti esauriti? Non preoccuparti: i report che hai già fatto restano sempre
+          consultabili. Quando vuoi, compra 5 simulazioni extra oppure passa a Plus.
         </div>
       ) : null}
 

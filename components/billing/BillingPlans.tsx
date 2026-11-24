@@ -94,6 +94,7 @@ export function BillingPlans({
                 <SubscribeButton
                   plan="PLUS"
                   label="Passa a Plus"
+                  skipReferralPrompt
                   className="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-[#1E324E] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#2A486D] disabled:opacity-60"
                 />
               ) : (
