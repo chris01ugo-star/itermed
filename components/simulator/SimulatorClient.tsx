@@ -1121,7 +1121,8 @@ export function SimulatorClient({
     setDisclaimerBusy(true);
     setDisclaimerError(null);
     try {
-      let sid = sanitizeLiveSessionId(effectiveSessionIdRef.current) ?? (await ensureSessionId());
+      let sid: string | null =
+        sanitizeLiveSessionId(effectiveSessionIdRef.current) ?? (await ensureSessionId());
       if (!sid) {
         const startRes = await fetch("/api/session/start", {
           method: "POST",
@@ -1136,7 +1137,7 @@ export function SimulatorClient({
           error?: string;
           code?: string;
         } | null;
-        sid = sanitizeLiveSessionId(startData?.sessionId);
+        sid = sanitizeLiveSessionId(startData?.sessionId) ?? null;
         if (sid) commitLiveSessionId(sid);
         if (!sid) {
           if (
