@@ -3,6 +3,11 @@ import { withOpenAIRetry } from "@/lib/ai/openai-retry";
 import { createLogger } from "@/lib/logger";
 import { MODEL_GPT_6_LUNA, openAIChatModel, type ChatModelId } from "@/lib/ai/models";
 import {
+  buildPatientOpeningMessage,
+  createPatientUtteranceFilter,
+  sanitizePatientUtterance,
+} from "@/lib/simulator/patient-opening";
+import {
   buildPatientSystemPrompt,
   type PatientSimulatorCaseInput,
 } from "@/lib/simulator/patient-system-prompt";
@@ -70,6 +75,15 @@ export type GeneratePatientResponseParams = {
  * Call `.toDataStreamResponse()` in the route handler.
  */
 export async function generatePatientResponse(params: GeneratePatientResponseParams) {
+  const opening = buildPatientOpeningMessage({
+    chiefComplaint: params.caseData.chiefComplaint,
+    presentation: params.caseData.presentation,
+    patientPrompt: params.caseData.roleplayScript,
+    clinicalStory: params.caseData.clinicalStory,
+    physicalExamSummary: params.caseData.physicalExamSummary,
+    patientName: params.caseData.patientName,
+    patientSex: params.caseData.patientSex,
+  });
   const systemPrompt = buildPatientSystemPrompt(params.caseData);
   const modelId = params.model ?? MODEL_GPT_6_LUNA;
   // GPT-6 drops a `system` role inside `messages`. The top-level `system`
@@ -93,12 +107,29 @@ export async function generatePatientResponse(params: GeneratePatientResponsePar
       maxTokens: 350,
       maxRetries: 3,
       messages: dialogue,
+      experimental_transform: () => {
+        const speechFilter = createPatientUtteranceFilter(opening);
+        return new TransformStream({
+          transform(part, controller) {
+            if (part.type !== "text-delta") {
+              controller.enqueue(part);
+              return;
+            }
+            const safe = speechFilter.push(part.textDelta);
+            if (safe) controller.enqueue({ type: "text-delta", textDelta: safe });
+          },
+          flush(controller) {
+            const tail = speechFilter.finish();
+            if (tail) controller.enqueue({ type: "text-delta", textDelta: tail });
+          },
+        });
+      },
       onError: ({ error }) => {
         logOpenAIStreamError(error);
       },
       onFinish: params.onFinish
         ? async (event) => {
-            await params.onFinish?.({ text: event.text });
+            await params.onFinish?.({ text: sanitizePatientUtterance(event.text, opening) });
           }
         : undefined,
     }),

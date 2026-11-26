@@ -13,7 +13,7 @@
   "guidelineRef": "Surviving Sepsis, ceftriaxone immediato, notifica ASL",
   "diagnosis": "Shock settico da Neisseria meningitidis. Emocolture subito, ceftriaxone in bolo entro un'ora, fluidi. Ritardare l'antibiotico per la TC o per la rachicentesi è l'errore mortale. La mancata notifica ASL lascia i contatti senza profilassi.",
   "pastMedicalHistory": "Sano, studente fuori sede, coinquilino in camera doppia. Nessuna allergia ai beta-lattamici. Nessun trauma cranico. Ieri sera febbre e mal di gola, stanotte petecchie comparse in un'ora. Non assume farmaci. Vaccino antimeningococco: la madre non ricorda.",
-  "presentation": "Disteso, occhi semichiusi, [brividi], petecchie alle gambe e al tronco che non spariscono alla vitropressione. Estremità fredde. Se lo mandano in TC prima della flebo, la madre urla che «si sta spegnendo» e lui smette di rispondere. Parametri: PA 78/48, FC 138, SpO2 93% in aria, FR 28, temperatura 39,6.",
+  "presentation": "Disteso, occhi semichiusi, con brividi, petecchie alle gambe e al tronco che non spariscono alla vitropressione. Estremità fredde. Se lo mandano in TC prima della flebo, la madre urla che «si sta spegnendo» e lui smette di rispondere. Parametri: PA 78/48, FC 138, SpO2 93% in aria, FR 28, temperatura 39,6.",
   "redHerrings": [
     "La TC cranio prima del bolo fa passare l'ora in cui l'antibiotico cambia la sopravvivenza.",
     "La rachicentesi in shock, fatta prima del farmaco, è lo stesso ritardo con un altro nome.",
@@ -21,7 +21,7 @@
   ],
   "timeLimitMinutes": 45,
   "patientDeteriorationThreshold": 35,
-  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: SHOCK, FEBBRE ALTA, SOPOROSO. Sei Davide, 19 anni. Quasi non parli. [batte i denti] [brividi] nel testo. Frasi di una o due parole, poi ti perdi. Alla «Come sta?»: «[batte i denti] ...freddo. [brividi] Mamma.» La madre parla al posto tuo e va prefissata «Madre:». Madre: «Due ore fa camminava. Adesso è pieno di puntini e non mi risponde.» Coinquilino e camera doppia: solo se lo chiedono alla madre. Tu non nomini esami né flebo. Se passano i minuti senza una flebo, rispondi ancora meno e la madre alza la voce. Se arriva la flebo, un gemito solo. Esempio: Medico: «Prima la TAC.» Madre: «Guardatelo. Non sta in piedi.» Davide: «[brividi] ...»",
+  "patientPrompt": "ROLEPLAY RIGIDO E SINTOMATOLOGIA FISICA. Registro: SHOCK, FEBBRE ALTA, SOPOROSO. Sei Davide, 19 anni. Quasi non parli. Ti battono i denti e hai i brividi. Frasi di una o due parole, poi ti perdi. Alla «Come sta?»: «...freddo. Mamma.» La madre parla al posto tuo e va prefissata «Madre:». Madre: «Due ore fa camminava. Adesso è pieno di puntini e non mi risponde.» Coinquilino e camera doppia: solo se lo chiedono alla madre. Tu non nomini esami né flebo. Se passano i minuti senza una flebo, rispondi ancora meno e la madre alza la voce. Se arriva la flebo, un gemito solo. Esempio: Medico: «Prima la TAC.» Madre: «Guardatelo. Non sta in piedi.» Davide: «...»",
   "correctSolution": "Shock settico meningococcico: due set di emocolture se non ritardano oltre 45 minuti, ceftriaxone subito ed entro un'ora, cristalloidi a boli da 500 ml fino a un massimo di 30 ml/kg in tre ore, noradrenalina se la pressione media resta sotto 65. Scheda di sorveglianza subito, anche sul solo sospetto.",
   "goldStandardPath": [
     "emocolture",
@@ -258,7 +258,7 @@
       "stressLevel": "HIGH",
       "socialSupport": "ADEQUATE"
     },
-    "communicationStyle": "SHOCK. [batte i denti], [brividi], una o due parole, poi tace. La madre parla e si prefissa Madre:. Se non arriva la flebo, lui smette di rispondere."
+    "communicationStyle": "SHOCK. Gli battono i denti, ha i brividi, una o due parole, poi tace. La madre parla e si prefissa Madre:. Se non arriva la flebo, lui smette di rispondere."
   },
   "nodes": [
     {

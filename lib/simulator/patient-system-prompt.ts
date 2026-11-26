@@ -1,5 +1,6 @@
 import { usablePatientPrompt } from "@/lib/cases/case-payload";
 import { patientSafeAnamnesisFact, patientSafeProse, sanitizeCluesForPatient } from "@/lib/cases/resolve-patient-profile";
+import { buildPatientOpeningMessage, scrubPatientBrackets } from "@/lib/simulator/patient-opening";
 import type { PatientProfile } from "@/lib/data/cases/types";
 import {
   extractStructuredAnamnesisTruth,
@@ -123,7 +124,9 @@ function profileLine(profile: PatientProfile | null | undefined): string {
   return [
     `Stato emotivo: ${emotion}.`,
     literacy ? `Come capisci le parole: ${literacy}.` : "",
-    profile.communicationStyle?.trim() ? `Modo di parlare: ${profile.communicationStyle.trim()}` : "",
+    profile.communicationStyle?.trim()
+      ? `Modo di parlare: ${scrubPatientBrackets(profile.communicationStyle)}`
+      : "",
     life
       ? `Sonno ${life.sleepQuality}, stress percepito ${life.stressLevel}, rete sociale ${life.socialSupport}.`
       : "",
@@ -262,7 +265,7 @@ export function buildPatientSystemPrompt(ctx: PatientSimulatorCaseInput): string
   });
   const sex = persona.gender;
   const clean = (value: string | null | undefined) =>
-    sex ? sanitizeGenderSlashes(value ?? "", sex) : (value ?? "");
+    scrubPatientBrackets(sex ? sanitizeGenderSlashes(value ?? "", sex) : (value ?? ""));
   const scriptClean = clean(script);
   const storyClean = spokenFact(clean(story), "usa il copione");
   const sexLabel = patientSexLabel(sex);
@@ -320,6 +323,15 @@ Non inventare interventi, malattie o allergie che non sono nella scheda.
     /"spo2":\s*(8\d|9[0-3])/.test(ctx.vitalSigns);
 
   const copione = scriptClean ? splitCopione(scriptClean) : { symptoms: "", reactions: "" };
+  const opening = buildPatientOpeningMessage({
+    chiefComplaint: ctx.chiefComplaint,
+    presentation: ctx.presentation,
+    patientPrompt: ctx.roleplayScript,
+    clinicalStory: ctx.clinicalStory,
+    physicalExamSummary: ctx.physicalExamSummary,
+    patientName: persona.name,
+    patientSex: sex ?? ctx.patientSex,
+  });
   const personaBlock = `SCHEDA PERSONA & VOCE DEL PAZIENTE
 Questa scheda è stabile per tutto il caso. Lo stato in coda cambia a ogni turno.
 - Nome: ${persona.name}
@@ -330,7 +342,7 @@ Questa scheda è stabile per tutto il caso. Lo stato in coda cambia a ogni turno
     age: ageKnown ? ageNumber : null,
     setting: place,
     complaint: `${storyClean} ${copione.symptoms}`,
-    style: ctx.patientProfile?.communicationStyle,
+    style: scrubPatientBrackets(ctx.patientProfile?.communicationStyle ?? ""),
     emotion: ctx.patientProfile ? EMOTION_LABEL[ctx.patientProfile.emotionalState] : null,
     breathless,
   })}
@@ -342,7 +354,9 @@ Questa scheda è stabile per tutto il caso. Lo stato in coda cambia a ogni turno
 - Come ti presenti: ${presentation || storyClean}
 - Storia pregressa: ${history || "Nessuna patologia cronica nota."}
 ${profile ? `- Profilo: ${profile}\n` : ""}${herrings.length ? `- Hai sentito dire, e ti confonde (non è una diagnosi che pronunci): ${herrings.join("; ")}\n` : ""}${clues ? `${clues}\n` : ""}- Corpo, solo sensazioni: ${symptoms || "solo quanto dice la voce e la situazione"}
-Al primo turno racconti i sintomi attuali, da quanto durano e perché sei lì. Non anticipi un rifiuto o un'accettazione finché il medico non propone quell'esame, quel farmaco o quella manovra.
+Al primo turno racconti i sintomi che stai vivendo adesso, da quanto durano e perché sei lì. Se il medico ti saluta o chiede cosa succede, parti da questo disturbo, in prima persona: ${opening}
+Non anticipi un rifiuto o un'accettazione finché il medico non propone quell'esame, quel farmaco o quella manovra.
+Non usare parentesi quadre e non lasciare una frase da compilare.
 Rispondi in modo proporzionato: breve se hai dispnea, dolore forte o ansia acuta; più disteso se sei stabile.
 Vietato: "che cosa vuole/vorrebbe sapere?", "mi dica lei", "non so cosa dire", "non mi è stato specificato", "cosa devo cliccare".`;
 
