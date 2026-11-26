@@ -1,5 +1,6 @@
 /**
- * The patient must never speak an unfilled bracket slot.
+ * The patient must never speak an unfilled bracket slot,
+ * and a later turn must not be replaced by the opening line.
  *
  *   npx tsx --test lib/simulator/patient-opening.test.ts
  */
@@ -10,15 +11,15 @@ import { describe, it } from "node:test";
 import { resolvePatientProfile } from "@/lib/cases/resolve-patient-profile";
 import { AUTHORED_CASE_REGISTRY } from "@/lib/data/cases/registry-store";
 import type { PatientProfile } from "@/lib/data/cases/types";
+import { buildPatientOpeningMessage, hasPatientPlaceholder } from "@/lib/simulator/patient-opening";
 import {
-  buildPatientOpeningMessage,
-  createPatientUtteranceFilter,
-  hasPatientPlaceholder,
+  createPatientOutputFilter,
   sanitizePatientUtterance,
-} from "@/lib/simulator/patient-opening";
+} from "@/lib/simulator/patient-output-sanitizer";
 import { buildPatientSystemPrompt } from "@/lib/simulator/patient-system-prompt";
 
 const BROKEN_OPENING = "Buongiorno. Da un po’ ho [sintomi attuali], e per questo sono venuto qui.";
+const ROBOTIC = /non sto bene, e per questo sono venut[oa] qui/i;
 
 type CatalogCase = {
   id: string;
@@ -57,19 +58,14 @@ async function loadCatalog(): Promise<CatalogCase[]> {
       continue;
     }
     if (!raw || typeof raw !== "object" || Array.isArray(raw)) continue;
-    const row = raw as CatalogCase & {
-      physicalExam?: { summary?: string };
-      patientProfile?: PatientProfile;
-    };
+    const row = raw as CatalogCase & { physicalExam?: { summary?: string } };
     if (typeof row.id !== "string" || typeof row.patientPrompt !== "string") continue;
     fromJson.push({
       ...row,
       source: path.relative(process.cwd(), file),
       physicalExamSummary: row.physicalExam?.summary,
-      patientProfile: row.patientProfile,
     });
   }
-
   const fromRegistry: CatalogCase[] = AUTHORED_CASE_REGISTRY.map((item) => ({
     id: item.id,
     source: "registry",
@@ -83,7 +79,6 @@ async function loadCatalog(): Promise<CatalogCase[]> {
     patientProfile: item.patientProfile,
     baselineExamFindings: item.baselineExamFindings,
   }));
-
   return [...fromJson, ...fromRegistry];
 }
 
@@ -127,51 +122,60 @@ function openingAndPrompt(item: CatalogCase): { opening: string; prompt: string 
     physicalExamSummary: item.physicalExamSummary,
     patientProfile: item.patientProfile,
     knownAllergies: profile.allergies,
+    currentTurn: 2,
   });
   return { opening, prompt };
 }
 
 describe("patient opening placeholder", () => {
-  it("replaces the production opening that left [sintomi attuali] unfilled", () => {
-    const opening = buildPatientOpeningMessage({
-      patientName: "Enrico",
-      patientSex: "M",
-      patientPrompt: "Sono Enrico. Il gene FLT3 e' mutato. Datemi i giorni scritti, non una dose che non c'e'.",
-      presentation: "Propongono midostaurin dal giorno 1, oppure GO 9 mg/m2 al posto del midostaurin.",
-      chiefComplaint: "AML fit, FLT3-ITD positivo.",
-      physicalExamSummary: "Febbre assente, niente emorragia maggiore.",
+  it("fills only the unfilled slot and does not invent the robotic greeting", () => {
+    const spoken = sanitizePatientUtterance(BROKEN_OPENING, {
+      turn: 1,
+      symptomPhrase: "un dolore al petto",
     });
-    const spoken = sanitizePatientUtterance(BROKEN_OPENING, opening);
     assert.equal(hasPatientPlaceholder(spoken), false);
-    assert.equal(/sintomi attuali/i.test(spoken), false);
-    assert.match(spoken, /febbre|sanguin/i);
+    assert.match(spoken, /dolore al petto/);
+    assert.doesNotMatch(spoken, ROBOTIC);
     assert.doesNotMatch(spoken, /\[/);
-
-    const filter = createPatientUtteranceFilter(opening);
-    assert.equal(filter.push("Buongiorno. Da un po’ ho "), "");
-    assert.equal(filter.push("[sintomi attuali], e per questo sono venuto qui."), "");
-    const flushed = filter.finish();
-    assert.equal(hasPatientPlaceholder(flushed), false);
-    assert.match(flushed, /febbre|sanguin/i);
   });
 
-  it("strips stage-direction brackets without inventing a new complaint", () => {
-    const spoken = sanitizePatientUtterance("[geme] La luce. No. La nuca.", "Buongiorno. Ho la luce negli occhi.");
+  it("on turn 2 keeps a real answer about alcohol and home medicines", () => {
+    const answer = "No, non bevo alcol e a casa prendo solo la pastiglia della pressione.";
+    assert.equal(sanitizePatientUtterance(answer, { turn: 2, symptomPhrase: "dolore al petto" }), answer);
+
+    const echoed = "[PAZIENTE] No, non bevo alcol. In famiglia mio padre ha avuto un infarto. Non ho allergie.";
+    const cleaned = sanitizePatientUtterance(echoed, { turn: 2, symptomPhrase: "dolore al petto" });
+    assert.match(cleaned, /non bevo alcol/);
+    assert.match(cleaned, /padre/);
+    assert.match(cleaned, /allergie/);
+    assert.doesNotMatch(cleaned, /\[PAZIENTE\]/);
+    assert.doesNotMatch(cleaned, ROBOTIC);
+
+    const filter = createPatientOutputFilter({ turn: 2, symptomPhrase: "dolore al petto" });
+    const streamed = `${filter.push("[PAZIENTE] ")}${filter.push(answer)}${filter.finish()}`;
+    assert.match(streamed, /non bevo alcol/);
+    assert.doesNotMatch(streamed, ROBOTIC);
+  });
+
+  it("strips a stage direction and leaves the words around it", () => {
+    const spoken = sanitizePatientUtterance("[geme] La luce. No. La nuca.", { turn: 2 });
     assert.equal(spoken, "La luce. No. La nuca.");
-    assert.equal(hasPatientPlaceholder(spoken), false);
   });
 
   it("keeps every catalog opening and patient prompt free of unreplaced slots", async () => {
     const catalog = await loadCatalog();
-    assert.ok(catalog.length > 100, `catalog too small: ${catalog.length}`);
+    assert.ok(catalog.length >= 327, `catalog too small: ${catalog.length}`);
     const failures: string[] = [];
     for (const item of catalog) {
       const { opening, prompt } = openingAndPrompt(item);
-      if (hasPatientPlaceholder(opening) || /sintomi attuali/i.test(opening) || /\[/.test(opening)) {
+      if (hasPatientPlaceholder(opening) || /sintomi attuali/i.test(opening) || /\[/.test(opening) || ROBOTIC.test(opening)) {
         failures.push(`${item.id} [${item.source}] opening: ${opening}`);
       }
-      if (hasPatientPlaceholder(prompt) || /\[sintomi attuali\]/i.test(prompt)) {
-        failures.push(`${item.id} [${item.source}] prompt contains an unreplaced placeholder`);
+      if (hasPatientPlaceholder(prompt) || /\[sintomi attuali\]/i.test(prompt) || ROBOTIC.test(prompt)) {
+        failures.push(`${item.id} [${item.source}] prompt contains a slot or the robotic greeting`);
+      }
+      if (!/VERITÀ ANAMNESTICA VINCOLANTE/.test(prompt) || !/STATO ATTUALE DELLA VISITA/.test(prompt)) {
+        failures.push(`${item.id} [${item.source}] missing visit or anamnesis anchor`);
       }
     }
     assert.deepEqual(failures, []);

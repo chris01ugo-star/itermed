@@ -1,52 +1,64 @@
 type ChatTurn = { role: "user" | "assistant" | "system"; content: string };
 
 /**
- * Maximum clinician user turns per simulation (anamnesis + PE + therapy plan).
- * Shared by the chat gate, the LLM dialogue window, and the simulator UI counter.
+ * Safety ceiling for one encounter. The counter in the UI stays "Turno N"
+ * until the conversation actually nears this cap.
  */
-export const PATIENT_MAX_TURNS = 35;
+export const PATIENT_MAX_TURNS = 100;
 
-/**
- * Dialogue messages sent to the patient LLM.
- * The opening pair stays, then only the latest 24 messages, so later turns
- * do not keep shipping the whole encounter.
- */
-export const PATIENT_CHAT_HEAD_MESSAGES = 2;
-export const PATIENT_CHAT_TAIL_MESSAGES = 24;
-export const PATIENT_CHAT_WINDOW_SIZE = PATIENT_CHAT_HEAD_MESSAGES + PATIENT_CHAT_TAIL_MESSAGES;
+/** Full user/assistant history kept verbatim, counted as clinician turns. */
+export const PATIENT_FULL_HISTORY_TURNS = 60;
+/** When the encounter is longer, keep the opening exchanges. */
+export const PATIENT_MEMORY_HEAD_TURNS = 2;
+/** …and the latest exchanges, plus a short summary of what fell in the middle. */
+export const PATIENT_MEMORY_TAIL_TURNS = 50;
 
-/**
- * Returns the trailing dialogue window for the virtual patient model.
- * System messages are excluded; no summarization to avoid clinical hallucinations.
- * Roles stay as OpenAI chat roles (user = medico, assistant = paziente).
- */
-export function applyPatientChatWindow(
-  messages: ChatTurn[],
-  windowSize = PATIENT_CHAT_WINDOW_SIZE,
-): ChatTurn[] {
-  const dialogue = messages.filter(
-    (m) =>
-      (m.role === "user" || m.role === "assistant") &&
-      typeof m.content === "string" &&
-      m.content.trim().length > 0,
+const FULL_MESSAGES = PATIENT_FULL_HISTORY_TURNS * 2;
+const HEAD_MESSAGES = PATIENT_MEMORY_HEAD_TURNS * 2;
+const TAIL_MESSAGES = PATIENT_MEMORY_TAIL_TURNS * 2;
+
+export type WindowedPatientChat = {
+  messages: ChatTurn[];
+  /** Facts already said, only when the middle of a long encounter was folded. */
+  memorySummary: string;
+};
+
+function dialogueOf(messages: ChatTurn[]): ChatTurn[] {
+  return messages.filter(
+    (message) =>
+      (message.role === "user" || message.role === "assistant") &&
+      typeof message.content === "string" &&
+      message.content.trim().length > 0,
   );
-  const headCount = Math.min(PATIENT_CHAT_HEAD_MESSAGES, windowSize);
-  const tailCount = Math.max(0, windowSize - headCount);
-  const windowed =
-    dialogue.length <= windowSize
-      ? dialogue
-      : [
-          ...dialogue.slice(0, headCount),
-          ...dialogue.slice(-tailCount),
-        ];
+}
 
-  // Explicit speaker labels reduce role-confusion / fidelity drift under long windows.
-  return windowed.map((m) => {
-    const prefix = m.role === "user" ? "[MEDICO]" : "[PAZIENTE]";
-    const content = m.content.trim();
-    if (content.startsWith("[MEDICO]") || content.startsWith("[PAZIENTE]")) {
-      return { ...m, content };
-    }
-    return { ...m, content: `${prefix} ${content}` };
-  });
+function clipFact(text: string): string {
+  const clean = text.replace(/\s+/g, " ").trim();
+  if (clean.length <= 140) return clean;
+  return `${clean.slice(0, 139).trim()}…`;
+}
+
+/**
+ * Dialogue sent to the patient model.
+ * Up to 60 clinician turns the history is complete.
+ * After that, the first 2 turns, a compact recall of the middle, and the latest 50 turns stay.
+ * Roles are not relabelled: a `[PAZIENTE]` prefix was being spoken back and then
+ * mistaken for an unfilled slot.
+ */
+export function applyPatientChatWindow(messages: ChatTurn[]): WindowedPatientChat {
+  const dialogue = dialogueOf(messages);
+  if (dialogue.length <= FULL_MESSAGES) {
+    return { messages: dialogue, memorySummary: "" };
+  }
+  const head = dialogue.slice(0, HEAD_MESSAGES);
+  const tail = dialogue.slice(-TAIL_MESSAGES);
+  const middle = dialogue.slice(HEAD_MESSAGES, dialogue.length - TAIL_MESSAGES);
+  const facts = middle
+    .map((message) => clipFact(message.content))
+    .filter((line) => line.length >= 12)
+    .slice(0, 14);
+  const memorySummary = facts.length
+    ? `Nel colloquio è già stato detto: ${facts.join(" · ")}`
+    : "";
+  return { messages: [...head, ...tail], memorySummary };
 }

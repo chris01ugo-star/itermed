@@ -46,7 +46,7 @@ import {
   withDeteriorationStress,
   type StressTimelineEntry,
 } from "@/lib/simulator/patient-stress-engine";
-import { isPrescriptionTrace } from "@/lib/simulator/prescription-trace";
+import { isHiddenSystemActionLog, isPrescriptionTrace } from "@/lib/simulator/prescription-trace";
 import {
   buildDeteriorationInstruction,
   computeElapsedMinutesFromExams,
@@ -98,6 +98,39 @@ function getLastUserMessage(messages: ChatTurn[]): string | undefined {
     }
   }
   return undefined;
+}
+
+/** What the patient can already tell has happened in this encounter. No unread reports. */
+function perceiveVisit(messages: ChatTurn[]): {
+  currentTurn: number;
+  proposedTherapies: string[];
+  consentCollected: boolean;
+} {
+  const therapies: string[] = [];
+  let consentCollected = false;
+  let currentTurn = 0;
+  for (const message of messages) {
+    if (message.role !== "user") continue;
+    const text = message.content.trim();
+    if (!text) continue;
+    if (isHiddenSystemActionLog(text)) {
+      const drug = text.replace(/^\[SISTEMA - AZIONE MEDICO\]:\s*Somministrata terapia:\s*/i, "").trim();
+      if (drug) therapies.push(drug);
+      continue;
+    }
+    if (isPrescriptionTrace(text)) {
+      const match = text.match(/ha prescritto\s+([^(]+)/i);
+      if (match?.[1]?.trim()) therapies.push(match[1].trim());
+      continue;
+    }
+    if (/consenso informato/i.test(text)) consentCollected = true;
+    currentTurn += 1;
+  }
+  return {
+    currentTurn,
+    proposedTherapies: [...new Set(therapies)],
+    consentCollected,
+  };
 }
 
 /**
@@ -782,9 +815,15 @@ export async function POST(req: Request) {
   };
 
   const lastUserMessage = getLastUserMessage(chatMessages);
-
-  // Trailing dialogue only — the persona is the streamText `system` argument, never a system message.
-  const windowedMessages = applyPatientChatWindow(chatMessages);
+  const perception = perceiveVisit(chatMessages);
+  const windowed = applyPatientChatWindow(chatMessages);
+  caseData = {
+    ...caseData,
+    currentTurn: perception.currentTurn,
+    proposedTherapies: perception.proposedTherapies,
+    consentCollected: perception.consentCollected,
+    dialogueMemorySummary: windowed.memorySummary,
+  };
 
   chatLogger.info("Patient chat stream started", {
     userId,
@@ -798,34 +837,51 @@ export async function POST(req: Request) {
     deteriorating: Boolean(deteriorationInstruction),
   });
 
-  const stream = await generatePatientResponse({
-    caseData,
-    messages: windowedMessages,
-    model: chatModel,
-    onFinish: liveSessionId
-      ? async ({ text }) => {
-          try {
-            await sessionStateWrite;
-            if (!sessionStateSaved && sessionStateData) {
-              await prisma.caseSession.update({
-                where: { id: liveSessionId },
-                data: sessionStateData,
+  let stream: Awaited<ReturnType<typeof generatePatientResponse>>;
+  try {
+    stream = await generatePatientResponse({
+      caseData,
+      messages: windowed.messages,
+      model: chatModel,
+      onFinish: liveSessionId
+        ? async ({ text }) => {
+            try {
+              await sessionStateWrite;
+              if (!sessionStateSaved && sessionStateData) {
+                await prisma.caseSession.update({
+                  where: { id: liveSessionId },
+                  data: sessionStateData,
+                });
+              }
+              await persistChatTurn({
+                sessionId: liveSessionId,
+                userMessage: lastUserMessage,
+                assistantMessage: text,
+              });
+            } catch (error) {
+              chatLogger.error("Async chat persistence failed", {
+                error,
+                sessionId: liveSessionId,
               });
             }
-            await persistChatTurn({
-              sessionId: liveSessionId,
-              userMessage: lastUserMessage,
-              assistantMessage: text,
-            });
-          } catch (error) {
-            chatLogger.error("Async chat persistence failed", {
-              error,
-              sessionId: liveSessionId,
-            });
           }
-        }
-      : undefined,
-  });
+        : undefined,
+    });
+  } catch (error) {
+    const described = logOpenAIStreamError(error);
+    chatLogger.error("[CHAT_LLM_ERROR]", {
+      status: described.status ?? null,
+      message: described.message,
+      caseId: typeof caseId === "string" ? caseId : undefined,
+    });
+    return new Response(
+      JSON.stringify({
+        error: "Il paziente non riesce a rispondere in questo momento. Riprova.",
+        code: "CHAT_LLM_ERROR",
+      }),
+      { status: 502, headers: { "Content-Type": "application/json" } },
+    );
+  }
 
   return stream.toDataStreamResponse({
     headers: {

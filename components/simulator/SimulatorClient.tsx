@@ -2804,11 +2804,23 @@ export function SimulatorClient({
                     <p
                       className={cn(
                         "text-[11px] font-semibold tabular-nums",
-                        atTurnLimit ? "text-rose-700" : userMessageCount >= PATIENT_MAX_TURNS - 5 ? "text-amber-700" : "text-slate-600",
+                        atTurnLimit
+                          ? "text-rose-700"
+                          : userMessageCount >= PATIENT_MAX_TURNS - 10
+                            ? "text-amber-700"
+                            : "text-slate-600",
                       )}
-                      aria-label={`Turno ${Math.min(userMessageCount, PATIENT_MAX_TURNS)} di ${PATIENT_MAX_TURNS}`}
+                      aria-label={
+                        atTurnLimit
+                          ? `Turno ${userMessageCount}. Tetto di sicurezza raggiunto`
+                          : `Turno ${userMessageCount}`
+                      }
                     >
-                      Turno {Math.min(userMessageCount, PATIENT_MAX_TURNS)}/{PATIENT_MAX_TURNS}
+                      {atTurnLimit
+                        ? `Turno ${userMessageCount}`
+                        : userMessageCount >= PATIENT_MAX_TURNS - 10
+                          ? `Turno ${userMessageCount} · tetto di sicurezza vicino`
+                          : `Turno ${userMessageCount}`}
                     </p>
                     <AiTransparencyBadge variant="workspace" />
                   </div>
@@ -4585,13 +4597,17 @@ function HistoryChat({
               "text-[10px] font-semibold tabular-nums leading-snug sm:text-[11px]",
               atTurnLimit
                 ? "text-rose-700"
-                : userTurnCount >= maxTurns - 5
+                : userTurnCount >= maxTurns - 10
                   ? "text-amber-700"
                   : "text-slate-500",
             )}
-            aria-label={`Turno ${Math.min(userTurnCount, maxTurns)} di ${maxTurns}`}
+            aria-label={atTurnLimit ? `Turno ${userTurnCount}. Tetto di sicurezza raggiunto` : `Turno ${userTurnCount}`}
           >
-            Turno {Math.min(userTurnCount, maxTurns)}/{maxTurns}
+            {atTurnLimit
+              ? `Turno ${userTurnCount}`
+              : userTurnCount >= maxTurns - 10
+                ? `Turno ${userTurnCount} · tetto di sicurezza vicino`
+                : `Turno ${userTurnCount}`}
             <span className="ml-2 font-normal text-slate-400">
               <span className="font-medium text-slate-500">Invio</span> invia ·{" "}
               <span className="font-medium text-slate-500">Shift+Invio</span> a capo

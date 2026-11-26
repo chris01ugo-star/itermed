@@ -299,6 +299,23 @@ export function patientSafeProse(text: string | null | undefined): string {
   return tidy(kept.join(" "));
 }
 
+const LIVED_KEEP_RE =
+  /\b(ho|mi|sono|sento|sto|dolore|male|febbre|fiato|sangue|farmac|allerg|fum|alcol|padre|madre|operat|paura|preoccup)\b/i;
+
+/**
+ * Drops the secret diagnosis token and keeps the lived sentence
+ * (symptoms, medicines, fears). A sentence that is only jargon is removed.
+ */
+export function patientLivedProse(text: string | null | undefined): string {
+  const kept = sentences(text ?? "").flatMap((sentence) => {
+    if (!SPOILER_RE.test(sentence) && !EXAMINER_CLUE_RE.test(sentence)) return [sentence];
+    const redacted = tidy(sentence.replace(SPOILER_RE, " ").replace(EXAMINER_CLUE_RE, " "));
+    if (redacted.length < 12 || !LIVED_KEEP_RE.test(redacted)) return [];
+    return [redacted];
+  });
+  return tidy(kept.join(" "));
+}
+
 /**
  * Come `patientSafeProse`, ma se la frase contiene familiarità, allergie, fumo,
  * alcol o farmaci toglie solo il token da esaminatore e tiene il dato clinico.

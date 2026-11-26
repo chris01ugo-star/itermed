@@ -9,10 +9,6 @@ import { resolvePatientGrammaticalGender } from "@/lib/simulator/patient-grammat
 export const PATIENT_PLACEHOLDER_SOURCE = "\\[[A-Za-zÀ-ÿ0-9_ \\t/-]{3,40}\\]";
 
 const PLACEHOLDER = new RegExp(PATIENT_PLACEHOLDER_SOURCE, "g");
-const SLOT_LABEL =
-  /sintom|nome|et[aà]|età|\beta\b|\banni\b|motivo|disturbo|placeholder|complaint|symptom|\bage\b|\bname\b|paziente|sesso|genere/i;
-const STOCK_OPENING = /da un po['’]?/i;
-const STOCK_ENDING = /sono venut[oa]\s+qui/i;
 const SYMPTOM =
   /\b(dolore|male|fa male|brucia|febbre|febbr|fiato|affanno|dispnea|sangue|sanguin|emorrag|gonfi|nausea|vomit|tosse|catarro|vertigin|sven|confus|debole|stanc|prurit|eruzion|diarrea|stitichezz|palpit|petto|addome|testa|cefalea|nuca|brivid|freddo|caldo|vista|velo|rigid|formicol|intorpid|urina|peso|pallid|luce|mamma|collo)\b/i;
 const INSTRUCTION =
@@ -113,18 +109,15 @@ function scoreSentence(sentence: string, quoted: boolean): number {
   return score;
 }
 
-function finishOpening(body: string, sex: "M" | "F" | null): string {
-  const cleaned = scrubPatientBrackets(body);
-  const arrived = sex === "F" ? "venuta" : "venuto";
-  const fallback = `Buongiorno. Non sto bene, e per questo sono ${arrived} qui.`;
+function finishOpening(body: string): string {
+  const cleaned = scrubPatientBrackets(body)
+    .replace(/^buongiorno[.,]?\s*/i, "")
+    .replace(/non sto bene, e per questo sono venut[oa] qui\.?/gi, "")
+    .trim();
   if (cleaned.length < 8 || hasPatientPlaceholder(cleaned) || /sintomi attuali/i.test(cleaned)) {
-    return fallback;
+    return "";
   }
-  const greeted = /^(buongiorno|buonasera|salve|ciao)\b/i.test(cleaned)
-    ? cleaned
-    : `Buongiorno. ${cleaned.replace(/^[a-zà-ÿ]/, (char) => char.toUpperCase())}`;
-  const clipped = greeted.length > 320 ? `${greeted.slice(0, 319).trim()}…` : greeted;
-  return /[.!?…]$/.test(clipped) ? clipped : `${clipped}.`;
+  return cleaned.length > 280 ? `${cleaned.slice(0, 279).trim()}…` : cleaned;
 }
 
 /**
@@ -171,110 +164,5 @@ export function buildPatientOpeningMessage(input: PatientOpeningInput): string {
     unique.push(row.text);
     if (unique.length >= 2) break;
   }
-  return finishOpening(unique.join(". "), sex);
-}
-
-function hasSlotPlaceholder(text: string): boolean {
-  const pattern = placeholderPattern();
-  let match: RegExpExecArray | null;
-  while ((match = pattern.exec(text)) !== null) {
-    const label = match[0].slice(1, -1);
-    if (SLOT_LABEL.test(label)) return true;
-  }
-  return false;
-}
-
-/**
- * Last gate before the patient line reaches the chat.
- * A slot such as `[sintomi attuali]` is replaced by the case opening.
- * Any other bracket token is removed so it cannot render.
- */
-export function sanitizePatientUtterance(text: string, opening: string): string {
-  const raw = text ?? "";
-  const safeOpening = finishOpening(opening, null);
-  if (/sintomi attuali/i.test(raw) || hasSlotPlaceholder(raw) || (STOCK_OPENING.test(raw) && STOCK_ENDING.test(raw) && hasPatientPlaceholder(raw))) {
-    return safeOpening;
-  }
-  if (!hasPatientPlaceholder(raw)) return tidy(raw);
-  const stripped = scrubPatientBrackets(raw);
-  if (stripped.length < 8 || hasPatientPlaceholder(stripped)) return safeOpening;
-  return stripped;
-}
-
-/**
- * Streaming filter. Holds a short prefix so a bracket slot is never flushed,
- * and replaces the stock unfilled opening with the case line.
- */
-export function createPatientUtteranceFilter(opening: string) {
-  const safeOpening = finishOpening(opening, null);
-  let pending = "";
-  let replaceAll = false;
-  let streaming = false;
-  let held = "";
-
-  const flushHeld = (end: boolean): string => {
-    let out = "";
-    let buffer = held;
-    held = "";
-    while (buffer.length > 0) {
-      const open = buffer.indexOf("[");
-      if (open === -1) {
-        out += buffer;
-        break;
-      }
-      out += buffer.slice(0, open);
-      const rest = buffer.slice(open);
-      const close = rest.indexOf("]");
-      const incomplete = close === -1;
-      const token = incomplete ? rest : rest.slice(0, close + 1);
-      const looksLikeSlot = incomplete
-        ? token.length <= 42 && /^\[[A-Za-zÀ-ÿ0-9_ \t/-]*$/.test(token)
-        : new RegExp(`^${PLACEHOLDER.source}$`).test(token);
-      if (incomplete && looksLikeSlot) {
-        if (!end) held = rest;
-        break;
-      }
-      if (!incomplete && looksLikeSlot) {
-        buffer = rest.slice(close + 1);
-        continue;
-      }
-      out += rest[0] ?? "";
-      buffer = rest.slice(1);
-    }
-    return out;
-  };
-
-  return {
-    push(delta: string): string {
-      if (replaceAll) return "";
-      pending += delta;
-      if (!streaming) {
-        if (pending.length < 180 && !hasPatientPlaceholder(pending) && !/sintomi attuali/i.test(pending)) {
-          return "";
-        }
-        if (
-          /sintomi attuali/i.test(pending) ||
-          hasSlotPlaceholder(pending) ||
-          (STOCK_OPENING.test(pending) && hasPatientPlaceholder(pending))
-        ) {
-          replaceAll = true;
-          return "";
-        }
-        streaming = true;
-        held = pending;
-        return flushHeld(false);
-      }
-      held += delta;
-      return flushHeld(false);
-    },
-    finish(): string {
-      if (replaceAll || /sintomi attuali/i.test(pending) || hasSlotPlaceholder(pending)) {
-        return sanitizePatientUtterance(pending, safeOpening);
-      }
-      if (!streaming) {
-        return sanitizePatientUtterance(pending, safeOpening);
-      }
-      return flushHeld(true);
-    },
-  };
+  return finishOpening(unique.join(". "));
 }

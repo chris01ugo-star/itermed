@@ -27,8 +27,8 @@ const MALICIOUS_PAYLOAD_PATTERNS: RegExp[] = [
 ];
 
 export const MAX_USER_INPUT_CHARS = 8_000;
-/** Payload cap: 35 clinician turns × 2 roles plus a small buffer. */
-export const MAX_CHAT_MESSAGES = 100;
+/** Payload cap: 100 clinician turns × 2 roles plus a small buffer. */
+export const MAX_CHAT_MESSAGES = 220;
 
 /**
  * Neutralizes common prompt-injection phrases in user-authored text

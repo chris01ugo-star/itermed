@@ -5,36 +5,79 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import {
   applyPatientChatWindow,
-  PATIENT_CHAT_WINDOW_SIZE,
+  PATIENT_FULL_HISTORY_TURNS,
   PATIENT_MAX_TURNS,
 } from "@/lib/simulator/chat-context-window";
+import { buildPatientSystemPrompt } from "@/lib/simulator/patient-system-prompt";
+
+function turns(count: number) {
+  return Array.from({ length: count * 2 }, (_, index) => ({
+    role: index % 2 === 0 ? ("user" as const) : ("assistant" as const),
+    content: `messaggio-${index + 1} sul sintomo`,
+  }));
+}
 
 describe("patient chat window", () => {
-  it("caps the LLM window at the opening pair plus the latest 24 messages", () => {
-    assert.equal(PATIENT_MAX_TURNS, 35);
-    assert.equal(PATIENT_CHAT_WINDOW_SIZE, 26);
+  it("keeps the safety ceiling at 100 clinician turns and the full history through 60", () => {
+    assert.equal(PATIENT_MAX_TURNS, 100);
+    assert.equal(PATIENT_FULL_HISTORY_TURNS, 60);
   });
 
-  it("keeps the opening pair and the latest 24 messages", () => {
-    const messages = Array.from({ length: 70 }, (_, i) => ({
-      role: i % 2 === 0 ? ("user" as const) : ("assistant" as const),
-      content: `turn-${i + 1}`,
-    }));
-    const windowed = applyPatientChatWindow(messages);
-    assert.equal(windowed.length, 26);
-    assert.match(windowed[0].content, /turn-1/);
-    assert.match(windowed[1].content, /turn-2/);
-    assert.match(windowed[2].content, /turn-47/);
-    assert.match(windowed[25].content, /turn-70/);
+  it("sends a 45-turn encounter in full, without speaker brackets", () => {
+    const windowed = applyPatientChatWindow(turns(45));
+    assert.equal(windowed.messages.length, 90);
+    assert.equal(windowed.memorySummary, "");
+    assert.match(windowed.messages[0].content, /messaggio-1/);
+    assert.match(windowed.messages.at(-1)?.content ?? "", /messaggio-90/);
+    assert.equal(windowed.messages.some((message) => message.content.includes("[PAZIENTE]")), false);
+  });
+
+  it("after 60 turns keeps the opening, a recall, and the latest 50 turns", () => {
+    const windowed = applyPatientChatWindow(turns(70));
+    assert.equal(windowed.messages.length, 4 + 100);
+    assert.match(windowed.messages[0].content, /messaggio-1/);
+    assert.match(windowed.messages.at(-1)?.content ?? "", /messaggio-140/);
+    assert.match(windowed.memorySummary, /già stato detto/);
+    assert.match(windowed.memorySummary, /messaggio-5/);
   });
 
   it("leaves a short encounter intact", () => {
-    const messages = [
-      { role: "user" as const, content: "Buongiorno" },
-      { role: "assistant" as const, content: "Mi fa male" },
-    ];
-    const windowed = applyPatientChatWindow(messages);
-    assert.equal(windowed.length, 2);
-    assert.match(windowed[0].content, /Buongiorno/);
+    const windowed = applyPatientChatWindow([
+      { role: "user", content: "Buongiorno" },
+      { role: "assistant", content: "Mi fa male il petto" },
+    ]);
+    assert.equal(windowed.messages.length, 2);
+    assert.match(windowed.messages[0].content, /Buongiorno/);
+    assert.equal(windowed.memorySummary, "");
+  });
+
+  it("keeps STATO ATTUALE DELLA VISITA on turn 45 and turn 70", () => {
+    for (const turn of [45, 70]) {
+      const history = applyPatientChatWindow(turns(turn));
+      const prompt = buildPatientSystemPrompt({
+        patientAge: "58",
+        patientSex: "M",
+        chiefComplaint: "Dolore al petto",
+        clinicalStory: "Dolore al petto da due ore",
+        vitalSigns: "{}",
+        patientStress: 30,
+        trueDiagnosis: "",
+        abnormalExams: "",
+        clinicalSignsJson: "[]",
+        painNrs: null,
+        currentTurn: turn,
+        completedExamLabels: ["Elettrocardiogramma"],
+        proposedTherapies: ["Aspirina"],
+        consentCollected: true,
+        dialogueMemorySummary: history.memorySummary,
+      });
+      assert.match(prompt, /STATO ATTUALE DELLA VISITA/);
+      assert.match(prompt, /VERITÀ ANAMNESTICA VINCOLANTE/);
+      assert.match(prompt, new RegExp(`Turno del medico: ${turn}`));
+      assert.match(prompt, /Elettrocardiogramma/);
+      assert.match(prompt, /Aspirina/);
+      assert.match(prompt, /te lo hanno spiegato/);
+      if (turn === 70) assert.match(prompt, /già stato detto/);
+    }
   });
 });

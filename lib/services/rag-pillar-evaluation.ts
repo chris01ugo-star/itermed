@@ -143,7 +143,7 @@ function buildUserPrompt(input: {
     ...(option.nodeId ? { nodeId: option.nodeId.slice(0, 200) } : {}),
   }));
   const chat = formatAuditChatTranscript(
-    input.chatHistory.slice(-48).map((turn) => ({
+    input.chatHistory.slice(-220).map((turn) => ({
       role: turn.role,
       content: sanitizeForExternalAI(turn.content).slice(0, 1500),
     })),

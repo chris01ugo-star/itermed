@@ -1,5 +1,5 @@
 import { usablePatientPrompt } from "@/lib/cases/case-payload";
-import { patientSafeAnamnesisFact, patientSafeProse, sanitizeCluesForPatient } from "@/lib/cases/resolve-patient-profile";
+import { patientLivedProse, patientSafeAnamnesisFact, patientSafeProse, sanitizeCluesForPatient } from "@/lib/cases/resolve-patient-profile";
 import { buildPatientOpeningMessage, scrubPatientBrackets } from "@/lib/simulator/patient-opening";
 import type { PatientProfile } from "@/lib/data/cases/types";
 import {
@@ -59,6 +59,14 @@ export type PatientSimulatorCaseInput = {
   anamnesisClues?: AnamnesisFactSource[] | null;
   physicalExamSummary?: string | null;
   patientProfile?: PatientProfile | null;
+  /** 1-based clinician turn, including the message being answered. */
+  currentTurn?: number | null;
+  /** Drug names the patient has already been offered or given. */
+  proposedTherapies?: string[] | null;
+  /** The clinician already explained informed consent. */
+  consentCollected?: boolean | null;
+  /** Middle of a long encounter, already said aloud. */
+  dialogueMemorySummary?: string | null;
 };
 
 const SETTING_LABEL: Record<string, string> = {
@@ -252,9 +260,9 @@ function splitCopione(script: string): { symptoms: string; reactions: string } {
  * guideline recitation, and prompt injection.
  */
 export function buildPatientSystemPrompt(ctx: PatientSimulatorCaseInput): string {
-  const script = patientSafeProse(usablePatientPrompt(ctx.roleplayScript));
+  const script = patientLivedProse(usablePatientPrompt(ctx.roleplayScript));
   const story = spokenFact(
-    patientSafeProse(ctx.clinicalStory?.trim() || ctx.chiefComplaint),
+    patientLivedProse(ctx.clinicalStory?.trim() || ctx.chiefComplaint),
     "usa il copione",
   );
   const persona = resolvePatientPersona({
@@ -279,7 +287,7 @@ export function buildPatientSystemPrompt(ctx: PatientSimulatorCaseInput): string
     .filter(Boolean)
     .join("\n");
   const history = spokenFact(clean(patientSafeAnamnesisFact(ctx.pastMedicalHistory)), "");
-  const presentation = spokenFact(clean(patientSafeProse(ctx.presentation)), "");
+  const presentation = spokenFact(clean(patientLivedProse(ctx.presentation)), "");
   const herrings = (ctx.redHerrings ?? [])
     .map((item) => patientSafeProse(clean(item)).trim())
     .filter(Boolean);
@@ -332,6 +340,9 @@ Non inventare interventi, malattie o allergie che non sono nella scheda.
     patientName: persona.name,
     patientSex: sex ?? ctx.patientSex,
   });
+  const turn = Number(ctx.currentTurn);
+  const turnKnown = Number.isFinite(turn) && turn >= 1;
+  const therapies = (ctx.proposedTherapies ?? []).map((item) => item.trim()).filter(Boolean);
   const personaBlock = `SCHEDA PERSONA & VOCE DEL PAZIENTE
 Questa scheda è stabile per tutto il caso. Lo stato in coda cambia a ogni turno.
 - Nome: ${persona.name}
@@ -354,13 +365,27 @@ Questa scheda è stabile per tutto il caso. Lo stato in coda cambia a ogni turno
 - Come ti presenti: ${presentation || storyClean}
 - Storia pregressa: ${history || "Nessuna patologia cronica nota."}
 ${profile ? `- Profilo: ${profile}\n` : ""}${herrings.length ? `- Hai sentito dire, e ti confonde (non è una diagnosi che pronunci): ${herrings.join("; ")}\n` : ""}${clues ? `${clues}\n` : ""}- Corpo, solo sensazioni: ${symptoms || "solo quanto dice la voce e la situazione"}
-Al primo turno racconti i sintomi che stai vivendo adesso, da quanto durano e perché sei lì. Se il medico ti saluta o chiede cosa succede, parti da questo disturbo, in prima persona: ${opening}
+CONTINUITÀ DEL COLLOQUIO
+${opening ? `- Disturbo concreto da usare al primo turno, con parole tue: ${opening}\n` : ""}- Al primo turno racconti i sintomi che stai vivendo adesso, da quanto durano e perché sei lì. Nomina il disturbo della scheda. Vietato un esordio generico che non dice che cosa senti.
+- Dal secondo turno in poi rispondi sempre e solo all'ultima domanda o frase del medico. Non risalutare. Non ricominciare da «Buongiorno». Non ripetere il disturbo se la domanda è su farmaci, alcol, fumo, allergie, famiglia, lavoro, malattie passate o interventi.
+- Coerenza: farmaci, alcol, fumo, allergie, familiarità, lavoro, patologie e interventi stanno nella VERITÀ ANAMNESTICA VINCOLANTE. Se un dato c'è, è quello. Se non c'è, dillo in prima persona («non bevo», «non fumo», «non prendo farmaci», «non ho allergie»), senza inventare una diagnosi e senza dire che non ne hai parlato.
+- Se il medico è chiaro e gentile, ti apri. Se usa parole che non capisci, chiedi di spiegare. Se ti rassicura senza dirti niente di concreto, resti in pensiero.
 Non anticipi un rifiuto o un'accettazione finché il medico non propone quell'esame, quel farmaco o quella manovra.
 Non usare parentesi quadre e non lasciare una frase da compilare.
 Rispondi in modo proporzionato: breve se hai dispnea, dolore forte o ansia acuta; più disteso se sei stabile.
 Vietato: "che cosa vuole/vorrebbe sapere?", "mi dica lei", "non so cosa dire", "non mi è stato specificato", "cosa devo cliccare".`;
 
   const dynamicTail = [
+    "STATO ATTUALE DELLA VISITA",
+    turnKnown ? `- Turno del medico: ${Math.round(turn)}` : "- Turno del medico: quello dell'ultimo messaggio",
+    `- Esami o gesti che hai già percepito: ${exams.length ? exams.join("; ") : "nessuno, per ora"}`,
+    `- Terapie che ti hanno proposto o dato: ${therapies.length ? therapies.join("; ") : "nessuna"}`,
+    `- Consenso informato: ${ctx.consentCollected ? "te lo hanno spiegato" : "non te lo hanno ancora chiesto"}`,
+    worsening ? `- Ti senti peggio di quando sei arrivato. ${worsening}` : "- Non percepisci un peggioramento improvviso.",
+    ctx.dialogueMemorySummary?.trim()
+      ? `- Memoria del colloquio già fatto: ${ctx.dialogueMemorySummary.trim()}`
+      : "",
+    "Non citare numeri di laboratorio, referti o la diagnosi se nessuno te li ha detti ad alta voce.",
     "STATO DI QUESTO TURNO (cambia a ogni messaggio; la scheda sopra resta valida):",
     stressBehaviorBlock(ctx.patientStress, ctx.stressReactivity, ctx.stressReason),
     elapsed != null ? `- Minuti trascorsi: ${elapsed}` : "",
@@ -368,7 +393,6 @@ Vietato: "che cosa vuole/vorrebbe sapere?", "mi dica lei", "non so cosa dire", "
     `- Cosa sente dai parametri: ${felt.length ? felt.join("; ") : "nessuna alterazione marcata dei parametri"}`,
     pain,
     `- Esami già eseguiti: ${exams.length ? exams.join("; ") : "nessuno"}`,
-    worsening,
   ]
     .filter(Boolean)
     .join("\n");

@@ -556,7 +556,7 @@ export type EvaluationServiceDeps = {
 };
 
 const EMPTY_REPORT_FALLBACK = "Nessun referto scritto inserito dal medico.";
-const MAX_CHAT_MESSAGES = 48;
+const MAX_CHAT_MESSAGES = 220;
 const MAX_CHAT_MESSAGE_CHARS = 1500;
 
 export function normalizeReportText(reportText: string | undefined | null): string {

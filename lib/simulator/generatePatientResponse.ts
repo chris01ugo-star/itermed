@@ -4,9 +4,11 @@ import { createLogger } from "@/lib/logger";
 import { MODEL_GPT_6_LUNA, openAIChatModel, type ChatModelId } from "@/lib/ai/models";
 import {
   buildPatientOpeningMessage,
-  createPatientUtteranceFilter,
-  sanitizePatientUtterance,
 } from "@/lib/simulator/patient-opening";
+import {
+  createPatientOutputFilter,
+  sanitizePatientUtterance,
+} from "@/lib/simulator/patient-output-sanitizer";
 import {
   buildPatientSystemPrompt,
   type PatientSimulatorCaseInput,
@@ -75,7 +77,7 @@ export type GeneratePatientResponseParams = {
  * Call `.toDataStreamResponse()` in the route handler.
  */
 export async function generatePatientResponse(params: GeneratePatientResponseParams) {
-  const opening = buildPatientOpeningMessage({
+  const symptomPhrase = buildPatientOpeningMessage({
     chiefComplaint: params.caseData.chiefComplaint,
     presentation: params.caseData.presentation,
     patientPrompt: params.caseData.roleplayScript,
@@ -86,6 +88,12 @@ export async function generatePatientResponse(params: GeneratePatientResponsePar
   });
   const systemPrompt = buildPatientSystemPrompt(params.caseData);
   const modelId = params.model ?? MODEL_GPT_6_LUNA;
+  const clinicianTurn = params.messages.filter((message) => message.role === "user").length;
+  const sanitizeOptions = {
+    turn: clinicianTurn,
+    symptomPhrase,
+    patientName: params.caseData.patientName,
+  };
   // GPT-6 drops a `system` role inside `messages`. The top-level `system`
   // argument is what the SDK maps to the developer instruction.
   const dialogue = params.messages.filter(
@@ -95,7 +103,8 @@ export async function generatePatientResponse(params: GeneratePatientResponsePar
       message.content.trim().length > 0,
   );
 
-  return withOpenAIRetry(async () =>
+  return withOpenAIRetry(
+    async () =>
     streamText({
       // gpt-6-luna defaults to medium reasoning and blows the TTFB budget.
       // reasoningEffort is sent as Chat Completions reasoning_effort.
@@ -105,10 +114,10 @@ export async function generatePatientResponse(params: GeneratePatientResponsePar
       },
       system: systemPrompt,
       maxTokens: 350,
-      maxRetries: 3,
+      maxRetries: 0,
       messages: dialogue,
       experimental_transform: () => {
-        const speechFilter = createPatientUtteranceFilter(opening);
+        const speechFilter = createPatientOutputFilter(sanitizeOptions);
         return new TransformStream({
           transform(part, controller) {
             if (part.type !== "text-delta") {
@@ -125,13 +134,26 @@ export async function generatePatientResponse(params: GeneratePatientResponsePar
         });
       },
       onError: ({ error }) => {
-        logOpenAIStreamError(error);
+        const described = logOpenAIStreamError(error);
+        patientLogger.error("[CHAT_LLM_ERROR]", {
+          status: described.status ?? null,
+          message: described.message,
+        });
       },
       onFinish: params.onFinish
         ? async (event) => {
-            await params.onFinish?.({ text: sanitizePatientUtterance(event.text, opening) });
+            const spoken = sanitizePatientUtterance(event.text, sanitizeOptions);
+            if (spoken !== event.text.trim()) {
+              patientLogger.warn("[CHAT_SANITIZER]", {
+                turn: clinicianTurn,
+                before: event.text.slice(0, 180),
+                after: spoken.slice(0, 180),
+              });
+            }
+            await params.onFinish?.({ text: spoken });
           }
         : undefined,
     }),
+    { maxAttempts: 2 },
   );
 }

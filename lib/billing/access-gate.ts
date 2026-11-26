@@ -29,14 +29,14 @@ export type GateResult =
   | { allowed: false; code: string; message: string; status: number };
 
 /**
- * Default clinical anamnesis cap: PATIENT_MAX_TURNS user turns ≈ ~70 total chat messages.
+ * Default clinical anamnesis cap: PATIENT_MAX_TURNS clinician turns.
  * Complex cases must not be starved mid-history-taking.
  */
 export const DEFAULT_CLINICAL_USER_MESSAGE_LIMIT = PATIENT_MAX_TURNS;
 
 /** Absolute bounds for per-case overrides (`caseInput.maxUserMessages`). */
 export const MIN_CLINICAL_USER_MESSAGE_LIMIT = 10;
-export const MAX_CLINICAL_USER_MESSAGE_LIMIT = 80;
+export const MAX_CLINICAL_USER_MESSAGE_LIMIT = 100;
 
 /** Professional soft-stop when the anamnesis budget is exhausted. */
 export const ANAMNESIS_COMPLETE_MESSAGE =
