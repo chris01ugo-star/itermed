@@ -10,13 +10,15 @@ type Gpt6RequestBody = {
   messages?: Array<{ role?: string }>;
   max_tokens?: number;
   max_completion_tokens?: number;
+  model?: string;
+  temperature?: number;
 };
 
 /**
  * GPT-6 Chat Completions rejects `max_tokens` (HTTP 400). AI SDK v4 only
  * rewrites it to `max_completion_tokens` for `o*` and `gpt-5*`, so do it here.
  */
-export function rewriteGpt6ChatBody(body: Gpt6RequestBody): Gpt6RequestBody {
+export function rewriteGpt6ChatBody(body: Gpt6RequestBody, requestUrl = ""): Gpt6RequestBody {
   if (Array.isArray(body.messages)) {
     body.messages = body.messages.map((message) =>
       message.role === "system" ? { ...message, role: "developer" } : message,
@@ -26,6 +28,11 @@ export function rewriteGpt6ChatBody(body: Gpt6RequestBody): Gpt6RequestBody {
     body.max_completion_tokens = body.max_tokens;
   }
   delete body.max_tokens;
+  const modelId = `${body.model ?? ""} ${requestUrl}`.toLowerCase();
+  // gpt-6.1-sol rejects temperature 0 (the AI SDK default for generateObject) with HTTP 400.
+  if (modelId.includes("gpt-6.1-sol") && body.temperature != null && body.temperature !== 1) {
+    delete body.temperature;
+  }
   return body;
 }
 
@@ -36,7 +43,9 @@ const gpt6 = createOpenAI({
     }
     try {
       const body = JSON.parse(init.body) as Gpt6RequestBody;
-      return fetch(input, { ...init, body: JSON.stringify(rewriteGpt6ChatBody(body)) });
+      const requestUrl =
+        typeof input === "string" ? input : input instanceof URL ? input.toString() : input.url;
+      return fetch(input, { ...init, body: JSON.stringify(rewriteGpt6ChatBody(body, requestUrl)) });
     } catch {
       return fetch(input, init);
     }

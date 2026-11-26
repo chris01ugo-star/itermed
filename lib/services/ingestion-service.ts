@@ -91,7 +91,7 @@ export const SIMILARITY_THRESHOLD_LEGAL = 0.4;
 export const SIMILARITY_THRESHOLD_PROTOCOL = 0.35;
 export const SIMILARITY_THRESHOLD_ECONOMIC = SIMILARITY_THRESHOLD_PROTOCOL;
 
-export type IngestPillar = "LEGAL" | "ECONOMIC" | "CLINICAL";
+export type IngestPillar = "LEGAL" | "ECONOMIC" | "CLINICAL" | "EMPATHY";
 
 export type PillarConfig = {
   folder: string;
@@ -122,6 +122,13 @@ export const INGEST_PILLARS: PillarConfig[] = [
     tags: ["protocollo", "linee guida", "linee-guida", "pillaro-clinical"],
     similarityThreshold: SIMILARITY_THRESHOLD_PROTOCOL,
     sourceTypeDefault: "PDF",
+  },
+  {
+    folder: "empathy",
+    pillar: "EMPATHY",
+    tags: ["empatia", "comunicazione", "alleanza", "pillaro-empathy"],
+    similarityThreshold: SIMILARITY_THRESHOLD_PROTOCOL,
+    sourceTypeDefault: "TEXT",
   },
 ];
 
@@ -232,13 +239,14 @@ export function emptyIngestStats(): IngestStats {
     LEGAL: { files: 0, chunks: 0, skipped: 0, updated: 0 },
     ECONOMIC: { files: 0, chunks: 0, skipped: 0, updated: 0 },
     CLINICAL: { files: 0, chunks: 0, skipped: 0, updated: 0 },
+    EMPATHY: { files: 0, chunks: 0, skipped: 0, updated: 0 },
   };
 }
 
 export function resolvePillar(raw?: string | null): IngestPillar {
   const value = (raw ?? "CLINICAL").trim().toUpperCase();
-  if (value === "LEGAL" || value === "ECONOMIC" || value === "CLINICAL") return value;
-  throw new Error(`Pilastro non valido: ${raw}. Atteso LEGAL | ECONOMIC | CLINICAL.`);
+  if (value === "LEGAL" || value === "ECONOMIC" || value === "CLINICAL" || value === "EMPATHY") return value;
+  throw new Error(`Pilastro non valido: ${raw}. Atteso LEGAL | ECONOMIC | CLINICAL | EMPATHY.`);
 }
 
 function extractYear(source: string, text: string): number | undefined {
@@ -840,7 +848,7 @@ export async function ingestSpecialtyFromDisk(input: IngestDiskInput): Promise<I
   if (!existsSync(knowledgeRoot)) {
     throw new Error(
       `Cartella non trovata: ${knowledgeRoot}\n` +
-        `Crea knowledge_base/${specialtySlug}/{legal,economic,clinical}/ e inserisci i documenti.`,
+        `Crea knowledge_base/${specialtySlug}/{legal,economic,clinical,empathy}/ e inserisci i documenti.`,
     );
   }
 
@@ -871,10 +879,11 @@ export async function ingestSpecialtyFromDisk(input: IngestDiskInput): Promise<I
   }
 
   if (universal) {
-    const clinicalCfg = INGEST_PILLARS.find((pillar) => pillar.pillar === "CLINICAL");
-    if (clinicalCfg) {
+    const empathySlug = specialtySlug === "empatia";
+    const rootCfg = INGEST_PILLARS.find((pillar) => pillar.pillar === (empathySlug ? "EMPATHY" : "CLINICAL"));
+    if (rootCfg) {
       for (const filePath of await listRootDocuments(knowledgeRoot)) {
-        allFiles.push({ pillarCfg: clinicalCfg, filePath });
+        allFiles.push({ pillarCfg: rootCfg, filePath });
       }
     }
   }
@@ -882,7 +891,7 @@ export async function ingestSpecialtyFromDisk(input: IngestDiskInput): Promise<I
   if (allFiles.length === 0) {
     throw new Error(
       `Nessun documento in knowledge_base/${specialtySlug}. ` +
-        `Attesi file in legal/, economic/, clinical/ oppure clinic/` +
+        `Attesi file in legal/, economic/, clinical/ oppure clinic/, empathy/, oppure nella radice di generale/ e empatia/` +
         (universal ? " oppure direttamente nella cartella." : "."),
     );
   }

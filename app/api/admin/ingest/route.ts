@@ -21,7 +21,7 @@ const ingestLogger = createLogger("admin-ingest-api");
 const JsonBodySchema = z.object({
   specialty: z.string().min(1),
   sourceUrl: z.string().url().optional(),
-  pillar: z.enum(["LEGAL", "ECONOMIC", "CLINICAL"]).optional(),
+  pillar: z.enum(["LEGAL", "ECONOMIC", "CLINICAL", "EMPATHY"]).optional(),
   update: z.boolean().optional(),
   ingestFromDisk: z.boolean().optional(),
   title: z.string().min(1).max(240).optional(),

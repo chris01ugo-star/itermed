@@ -11,6 +11,9 @@ import {
   type DRimeResult,
 } from "@/lib/reports/d-rime-engine";
 import {
+  EMPATHY_NEURO_PROMPT_APPENDIX,
+} from "@/lib/services/empathy-neuro-rubric";
+import {
   DOCTOR_INTENT_CATEGORIES,
   LLM_INTENT_CONFIDENCE_THRESHOLD,
   areHighConfidenceIntentsAmbiguous,
@@ -80,6 +83,18 @@ export const RelationalAuditResultSchema = z.object({
     adherenceScorePercentage: z.number().min(0).max(100),
     missedSteps: z.array(z.string()),
   }),
+  empathicOpportunitiesDetected: z.number().int().min(0).max(48).optional(),
+  empathicOpportunitiesCaptured: z.number().int().min(0).max(48).optional(),
+  ruptureRepairDetected: z.boolean().optional(),
+  relationalEvidence: z
+    .array(
+      z.object({
+        quote: z.string().max(120),
+        note: z.string().max(280),
+      }),
+    )
+    .max(3)
+    .optional(),
   /** Deterministic FSM snapshot — T/A/D never originate from the LLM. */
   dRimeFsm: z
     .object({
@@ -139,6 +154,8 @@ REGOLE TASSATIVE:
 7. Distingui VALIDATION (specifica, ancorata) da FORMULAIC_EMPATHY (frase fatta). In dubbio su una rassicurazione generica, usa FORMULAIC_EMPATHY.
 8. Se il turno precedente del paziente esprime paura o rabbia e il medico risponde con una domanda clinica/tecnica senza accogliere l'emozione, etichetta EMOTIONAL_BYPASS (non VALIDATION, non EMPATHIC_EXPLORATION).
 9. OPTION_ELICITATION richiede un coinvolgimento esplicito nella scelta. Non basta dire "procediamo" o "le prescrivo".
+10. In urgenza o in pronto soccorso non etichettare EMOTIONAL_BYPASS una domanda anamnestica rapida se il paziente non ha appena espresso un cue emotivo ignorato.
+${EMPATHY_NEURO_PROMPT_APPENDIX}
 `;
 
 const emptyAudit = (params?: {
@@ -401,6 +418,13 @@ export function mapDRimeToRelationalAudit(params: {
       finalState: dRime.finalState,
       classifiedIntents: params.classifiedIntents,
     },
+    empathicOpportunitiesDetected: dRime.empathicOpportunitiesDetected,
+    empathicOpportunitiesCaptured: dRime.empathicOpportunitiesCaptured,
+    ruptureRepairDetected: dRime.ruptureRepairDetected,
+    relationalEvidence: dRime.acts.slice(0, 3).map((act) => ({
+      quote: act.utterance.replace(/\s+/g, " ").trim().slice(0, 120),
+      note: act.intentLabel,
+    })),
   };
 }
 

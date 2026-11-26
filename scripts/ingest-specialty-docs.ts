@@ -175,7 +175,7 @@ async function main() {
     `RAG soglie: LEGAL=${SIMILARITY_THRESHOLD_LEGAL} | ECONOMIC=${SIMILARITY_THRESHOLD_ECONOMIC} | CLINICAL=${SIMILARITY_THRESHOLD_PROTOCOL}`,
   );
   console.log(`Pilastri  : ${INGEST_PILLARS.map((pillar) => pillar.pillar).join(", ")}`);
-  console.log("Cartelle  : legal/, economic/, clinical/ oppure clinic/, più la radice di generale/ e empatia/");
+  console.log("Cartelle  : legal/, economic/, clinical/ oppure clinic/, empathy/, più la radice di generale/ e empatia/ (pilastro EMPATHY)");
   console.log("----------------------------------------------------");
 
   let failed = false;

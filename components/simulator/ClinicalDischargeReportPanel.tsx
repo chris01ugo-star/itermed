@@ -10,22 +10,36 @@ export type ClinicalReportSections = {
   diagnosticFindings: string;
   diagnosisTreatment: string;
   dischargeNote: string;
+  /** Data/ora e qualifica. Opzionale: l'omissione non blocca l'invio. */
+  formalClosure?: string;
 };
 
 export function composeClinicalReport(sections: ClinicalReportSections): string {
   const parts: string[] = [];
 
   if (sections.anamnesisObjective.trim()) {
-    parts.push("=== ANAMNESI & ESAME OBIETTIVO ===", sections.anamnesisObjective.trim());
+    parts.push("=== ANAMNESI ED ESAME OBIETTIVO ESSENZIALI ===", sections.anamnesisObjective.trim());
   }
   if (sections.diagnosticFindings.trim()) {
-    parts.push("=== RISCONTRI DIAGNOSTICI ===", sections.diagnosticFindings.trim());
+    parts.push(
+      "=== RISCONTRI DIAGNOSTICI E RAGIONAMENTO CLINICO ===",
+      sections.diagnosticFindings.trim(),
+    );
   }
   if (sections.diagnosisTreatment.trim()) {
-    parts.push("=== DIAGNOSI & TRATTAMENTO DI DIMISSIONE ===", sections.diagnosisTreatment.trim());
+    parts.push("=== DIAGNOSI, TERAPIA E CONDOTTA ===", sections.diagnosisTreatment.trim());
   }
   if (sections.dischargeNote.trim()) {
-    parts.push("=== DIARIO CLINICO / RELAZIONE DI DIMISSIONE ===", sections.dischargeNote.trim());
+    parts.push(
+      "=== INFORMAZIONE AL PAZIENTE, CONSENSO, FOLLOW-UP E RED FLAGS ===",
+      sections.dischargeNote.trim(),
+    );
+  }
+  if (sections.formalClosure?.trim()) {
+    parts.push(
+      "=== CHIUSURA FORMALE (DATA/ORA E QUALIFICA) ===",
+      sections.formalClosure.trim(),
+    );
   }
 
   return parts.join("\n\n");
@@ -60,7 +74,7 @@ type ClinicalDischargeReportPanelProps = {
 };
 
 const FIELDS: Array<{
-  key: keyof ClinicalReportSections;
+  key: "anamnesisObjective" | "diagnosticFindings" | "diagnosisTreatment" | "dischargeNote";
   code: string;
   label: string;
   brief: string;
@@ -71,44 +85,52 @@ const FIELDS: Array<{
   {
     key: "anamnesisObjective",
     code: "A",
-    label: "Anamnesi ed esame obiettivo",
-    brief: "Presentazione, cronologia, fattori di rischio, EO mirato e vitali.",
+    label: "Anamnesi ed Esame Obiettivo essenziali",
+    brief: "Motivo della visita, allergie e terapia in atto, reperti obiettivi salienti.",
     placeholder:
-      "Motivo di accesso, anamnesi prossima e remota, terapie domiciliari, esame obiettivo mirato e parametri vitali…",
+      "Motivo di accesso, anamnesi prossima e remota, allergie, terapia domiciliare in atto, esame obiettivo mirato e parametri vitali…",
     rows: 5,
     minHint: 20,
   },
   {
     key: "diagnosticFindings",
     code: "B",
-    label: "Riscontri diagnostici",
-    brief: "Laboratorio e imaging con interpretazione, non elenco asettico.",
+    label: "Riscontri Diagnostici e Ragionamento Clinico",
+    brief: "Esami eseguiti, referti principali e diagnosi differenziali considerate.",
     placeholder:
-      "Esami di laboratorio e strumentali con interpretazione clinica sintetica e correlazione al quadro…",
+      "Esami richiesti e referti principali, interpretazione e diagnosi differenziali che hai scartato o tenuto in gioco…",
     rows: 5,
     minHint: 15,
   },
   {
     key: "diagnosisTreatment",
     code: "C",
-    label: "Diagnosi e trattamento di dimissione",
-    brief: "Diagnosi motivata, terapia in PS, destinazione e follow-up.",
+    label: "Diagnosi, Terapia e Condotta",
+    brief: "Ipotesi o diagnosi finale, posologia e piano terapeutico.",
     placeholder:
-      "Diagnosi finale motivata; terapia effettuata in PS; indicazioni di dimissione o trasferimento; follow-up e red flags…",
+      "Diagnosi finale: …\nTerapia (principio, dose, via, durata) e condotta (osservazione, ricovero, dimissione)…",
     rows: 6,
     minHint: 10,
   },
   {
     key: "dischargeNote",
     code: "D",
-    label: "Diario Clinico / Relazione di Dimissione",
-    brief: "Razionale, reperti e follow-up. Senza questo testo la tutela documentale resta scoperta.",
+    label: "Informazione al Paziente, Consenso, Follow-up e Red Flags",
+    brief: "Diario di dimissione, segnali d'allarme e presa d'atto del consenso (L. 219/2017).",
     placeholder:
-      "Sintetizza il razionale clinico, i reperti principali e il follow-up raccomandato per tutelarti legalmente...",
+      "Cosa hai spiegato al paziente, consenso informato o presa d'atto, follow-up e red flags per cui tornare subito…",
     rows: 6,
     minHint: 20,
   },
 ];
+
+function defaultFormalClosure(): string {
+  const stamp = new Intl.DateTimeFormat("it-IT", {
+    dateStyle: "short",
+    timeStyle: "short",
+  }).format(new Date());
+  return `${stamp} — Medico in formazione`;
+}
 
 export function ClinicalDischargeReportPanel({
   sections,
@@ -124,6 +146,8 @@ export function ClinicalDischargeReportPanel({
   };
 
   const completed = FIELDS.filter((f) => sections[f.key].trim().length >= f.minHint).length;
+  const reportComplete = isClinicalReportComplete(sections);
+  const closureOn = Boolean(sections.formalClosure?.trim());
 
   return (
     <div className="space-y-4">
@@ -158,8 +182,10 @@ export function ClinicalDischargeReportPanel({
             Tutela documentale
           </p>
           <p>
-            Valore probatorio (art. 476–479 c.p.): cronologia chiara, nesso sintomo → indagine →
-            diagnosi → terapia, aderenza alle linee guida (L. 24/2017 art. 5) ove applicabile.
+            Requisiti minimi della documentazione clinica (L. 24/2017, L. 219/2017, art. 476–479
+            c.p.): anamnesi ed esame obiettivo, riscontri e ragionamento, diagnosi e terapia,
+            informazione al paziente con consenso e red flags, chiusura con data e qualifica.
+            Le sezioni vuote non bloccano l&apos;invio: l&apos;omissione pesa sulla valutazione.
           </p>
         </div>
       ) : null}
@@ -220,13 +246,57 @@ export function ClinicalDischargeReportPanel({
             </section>
           );
         })}
+        <section className="border-t border-slate-200 px-4 py-4">
+          <div className="mb-2.5 flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <div className="flex items-baseline gap-2">
+                <span className="font-mono text-[11px] font-semibold text-slate-400">§E</span>
+                <h3 className="text-[13px] font-semibold text-slate-900">
+                  Chiusura Formale (Data/Ora e Qualifica/Firma del medico)
+                </h3>
+              </div>
+              <p className="mt-0.5 text-[11px] leading-snug text-slate-500">
+                Opzionale e non bloccante. Se la ometti, il valutatore legale vede l&apos;assenza.
+              </p>
+            </div>
+          </div>
+          <label className="flex items-start gap-2 text-[13px] text-slate-800">
+            <input
+              type="checkbox"
+              className="mt-0.5"
+              checked={closureOn}
+              onChange={(event) => {
+                update("formalClosure", event.target.checked ? sections.formalClosure?.trim() || defaultFormalClosure() : "");
+              }}
+            />
+            <span>Inserisci data, ora e qualifica nel referto</span>
+          </label>
+          {closureOn ? (
+            <input
+              value={sections.formalClosure ?? ""}
+              onChange={(event) => update("formalClosure", event.target.value)}
+              placeholder="es. 26/11/2026, 08:40 — Medico in formazione"
+              className="mt-2 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-[13px] text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-[#345884] focus:ring-2 focus:ring-[#345884]/12"
+            />
+          ) : null}
+        </section>
       </div>
 
       {isAdminExtras}
 
+      {!reportComplete ? (
+        <div
+          role="status"
+          className="rounded-lg border border-amber-200 bg-amber-50 px-3.5 py-3 text-xs leading-relaxed text-amber-950"
+        >
+          Referto incompleto o vuoto: puoi comunque inviare e chiudere il caso, ma le omissioni
+          incideranno negativamente sulla valutazione clinica e medico-legale.
+        </div>
+      ) : null}
+
       <div className="flex items-center justify-end gap-3 pt-1">
         <p className="mr-auto hidden max-w-xs text-[11px] leading-snug text-slate-400 sm:block">
-          La conferma verifica la diagnosi. Poi potrai generare il report finale.
+          L&apos;invio chiude la compilazione. Poi potrai generare il report finale.
         </p>
         <button
           type="button"
@@ -234,7 +304,7 @@ export function ClinicalDischargeReportPanel({
           disabled={confirmDisabled}
           className="inline-flex items-center justify-center rounded-lg bg-[#1E324E] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#2A486D] disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500"
         >
-          Conferma referto clinico
+          {reportComplete ? "Conferma referto clinico" : "Invia comunque"}
         </button>
       </div>
     </div>

@@ -384,11 +384,26 @@ export function scoreRelationalFrameworks(params: {
   };
 }
 
-export function compositeDRimeScore(scores: RelationalFrameworkScores, engaged: boolean): number {
+export type EmpathyCompositeSignals = {
+  empathicOpportunitiesDetected?: number;
+  empathicOpportunitiesCaptured?: number;
+  ruptureRepairDetected?: boolean;
+};
+
+export function compositeDRimeScore(
+  scores: RelationalFrameworkScores,
+  engaged: boolean,
+  signals?: EmpathyCompositeSignals,
+): number {
   if (!engaged) return 0;
-  return clampAffect(
-    Math.round(scores.alliance * 0.4 + scores.biasManagement * 0.3 + scores.defensiveMedicine * 0.3),
-  );
+  const axes =
+    scores.alliance * 0.4 + scores.biasManagement * 0.3 + scores.defensiveMedicine * 0.3;
+  const instruments = scores.spikes * 0.4 + scores.rias * 0.3 + scores.care * 0.3;
+  const detected = Math.max(0, signals?.empathicOpportunitiesDetected ?? 0);
+  const captured = Math.max(0, Math.min(detected, signals?.empathicOpportunitiesCaptured ?? 0));
+  const capture = detected > 0 ? (captured / detected) * 100 : axes;
+  const repair = signals?.ruptureRepairDetected ? Math.min(100, capture + 8) : capture;
+  return clampAffect(Math.round(axes * 0.6 + instruments * 0.25 + repair * 0.15));
 }
 
 /** Structural empathy ceiling when students game the system with canned phrases. */

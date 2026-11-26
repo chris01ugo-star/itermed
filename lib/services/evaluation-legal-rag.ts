@@ -38,7 +38,7 @@ export type LegalRagFinding = {
 };
 
 export type LegalRagResult = {
-  score: 0 | 100;
+  score: number;
   conformityStatus: "CONFORME" | "NON_CONFORME";
   formalLabel: string;
   primarySourceRef: string;
@@ -468,8 +468,20 @@ export function computeLegalRagConformity(params: {
   const hasViolation = rilievi.some(
     (r) => r.compliance === "violato" || r.compliance === "parziale",
   );
-  const finalStatus: "CONFORME" | "NON_CONFORME" = hasViolation ? "NON_CONFORME" : "CONFORME";
-  const score: 0 | 100 = finalStatus === "CONFORME" ? 100 : 0;
+  const applicable = rilievi.filter((r) => r.compliance !== "non_applicabile");
+  const score = unevaluable
+    ? 0
+    : applicable.length === 0
+      ? 0
+      : Math.round(
+          applicable.reduce((sum, row) => {
+            if (row.compliance === "rispettato") return sum + 100;
+            if (row.compliance === "parziale") return sum + 45;
+            return sum;
+          }, 0) / applicable.length,
+        );
+  const finalStatus: "CONFORME" | "NON_CONFORME" =
+    !unevaluable && score >= 70 && !hasViolation ? "CONFORME" : "NON_CONFORME";
   const formalLabel = legalConformityFormalLabelFromStatus(finalStatus);
 
   const primarySourceRef =

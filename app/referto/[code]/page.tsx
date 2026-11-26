@@ -81,7 +81,7 @@ export default async function SharedRefertoPage({ params }: RefertoPageProps) {
   return (
     <div className="min-h-screen bg-[var(--aequan-ui-bg)] text-[var(--aequan-text-primary)]">
       <div className="mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 sm:py-8">
-        <div className="mb-5 flex items-center justify-between gap-3">
+        <div className="no-print mb-5 flex items-center justify-between gap-3">
           <Link href="/" aria-label="AEQUAN">
             <AequanLogo height={28} />
           </Link>

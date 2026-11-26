@@ -66,6 +66,9 @@ export type DRimeResult = {
   framework: "d-rime";
   /** Set when comfort without action is penalized in an emergency setting. */
   emergencyCommunicationFail?: string | null;
+  empathicOpportunitiesDetected: number;
+  empathicOpportunitiesCaptured: number;
+  ruptureRepairDetected: boolean;
 };
 
 const D_RIME_REFS = {
@@ -567,7 +570,11 @@ export function evaluateInteractionTrajectory(
   const acts: CommunicativeAct[] = [];
   const appliedIntents: DoctorIntentCategory[] = [];
   let pendingDistress = false;
+  let ruptureOpen = false;
   let doctorTurnIndex = 0;
+  let empathicOpportunitiesDetected = 0;
+  let empathicOpportunitiesCaptured = 0;
+  let ruptureRepairDetected = false;
 
   for (const message of chat) {
     const content = typeof message.content === "string" ? message.content.trim() : "";
@@ -579,13 +586,33 @@ export function evaluateInteractionTrajectory(
     }
     if (message.role !== "user") continue;
 
+    const facedCue = pendingDistress;
     const turnIntents = resolveTurnIntents({
       utterance: content,
       turnIndex: doctorTurnIndex,
       classifiedTurns: options?.classifiedIntents,
       pendingDistress,
     });
-    const addressedDistressCue = pendingDistress && turnIntents.some(isSupportiveIntent);
+    const addressedDistressCue = facedCue && turnIntents.some(isSupportiveIntent);
+    const hostile = turnIntents.some(
+      (intent) =>
+        intent === "EMOTIONAL_BYPASS" ||
+        intent === "DISCORDANCE" ||
+        intent === "PATERNALISTIC_COMMAND" ||
+        intent === "FORMULAIC_EMPATHY",
+    );
+    const repair = turnIntents.some(
+      (intent) => intent === "VALIDATION" || intent === "EMPATHIC_EXPLORATION",
+    );
+    if (facedCue) {
+      empathicOpportunitiesDetected += 1;
+      if (addressedDistressCue) empathicOpportunitiesCaptured += 1;
+      else ruptureOpen = true;
+    }
+    if (ruptureOpen && repair && !hostile) {
+      ruptureRepairDetected = true;
+      ruptureOpen = false;
+    }
     const stepped = applyIntentSequence(state, turnIntents, variant);
     const netDelta: PatientStateVector = {
       trust: stepped.final.trust - state.trust,
@@ -618,7 +645,11 @@ export function evaluateInteractionTrajectory(
     final: state,
     variant,
   });
-  const rawScore = compositeDRimeScore(frameworks, engaged);
+  const rawScore = compositeDRimeScore(frameworks, engaged, {
+    empathicOpportunitiesDetected,
+    empathicOpportunitiesCaptured,
+    ruptureRepairDetected,
+  });
   const therapyDecisionRequired = resolveTherapyDecisionRequired(options, chat);
   const structural = applyEmpathyStructuralCap({
     score: rawScore,
@@ -686,6 +717,9 @@ export function evaluateInteractionTrajectory(
     trajectory,
     relationalInsights: insights,
     framework: "d-rime",
+    empathicOpportunitiesDetected,
+    empathicOpportunitiesCaptured,
+    ruptureRepairDetected,
   };
 }
 

@@ -1,4 +1,4 @@
-import { resolvePatientProfile } from "@/lib/cases/resolve-patient-profile";
+import { patientSafeAnamnesisFact, resolvePatientProfile } from "@/lib/cases/resolve-patient-profile";
 import type { PatientSimulatorCaseInput } from "@/lib/simulator/patient-system-prompt";
 import {
   grammaticalAnchorFor,
@@ -291,6 +291,10 @@ export type StructuredAnamnesisTruth = {
   surgeriesAndProcedures: string;
   chronicConditionsAndHistory: string;
   allergies: string;
+  familyHistory: string;
+  homeMedications: string;
+  habits: string;
+  /** Unione di farmaci, abitudini e familiarità. La frase vuota di familiarità vive solo in `familyHistory`. */
   homeMedicationsOrHabits: string;
   mandatoryAnamnesisFacts: string[];
 };
@@ -299,8 +303,14 @@ const SURGERY_CUE =
   /\b(operat[oaie]|intervento|interventi|chirurgic\w*|appendicectom\w*|colecistectom\w*|bypass|protes\w*|isterectom\w*|prostatectom\w*|angioplast\w*|stent|pacemaker|biopsia|trapiant\w*|resezion\w*|amputaz\w*|cesareo|laparoscop\w*|toracotom\w*|sternotom\w*|cateterismo)\b/i;
 const SURGERY_DENIAL =
   /\b(non\s+(?:è\s+|e'\s+)?(?:mai\s+)?(?:stato|stata|stati|state)\s+operat|nessun\w*\s+intervent|mai\s+operat|non\s+ha\s+subit\w*\s+intervent|non\s+è\s+stato\s+sottopost|neg\w*\s+intervent)\b/i;
+const FAMILY_CUE =
+  /\b(familiarit[aà]|familiare|padre|madre|pap[àa]|mamma|fratell\w*|sorell\w*|nonn[oa]|zi[oa]|figli[oa]|genitori|ereditari\w*)\b/iu;
+const MED_CUE =
+  /\b(farmac\w*|pillol\w*|assume|prende|in\s+terapia|terapia\s+domiciliare|terapia\s+in\s+atto|antibiotico)\b/i;
 const HABIT_CUE =
-  /\b(farmac\w*|terapia|assume|prende|pillol\w*|fumo|fuma|sigarett\w*|alcol|vino|familiar\w*|padre|madre|fratell\w*|sorell\w*)\b/i;
+  /\b(fum\w*|sigarett\w*|alcol\w*|vino|lavoro|lavorativ\w*|occupazion\w*|professione)\b/i;
+const FAMILY_DENIAL =
+  /\b(nessuna\s+familiarit|non\s+(?:c['’]?è|ce|ho|ha)\s+familiarit|nega\s+familiarit|familiarit[aà]\s+negativa|nessun\s+familiare)\b/i;
 const ALLERGY_MENTION = /allergic[oa]\s+a[l']?\s+([^.;]+)/gi;
 const ALLERGY_DENIAL = /\bnessuna\s+allerg|non\s+(?:è\s+)?allergic|nega\s+allerg/i;
 
@@ -347,33 +357,46 @@ export function extractStructuredAnamnesisTruth(input: {
   if (!sex) return null;
 
   const clean = (value: string | null | undefined) =>
-    sanitizeGenderSlashes(value ?? "", sex);
+    sanitizeGenderSlashes(patientSafeAnamnesisFact(value ?? ""), sex);
 
   const history = clean(input.pastMedicalHistory);
-  const corpus = [
-    history,
-    clean(input.presentation),
-    clean(input.script),
-    clean(input.description),
-    ...(input.anamnesisQuestions ?? []).flatMap((item) => [
-      clean(item.prompt),
-      clean(item.rationale),
-      ...(item.expectedKeywords ?? []).map((keyword) => clean(keyword)),
-    ]),
-  ]
-    .filter(Boolean)
+  const presentation = clean(input.presentation);
+  const script = clean(input.script);
+  const description = clean(input.description);
+  const corpus = [history, presentation, script, description].filter(Boolean).join("\n");
+
+  const rawFamilyCorpus = [input.pastMedicalHistory, input.script, input.description]
+    .map((value) => value ?? "")
     .join("\n");
+  const familyDeclared =
+    hasPositiveFamily(rawFamilyCorpus) || hasPositiveFamily(input.presentation ?? "");
 
   const sentences = splitFacts(corpus);
-  const surgeries = uniqueFacts(
-    sentences.filter((sentence) => SURGERY_CUE.test(sentence) && !SURGERY_DENIAL.test(sentence)),
-    6,
+  const historySentences = uniqueFacts(splitFacts(history), 40);
+  const family = uniqueFacts(
+    sentences.filter((sentence) => FAMILY_CUE.test(sentence) && !FAMILY_DENIAL.test(sentence)),
+    24,
   );
-
-  const historySentences = uniqueFacts(splitFacts(history), 12);
+  const medications = uniqueFacts(
+    sentences.filter((sentence) => MED_CUE.test(sentence)),
+    16,
+  );
   const habits = uniqueFacts(
     sentences.filter((sentence) => HABIT_CUE.test(sentence)),
+    16,
+  );
+  const surgeries = uniqueFacts(
+    sentences.filter((sentence) => SURGERY_CUE.test(sentence) && !SURGERY_DENIAL.test(sentence)),
     8,
+  );
+  const pastDiseases = uniqueFacts(
+    historySentences.filter(
+      (sentence) =>
+        !isExclusive(sentence, FAMILY_CUE, [MED_CUE, HABIT_CUE, ALLERGY_DENIAL, SURGERY_CUE]) &&
+        !isExclusive(sentence, HABIT_CUE, [FAMILY_CUE, MED_CUE, SURGERY_CUE]) &&
+        !isExclusive(sentence, MED_CUE, [FAMILY_CUE, HABIT_CUE, SURGERY_CUE]),
+    ),
+    40,
   );
 
   const fromBaseline = [
@@ -381,29 +404,28 @@ export function extractStructuredAnamnesisTruth(input: {
     ...extractPatientAllergies(input.baselineExamFindings),
   ].map((item) => clean(item).trim());
   const fromText: string[] = [];
-  if (!ALLERGY_DENIAL.test(corpus)) {
-    for (const match of corpus.matchAll(ALLERGY_MENTION)) {
-      const label = match[1]?.trim();
-      if (label) fromText.push(label);
-    }
+  for (const match of corpus.matchAll(new RegExp(ALLERGY_MENTION.source, "gi"))) {
+    const label = match[1]?.trim();
+    if (label && !ALLERGY_DENIAL.test(label)) fromText.push(label);
   }
   const allergies = uniqueFacts(
     [...fromBaseline, ...fromText].filter((item) => item.length > 1 && !ALLERGY_DENIAL.test(item)),
     8,
   );
 
-  const mandatory = (input.anamnesisQuestions ?? []).flatMap((item) => {
-    const prompt = clean(item.prompt).trim();
-    const rationale = clean(item.rationale).trim();
-    if (!prompt && !rationale) return [];
-    const keywords = (item.expectedKeywords ?? [])
-      .map((keyword) => clean(keyword).trim())
-      .filter(Boolean);
-    const keywordNote = keywords.length > 0 ? ` Parole del caso: ${keywords.join(", ")}.` : "";
-    return [
-      `Se il medico indaga su [${prompt || rationale}], DEVI riferire coerentemente: ${rationale || prompt}.${keywordNote}`,
-    ];
-  });
+  const familyHistory = familyDeclared
+    ? family.length > 0
+      ? family.join(" ")
+      : "Nello storico del caso c'è un dato di familiarità: non negarlo se il medico lo chiede."
+    : "Nessuna familiarità esplicitata";
+  const homeMedications =
+    medications.length > 0
+      ? medications.join(" ")
+      : "Nessun farmaco domiciliare esplicitato nello storico. Non inventarne.";
+  const habitLine =
+    habits.length > 0
+      ? habits.join(" ")
+      : "Nessuna abitudine di fumo, alcol o lavoro esplicitata nello storico. Non inventarne.";
 
   return {
     biologicalSex: sex,
@@ -411,14 +433,25 @@ export function extractStructuredAnamnesisTruth(input: {
     surgeriesAndProcedures:
       surgeries.length > 0 ? surgeries.join(" ") : noSurgeryLine(sex),
     chronicConditionsAndHistory:
-      historySentences.length > 0
-        ? historySentences.join(" ")
-        : "Nessuna anamnesi patologica remota riportata nel caso. Non inventare malattie pregresse.",
+      pastDiseases.length > 0
+        ? pastDiseases.join(" ")
+        : historySentences.length > 0
+          ? historySentences.join(" ")
+          : "Nessuna anamnesi patologica remota riportata nel caso. Non inventare malattie pregresse.",
     allergies: allergies.length > 0 ? allergies.join("; ") : "Nessuna allergia nota",
-    homeMedicationsOrHabits:
-      habits.length > 0
-        ? habits.join(" ")
-        : "Nessun farmaco domiciliare, abitudine o familiarità esplicitata nello storico. Non inventarne.",
-    mandatoryAnamnesisFacts: mandatory,
+    familyHistory,
+    homeMedications,
+    habits: habitLine,
+    homeMedicationsOrHabits: [homeMedications, habitLine, familyHistory].join(" "),
+    mandatoryAnamnesisFacts: [],
   };
+}
+
+function hasPositiveFamily(text: string): boolean {
+  return splitFacts(text).some((sentence) => FAMILY_CUE.test(sentence) && !FAMILY_DENIAL.test(sentence))
+    || (FAMILY_CUE.test(text) && !FAMILY_DENIAL.test(text) && text.trim().length > 0 && !splitFacts(text).length);
+}
+
+function isExclusive(sentence: string, cue: RegExp, others: RegExp[]): boolean {
+  return cue.test(sentence) && others.every((other) => !other.test(sentence));
 }

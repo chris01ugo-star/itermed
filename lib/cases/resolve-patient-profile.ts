@@ -62,6 +62,20 @@ const SPOILER_RE =
 const EXAMINER_CLUE_RE =
   /\b(definisce\s+urgenza|finestra\s+terapeutica|obbligatori[oa]|come\s+scrive|GOLD|ELN|ESC|nomenclatore|tariff\w*|linea\s+guida|BCR|ABL|MRD|fusione|pannello|commissione|art\.?\s*\d|euro\b|spreco|prima\s+del|si\s+pu[oò]\s+dare)\b/i;
 
+/** Rubrica per l'esaminatore: non è un fatto che il paziente possa raccontare. */
+const EXAMINER_PROMPT_RE =
+  /^(tempo e modalità|caratteristiche dei sintomi|fattori di rischio|terapie in atto|sintomi di allarme|contesto di presentazione)\b/i;
+
+const EXAMINER_NOTE_RE =
+  /profilo di rischio|contesto epidemiologico|baseline prescrittiva|fenotipo clinico|gelli-bianco|appropriatezza|red flag tempo|obblighi di trasferimento|la circolare dice/i;
+
+/** Dati che la cartella non deve mai buttare via, anche dentro una frase di «nessuna patologia». */
+const CLINICAL_KEEP_RE =
+  /\b(familiarit[aà]|familiare|padre|madre|pap[àa]|mamma|fratell\w*|sorell\w*|nonn[oa]|zi[oa]|figli[oa]|genitori|ereditari\w*|allerg|fum\w*|sigarett\w*|alcol\w*|vino|farmac\w*|pillol\w*|assume|prende|terapia)\b/i;
+
+const ABSENT_HISTORY_RE =
+  /nessuna storia|nessuna patologia|non ha mai avuto|niente di rilevante|anamnesi muta/i;
+
 const SETTING_LABEL: Record<string, string> = {
   GUARDIA_MEDICA: "Guardia Medica",
   PRONTO_SOCCORSO: "Pronto Soccorso",
@@ -235,26 +249,32 @@ function titleIsPlayerSafe(title: string, sex: PatientSex | null, phrases: strin
   return !isSpoilerSentence(trimmed, phrases);
 }
 
+/**
+ * Se la stessa frase nega patologie e poi racconta un dato reale (familiarità,
+ * allergia, fumo, alcol, farmaci), tiene il dato reale.
+ */
+function preserveRealClinicalDatum(sentence: string): string {
+  if (!ABSENT_HISTORY_RE.test(sentence) || !CLINICAL_KEEP_RE.test(sentence)) return sentence;
+  const parts = sentence
+    .split(/[,;]/)
+    .map((part) => tidy(part))
+    .filter((part) => part.length >= 8);
+  const real = parts.filter((part) => CLINICAL_KEEP_RE.test(part) && !ABSENT_HISTORY_RE.test(part));
+  if (real.length === 0) return sentence;
+  const absent = parts.filter((part) => ABSENT_HISTORY_RE.test(part) && !CLINICAL_KEEP_RE.test(part));
+  return tidy([...absent, ...real].join(". "));
+}
+
 function chronicHistory(history: string, phrases: string[]): string {
-  const kept = cleanSentences(history, phrases).filter((sentence) => sentence.length >= 8);
-  const isAbsent = (sentence: string) =>
-    /nessuna storia|nessuna patologia|non ha mai avuto|niente di rilevante|anamnesi muta/i.test(sentence);
-  const isAllergyOnly = (sentence: string) =>
-    /allerg/i.test(sentence) && !/diabet|ipertens|infart|bpco|asma|tumore|chirurg/i.test(sentence);
   const isAgeIntro = (sentence: string) =>
     /^(uomo|donna|paziente)\b/i.test(sentence) &&
     sentence.length < 48 &&
-    !/diabet|ipertens|infart|bpco|asma|fum/i.test(sentence);
-  const isLifestyle = (sentence: string) =>
-    /\b(non fumatore|fumatore|alcol|alcolici)\b/i.test(sentence) &&
-    !/diabet|ipertens|infart|bpco|asma|tumore/i.test(sentence);
-  const disease = kept.filter(
-    (sentence) => !isAbsent(sentence) && !isAllergyOnly(sentence) && !isAgeIntro(sentence) && !isLifestyle(sentence),
-  );
-  if (disease.length > 0) return clip(disease.join(" "), 360);
-  const rest = kept.filter((sentence) => !isAllergyOnly(sentence) && !isAgeIntro(sentence));
-  if (rest.length > 0) return clip(rest.join(" "), 360);
-  return "Nessuna patologia cronica nota.";
+    !CLINICAL_KEEP_RE.test(sentence);
+  const kept = cleanSentences(history, phrases)
+    .map(preserveRealClinicalDatum)
+    .filter((sentence) => sentence.length >= 8 && !isAgeIntro(sentence));
+  if (kept.length === 0) return "Nessuna patologia cronica nota.";
+  return clip(kept.join(" "), 1200);
 }
 
 function parseHistoryAllergies(history: string): { declared: string[]; denied: boolean } {
@@ -279,18 +299,36 @@ export function patientSafeProse(text: string | null | undefined): string {
   return tidy(kept.join(" "));
 }
 
+/**
+ * Come `patientSafeProse`, ma se la frase contiene familiarità, allergie, fumo,
+ * alcol o farmaci toglie solo il token da esaminatore e tiene il dato clinico.
+ */
+export function patientSafeAnamnesisFact(text: string | null | undefined): string {
+  const kept = sentences(text ?? "").flatMap((sentence) => {
+    if (!SPOILER_RE.test(sentence) && !EXAMINER_CLUE_RE.test(sentence)) return [sentence];
+    if (!CLINICAL_KEEP_RE.test(sentence)) return [];
+    const redacted = tidy(sentence.replace(SPOILER_RE, " ").replace(EXAMINER_CLUE_RE, " "));
+    return redacted.length >= 8 ? [redacted] : [];
+  });
+  return tidy(kept.join(" "));
+}
+
+function isPatientFacingFact(text: string): boolean {
+  if (text.length < 8) return false;
+  if (text.includes("?")) return false;
+  if (EXAMINER_PROMPT_RE.test(text)) return false;
+  if (EXAMINER_NOTE_RE.test(text)) return false;
+  if (EXAMINER_CLUE_RE.test(text) || SPOILER_RE.test(text)) return false;
+  return true;
+}
+
 export function sanitizeCluesForPatient(clues: PatientClueInput[] | null | undefined): SanitizedPatientClue[] {
   const out: SanitizedPatientClue[] = [];
   for (const clue of clues ?? []) {
-    const ask = tidy(clue.prompt ?? "");
-    const reveal = tidy(clue.rationale ?? "");
-    const askOk = ask.length >= 8 && !EXAMINER_CLUE_RE.test(ask) && !SPOILER_RE.test(ask);
-    const revealOk = reveal.length >= 8 && !EXAMINER_CLUE_RE.test(reveal) && !SPOILER_RE.test(reveal);
-    if (!askOk) continue;
-    out.push({
-      ask,
-      reveal: revealOk ? reveal : ask,
-    });
+    // `rationale` è una nota per l'esaminatore: non diventa mai la risposta del paziente.
+    const fact = tidy(clue.prompt ?? "");
+    if (!isPatientFacingFact(fact)) continue;
+    out.push({ ask: fact, reveal: fact });
   }
   return out;
 }

@@ -94,6 +94,11 @@ export function LegalAuditSection({ legalReport, className }: LegalAuditSectionP
             </CardTitle>
             <CardDescription className="mt-1">
               Perizia medico-legale sul livello di tutela del medico.
+              {report.sourceBasis === "RAG_SPECIALISTICO_E_NORMATIVA_NAZIONALE"
+                ? " Fonti: RAG specialistico e normativa nazionale."
+                : report.sourceBasis === "NORMATIVA_NAZIONALE_BASELINE"
+                  ? " Fonti: normativa nazionale di base e linee guida di riferimento."
+                  : ""}
             </CardDescription>
           </div>
           <div className="flex flex-wrap items-center gap-2">

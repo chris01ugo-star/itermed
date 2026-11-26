@@ -18,6 +18,9 @@ const IngestBodySchema = z.object({
   tags: z.array(z.string()).optional(),
   /** Canonical MedicalSpecialty.id — scopes the document for specialty-centric RAG. */
   medicalSpecialtyId: z.string().min(1).optional(),
+  /** Pilastro RAG. EMPATHY indicizza il corpus condiviso `empatia`. */
+  pillar: z.enum(["LEGAL", "ECONOMIC", "CLINICAL", "EMPATHY"]).optional(),
+  specialtySlug: z.string().min(1).optional(),
 });
 
 const CHUNK_SIZE = 800;
@@ -48,7 +51,7 @@ export async function POST(req: Request) {
     });
   }
 
-  const { title, text, tags = [], medicalSpecialtyId } = parsed.data;
+  const { title, text, tags = [], medicalSpecialtyId, pillar, specialtySlug } = parsed.data;
 
   if (medicalSpecialtyId) {
     const specialty = await prisma.medicalSpecialty.findUnique({
@@ -114,9 +117,11 @@ export async function POST(req: Request) {
       metadata: {
         documentId: docId,
         title,
-        tags,
+        tags: pillar === "EMPATHY" ? [...tags, "empatia", "EMPATHY"] : tags,
         content: sanitizedChunks[i],
         ...(medicalSpecialtyId ? { medicalSpecialtyId } : {}),
+        ...(pillar ? { pillar } : {}),
+        ...(specialtySlug ? { specialty: specialtySlug } : {}),
       },
     }));
 

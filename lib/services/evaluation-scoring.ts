@@ -1852,40 +1852,24 @@ export function applyPedagogicalSeverityGates(params: {
     );
   }
 
-  // Preserve prior legal RAG verdict — do not wipe rilievi by re-scoring with empty reviews.
-  const priorNonConforme =
-    resolveLegalConformity(params.breakdown.legal.protectionLabel) === "NON_CONFORME" ||
-    params.breakdown.legal.conformityStatus === "NON_CONFORME" ||
-    (params.breakdown.legal.violated ?? 0) > 0 ||
-    (params.breakdown.legal.partial ?? 0) > 0;
-
-  if (priorNonConforme) {
-    scores.legal = LEGAL_NON_CONFORME_SCORE;
-    breakdown.legal = {
-      ...params.breakdown.legal,
-      conformityStatus: "NON_CONFORME",
-      protectionLabel: "NON_CONFORME",
-      formalLabel: legalConformityFormalLabel("NON_CONFORME"),
-      final: LEGAL_NON_CONFORME_SCORE,
-      motivations: dedupeMotivationsByText(params.breakdown.legal.motivations ?? []),
-      rilievi: params.breakdown.legal.rilievi,
-      expertAnalysis: params.breakdown.legal.expertAnalysis,
-      framework: params.breakdown.legal.framework ?? "legal-rag-ctu",
-    };
-  } else {
-    scores.legal = LEGAL_CONFORME_SCORE;
-    breakdown.legal = {
-      ...params.breakdown.legal,
-      conformityStatus: "CONFORME",
-      protectionLabel: "CONFORME",
-      formalLabel: legalConformityFormalLabel("CONFORME"),
-      final: LEGAL_CONFORME_SCORE,
-      motivations: dedupeMotivationsByText(params.breakdown.legal.motivations ?? []),
-      rilievi: params.breakdown.legal.rilievi,
-      expertAnalysis: params.breakdown.legal.expertAnalysis,
-      framework: params.breakdown.legal.framework ?? "legal-rag-ctu",
-    };
-  }
+  // Il voto legale resta granulare. Un audit non valutabile non diventa mai 100.
+  const legalUnevaluable = params.breakdown.legal.unevaluable === true;
+  const granularLegal = legalUnevaluable
+    ? 0
+    : Math.max(0, Math.min(100, Number(scores.legal) || 0));
+  const legalStatus = !legalUnevaluable && granularLegal >= 70 ? "CONFORME" : "NON_CONFORME";
+  scores.legal = granularLegal;
+  breakdown.legal = {
+    ...params.breakdown.legal,
+    conformityStatus: legalStatus,
+    protectionLabel: legalStatus,
+    formalLabel: legalConformityFormalLabel(legalStatus),
+    final: granularLegal,
+    motivations: dedupeMotivationsByText(params.breakdown.legal.motivations ?? []),
+    rilievi: params.breakdown.legal.rilievi,
+    expertAnalysis: params.breakdown.legal.expertAnalysis,
+    framework: params.breakdown.legal.framework ?? "legal-rag-ctu",
+  };
 
   const examOnlyEuro =
     breakdown.economy.examSpendEuro ??

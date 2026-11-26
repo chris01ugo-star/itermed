@@ -155,7 +155,7 @@ export function GuidelineIngestPanel() {
                 <Input
                   value={tags}
                   onChange={(e) => setTags(e.target.value)}
-                  placeholder="es. legale, cardiologia"
+                  placeholder="es. empatia, EMPATHY, gelli-bianco"
                   className="text-sm"
                 />
               </div>
@@ -209,7 +209,7 @@ export function GuidelineIngestPanel() {
                 <Input
                   value={rawTextTags}
                   onChange={(e) => setRawTextTags(e.target.value)}
-                  placeholder="es. gelli-bianco, responsabilità"
+                  placeholder="es. empatia, EMPATHY, gelli-bianco"
                   className="text-sm"
                 />
               </div>

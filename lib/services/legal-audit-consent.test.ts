@@ -45,7 +45,10 @@ describe("discharge note", () => {
   };
 
   it("includes the discharge diary in the composed report and requires it to close", () => {
-    assert.match(composeClinicalReport(sections), /DIARIO CLINICO \/ RELAZIONE DI DIMISSIONE/);
+    assert.match(
+      composeClinicalReport(sections),
+      /INFORMAZIONE AL PAZIENTE, CONSENSO, FOLLOW-UP E RED FLAGS/,
+    );
     assert.equal(isClinicalReportComplete(sections), true);
     assert.equal(isClinicalReportComplete({ ...sections, dischargeNote: "breve" }), false);
   });

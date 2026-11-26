@@ -11,6 +11,7 @@ import {
   applyEmpathyStructuralCap,
   applyIntentSequence,
   clampAffectState,
+  compositeDRimeScore,
   EMPATHY_STRUCTURAL_SCORE_CAP,
   selectTurnIntents,
   transitionAffectState,
@@ -239,5 +240,41 @@ describe("d-rime empathy structural cap", () => {
     });
     assert.equal(result.score, 88);
     assert.equal(result.capped, false);
+  });
+});
+
+describe("compositeDRimeScore pesa strumenti e opportunità", () => {
+  const axes = { alliance: 80, biasManagement: 70, defensiveMedicine: 60 };
+
+  it("fa variare il voto quando SPIKES, RIAS e CARE cambiano", () => {
+    const low = compositeDRimeScore({ ...axes, spikes: 20, rias: 20, care: 20 }, true);
+    const high = compositeDRimeScore({ ...axes, spikes: 100, rias: 100, care: 100 }, true);
+    assert.ok(high > low);
+  });
+
+  it("premia la cattura dei cue e la riparazione", () => {
+    const scores = { ...axes, spikes: 50, rias: 50, care: 50 };
+    const missed = compositeDRimeScore(scores, true, {
+      empathicOpportunitiesDetected: 2,
+      empathicOpportunitiesCaptured: 0,
+      ruptureRepairDetected: false,
+    });
+    const repaired = compositeDRimeScore(scores, true, {
+      empathicOpportunitiesDetected: 2,
+      empathicOpportunitiesCaptured: 2,
+      ruptureRepairDetected: true,
+    });
+    assert.ok(repaired > missed);
+  });
+
+  it("resta a zero senza dialogo", () => {
+    assert.equal(
+      compositeDRimeScore({ ...axes, spikes: 100, rias: 100, care: 100 }, false, {
+        empathicOpportunitiesDetected: 3,
+        empathicOpportunitiesCaptured: 3,
+        ruptureRepairDetected: true,
+      }),
+      0,
+    );
   });
 });

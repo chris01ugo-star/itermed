@@ -656,6 +656,7 @@ export function SimulatorClient({
     diagnosticFindings: "",
     diagnosisTreatment: "",
     dischargeNote: "",
+    formalClosure: "",
   });
   const [expectedConditionText, setExpectedConditionText] = useState<string | null>(null);
   const [debugTargetCondition, setDebugTargetCondition] = useState<string | null>(null);
@@ -2103,7 +2104,12 @@ export function SimulatorClient({
 
   const confirmDiagnosis = () => {
     const diagnosisText = extractFinalDiagnosisFromReport(reportSections).trim();
-    if (!isClinicalReportComplete(reportSections) || !diagnosisText) return;
+    if (!diagnosisText) {
+      setFinalDiagnosis("");
+      setDiagnosisCheckError(null);
+      setGameStatus("wrong_diagnosis");
+      return;
+    }
     setFinalDiagnosis(diagnosisText);
     setDiagnosisCheckError(null);
     setGameStatus("checking_diagnosis");
@@ -3398,7 +3404,7 @@ export function SimulatorClient({
                       sections={reportSections}
                       onChange={setReportSections}
                       onConfirm={confirmDiagnosis}
-                      confirmDisabled={!isClinicalReportComplete(reportSections)}
+                      confirmDisabled={false}
                       isAdminExtras={
                         isAdmin ? (
                           <>
@@ -3468,7 +3474,12 @@ export function SimulatorClient({
                   gameStatus === "success" ||
                   gameStatus === "complication") && (
                   <div className="space-y-3">
-                    {gameStatus === "wrong_diagnosis" && (
+                    {gameStatus === "wrong_diagnosis" && !finalDiagnosis.trim() && (
+                      <div className="rounded-2xl border border-amber-200 bg-amber-50 px-3 py-2.5 text-amber-950">
+                        Referto inviato senza diagnosi. Puoi chiudere il caso: le omissioni incideranno sulla valutazione clinica e medico-legale.
+                      </div>
+                    )}
+                    {gameStatus === "wrong_diagnosis" && finalDiagnosis.trim() && (
                       <div className="rounded-2xl border border-rose-200 bg-rose-50 px-3 py-2.5 text-rose-800">
                         Diagnosi Errata. Il trattamento somministrato ha peggiorato il quadro.
                         {isAdmin && expectedConditionText && (
@@ -3547,6 +3558,7 @@ export function SimulatorClient({
                                   diagnosticFindings: "",
                                   diagnosisTreatment: "",
                                   dischargeNote: "",
+                                  formalClosure: "",
                                 });
                                 setGameStatus("playing");
                               } finally {
@@ -3713,7 +3725,7 @@ export function SimulatorClient({
                   sections={reportSections}
                   onChange={setReportSections}
                   onConfirm={confirmDiagnosis}
-                  confirmDisabled={!isClinicalReportComplete(reportSections)}
+                  confirmDisabled={false}
                   isAdminExtras={
                     isAdmin ? (
                       <div className="flex items-center justify-end">
@@ -3749,7 +3761,12 @@ export function SimulatorClient({
             gameStatus === "success" ||
             gameStatus === "complication" ? (
               <div className="space-y-3">
-                {gameStatus === "wrong_diagnosis" ? (
+                {gameStatus === "wrong_diagnosis" && !finalDiagnosis.trim() ? (
+                  <div className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2.5 text-amber-950">
+                    Referto inviato senza diagnosi. Puoi chiudere il caso: le omissioni incideranno sulla valutazione clinica e medico-legale.
+                  </div>
+                ) : null}
+                {gameStatus === "wrong_diagnosis" && finalDiagnosis.trim() ? (
                   <div className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2.5 text-rose-800">
                     Diagnosi errata. Il trattamento ha peggiorato il quadro.
                   </div>
@@ -3793,6 +3810,7 @@ export function SimulatorClient({
                             diagnosticFindings: "",
                             diagnosisTreatment: "",
                             dischargeNote: "",
+                            formalClosure: "",
                           });
                           setGameStatus("playing");
                         } finally {

@@ -38,7 +38,8 @@ import {
 } from "@/lib/services/simulation-report-data";
 import type { ChatMessage, ExamPayload } from "@/lib/services/evaluation-service";
 import { formatGeneratedReportsForAudit } from "@/lib/simulator/exam-report";
-import { runLegalAudit, createLegalAuditTechnicalFallback, resolveReferenceGuidelines, withInformedConsentAction, type LegalAuditResult } from "@/lib/services/legal-audit-service";
+import { buildEmpathyNeuroCoaching, mergeEmpathyCoaching } from "@/lib/services/empathy-neuro-rubric";
+import { runLegalAudit, createLegalAuditTechnicalFallback, resolveReferenceGuidelines, summarizeLegalCoaching, withInformedConsentAction, type LegalAuditResult } from "@/lib/services/legal-audit-service";
 import {
   runEconomicAudit,
   type EconomicAuditResult,
@@ -138,9 +139,11 @@ async function safeRunLegalAudit(params: {
     finalDiagnosis?: string;
     performedActions?: Array<{ id: string; type: "ACTION" | "DOCUMENT"; name: string }>;
     clinicalSummary?: string;
+    reportText?: string;
   };
   legalChunks: ReturnType<typeof mapLegalChunksForAudit>;
   referenceGuidelines?: string[];
+  caseNotes?: string | null;
   log: Logger;
 }): Promise<LegalAuditResult> {
   try {
@@ -148,6 +151,7 @@ async function safeRunLegalAudit(params: {
       simulationLog: params.simulationLog,
       legalChunks: params.legalChunks,
       referenceGuidelines: params.referenceGuidelines,
+      caseNotes: params.caseNotes,
     });
   } catch (error) {
     params.log.warn("Legal audit LLM failed — persisting NOT_EVALUABLE technical fallback", {
@@ -1035,6 +1039,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       requestedExams: Array.isArray(input.exams) ? input.exams : [],
       performedActions: withInformedConsentAction(examActions, consentCollected),
       ...(sessionClinicalSummary ? { clinicalSummary: sessionClinicalSummary } : {}),
+      ...(input.normalizedReportText?.trim() ? { reportText: input.normalizedReportText } : { reportText: "" }),
       ...(input.finalDiagnosis ? { finalDiagnosis: input.finalDiagnosis } : {}),
     };
     const referenceGuidelines = resolveReferenceGuidelines({
@@ -1044,6 +1049,13 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       ),
       specialty: registeredCase?.specialty ?? specialtyName,
     });
+    const caseLegalNotes = [
+      ...(registeredCase?.legalConformity?.criteria ?? []).map((item) => item.description),
+      ...(registeredCase?.legalConformity?.ragReferences ?? []).map((item) => item.sourceRef),
+    ]
+      .map((item) => item?.trim())
+      .filter(Boolean)
+      .join("\n");
     const goldPathExams = buildGoldPathExamsForAudit({
       registeredCase,
       goldStandardPath,
@@ -1237,6 +1249,7 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
         simulationLog,
         legalChunks: legalChunksForAudit,
         referenceGuidelines,
+        caseNotes: caseLegalNotes,
         log,
       }).then((result) => {
         noteBranch("Audit medico-legale completato...");
@@ -1406,21 +1419,35 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
       isBadNewsCase: Boolean(patientProfile.isBadNewsCase),
     });
 
-    if (ragPillars) {
+    if (ragPillars || legalAuditResult) {
+      const neuroEmpathy = buildEmpathyNeuroCoaching(chatHistory);
+      const empathySources = (ragPillars?.sourceTitles ?? []).filter((title) => /empat/i.test(title));
+      const tutela =
+        ragPillars?.authoritative && ragPillars.legale.feedback.trim()
+          ? ragPillars.legale.feedback
+          : summarizeLegalCoaching(legalAuditResult);
       evaluationForPersist = {
         ...evaluationForPersist,
         coachingFeedback: {
-          accuratezza: ragPillars.clinica.feedback,
-          economicita: ragPillars.economia.feedback,
-          tutelaLegale: ragPillars.legale.feedback,
-          empatia: ragPillars.empatia.feedback,
+          accuratezza: ragPillars?.clinica.feedback || evaluation.coachingFeedback.accuratezza,
+          economicita: ragPillars?.economia.feedback || evaluation.coachingFeedback.economicita,
+          tutelaLegale: tutela || evaluation.coachingFeedback.tutelaLegale,
+          empatia: mergeEmpathyCoaching({
+            neuro: neuroEmpathy,
+            ragFeedback: ragPillars?.empatia.feedback ?? "",
+            empathyChunksPresent: empathySources.length > 0,
+          }),
         },
         feedback: {
           ...evaluationForPersist.feedback,
-          clinicalNote: ragPillars.clinica.feedback,
-          prescribingNote: ragPillars.economia.feedback,
-          economyNote: ragPillars.economia.feedback,
-          empathyNote: ragPillars.empatia.feedback,
+          clinicalNote: ragPillars?.clinica.feedback || evaluationForPersist.feedback.clinicalNote,
+          prescribingNote: ragPillars?.economia.feedback || evaluationForPersist.feedback.prescribingNote,
+          economyNote: ragPillars?.economia.feedback || evaluationForPersist.feedback.economyNote,
+          empathyNote: mergeEmpathyCoaching({
+            neuro: neuroEmpathy,
+            ragFeedback: ragPillars?.empatia.feedback ?? "",
+            empathyChunksPresent: empathySources.length > 0,
+          }),
         },
       };
     }
@@ -1457,10 +1484,11 @@ export async function processSimulationReportJob(input: SimulationReportJobInput
     const matrixClinical = clinicalKiller
       ? evaluation.scores.clinical
       : undoPostBlendPenalties(evaluation.scores.clinical, timeFraction, failedAttempts);
-    const legalBase =
-      legalAuditResult.status === "EVALUATED" && legalAuditResult.overallVerdict !== "NOT_EVALUABLE"
-        ? legalAuditResult.complianceScore ?? evaluation.scores.legal
-        : evaluation.scores.legal;
+    const legalEvaluated =
+      legalAuditResult.status === "EVALUATED" && legalAuditResult.overallVerdict !== "NOT_EVALUABLE";
+    const legalBase = legalEvaluated
+      ? Math.max(0, Math.min(100, legalAuditResult.complianceScore))
+      : 0;
     const stressInfo = communicationStressPenalty(liveSession?.patientStress ?? null);
     const empathyComposite =
       relationalAuditResult.status === "EVALUATED"

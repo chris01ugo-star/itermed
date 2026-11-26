@@ -87,7 +87,13 @@ export const LegalAuditResultSchema = z.object({
 
 export type LegalFaultCategory = z.infer<typeof LegalFaultCategorySchema>;
 export type LegalComparativeRow = z.infer<typeof LegalComparativeRowSchema>;
-export type LegalAuditResult = z.infer<typeof LegalAuditResultSchema>;
+export type LegalSourceBasis =
+  | "RAG_SPECIALISTICO_E_NORMATIVA_NAZIONALE"
+  | "NORMATIVA_NAZIONALE_BASELINE";
+
+export type LegalAuditResult = z.infer<typeof LegalAuditResultSchema> & {
+  sourceBasis?: LegalSourceBasis;
+};
 
 export const LEGAL_AUDIT_SYSTEM_PROMPT = `
 AGISCI COME UN PERITO MEDICO-LEGALE (CTU) SPIETATO E INTRANSIGENTE. Valuta l'operato incrociando la Legge Gelli-Bianco, il Codice Deontologico, la Legge 219/2017 e le Linee Guida EBM (Evidence Based Medicine) presenti nel <<<LEGAL_CORPUS>>>.
@@ -109,8 +115,8 @@ REGOLE TASSATIVE:
 3-bis. TEST HIV (Legge 135/1990): se nel log compare un test HIV (hiv-ag-ab, hiv-hcv-hbv o sinonimi) senza consenso esplicito al test (consenso-hiv, oppure informed_consent con menzione dell'HIV), faultCategory DIFETTO_CONSENSO, isProtected = false, sottrai 40 punti. Il consenso generico a un prelievo non basta.
 4. FATTORI UMANI E BIAS COGNITIVI: Analizza l'intero transcript per identificare errori cognitivi ('Chiusura Prematura', 'Ancoraggio'). Compila il campo 'cognitiveBiases' elencando spietatamente questi errori.
 5. ANALISI CRONOLOGICA E TEMPESTIVITÀ (GOLDEN HOUR): Il tempo è un parametro forense. Se un'azione salvavita o un esame urgente avviene in ritardo, inserisci 'RITARDO DIAGNOSTICO/TERAPEUTICO INACCETTABILE' in temporalRelevance.
-6. DOCUMENTAZIONE: Ciò che non è scritto non è stato fatto. Se la Relazione di Dimissione è assente, applica -15 punti per documentazione mancante e isProtected = false sulle azioni non trascritte. Se il medico ha compilato la Relazione di Dimissione nel blocco <<<RELAZIONE_DI_DIMISSIONE>>>, NON applicare la penalità per documentazione mancante (-15 punti). Valuta invece se la relazione è coerente con diagnosi, esami e terapia: una relazione presente ma incoerente è un difetto di contenuto, non di assenza.
-7. ZERO ALLUCINAZIONI: Niente corpus ⇒ status NOT_EVALUABLE_NO_SOURCES.
+6. DOCUMENTAZIONE: Ciò che non è scritto non è stato fatto. Il referto ha cinque componenti nel blocco <<<REFERTO_CLINICO>>>: anamnesi ed esame obiettivo, riscontri e ragionamento, diagnosi e terapia, informazione/consenso/follow-up/red flags, chiusura formale. Penalizza in modo granulare e motivato ogni omissione: referto vuoto massimo 20; manca anamnesi o allergie −15; mancano riscontri −10; manca diagnosi o condotta −15; mancano red flags o informazione al paziente −15; manca il consenso/presa d'atto −15; manca la chiusura con data/qualifica −5. Se la Relazione di Dimissione è assente, applica -15 punti per documentazione mancante e isProtected = false sulle azioni non trascritte. Se il medico ha compilato la Relazione di Dimissione nel blocco <<<RELAZIONE_DI_DIMISSIONE>>>, NON applicare la penalità per documentazione mancante (-15 punti). Valuta invece se la relazione è coerente con diagnosi, esami e terapia: una relazione presente ma incoerente è un difetto di contenuto, non di assenza.
+7. FONTI: Il corpus include sempre la normativa nazionale di base (L. 24/2017, L. 219/2017, art. 476–479 c.p.), anche se i chunk RAG di specialità sono zero. In quel caso status resta EVALUATED. NOT_EVALUABLE_NO_SOURCES è riservato al solo fallimento tecnico, non all'assenza di chunk di specialità.
 8. LINEE GUIDA (ART. 5 L. 24/2017): Ai sensi dell'art. 5 della Legge 24/2017 (Gelli-Bianco), devi valutare se l'operato si discosta dalle raccomandazioni ufficiali. Se fornite, CITA SEMPRE le linee guida di riferimento nella tua analisi. Compila guidelineCitations con i titoli esatti del blocco <<<LINEE_GUIDA_DI_RIFERIMENTO>>> (SNLG, ISS, ESC, AHA o il titolo indicato) e con la Legge 24/2017. Uno scostamento ingiustificato è inosservanza delle raccomandazioni e riduce complianceScore.
 `;
 
@@ -303,50 +309,120 @@ export function withInformedConsentAction(
   ];
 }
 
-export async function runLegalAudit(params: {
+export type LegalCorpusChunk = {
+  chunkId: string;
+  title: string;
+  section?: string;
+  article?: string;
+  year?: number;
+  text: string;
+};
+
+/** Normativa nazionale sempre disponibile, anche con zero chunk RAG di specialità. */
+export const NATIONAL_LEGAL_BASELINE: LegalCorpusChunk[] = [
+  {
+    chunkId: "baseline-l-24-2017",
+    title: "Legge 24/2017 (Gelli-Bianco)",
+    section: "art. 5-7",
+    article: "5",
+    year: 2017,
+    text: "Art. 5: gli esercenti le professioni sanitarie si attengono, salve le specificità del caso, alle raccomandazioni previste dalle linee guida pubblicate ed elaborate da enti e istituzioni pubblici e privati e dalle società scientifiche. Art. 6: la sicurezza delle cure è parte costitutiva del diritto alla salute. Art. 7: la responsabilità della struttura e dell'esercente si valuta anche sulla completezza della documentazione clinica.",
+  },
+  {
+    chunkId: "baseline-l-219-2017",
+    title: "Legge 219/2017",
+    section: "consenso informato",
+    article: "1",
+    year: 2017,
+    text: "Nessun trattamento sanitario può essere iniziato o proseguito se privo del consenso libero e informato della persona, tranne i casi previsti dalla legge. Il tempo della comunicazione è tempo di cura. L'informazione riguarda diagnosi, prognosi, benefici e rischi delle alternative, e la possibilità di rifiutare. Vanno documentate l'informazione, la presa d'atto e le disposizioni anticipate quando presenti.",
+  },
+  {
+    chunkId: "baseline-cp-476-479",
+    title: "Codice penale, art. 476-479",
+    section: "documentazione clinica",
+    article: "476",
+    text: "La cartella e il referto sono atti con valore probatorio. Requisiti minimi: completezza, veridicità, tracciabilità temporale, anamnesi con allergie e terapia in atto, riscontri e ragionamento, diagnosi e condotta, follow-up e red flags, informazione al paziente, chiusura con data, ora e qualifica di chi scrive. L'omissione non si presume compiuta.",
+  },
+];
+
+export function legalSourceBasis(ragChunkCount: number): LegalSourceBasis {
+  return ragChunkCount > 0
+    ? "RAG_SPECIALISTICO_E_NORMATIVA_NAZIONALE"
+    : "NORMATIVA_NAZIONALE_BASELINE";
+}
+
+export function assembleLegalCorpus(params: {
+  legalChunks?: LegalCorpusChunk[] | null;
+  referenceGuidelines?: readonly string[] | null;
+  caseNotes?: string | null;
+}): { chunks: LegalCorpusChunk[]; sourceBasis: LegalSourceBasis } {
+  const rag = (params.legalChunks ?? []).filter((chunk) => chunk.text?.trim() && chunk.chunkId);
+  const notes = params.caseNotes?.trim() ?? "";
+  const guidelineText = (params.referenceGuidelines ?? []).filter((line) => line.trim()).join("\n");
+  const extra: LegalCorpusChunk[] = [];
+  if (guidelineText) {
+    extra.push({
+      chunkId: "baseline-linee-guida-caso",
+      title: "Linee guida di riferimento del caso",
+      section: "art. 5 L. 24/2017",
+      text: guidelineText,
+    });
+  }
+  if (notes) {
+    extra.push({
+      chunkId: "baseline-metadati-caso",
+      title: "Metadati medico-legali del caso",
+      section: "scudo Gelli-Bianco e citazioni autorate",
+      text: notes,
+    });
+  }
+  return {
+    chunks: [...NATIONAL_LEGAL_BASELINE, ...extra, ...rag],
+    sourceBasis: legalSourceBasis(rag.length),
+  };
+}
+
+export function buildLegalAuditUserPrompt(params: {
   simulationLog: {
-    chatHistory: any[];
-    requestedExams: any[];
+    chatHistory: unknown[];
+    requestedExams: unknown[];
     finalDiagnosis?: string;
     performedActions?: LegalPerformedAction[];
     clinicalSummary?: string;
+    reportText?: string;
   };
-  legalChunks: Array<{
-    chunkId: string;
-    title: string;
-    section?: string;
-    article?: string;
-    year?: number;
-    text: string;
-  }>;
-  /** Linee guida del caso (SNLG, ISS, ESC, AHA, …) da citare ai sensi dell'art. 5. */
-  referenceGuidelines?: string[];
-}): Promise<LegalAuditResult> {
-  const referenceGuidelines = resolveReferenceGuidelines({
-    referenceGuidelines: params.referenceGuidelines,
-  });
-
-  if (!params.legalChunks || params.legalChunks.length === 0) {
-    return withGuidelineCitations(EMPTY_LEGAL_AUDIT, referenceGuidelines);
-  }
-
-  const legalCorpusFormatted = params.legalChunks
+  corpus: LegalCorpusChunk[];
+  referenceGuidelines: readonly string[];
+  sourceBasis: LegalSourceBasis;
+}): string {
+  const legalCorpusFormatted = params.corpus
     .map(
       (c) =>
         `[CHUNK_ID: ${c.chunkId}] | FONTE: ${c.title} | SEZ/ART: ${c.section || ""} ${c.article || ""} (${c.year || "N/A"})\nTESTO: ${c.text}`,
     )
     .join("\n---\n");
-
   const dischargeNote = params.simulationLog.clinicalSummary?.trim() ?? "";
-  const chatTranscript = formatAuditChatTranscript(params.simulationLog.chatHistory);
-  const guidelinesBlock = referenceGuidelines.map((line) => `- ${line}`).join("\n");
-  const userPrompt = `
-Compila comparativeAnalysis (almeno 4 righe se il log lo consente) con faultCategory e temporalRelevance, executiveSummary (2–3 frasi), cognitiveBiases (errori cognitivi rilevati, max 5), guidelineCitations e complianceScore partendo da 100 con le penalità CTU. Analizza l'ordine temporale del log.
+  const reportText = params.simulationLog.reportText?.trim() ?? "";
+  const chatTranscript = formatAuditChatTranscript(
+    params.simulationLog.chatHistory as Array<{ role?: string | null; content?: string | null }>,
+  );
+  const guidelinesBlock = params.referenceGuidelines.map((line) => `- ${line}`).join("\n");
+  const basisLabel =
+    params.sourceBasis === "RAG_SPECIALISTICO_E_NORMATIVA_NAZIONALE"
+      ? "RAG specialistico + normativa nazionale"
+      : "Normativa nazionale baseline + linee guida di riferimento";
+  return `
+Compila comparativeAnalysis (almeno 4 righe se il log lo consente) con faultCategory e temporalRelevance, executiveSummary (2–3 frasi), cognitiveBiases (errori cognitivi rilevati, max 5), guidelineCitations e complianceScore partendo da 100 con le penalità CTU. Analizza l'ordine temporale del log e TUTTE le sezioni del referto, non solo il diario.
 Ai sensi dell'art. 5 della Legge 24/2017 (Gelli-Bianco), devi valutare se l'operato si discosta dalle raccomandazioni ufficiali. Se fornite, CITA SEMPRE le linee guida di riferimento nella tua analisi.
 Se il medico ha compilato la 'Relazione di Dimissione' seguente, NON applicare la penalità per 'documentazione mancante' (-15 punti). Valuta invece se la relazione è coerente.
+BASE_FONTI: ${basisLabel}
 <<<LINEE_GUIDA_DI_RIFERIMENTO>>>
 ${guidelinesBlock}
 <<<END_LINEE_GUIDA_DI_RIFERIMENTO>>>
+
+<<<REFERTO_CLINICO>>>
+${reportText || "(referto non compilato)"}
+<<<END_REFERTO_CLINICO>>>
 
 <<<RELAZIONE_DI_DIMISSIONE>>>
 ${dischargeNote || "(non compilata)"}
@@ -372,24 +448,184 @@ ${params.simulationLog.finalDiagnosis ?? ""}
 ${legalCorpusFormatted}
 <<<END_LEGAL_CORPUS>>>
 `;
+}
 
-  try {
-    const { object } = await generateObject({
-      ...openAIObjectCall(MODEL_GPT_61_SOL),
-      maxRetries: 3,
-      system: LEGAL_AUDIT_SYSTEM_PROMPT,
-      prompt: userPrompt,
-      schema: asOpenAIStrictSchema(LegalAuditResultSchema),
-      abortSignal: AbortSignal.timeout(LEGAL_AUDIT_LLM_TIMEOUT_MS),
-    });
-    return withGuidelineCitations(
-      enforceHarshLegalScore(object),
-      referenceGuidelines,
-    );
-  } catch (error) {
-    console.error("[legal-audit] LLM timeout/network/Zod — returning technical fallback", {
-      error: error instanceof Error ? error.message : String(error),
-    });
-    return withGuidelineCitations(createLegalAuditTechnicalFallback(), referenceGuidelines);
+export type LegalAuditGenerate = (input: { system: string; prompt: string }) => Promise<LegalAuditResult>;
+
+async function defaultLegalAuditGenerate(input: { system: string; prompt: string }): Promise<LegalAuditResult> {
+  const { object } = await generateObject({
+    ...openAIObjectCall(MODEL_GPT_61_SOL),
+    maxRetries: 0,
+    system: input.system,
+    prompt: input.prompt,
+    schema: asOpenAIStrictSchema(LegalAuditResultSchema),
+    abortSignal: AbortSignal.timeout(LEGAL_AUDIT_LLM_TIMEOUT_MS),
+  });
+  return object;
+}
+
+type LegalAuditFailureReason = "timeout" | "openai_error" | "json_parse" | "zod_validation";
+
+function errorChain(error: unknown): unknown[] {
+  const chain: unknown[] = [];
+  let current: unknown = error;
+  for (let depth = 0; depth < 6 && current; depth += 1) {
+    chain.push(current);
+    if (typeof current !== "object") break;
+    current = (current as { cause?: unknown }).cause;
   }
+  return chain;
+}
+
+function readStatusCode(error: unknown): number | undefined {
+  for (const item of errorChain(error)) {
+    if (!item || typeof item !== "object") continue;
+    const record = item as { statusCode?: unknown; status?: unknown };
+    if (typeof record.statusCode === "number") return record.statusCode;
+    if (typeof record.status === "number") return record.status;
+  }
+  return undefined;
+}
+
+function readZodIssues(error: unknown): unknown {
+  for (const item of errorChain(error)) {
+    if (!item || typeof item !== "object" || !("issues" in item)) continue;
+    const issues = (item as { issues?: unknown }).issues;
+    if (Array.isArray(issues)) return issues;
+  }
+  return undefined;
+}
+
+function classifyLegalAuditFailure(error: unknown): {
+  reason: LegalAuditFailureReason;
+  detail: string;
+  retryable: boolean;
+} {
+  const chain = errorChain(error);
+  const message = chain
+    .map((item) => (item instanceof Error ? `${item.name}: ${item.message}` : ""))
+    .filter(Boolean)
+    .join(" | ");
+  const blob = message.toLowerCase();
+  const issues = readZodIssues(error);
+  const rawText = chain
+    .map((item) =>
+      item && typeof item === "object" && typeof (item as { text?: unknown }).text === "string"
+        ? (item as { text: string }).text
+        : "",
+    )
+    .find(Boolean);
+
+  if (
+    blob.includes("timeout") ||
+    blob.includes("aborted") ||
+    blob.includes("abort") ||
+    chain.some((item) => item instanceof Error && item.name === "TimeoutError")
+  ) {
+    return { reason: "timeout", detail: message.slice(0, 800), retryable: false };
+  }
+  if (issues || blob.includes("zod")) {
+    const issueText = issues ? JSON.stringify(issues).slice(0, 700) : "";
+    return {
+      reason: "zod_validation",
+      detail: `${message} ${issueText}`.trim().slice(0, 800),
+      retryable: true,
+    };
+  }
+  if (blob.includes("json") || blob.includes("could not parse") || blob.includes("no object generated")) {
+    return {
+      reason: "json_parse",
+      detail: `${message} ${rawText ?? ""}`.trim().slice(0, 800),
+      retryable: true,
+    };
+  }
+  const status = readStatusCode(error);
+  const retryable =
+    status === 429 ||
+    status === 500 ||
+    status === 502 ||
+    status === 503 ||
+    blob.includes("fetch failed") ||
+    blob.includes("econnreset") ||
+    blob.includes("socket hang up") ||
+    blob.includes("network");
+  return { reason: "openai_error", detail: message.slice(0, 800), retryable };
+}
+
+export function summarizeLegalCoaching(result: LegalAuditResult): string {
+  const findings = (result.comparativeAnalysis ?? [])
+    .slice(0, 3)
+    .map((row) => row.explanation.trim())
+    .filter(Boolean);
+  const basis =
+    result.sourceBasis === "RAG_SPECIALISTICO_E_NORMATIVA_NAZIONALE"
+      ? "Fonti: RAG specialistico e normativa nazionale."
+      : result.sourceBasis === "NORMATIVA_NAZIONALE_BASELINE"
+        ? "Fonti: normativa nazionale di base e linee guida di riferimento."
+        : "";
+  return [result.executiveSummary.trim(), ...findings, basis].filter(Boolean).join(" ").slice(0, 600);
+}
+
+export async function runLegalAudit(
+  params: {
+    simulationLog: {
+      chatHistory: any[];
+      requestedExams: any[];
+      finalDiagnosis?: string;
+      performedActions?: LegalPerformedAction[];
+      clinicalSummary?: string;
+      reportText?: string;
+    };
+    legalChunks: LegalCorpusChunk[];
+    /** Linee guida del caso (SNLG, ISS, ESC, AHA, …) da citare ai sensi dell'art. 5. */
+    referenceGuidelines?: string[];
+    /** Scudo Gelli-Bianco e citazioni autorate del caso. */
+    caseNotes?: string | null;
+  },
+  options?: { generate?: LegalAuditGenerate },
+): Promise<LegalAuditResult> {
+  const referenceGuidelines = resolveReferenceGuidelines({
+    referenceGuidelines: params.referenceGuidelines,
+  });
+  const assembled = assembleLegalCorpus({
+    legalChunks: params.legalChunks,
+    referenceGuidelines,
+    caseNotes: params.caseNotes,
+  });
+  const userPrompt = buildLegalAuditUserPrompt({
+    simulationLog: params.simulationLog,
+    corpus: assembled.chunks,
+    referenceGuidelines,
+    sourceBasis: assembled.sourceBasis,
+  });
+
+  const generate = options?.generate ?? defaultLegalAuditGenerate;
+  let lastFailure: ReturnType<typeof classifyLegalAuditFailure> | null = null;
+  for (let attempt = 1; attempt <= 2; attempt += 1) {
+    try {
+      const object = await generate({ system: LEGAL_AUDIT_SYSTEM_PROMPT, prompt: userPrompt });
+      const scored = enforceHarshLegalScore({ ...object, status: "EVALUATED" });
+      return {
+        ...withGuidelineCitations(scored, referenceGuidelines),
+        sourceBasis: assembled.sourceBasis,
+      };
+    } catch (error) {
+      lastFailure = classifyLegalAuditFailure(error);
+      console.error("[legal-audit] perizia non completata", {
+        reason: lastFailure.reason,
+        attempt,
+        retrying: attempt === 1 && lastFailure.retryable,
+        detail: lastFailure.detail,
+      });
+      if (attempt === 1 && lastFailure.retryable) continue;
+      break;
+    }
+  }
+
+  const fallback = createLegalAuditTechnicalFallback();
+  return {
+    ...withGuidelineCitations(fallback, referenceGuidelines),
+    complianceScore: Math.min(fallback.complianceScore, 0),
+    sourceBasis: assembled.sourceBasis,
+  };
 }

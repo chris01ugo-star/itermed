@@ -1,5 +1,5 @@
 import { usablePatientPrompt } from "@/lib/cases/case-payload";
-import { patientSafeProse, sanitizeCluesForPatient } from "@/lib/cases/resolve-patient-profile";
+import { patientSafeAnamnesisFact, patientSafeProse, sanitizeCluesForPatient } from "@/lib/cases/resolve-patient-profile";
 import type { PatientProfile } from "@/lib/data/cases/types";
 import {
   extractStructuredAnamnesisTruth,
@@ -52,6 +52,8 @@ export type PatientSimulatorCaseInput = {
   condition?: string | null;
   presentation?: string | null;
   pastMedicalHistory?: string | null;
+  /** Descrizione grezza del caso, usata solo per la verità anamnestica. */
+  sourceDescription?: string | null;
   redHerrings?: string[] | null;
   anamnesisClues?: AnamnesisFactSource[] | null;
   physicalExamSummary?: string | null;
@@ -155,20 +157,18 @@ function stressBehaviorBlock(
 }
 
 function groundTruthBlock(truth: StructuredAnamnesisTruth): string {
-  const facts =
-    truth.mandatoryAnamnesisFacts.length > 0
-      ? truth.mandatoryAnamnesisFacts.map((fact) => `- ${fact}`).join("\n")
-      : "- Nessun altro fatto oltre lo storico sotto.";
   return `<GROUND_TRUTH_CONSTRAINTS>
 Sei una persona reale. Concordi aggettivi e participi con il sesso ${truth.biologicalSex}, in modo naturale, senza formule ripetute a ogni frase. Vietato usare barre /, asterischi o schwa (niente stato/a, operato/a, nat*, -ə).
 Non negare interventi, patologie, allergie o sintomi elencati qui. Non inventarne altri.
-- Sesso: ${truth.biologicalSex}
-- Interventi e procedure: ${truth.surgeriesAndProcedures}
-- Storia che conosci: ${truth.chronicConditionsAndHistory}
+
+VERITÀ ANAMNESTICA VINCOLANTE
+Non elencare spontaneamente questi fatti se il medico non li chiede, MA se il medico pone una domanda diretta su uno di questi ambiti (es. familiarità, allergie, farmaci, fumo, patologie pregresse), DEVI rispondere in modo 100% fedele ai fatti presenti nella Verità Anamnestica. Non negare MAI un fatto presente nello storico del caso.
+- Familiarità: ${truth.familyHistory}
+- Patologie pregresse: ${truth.chronicConditionsAndHistory}
+- Farmaci domiciliari: ${truth.homeMedications}
 - Allergie: ${truth.allergies}
-- Farmaci domiciliari, abitudini, familiarità: ${truth.homeMedicationsOrHabits}
-- Fatti che riveli solo se il medico li chiede in modo pertinente:
-${facts}
+- Abitudini (fumo/alcol/lavoro): ${truth.habits}
+- Interventi: ${truth.surgeriesAndProcedures}
 </GROUND_TRUTH_CONSTRAINTS>`;
 }
 
@@ -176,7 +176,10 @@ function sanitizedClueLines(clues: AnamnesisFactSource[] | null | undefined): st
   const rows = sanitizeCluesForPatient(clues);
   if (rows.length === 0) return "";
   return rows
-    .map((clue) => `- Se il medico chiede di «${clue.ask}», puoi raccontare solo questo, con parole tue: ${clue.reveal}`)
+    .map(
+      (clue) =>
+        `- Fatto clinico, da riferire solo se il medico lo chiede, con parole tue: ${clue.reveal}`,
+    )
     .join("\n");
 }
 
@@ -272,24 +275,24 @@ export function buildPatientSystemPrompt(ctx: PatientSimulatorCaseInput): string
   ]
     .filter(Boolean)
     .join("\n");
-  const history = spokenFact(clean(patientSafeProse(ctx.pastMedicalHistory)), "");
+  const history = spokenFact(clean(patientSafeAnamnesisFact(ctx.pastMedicalHistory)), "");
   const presentation = spokenFact(clean(patientSafeProse(ctx.presentation)), "");
   const herrings = (ctx.redHerrings ?? [])
     .map((item) => patientSafeProse(clean(item)).trim())
     .filter(Boolean);
   const cleanedClues = (ctx.anamnesisClues ?? []).map((clue) => ({
     prompt: clean(clue.prompt),
-    rationale: clean(clue.rationale),
   }));
   const clues = sanitizedClueLines(cleanedClues);
   const profile = clean(profileLine(ctx.patientProfile));
   const truth = extractStructuredAnamnesisTruth({
     sex,
-    pastMedicalHistory: history,
-    presentation,
-    script: scriptClean,
-    description: storyClean,
+    pastMedicalHistory: ctx.pastMedicalHistory,
+    presentation: ctx.presentation,
+    script: ctx.roleplayScript,
+    description: ctx.sourceDescription ?? ctx.clinicalStory,
     knownAllergies: ctx.knownAllergies,
+    baselineExamFindings: undefined,
   });
   const constraints = truth
     ? groundTruthBlock(truth)

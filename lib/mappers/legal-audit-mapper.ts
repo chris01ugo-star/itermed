@@ -35,6 +35,7 @@ export interface FormattedLegalReportDTO {
   uncoveredAreas: string[];
   /** Citazioni SNLG/ISS/ESC/AHA e Legge 24/2017 art. 5. */
   guidelineCitations: string[];
+  sourceBasis?: "RAG_SPECIALISTICO_E_NORMATIVA_NAZIONALE" | "NORMATIVA_NAZIONALE_BASELINE";
 }
 
 type LegacyLegalAudit = LegalAuditResult & {
@@ -235,6 +236,9 @@ export function mapLegalAuditToDTO(
       guidelineCitations: normalizeGuidelineCitations(
         legalAudit && "guidelineCitations" in legalAudit ? legalAudit.guidelineCitations : undefined,
       ),
+      ...("sourceBasis" in (legalAudit ?? {}) && legalAudit && "sourceBasis" in legalAudit
+        ? { sourceBasis: legalAudit.sourceBasis }
+        : {}),
     };
   }
 
@@ -283,5 +287,6 @@ export function mapLegalAuditToDTO(
     guidelineCitations: normalizeGuidelineCitations(
       "guidelineCitations" in legalAudit ? legalAudit.guidelineCitations : undefined,
     ),
+    ...("sourceBasis" in legalAudit ? { sourceBasis: legalAudit.sourceBasis } : {}),
   };
 }
