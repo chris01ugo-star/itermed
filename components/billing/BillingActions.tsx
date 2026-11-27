@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Ticket, X } from "lucide-react";
 import { EXTRA_CREDIT_PACK, type SaasPlanId } from "@/lib/billing/plans";
 import { Spinner } from "@/components/ui/Spinner";
 import { usePendingNav } from "@/components/ui/PendingNav";
@@ -44,6 +45,12 @@ export function SubscribeButton({
   const [friendCode, setFriendCode] = useState(referralCode ?? "");
   const [error, setError] = useState<string | null>(null);
   const { begin } = usePendingNav();
+
+  const closeConfirm = useCallback(() => {
+    if (busy) return;
+    setConfirmOpen(false);
+    setError(null);
+  }, [busy]);
 
   async function startCheckout(code?: string) {
     setError(null);
@@ -95,64 +102,82 @@ export function SubscribeButton({
       </button>
       {error && !confirmOpen ? <p className="text-xs text-rose-700">{error}</p> : null}
 
-      <Dialog open={confirmOpen}>
-        <DialogContent className="max-w-[28rem] overflow-hidden border-0 p-0 shadow-[0_28px_80px_rgba(30,50,78,0.28)]">
-          <div className="bg-[#1E324E] px-6 py-5 text-white">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-white/65">
-              Checkout
-            </p>
-            <h2 className="mt-1 font-display text-xl font-bold tracking-tight">
-              Hai un codice amico?
-            </h2>
-            <p className="mt-2 text-sm leading-relaxed text-white/80">
-              Se un collega ti ha invitato, inseriscilo ora: ricevi crediti extra al primo
-              pagamento. Puoi anche continuare senza.
-            </p>
-          </div>
-          <div className="space-y-4 px-6 py-5">
-            <div>
-              <label
-                className="block text-xs font-semibold uppercase tracking-[0.12em] text-slate-500"
-                htmlFor={`friend-code-${plan}`}
-              >
-                Codice amico
-              </label>
-              <input
-                id={`friend-code-${plan}`}
-                value={friendCode}
-                onChange={(e) => setFriendCode(e.target.value)}
-                placeholder="AEQUAN-X7K92"
-                autoComplete="off"
-                className="mt-2 h-12 w-full rounded-xl border border-slate-200 bg-white px-3.5 text-sm tracking-wide outline-none focus:border-[#345884]/45 focus:ring-4 focus:ring-[#345884]/10"
-              />
+      <Dialog open={confirmOpen} onClose={closeConfirm}>
+        <DialogContent className="max-w-md overflow-hidden border border-slate-200 bg-white p-0 !border-slate-200 !shadow-[0_24px_64px_rgba(30,50,78,0.16)]">
+          <div className="relative border-b border-slate-100 bg-gradient-to-b from-[#F5F8FC] to-white px-5 pb-4 pt-5">
+            <button
+              type="button"
+              aria-label="Chiudi"
+              disabled={busy}
+              onClick={closeConfirm}
+              className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition hover:bg-white hover:text-[#1E324E] disabled:opacity-50"
+            >
+              <X className="h-4 w-4" strokeWidth={1.75} />
+            </button>
+            <div className="flex items-start gap-3 pr-8">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#345884]/10 text-[#345884]">
+                <Ticket className="h-5 w-5" strokeWidth={1.75} />
+              </span>
+              <div className="min-w-0 text-left">
+                <h2 className="font-display text-base font-semibold tracking-tight text-[#1E324E]">
+                  Hai un codice amico?
+                </h2>
+                <p className="mt-1 text-[13px] leading-relaxed text-slate-500">
+                  Inseriscilo se un collega ti ha invitato. I crediti extra arrivano al primo
+                  pagamento. Il codice è facoltativo.
+                </p>
+              </div>
             </div>
-            {error ? <p className="text-sm text-rose-700">{error}</p> : null}
-            <button
-              type="button"
-              disabled={busy}
-              onClick={() => void startCheckout(friendCode.trim() ? friendCode : undefined)}
-              className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#1E324E] px-4 text-sm font-semibold text-white transition hover:bg-[#2A486D] disabled:opacity-60"
-            >
-              {busy ? (
-                <>
-                  <Spinner className="text-current" />
-                  Reindirizzamento…
-                </>
-              ) : friendCode.trim() ? (
-                "Continua al pagamento"
-              ) : (
-                "Continua senza codice"
-              )}
-            </button>
-            <button
-              type="button"
-              disabled={busy}
-              onClick={() => setConfirmOpen(false)}
-              className="inline-flex h-10 w-full items-center justify-center text-sm font-medium text-slate-500 transition hover:text-[#1E324E] disabled:opacity-60"
-            >
-              Annulla
-            </button>
           </div>
+          <form
+            className="px-5 pt-4"
+            onSubmit={(event) => {
+              event.preventDefault();
+              void startCheckout(friendCode.trim() ? friendCode : undefined);
+            }}
+          >
+            <label
+              className="block text-sm font-medium text-[#1E324E]"
+              htmlFor={`friend-code-${plan}`}
+            >
+              Codice
+            </label>
+            <input
+              id={`friend-code-${plan}`}
+              value={friendCode}
+              onChange={(e) => setFriendCode(e.target.value)}
+              placeholder="Facoltativo"
+              autoComplete="off"
+              autoFocus
+              spellCheck={false}
+              className="mt-1.5 h-11 w-full rounded-xl border border-slate-200 bg-[#F8FAFC] px-3.5 text-sm text-[#1E324E] outline-none placeholder:text-slate-400 focus:border-[#345884]/40 focus:bg-white focus:ring-4 focus:ring-[#345884]/10"
+            />
+            {error ? <p className="mt-2 text-sm text-rose-700">{error}</p> : null}
+            <div className="-mx-5 mt-4 flex items-center justify-end gap-2 border-t border-slate-100 bg-slate-50/80 px-5 py-3.5">
+              <button
+                type="button"
+                disabled={busy}
+                onClick={closeConfirm}
+                className="inline-flex h-10 items-center justify-center rounded-xl border border-slate-200 bg-white px-3.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50 disabled:opacity-60"
+              >
+                Annulla
+              </button>
+              <button
+                type="submit"
+                disabled={busy}
+                className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-[#1E324E] px-4 text-sm font-semibold text-white transition hover:bg-[#2A486D] disabled:opacity-60"
+              >
+                {busy ? (
+                  <>
+                    <Spinner className="text-current" />
+                    Attendi…
+                  </>
+                ) : (
+                  "Continua al pagamento"
+                )}
+              </button>
+            </div>
+          </form>
         </DialogContent>
       </Dialog>
     </div>

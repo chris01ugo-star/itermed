@@ -6,31 +6,46 @@ import { cn } from "../utils/cn";
 
 type DialogProps = {
   open: boolean;
+  onClose?: () => void;
   children: ReactNode;
 };
 
+/** True when the caller already sets this utility, so the default must not fight it. */
+function declaresUtility(className: string | undefined, utility: RegExp): boolean {
+  return utility.test(className ?? "");
+}
+
 const emptySubscribe = () => () => {};
 
-export function Dialog({ open, children }: DialogProps) {
+export function Dialog({ open, onClose, children }: DialogProps) {
   const isClient = useSyncExternalStore(emptySubscribe, () => true, () => false);
 
   useEffect(() => {
     if (!open) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose?.();
+    };
+    window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = previous;
+      window.removeEventListener("keydown", onKey);
     };
-  }, [open]);
+  }, [open, onClose]);
 
   if (!open || !isClient) return null;
 
   return createPortal(
-    <div
-      className="fixed inset-0 z-[400] flex items-center justify-center bg-[#1E324E]/50 p-4 backdrop-blur-[3px]"
-      role="presentation"
-    >
-      <div className="w-full max-w-[42rem]">{children}</div>
+    <div className="fixed inset-0 z-[400] overflow-y-auto bg-[#1E324E]/45 backdrop-blur-[2px]">
+      <div
+        className="flex min-h-full items-center justify-center p-4 sm:p-6"
+        onMouseDown={(event) => {
+          if (event.target === event.currentTarget) onClose?.();
+        }}
+      >
+        {children}
+      </div>
     </div>,
     document.body,
   );
@@ -42,12 +57,17 @@ type DialogContentProps = {
 };
 
 export function DialogContent({ children, className }: DialogContentProps) {
+  const ownsWidth = declaresUtility(className, /(?:^|\s)(?:[\w-]+:)*max-w-/);
+  const ownsPadding = declaresUtility(className, /(?:^|\s)(?:[\w-]+:)*p(?:x|y|t|r|b|l|s|e)?-/);
   return (
     <div
       role="dialog"
       aria-modal="true"
+      onMouseDown={(event) => event.stopPropagation()}
       className={cn(
-        "w-full max-h-[min(90dvh,720px)] overflow-y-auto rounded-2xl border border-white/20 bg-white p-5 shadow-[0_28px_80px_rgba(30,50,78,0.28)] sm:p-6",
+        "my-auto w-full max-h-[min(90dvh,720px)] overflow-y-auto rounded-2xl border border-white/20 bg-white shadow-[0_28px_80px_rgba(30,50,78,0.28)]",
+        !ownsWidth && "max-w-[42rem]",
+        !ownsPadding && "p-5 sm:p-6",
         className,
       )}
     >
